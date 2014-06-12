@@ -1,7 +1,7 @@
 {% load staticfiles %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:svg="http://www.w3.org/2000/svg">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -56,9 +56,9 @@
     </div><!-- /.navbar -->
 
   <div class="jumbotron">
-  	<div style="background-color:rgba(0, 0, 0, 0.3);color:#F0F0F0">
+  	<div style="background-color:rgba(0, 0, 0, 0.05);color:#F0F0F0">
     <h1 >
-    DES MILLIERS <br/> DE SYNTHÈSES <br/> DE LIVRES <br/> POUR SEULEMENT 1€</h1>
+    DES MILLIERS<br/> DE SYNTHÈSES <br/> DE LIVRES <br/> POUR SEULEMENT 1€</h1>
     <h2 >Découvrez le catalogue de synthèses écrites par les utilisateurs 
 		Et gagnez de l’argent en partageant les vôtres
 	</h2>
@@ -201,6 +201,16 @@
 // engine: Hogan
 // });*/
 // </script> -->
+  <svg:svg>
+
+        <!-- Filter ID/Name -->
+        <svg:filter id="example-one">
+
+            <!-- Amount of Gaussian Blur that should be applied -->
+            <svg:feGaussianBlur stdDeviation="0.9"/>
+
+        </svg:filter>
+  </svg:svg>
   </body>
 </html>
 
