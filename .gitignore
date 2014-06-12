@@ -55,3 +55,6 @@ docs/_build/
 # Configuration files
 *.conf
 settings.py
+
+#vim 
+.swp
