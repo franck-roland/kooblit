@@ -108,7 +108,7 @@ filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
 
 .jumbotron {
   width:  100%;
-  /*min-height: 750px;*/
+  /*min-height: 800px;*/
   height: 100%;
   background-color: rgba(0,0,0,0);  
   color: #b5b5b5;
@@ -135,4 +135,8 @@ filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
 }
 
 
-
+@media screen and (max-width: 640px) {
+  .jumbotron {
+    min-height: 800px;
+  }
+}
