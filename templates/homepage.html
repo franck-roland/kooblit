@@ -39,7 +39,7 @@
         </div>
         <div class="collapse navbar-collapse">
       		<div class="dropdown">
-      			<form class="navbar-form navbar-left" action={% url 'search_view' %} role="search" method="post" >
+      			<form class="navbar-form navbar-left" action="{% url 'search_view' %}" role="search" method="post" >
                     {% csrf_token %}
       				<div class="form-group">
       				  <input type="text" class="form-control " placeholder="Rechercher un ouvrage...">
