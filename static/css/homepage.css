@@ -116,6 +116,8 @@ filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='1');
   position: relative;
   vertical-align: bottom;
   font-family:'Abadi MT Condensed Extra Bold';
+  background-color:rgba(0, 0, 0, 0.05);
+  color:#F0F0F0;
 }
 
 

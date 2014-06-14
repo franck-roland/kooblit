@@ -71,6 +71,8 @@ filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='1');
 
 .carousel .item {
   height: 500px;
+  background-color:rgba(0, 0, 0, 0.05);
+  color:#F0F0F0;
 }
 .carousel-inner > .item > img {
   position: absolute;
