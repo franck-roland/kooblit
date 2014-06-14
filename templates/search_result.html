@@ -3,14 +3,24 @@
 <!DOCTYPE html>
 
 {% block extra_css %}
-<!-- <link href="{% static "css/homepage.css" %}" rel="stylesheet"> -->
+<link href="{% static "css/result_page.css" %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-{% for item in resultat %}
-    <div class="col-1 col-sm-1 col-lg-1">
-        <img class="img_res" src='{{ item.1 }}' alt='{{ item.0 }}' />
-    </div>
-{% endfor %}
+<div class="container container_result">
+  {% if resultat %}
+    {% for item in resultat %}
+        <div class="img_container col-2 col-sm-4 col-lg-2">
+        {% if item.1 %}
+            <a href="{{ item.2 }}"><img class="img-responsive img_res" src='{{ item.1 }}' alt='{{ item.0 }}' /></a>
+        {% else %}
+            <a href="{{ item.2 }}"><img class="img-responsive img_res" src="{% static "img/empty_gallery.png" %}" alt='{{ item.0 }}' /></a>
+        {% endif %}
+        </div>
+    {% endfor %}
+  {% else %}
+    <img class="img-responsive img_res" src="{% static "img/empty_gallery.png" %}" alt='{{ item.0 }}' />
+  {% endif %}
+</div>
 {% endblock %}
 {% block script_block %}
 {% endblock %}

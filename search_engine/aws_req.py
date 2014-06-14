@@ -51,8 +51,14 @@ def calculate_signature_amazon(k, m):
 
 def compute_json_one_result(result):
     t = result.find('ItemAttributes').find('Title').text
-    r = result.find("LargeImage").find("URL").text
-    return [t,r]
+    try:
+        r = result.find("LargeImage").find("URL").text
+    except AttributeError, e:
+        r = ""
+    finally:
+        d = result.find("DetailPageURL").text
+        return [t,r,d]
+
 
 @sanitizer
 def compute_args(title,k):
