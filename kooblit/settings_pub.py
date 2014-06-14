@@ -50,16 +50,7 @@ ROOT_URLCONF = 'kooblit.urls'
 WSGI_APPLICATION = 'kooblit.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'kooblit_db',
-        'USER': 'endoderconic',
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
