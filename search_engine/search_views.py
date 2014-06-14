@@ -8,9 +8,10 @@ from django.utils.http import urlquote
 from django.views.decorators.cache import cache_page
 from django.http import HttpResponseBadRequest
 
-@cache_page(1)
+
 def search_view(request):
 #    import pdb;pdb.set_trace()
+    
     title = ""
     try:
         title = request.GET.get('title', '')
