@@ -46,8 +46,12 @@ body {
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
   z-index: 10;
+  bottom: 100px;
 }
-
+.carousel-caption > h1 {
+  font-size: 50px;
+  
+}
 /* Declare heights because of positioning of img element */
 .carousel .item:before {
   content: '';

@@ -13,8 +13,9 @@ def search_view(request):
 #    import pdb;pdb.set_trace()
     title = ""
     try:
-        title = request.GET['title']
+        title = request.GET.get('title', '')
         s = compute_args(str(title),settings.AMAZON_KEY)
         return render_to_response("search_result.html",{'resultat':s})
     except TypeError as e:
         return HttpResponseBadRequest("Pas de donnees")
+
