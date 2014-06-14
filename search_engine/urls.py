@@ -5,7 +5,7 @@ from django.contrib import admin
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^(?P<title>[ \w]{0,50})$', 'search_engine.search_views.search_view', name='search_view'),
+    url(r'^$', 'search_engine.search_views.search_view', name='search'),
     # url(r'^blog/', include('blog.urls')),
     #url(r'^admin/', include(admin.site.urls)),
     

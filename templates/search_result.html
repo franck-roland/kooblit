@@ -55,15 +55,11 @@
       </div><!-- /.container -->
     </div><!-- /.navbar -->
 
-  <div class="jumbotron">
-    <div class="row" style="margin-top:50px;"> 
 {% for item in resultat %}
-    <div class="col-6 col-sm-6 col-lg-4">
-        <img src='{{ item.1 }}' />
+    <div class="col-1 col-sm-1 col-lg-1">
+        <img class="img_res" src='{{ item.1 }}' alt='{{ item.0 }}' />
     </div>
 {% endfor %}
-    </div>
-</div>
   </div>
     <div class="container" >
 

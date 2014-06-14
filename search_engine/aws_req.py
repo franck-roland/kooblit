@@ -71,7 +71,6 @@ def compute_args(title,k):
     result = []
     for t in root.iter('Item'):
         result.append(compute_json_one_result(t))
-    result.append([1,deb])
     return result
 
 
