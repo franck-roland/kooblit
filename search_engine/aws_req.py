@@ -12,6 +12,10 @@ head = """GET
 ecs.amazonaws.co.uk
 /onca/xml
 """
+head = """GET
+ecs.amazonaws.fr
+/onca/xml
+"""
 
 template = """Service=AWSECommerceService
 AWSAccessKeyId=AKIAJC6ZI2BWV4H7XTMQ
@@ -69,9 +73,12 @@ def compute_args(title,k):
     m.sort()
     m = '&'.join(m)
 #    k = open("AMAZON_KEY.conf").read()[:-1]
-    u = urllib.urlopen("http://ecs.amazonaws.co.uk/onca/xml?"+m+"&Signature="+calculate_signature_amazon(k, head+m))
-    deb = "http://ecs.amazonaws.co.uk/onca/xml?"+m+"&Signature="+calculate_signature_amazon(k, head+m)
+    link_url = "http://ecs.amazonaws.co.uk/onca/xml?"
+    link_url = "http://ecs.amazonaws.fr/onca/xml?"
+    u = urllib.urlopen(link_url+m+"&Signature="+calculate_signature_amazon(k, head+m))
+    deb = link_url+m+"&Signature="+calculate_signature_amazon(k, head+m)
     s = u.read()
+    import pdb;pdb.set_trace()
     s = re.sub(' xmlns="[^"]+"', '', s, count=1)
     root = ET.fromstring(s)
     result = []
