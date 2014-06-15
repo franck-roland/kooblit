@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from hashlib import sha256
 import hmac
 import base64
@@ -17,7 +19,7 @@ ecs.amazonaws.fr
 /onca/xml
 """
 
-template = """Service=AWSECommerceService
+template = u"""Service=AWSECommerceService
 AWSAccessKeyId=AKIAJC6ZI2BWV4H7XTMQ
 Operation=ItemSearch
 SearchIndex=Books
@@ -78,7 +80,6 @@ def compute_args(title,k):
     u = urllib.urlopen(link_url+m+"&Signature="+calculate_signature_amazon(k, head+m))
     deb = link_url+m+"&Signature="+calculate_signature_amazon(k, head+m)
     s = u.read()
-    import pdb;pdb.set_trace()
     s = re.sub(' xmlns="[^"]+"', '', s, count=1)
     root = ET.fromstring(s)
     result = []
