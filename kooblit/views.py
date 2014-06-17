@@ -7,7 +7,7 @@ def homepage(request, essai=""):
 #    c = {}
  #   c.update(csrf(request))
     r = random.randint(0, 1)
-    if r:
+    if essai:
         return render_to_response("homepage2.html",{})
     else:
         return render_to_response("homepage.html",{})
