@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 import re
 import json
 import os
+import re
 
 head = """GET
 ecs.amazonaws.co.uk
@@ -29,7 +30,7 @@ ResponseGroup=ItemAttributes%2CImages
 Version=2009-01-06
 Timestamp=2015-01-01T12%3A00%3A00Z
 AssociateTag=kooblit-21"""
-
+# callback=%3F
 def sanitizer(func):
     def do(title,*args):
         l = []
@@ -41,6 +42,16 @@ def sanitizer(func):
                 l.append(hex(ord(i)).upper()[2:])
         return func(''.join(l),*args)
     return do
+
+
+def backward(m):
+    prog = re.compile("(%([0-9a-fA-F]{2}))")
+    l =  prog.findall(m)
+    for i in l:
+        m = m.replace(i[0],chr(int(i[1],16)))
+    return m
+
+
 
 def calculate_signature_amazon(k, m):
     h = hmac.new(k, m, sha256)
@@ -87,6 +98,25 @@ def compute_args(title,k):
         result.append(compute_json_one_result(t))
     return result
 
+@sanitizer
+def compute_args2(title, k):
+    global template
+    global head
+    m = template.format(title)
+    m = m.split("\n")
+    m.sort()
+    m = '&'.join(m)
+#    k = open("AMAZON_KEY.conf").read()[:-1]
+    link_url = "http://ecs.amazonaws.co.uk/onca/xml?"
+    link_url = "http://ecs.amazonaws.fr/onca/xml?"
+    l = ''.join([link_url, m, "&Signature=", calculate_signature_amazon(k, head+m)])
+    l = l.split('?')
+    l[1] = l[1].split("&")
+    # import pdb;pdb.set_trace()
+    for i,v in enumerate(l[1]):
+        l[1][i] = v.split("=")
+        l[1][i][1] = backward(l[1][i][1])
+    return l
 
 def main(f):
     m = open(f,"rb").read()[:-1]

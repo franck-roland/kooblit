@@ -9,12 +9,14 @@
 <div class="container container_result">
   {% if resultat %}
     {% for item in resultat %}
-        <div class="img_container col-2 col-sm-4 col-lg-2">
         {% if item.1 %}
-            <a href="{{ item.2 }}"><img class="img-responsive img_res" src='{{ item.1 }}' alt='{{ item.0 }}' /></a>
+        <div class="img_container2 col-4 col-sm-4 col-lg-4 col-xs-6" style='background-image:url("{{ item.1 }}");' >
+         <!--    <a href="{{ item.2 }}"><img class="img-responsive img_res" src='{{ item.1 }}' alt='{{ item.0 }}' /></a> -->
         {% else %}
-            <a href="{{ item.2 }}"><img class="img-responsive img_res" src="{% static "img/empty_gallery.png" %}" alt='{{ item.0 }}' /></a>
+        <div class="img_container2 col-4 col-sm-4 col-lg-4 col-xs-6" style="background-image:url('{% static 'img/empty_gallery.png' %}');" >
+            <!-- <a href="{{ item.2 }}"><img class="img-responsive img_res" src="{% static "img/empty_gallery.png" %}" alt='{{ item.0 }}' /></a> -->
         {% endif %}
+         <a class="btn btn-lg btn-primary col-12" href="#" role="button" style="z-index:9999;margin-bottom=0px;margin-left:auto;">Se connecter</a>
         </div>
     {% endfor %}
   {% else %}

@@ -3,6 +3,7 @@ from django.conf import settings
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from aws_req import compute_args
+from aws_req import compute_args2
 from django.http import HttpResponse
 from django.utils.http import urlquote
 # Create your views here.
