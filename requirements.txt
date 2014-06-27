@@ -1,0 +1,7 @@
+Django==1.6.5
+PyYAML==3.11
+South==0.8.4
+argparse==1.2.1
+django-grappelli==2.5.3
+psycopg2==2.5.3
+wsgiref==0.1.2

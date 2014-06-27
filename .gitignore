@@ -54,7 +54,7 @@ docs/_build/
 
 # Configuration files
 *.conf
-settings.py
+*.yaml
 
 #vim 
 .swp
