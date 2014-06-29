@@ -73,6 +73,7 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
+AUTH_PROFILE_MODULE = "usr_management.UserKooblit"
 
 LANGUAGE_CODE = 'en-us'
 
