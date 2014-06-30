@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import UserKooblit
 
+        
 class UserCreationForm(UserCreationForm):
     # password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     # password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput)

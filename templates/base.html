@@ -49,8 +49,12 @@
             </form>
           </div>
           <ul class="nav navbar-nav pull-right">
-             <li><a href="#about"> S'enregistrer </a></li>
-             <li> <a href="#about"> Se connecter </a></li>
+             {% if user.is_authenticated %}
+             <li><a href="contact/logout"> Se deconnecter </a></li>
+             {% else %}
+             <li><a href="contact"> S'enregistrer </a></li>
+             <li> <a href="contact"> Se connecter </a></li>
+             {% endif %}
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->

@@ -35,5 +35,14 @@
         <label for="id_subject">Date d'anniversaire:</label>
         {{ form.birthday }}
     </div>
-    <p><input type="submit" value="Send message" /></p>
+    <p><input type="submit" value="S'inscrire" /></p>
+</form>
+
+<form action="/contact/" method="post">
+    {% csrf_token %}
+    Username: <input type="text" name="username_log" value="" size="50" />
+    <br />
+    Password: <input type="password" name="password_log" value="" size="50" />
+    <br />
+    <p><input type="submit" value="Se connecter" /></p>
 </form>

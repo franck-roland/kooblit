@@ -7,6 +7,9 @@
 <div class="jumbotron">
     <div style="background-color:rgba(0, 0, 0, 0.15);color:#F0F0F0;-moz-border-radius: 15px;
 border-radius: 15px;padding:15px;" >
+    {% if user.is_authenticated %}
+    BIENVENUE {{ user.username }}
+    {% endif %}
     <h1 >
     DES MILLIERS<br/> DE SYNTHÈSES <br/> DE LIVRES <br/> POUR SEULEMENT 1€</h1>
     <h2 >Découvrez le catalogue de synthèses écrites par les utilisateurs 
@@ -15,8 +18,10 @@ border-radius: 15px;padding:15px;" >
     </div>
     <div style="margin-top:50px; width:100%; height: 100px;"> 
       <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><button type="button" class="btn  btn-xlarge" >Rechercher un titre <span class="glyphicon glyphicon-search"></span></button></div>
+      {% if not user.is_authenticated %}
       <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><button type="button" class="btn  btn-xlarge">S'inscrire</button></div>
       <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><button type="button" class="btn btn-xlarge">Se connecter</button></div>
+      {% endif %}
     </div>
     <div id="footer_jumbotron" >
       <p> KOOBLIT </p>
