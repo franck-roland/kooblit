@@ -8,7 +8,7 @@ def contact(request):
     if request.method == 'POST': # If the form has been submitted...
         # ContactForm was defined in the previous section
         form = UserCreationForm(request.POST) # A form bound to the POST data
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         if form.is_valid(): # All validation rules pass
             form.save()
             # Process the data in form.cleaned_data

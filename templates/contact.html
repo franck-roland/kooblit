@@ -1,0 +1,39 @@
+<form action="/contact/" method="post">{% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="fieldWrapper">
+        {{ form.username.errors }}
+        <label for="id_subject">Pseudo:</label>
+        {{ form.username }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.first_name.errors }}
+        <label for="id_subject">Prenom:</label>
+        {{ form.first_name }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.last_name.errors }}
+        <label for="id_subject">Nom:</label>
+        {{ form.last_name }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.email.errors }}
+        <label for="id_subject">Adresse Mail:</label>
+        {{ form.email }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.password1.errors }}
+        <label for="id_subject">Mot de passe:</label>
+        {{ form.password1 }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.password2.errors }}
+        <label for="id_subject">Confirmation du mot de passe:</label>
+        {{ form.password2 }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.birthday.errors }}
+        <label for="id_subject">Date d'anniversaire:</label>
+        {{ form.birthday }}
+    </div>
+    <p><input type="submit" value="Send message" /></p>
+</form>
