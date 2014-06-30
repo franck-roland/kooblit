@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import yaml
 
-s = yaml.load(open("config.yaml","r").read())
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+s = yaml.load(open(os.path.join(PROJECT_ROOT, "config.yaml"),"r").read())
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 AMAZON_KEY = s["AMAZON_KEY"]
