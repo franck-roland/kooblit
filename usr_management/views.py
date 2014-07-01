@@ -25,7 +25,7 @@ def contact(request):
                         return HttpResponse("Your Kooblit account is disabled.")
                         # Return a 'disabled account' error message
                 else:
-                    pass
+                    return HttpResponse("Mauvais mot de passe ou identifiant")
             except MultiValueDictKeyError, e:
                 pass
             except Exception, e:
@@ -34,9 +34,16 @@ def contact(request):
         # Return an 'invalid login' error message.
         if form.is_valid(): # All validation rules pass
             form.save()
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                    if user.is_active:
+                        login(request, user)
+                        return HttpResponseRedirect('/')            
             # Process the data in form.cleaned_data
             # ...
-            return HttpResponseRedirect('/thanks/') # Redirect after POST
+            return HttpResponseRedirect('/') # Redirect after POST
     else:
         form = UserCreationForm() # An unbound form
 
