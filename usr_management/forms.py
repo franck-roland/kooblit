@@ -53,7 +53,7 @@ class UserCreationFormKooblit(UserCreationForm):
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
-        # import pdb;pdb.set_trace()
+        import pdb;pdb.set_trace()
         if commit:
             user.save()
         return user

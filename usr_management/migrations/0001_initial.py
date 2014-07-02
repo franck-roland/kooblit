@@ -12,13 +12,25 @@ class Migration(SchemaMigration):
         db.create_table(u'usr_management_userkooblit', (
             (u'user_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, primary_key=True)),
             ('birthday', self.gf('django.db.models.fields.DateField')(null=True)),
+            ('is_confirmed', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'usr_management', ['UserKooblit'])
+
+        # Adding model 'Verification'
+        db.create_table(u'usr_management_verification', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('verification_id', self.gf('django.db.models.fields.CharField')(default=False, unique=True, max_length=240)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['usr_management.UserKooblit'])),
+        ))
+        db.send_create_signal(u'usr_management', ['Verification'])
 
 
     def backwards(self, orm):
         # Deleting model 'UserKooblit'
         db.delete_table(u'usr_management_userkooblit')
+
+        # Deleting model 'Verification'
+        db.delete_table(u'usr_management_verification')
 
 
     models = {
@@ -61,7 +73,14 @@ class Migration(SchemaMigration):
         u'usr_management.userkooblit': {
             'Meta': {'object_name': 'UserKooblit', '_ormbases': [u'auth.User']},
             'birthday': ('django.db.models.fields.DateField', [], {'null': 'True'}),
+            'is_confirmed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             u'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        u'usr_management.verification': {
+            'Meta': {'object_name': 'Verification'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['usr_management.UserKooblit']"}),
+            'verification_id': ('django.db.models.fields.CharField', [], {'default': 'False', 'unique': 'True', 'max_length': '240'})
         }
     }
 

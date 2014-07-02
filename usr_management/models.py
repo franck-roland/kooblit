@@ -8,6 +8,7 @@ from django.conf import settings
 class UserKooblit(User):
     # username = models.CharField(max_length=30, unique=True)
     birthday = models.DateField(null=True)
+    is_confirmed = models.BooleanField(default=False)
     # prenom = models.CharField(max_length=30, blank=True)
     # nom = models.CharField(max_length=30, blank=True)
     # norme RFC3696/5321 pour les adresses mail: longueur 254
@@ -18,3 +19,10 @@ class UserKooblit(User):
     # REQUIRED_FIELDS = ['email']
     objects = UserManager()
 
+
+class Verification(models.Model):
+    """docstring for Verification"""
+    verification_id = models.CharField(max_length=240, unique=True, default=False)
+    user = models.ForeignKey('UserKooblit')
+    
+        
