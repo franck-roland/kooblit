@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse, Http404
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import UserCreationFormKooblit
+from django.contrib.auth.models import User
 from .models import Verification, UserKooblit
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
@@ -119,11 +120,22 @@ def email_confirm(request, verification_id):
         if val.user.is_active:
             val.user.is_confirmed = True
             val.user.save()
+            username = val.user.username
+            password = val.user.password
+            # import pdb;pdb.set_trace()
             val.delete()
+            
+
+            user = User.objects.get(username=username)
+            if user is not None:
+                if user.is_active:
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    login(request, user)
             # return HttpResponse("")
-            return render(request, 'baseMessages.html', {
-            'message': 'Votre compte Kooblit est active!',
-            })
+                    return render(request, 'baseMessages.html', {
+                    'message': 'Votre compte Kooblit est active!',
+                    })
+            return HttpResponse("Your Kooblit account is disabled.")    
         else:
             return HttpResponse("Your Kooblit account is disabled.")
     except Verification.DoesNotExist, e:
