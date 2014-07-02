@@ -2,17 +2,32 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 # from django.contrib.auth.forms import UserCreationForm
-from .forms import UserCreationForm
+from .forms import UserCreationFormKooblit
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template import Context
+
+
+def computeEmail(username):
+    htmly = get_template('email.html')
+    d = Context({ 'username': username })
+    subject, from_email, to = ('Welcome to Kooblit!!', 
+                                'noreply@kooblit.com', 'franck.l.roland@gmail.com')
+    html_content = htmly.render(d)
+    msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+    msg.content_subtype = "html"
+    msg.send()
 
 def contact(request):
     if request.method == 'POST': # If the form has been submitted...
         # ContactForm was defined in the previous section
-        form = UserCreationForm(request.POST) # A form bound to the POST data
+        form = UserCreationFormKooblit(request.POST) # A form bound to the POST data
         if request.POST:
             try:
                 username = request.POST['username_log']
@@ -34,9 +49,10 @@ def contact(request):
                 
         # Return an 'invalid login' error message.
         if form.is_valid(): # All validation rules pass
-            form.save()
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password1")
+            computeEmail(username)
+            form.save()
             user = authenticate(username=username, password=password)
             if user is not None:
                     if user.is_active:
@@ -46,7 +62,7 @@ def contact(request):
             # ...
             return HttpResponseRedirect('/') # Redirect after POST
     else:
-        form = UserCreationForm() # An unbound form
+        form = UserCreationFormKooblit() # An unbound form
 
     return render(request, 'contact.html', {
         'form': form,

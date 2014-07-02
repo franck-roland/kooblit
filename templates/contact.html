@@ -21,6 +21,11 @@
         {{ form.email }}
     </div>
     <div class="fieldWrapper">
+        {{ form.email2.errors }}
+        <label for="id_subject">Confirmation Email:</label>
+        {{ form.email2 }}
+    </div>
+    <div class="fieldWrapper">
         {{ form.password1.errors }}
         <label for="id_subject">Mot de passe:</label>
         {{ form.password1 }}

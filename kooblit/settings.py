@@ -106,3 +106,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.request",
 )
+
+EMAIL_HOST = s['EMAIL_HOST']
+EMAIL_HOST_PASSWORD = s['EMAIL_HOST_PASSWORD']
+EMAIL_HOST_USER = s['EMAIL_HOST_USER']
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
