@@ -54,10 +54,14 @@
 <h1 id="connection"> Se connecter </h1>
 <form action="{% url 'usr_management:login' %}" method="post">
     {% csrf_token %}
-    Pseudo: <input type="text" name="username_log" value="" size="30" />
-    <br />
-    Mot de passe: <input type="password" name="password_log" value="" size="30" />
-    <br />
+    <div class="fieldWrapper">
+    <label for="id_subject">Pseudo:</label>
+    <input type="text" name="username_log" value="" size="20" />
+    </div>
+    <div class="fieldWrapper">
+    <label for="id_subject">Mot de passe:</label>
+    <input type="password" name="password_log" value="" size="20" />
+    </div>
     <p><input type="submit" value="Se connecter" /></p>
 </form>
 {% endblock %}
