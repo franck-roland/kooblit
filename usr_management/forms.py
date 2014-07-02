@@ -19,6 +19,18 @@ class UserCreationFormKooblit(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 
                   'password2', 'birthday', 'email2')
 
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get("first_name") 
+        if not first_name:
+            raise forms.ValidationError(u'Prenom obligatoire')
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get("last_name") 
+        if not last_name:
+            raise forms.ValidationError(u'Nom obligatoire')
+        return last_name
+
     def clean_password2(self):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
