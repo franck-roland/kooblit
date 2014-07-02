@@ -3,16 +3,20 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import UserKooblit
+from django.contrib.admin.widgets import AdminDateWidget 
+from django.forms.extras.widgets import SelectDateWidget
+import datetime
 
-        
 class UserCreationFormKooblit(UserCreationForm):
-    birthday = forms.DateField(label="Birthday", localize=True)
+    birthday = forms.DateField(label="Birthday",  
+        widget=SelectDateWidget(years=range(datetime.date.today().year, 1930, -1))
+        , localize=True)
     email2 = forms.EmailField()
 
     class Meta:
         model = UserKooblit
         # widgets = {
-        #     'password': forms.PasswordInput(),
+        #     'birthday': forms.PasswordInput(),
         # }
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 
                   'password2', 'birthday', 'email2')

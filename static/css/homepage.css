@@ -128,9 +128,9 @@ filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='1');
     height: 100%;
     font-size: 22px; //change this to your desired size
     line-height: normal;
-    -webkit-border-radius: 8px;
+/*    -webkit-border-radius: 8px;
        -moz-border-radius: 8px;
-            border-radius: 8px;
+            border-radius: 8px;*/
     background-color: #FF5900;
     color: white;
     white-space: normal;

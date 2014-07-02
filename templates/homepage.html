@@ -5,8 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="jumbotron">
-    <div style="background-color:rgba(0, 0, 0, 0.15);color:#F0F0F0;-moz-border-radius: 15px;
-border-radius: 15px;padding:15px;" >
+    <div style="background-color:rgba(0, 0, 0, 0.15);color:#F0F0F0;padding:15px;" >
     {% if user.is_authenticated %}
     BIENVENUE {{ user.username }}
     {% endif %}

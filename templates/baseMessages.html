@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+<h1>
 {{ message }}
-<br/>
-Vous allez etre rediriger dans 5 sec.
+</h1>
+<h2>Vous allez être redirigé(e) dans 5 sec.</h2>
 {% endblock %}
 {% block script_block %}
 <script type="text/javascript">setTimeout(function(){ window.location = "{% url 'homepage' %}"; }, 5000); </script>
