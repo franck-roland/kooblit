@@ -16,11 +16,11 @@ from django.template.loader import get_template
 from django.template import Context
 import hashlib
 
-def computeEmail(username, validation_id):
+def computeEmail(username, email, validation_id):
     htmly = get_template('email.html')
     d = Context({'username': username, 'validation_id': validation_id})
     subject, from_email, to = ('Welcome to Kooblit!!', 
-                                'noreply@kooblit.com', 'franck.l.roland@gmail.com')
+                                'noreply@kooblit.com', email)
     html_content = htmly.render(d)
     msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
     msg.content_subtype = "html"
@@ -55,43 +55,49 @@ def try_login(request, username, password):
         raise
 
 def contact(request):
-    if request.method == 'POST': # If the form has been submitted...
-        form = UserCreationFormKooblit(request.POST) # A form bound to the POST data
+    if not request.user.is_authenticated():
+        if request.method == 'POST' : # If the form has been submitted...
+            form = UserCreationFormKooblit(request.POST) # A form bound to the POST data
 
-        if request.POST:
-            # Check if it's a login
-            try:
-                username = request.POST['username_log']
-                password = request.POST['password_log']
-                return try_login(request, username, password)
-            except MultiValueDictKeyError, e:
-                pass
-            except Exception, e:
-                raise
-                
-        # New user
-        if form.is_valid(): # All validation rules pass
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password1")
-            form.save()
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                    user_kooblit = UserKooblit.objects.get(username=username)
-                    if user.is_active:
-                        if user_kooblit.is_confirmed:
-                            login(request, user)
-                        val = computeNewValidation(username)
-                        computeEmail(username, val.verification_id)
-                        return HttpResponseRedirect('/')            
-            # Process the data in form.cleaned_data
-            # ...
-            return HttpResponseRedirect('/') # Redirect after POST
+            if request.POST:
+                # Check if it's a login
+                try:
+                    username = request.POST['username_log']
+                    password = request.POST['password_log']
+                    return try_login(request, username, password)
+                except MultiValueDictKeyError, e:
+                    pass
+                except Exception, e:
+                    raise
+                    
+            # New user
+            if form.is_valid(): # All validation rules pass
+                username = form.cleaned_data.get("username")
+                password = form.cleaned_data.get("password1")
+                email = form.cleaned_data.get("email")
+                form.save()
+                val = computeNewValidation(username)
+                computeEmail(username, email, val.verification_id)
+                return HttpResponseRedirect('/')
+                # user = authenticate(username=username, password=password)
+                # if user is not None:
+                #         user_kooblit = UserKooblit.objects.get(username=username)
+                #         if user.is_active:
+                #             if user_kooblit.is_confirmed:
+                #                 login(request, user)
+                                        
+                # Process the data in form.cleaned_data
+                # ...
+
+            # return HttpResponseRedirect('/') # Redirect after POST
+        else:
+            form = UserCreationFormKooblit() # An unbound form
+
+        return render(request, 'contact.html', {
+            'form': form,
+            })
     else:
-        form = UserCreationFormKooblit() # An unbound form
-
-    return render(request, 'contact.html', {
-        'form': form,
-    })
+        return HttpResponseRedirect('/')
 
 
 
