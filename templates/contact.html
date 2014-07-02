@@ -1,53 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link href="{% static "css/login.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h1 id="enregistrement"> S'enregistrer </h1>
 <form action="{% url 'usr_management:login' %}" method="post">{% csrf_token %}
     {{ form.non_field_errors }}
     <div class="fieldWrapper">
-        {{ form.username.errors }}
         <label for="id_subject">Pseudo:</label>
         {{ form.username }}
+        {{ form.username.errors }}
     </div>
     <div class="fieldWrapper">
-        {{ form.first_name.errors }}
         <label for="id_subject">Prenom:</label>
         {{ form.first_name }}
+        {{ form.first_name.errors }}
     </div>
     <div class="fieldWrapper">
-        {{ form.last_name.errors }}
         <label for="id_subject">Nom:</label>
         {{ form.last_name }}
+        {{ form.last_name.errors }}
     </div>
     <div class="fieldWrapper">
-        {{ form.email.errors }}
         <label for="id_subject">Adresse Mail:</label>
         {{ form.email }}
+        {{ form.email.errors }}
     </div>
     <div class="fieldWrapper">
-        {{ form.email2.errors }}
         <label for="id_subject">Confirmation Email:</label>
         {{ form.email2 }}
+        {{ form.email2.errors }}
     </div>
     <div class="fieldWrapper">
-        {{ form.password1.errors }}
         <label for="id_subject">Mot de passe:</label>
         {{ form.password1 }}
+        {{ form.password1.errors }}
     </div>
     <div class="fieldWrapper">
-        {{ form.password2.errors }}
         <label for="id_subject">Confirmation du mot de passe:</label>
         {{ form.password2 }}
+        {{ form.password2.errors }}
     </div>
     <div class="fieldWrapper">
-        {{ form.birthday.errors }}
         <label for="id_subject">Date d'anniversaire:</label>
         {{ form.birthday }}
+        {{ form.birthday.errors }}
     </div>
     <p><input type="submit" value="S'inscrire" /></p>
 </form>
 
+<h1 id="connection"> Se connecter </h1>
 <form action="{% url 'usr_management:login' %}" method="post">
     {% csrf_token %}
-    Username: <input type="text" name="username_log" value="" size="50" />
+    Pseudo: <input type="text" name="username_log" value="" size="30" />
     <br />
-    Password: <input type="password" name="password_log" value="" size="50" />
+    Mot de passe: <input type="password" name="password_log" value="" size="30" />
     <br />
     <p><input type="submit" value="Se connecter" /></p>
 </form>
+{% endblock %}

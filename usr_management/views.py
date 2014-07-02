@@ -43,7 +43,10 @@ def try_login(request, username, password):
             elif not user.is_active:
                 return HttpResponse("Your Kooblit account is disabled.")
             else:
-                return HttpResponse("You need to activate your account.")
+                return render(request, 'baseMessages.html', {
+                'message': 'Vous devez activer votre compte.',
+                })
+                # return HttpResponse("You need to activate your account.")
                 # Return a 'disabled account' error message
         else:
             return HttpResponse("Mauvais mot de passe ou identifiant")
@@ -117,7 +120,10 @@ def email_confirm(request, verification_id):
             val.user.is_confirmed = True
             val.user.save()
             val.delete()
-            return HttpResponse("Your Kooblit account is activated.")
+            # return HttpResponse("")
+            return render(request, 'baseMessages.html', {
+            'message': 'Votre compte Kooblit est active!',
+            })
         else:
             return HttpResponse("Your Kooblit account is disabled.")
     except Verification.DoesNotExist, e:

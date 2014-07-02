@@ -6,8 +6,6 @@ from .models import UserKooblit
 
         
 class UserCreationFormKooblit(UserCreationForm):
-    # password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
-    # password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput)
     birthday = forms.DateField(label="Birthday", localize=True)
     email2 = forms.EmailField()
 

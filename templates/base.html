@@ -52,8 +52,8 @@
              {% if user.is_authenticated %}
              <li><a href="{% url 'usr_management:logout' %}"> Se deconnecter </a></li>
              {% else %}
-             <li><a href="{% url 'usr_management:login' %}"> S'enregistrer </a></li>
-             <li> <a href="{% url 'usr_management:login' %}"> Se connecter </a></li>
+             <li><a href="{% url 'usr_management:login' %}#enregistrement"> S'enregistrer </a></li>
+             <li> <a href="{% url 'usr_management:login' %}#connection"> Se connecter </a></li>
              {% endif %}
           </ul>
         </div><!-- /.nav-collapse -->
