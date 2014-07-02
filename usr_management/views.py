@@ -32,11 +32,11 @@ def computeNewValidation(username):
     val.save()
     return val
 
-def try_login(username, password):
+def try_login(request, username, password):
     try:
         user = authenticate(username=username, password=password)
-        user_kooblit = UserKooblit.objects.get(username=username)
         if user is not None:
+            user_kooblit = UserKooblit.objects.get(username=username)
             if user.is_active and user_kooblit.is_confirmed:
                 login(request, user)
                 return HttpResponseRedirect('/')
@@ -49,6 +49,8 @@ def try_login(username, password):
             return HttpResponse("Mauvais mot de passe ou identifiant")
     except MultiValueDictKeyError, e:
         raise
+    except UserKooblit.DoesNotExist, e:
+        return HttpResponse("Mauvais mot de passe ou identifiant")
     except Exception, e:
         raise
 
@@ -61,7 +63,7 @@ def contact(request):
             try:
                 username = request.POST['username_log']
                 password = request.POST['password_log']
-                return try_login(username, password)
+                return try_login(request, username, password)
             except MultiValueDictKeyError, e:
                 pass
             except Exception, e:
@@ -115,3 +117,8 @@ def email_confirm(request, verification_id):
     except Verification.DoesNotExist, e:
         raise Http404()
 
+@login_required
+def user_suppression(request):
+    user = request.user
+    user.delete()
+    return HttpResponseRedirect('/') # Redirect after POST

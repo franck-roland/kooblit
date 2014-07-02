@@ -50,10 +50,10 @@
           </div>
           <ul class="nav navbar-nav pull-right">
              {% if user.is_authenticated %}
-             <li><a href="contact/logout"> Se deconnecter </a></li>
+             <li><a href="{% url 'usr_management:logout' %}"> Se deconnecter </a></li>
              {% else %}
-             <li><a href="contact"> S'enregistrer </a></li>
-             <li> <a href="contact"> Se connecter </a></li>
+             <li><a href="{% url 'usr_management:login' %}"> S'enregistrer </a></li>
+             <li> <a href="{% url 'usr_management:login' %}"> Se connecter </a></li>
              {% endif %}
           </ul>
         </div><!-- /.nav-collapse -->
