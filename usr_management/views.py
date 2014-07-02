@@ -35,9 +35,9 @@ def computeNewValidation(username):
 def try_login(username, password):
     try:
         user = authenticate(username=username, password=password)
-    # import pdb;pdb.set_trace()
+        user_kooblit = UserKooblit.objects.get(username=username)
         if user is not None:
-            if user.is_active and user.is_confirmed:
+            if user.is_active and user_kooblit.is_confirmed:
                 login(request, user)
                 return HttpResponseRedirect('/')
             elif not user.is_active:
@@ -74,8 +74,10 @@ def contact(request):
             form.save()
             user = authenticate(username=username, password=password)
             if user is not None:
+                    user_kooblit = UserKooblit.objects.get(username=username)
                     if user.is_active:
-                        login(request, user)
+                        if user_kooblit.is_confirmed:
+                            login(request, user)
                         val = computeNewValidation(username)
                         computeEmail(username, val.verification_id)
                         return HttpResponseRedirect('/')            
