@@ -21,6 +21,12 @@ class UserCreationFormKooblit(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 
                   'password2', 'birthday', 'email2')
 
+    def clean_birthday(self):
+        birthday = self.cleaned_data.get("birthday")
+        if not birthday:
+             raise forms.ValidationError(u'Champ obligatoire')
+        return birthday
+
     def clean_first_name(self):
         first_name = self.cleaned_data.get("first_name") 
         if not first_name:
