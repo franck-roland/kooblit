@@ -63,16 +63,15 @@ def contact(request):
         if request.method == 'POST' : # If the form has been submitted...
             form = UserCreationFormKooblit(request.POST) # A form bound to the POST data
 
-            if request.POST:
                 # Check if it's a login
-                try:
-                    username = request.POST['username_log']
-                    password = request.POST['password_log']
-                    return try_login(request, username, password)
-                except MultiValueDictKeyError, e:
-                    pass
-                except Exception, e:
-                    raise
+            try:
+                username = request.POST['username_log']
+                password = request.POST['password_log']
+                return try_login(request, username, password)
+            except MultiValueDictKeyError, e:
+                pass
+            except Exception, e:
+                raise
                     
             # New user
             if form.is_valid(): # All validation rules pass
