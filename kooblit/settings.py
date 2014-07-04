@@ -107,6 +107,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
 )
 
+AUTHENTICATION_BACKENDS = (
+    'usr_management.backends.EmailOrUsernameModelBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)
 EMAIL_HOST = s['EMAIL_HOST']
 EMAIL_HOST_PASSWORD = s['EMAIL_HOST_PASSWORD']
 EMAIL_HOST_USER = s['EMAIL_HOST_USER']

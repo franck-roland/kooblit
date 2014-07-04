@@ -37,7 +37,7 @@ def try_login(request, username, password):
     try:
         user = authenticate(username=username, password=password)
         if user is not None:
-            user_kooblit = UserKooblit.objects.get(username=username)
+            user_kooblit = UserKooblit.objects.get(username=user.username)
             if user.is_active and user_kooblit.is_confirmed:
                 login(request, user)
                 return HttpResponseRedirect('/')
@@ -47,8 +47,6 @@ def try_login(request, username, password):
                 return render(request, 'baseMessages.html', {
                 'message': 'Vous devez activer votre compte.',
                 })
-                # return HttpResponse("You need to activate your account.")
-                # Return a 'disabled account' error message
         else:
             return HttpResponse("Mauvais mot de passe ou identifiant")
     except MultiValueDictKeyError, e:
