@@ -61,7 +61,7 @@ def contact(request):
         if request.method == 'POST' : # If the form has been submitted...
             form = UserCreationFormKooblit(request.POST) # A form bound to the POST data
 
-                # Check if it's a login
+            # Check if it's a login
             try:
                 username = request.POST['username_log']
                 password = request.POST['password_log']
@@ -80,17 +80,7 @@ def contact(request):
                 val = computeNewValidation(username)
                 computeEmail(username, email, val.verification_id)
                 return HttpResponseRedirect('/')
-                # user = authenticate(username=username, password=password)
-                # if user is not None:
-                #         user_kooblit = UserKooblit.objects.get(username=username)
-                #         if user.is_active:
-                #             if user_kooblit.is_confirmed:
-                #                 login(request, user)
-                                        
-                # Process the data in form.cleaned_data
-                # ...
 
-            # return HttpResponseRedirect('/') # Redirect after POST
         else:
             form = UserCreationFormKooblit() # An unbound form
 
