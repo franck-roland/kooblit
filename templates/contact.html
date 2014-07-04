@@ -8,7 +8,7 @@
 
 {% block content %}
 <h1 id="enregistrement"> S'enregistrer </h1>
-<form action="{% url 'usr_management:login' %}" method="post">{% csrf_token %}
+<form name='signup_form' onsubmit="return validateForm()" action="{% url 'usr_management:login' %}" method="post">{% csrf_token %}
     {{ form.non_field_errors }}
     <div class="fieldWrapper">
         <label for="id_subject">Pseudo:</label>
@@ -54,7 +54,7 @@
 </form>
 
 <h1 id="connection"> Se connecter </h1>
-<form action="{% url 'usr_management:login' %}" method="post">
+<form name='login_form' action="{% url 'usr_management:login' %}" method="post">
     {% csrf_token %}
     <div class="fieldWrapper">
     <label for="id_subject">Pseudo:</label>
@@ -66,4 +66,88 @@
     </div>
     <p><input type="submit" value="Se connecter" /></p>
 </form>
+{% endblock %}
+
+{% block script_block %}
+<script type="text/javascript">
+
+function validateMail(value) {
+    var x = value;
+    var atpos = x.indexOf("@");
+    var dotpos = x.lastIndexOf(".");
+    if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=x.length) {
+        return false;
+    }
+    return true;
+}
+
+function checkAndWriteError(obj, error_msg){
+    if (obj.parent().find('.errorlist').length == 0){
+                    obj.after(error_msg);
+    }
+}
+$( "input" ).focusout(function() {
+    var x = $.trim($(this).val())
+    if ($(this).parent().find('.errorlist').length != 0){
+            $(this).parent().children('.errorlist').remove();
+    }
+    if (x == null || x == ""){
+        checkAndWriteError($(this),'<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
+    }
+    else {
+        if( $(this).attr('id') == 'id_email' && !validateMail(x)){
+            checkAndWriteError($(this),'<ul class="errorlist"><li>Entrer une adresse mail valide</li></ul>');
+        }
+        else if($(this).attr('id') == 'id_email2'){
+            if($("#id_email").val() != x){
+                checkAndWriteError($(this),'<ul class="errorlist"><li>Adresses mail différentes</li></ul>');       
+            }
+        }
+        else if($(this).attr('id') == 'id_password2'){
+            if($("#id_password1").val() != x){
+                checkAndWriteError($(this),'<ul class="errorlist"><li>Mots de passe différents</li></ul>');       
+            }
+        }
+    }
+    
+
+});
+
+function validateForm() {
+    var elements = [ "username", "first_name", "last_name", "email", "email2", "password1", 
+    "password2"];
+    var ok = true;
+    for (var i = 0; i < elements.length; i++) {
+        var x = $.trim(document.forms["signup_form"][elements[i]].value);
+        if (x == null || x == "") {
+            if ($('#id_'+elements[i]).parent().find('.errorlist').length == 0){
+                $('#id_'+elements[i]).after('<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
+            }
+            // alert("First name must be filled out");
+            ok = false;
+        }
+        else{
+            if ($('#id_'+elements[i]).parent().find('.errorlist').length != 0){
+                $('#id_'+elements[i]).parent().children('.errorlist').remove();
+            }
+        }
+    }
+    var ok_birthday = true;
+    var birthArray = [document.forms["signup_form"]["birthday_day"].value, document.forms["signup_form"]["birthday_month"].value, document.forms["signup_form"]["birthday_year"].value];
+    console.log(birthArray);
+    for (var i = 0; i < birthArray.length; i++) {
+        if(birthArray[i].length == 0 || birthArray[i] == "0"){
+            if ($('#id_birthday_year').parent().find('.errorlist').length == 0){
+                $('#id_birthday_year').after('<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
+            }
+            ok_birthday = false;
+            break;
+        }
+    };
+    if(ok_birthday == true){
+        $('#id_birthday_year').parent().children('.errorlist').remove();
+    }
+    return (ok && ok_birthday);
+}
+</script>
 {% endblock %}
