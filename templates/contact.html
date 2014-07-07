@@ -8,7 +8,7 @@
 
 {% block content %}
 <h1 id="enregistrement"> S'enregistrer </h1>
-<form name='signup_form' onsubmit="return validateForm()" action="{% url 'usr_management:login' %}" method="post">{% csrf_token %}
+<form name='signup_form' class="django_form" onsubmit="return validateForm()" action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">{% csrf_token %}
     {{ form.non_field_errors }}
     <div class="fieldWrapper">
         <label for="id_subject">Pseudo:</label>
@@ -54,15 +54,15 @@
 </form>
 
 <h1 id="connection"> Se connecter </h1>
-<form name='login_form' action="{% url 'usr_management:login' %}" method="post">
+<form name='login_form' action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">
     {% csrf_token %}
     <div class="fieldWrapper">
     <label for="id_subject">Pseudo:</label>
-    <input type="text" name="username_log" value="" size="20" />
+    <input type="text" name="username_log" value="" size="20" required>
     </div>
     <div class="fieldWrapper">
     <label for="id_subject">Mot de passe:</label>
-    <input type="password" name="password_log" value="" size="20" />
+    <input type="password" name="password_log" value="" size="20" required>
     </div>
     <p><input type="submit" value="Se connecter" /></p>
 </form>
@@ -86,7 +86,8 @@ function checkAndWriteError(obj, error_msg){
                     obj.after(error_msg);
     }
 }
-$( "input" ).focusout(function() {
+
+$( ".django_form input" ).focusout(function() {
     var x = $.trim($(this).val())
     if ($(this).parent().find('.errorlist').length != 0){
             $(this).parent().children('.errorlist').remove();

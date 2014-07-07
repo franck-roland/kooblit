@@ -15,6 +15,9 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
+
+from django.template import RequestContext
+
 import hashlib
 
 def computeEmail(username, email, validation_id):
@@ -33,14 +36,14 @@ def computeNewValidation(username):
     val.save()
     return val
 
-def try_login(request, username, password):
+def try_login(request, username, password, next_url):
     try:
         user = authenticate(username=username, password=password)
         if user is not None:
             user_kooblit = UserKooblit.objects.get(username=user.username)
             if user.is_active and user_kooblit.is_confirmed:
                 login(request, user)
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect(next_url)
             elif not user.is_active:
                 return HttpResponse("Your Kooblit account is disabled.")
             else:
@@ -57,6 +60,14 @@ def try_login(request, username, password):
         raise
 
 def contact(request):
+    import pdb;pdb.set_trace()
+    try:
+        next_url = request.GET['next']
+    except MultiValueDictKeyError, e:
+        next_url = "/"
+    except Exception:
+        raise
+
     if not request.user.is_authenticated():
         if request.method == 'POST' : # If the form has been submitted...
             form = UserCreationFormKooblit(request.POST) # A form bound to the POST data
@@ -65,7 +76,7 @@ def contact(request):
             try:
                 username = request.POST['username_log']
                 password = request.POST['password_log']
-                return try_login(request, username, password)
+                return try_login(request, username, password, next_url)
             except MultiValueDictKeyError, e:
                 pass
             except Exception, e:
@@ -79,16 +90,16 @@ def contact(request):
                 form.save()
                 val = computeNewValidation(username)
                 computeEmail(username, email, val.verification_id)
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect(next_url)
 
         else:
             form = UserCreationFormKooblit() # An unbound form
 
         return render(request, 'contact.html', {
-            'form': form,
+            'form': form,'next_url': next_url,
             })
     else:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(next_url)
 
 
 
@@ -133,3 +144,11 @@ def user_suppression(request):
     user = request.user
     user.delete()
     return HttpResponseRedirect('/') # Redirect after POST
+
+@login_required
+def user_profil(request, username):
+    user_kooblit = UserKooblit.objects.get(username=username)
+    if user_kooblit.is_active and user_kooblit.is_confirmed:   
+        return render(request, 'dashboard/index_profile.html', RequestContext(request, {'user_kooblit': user_kooblit}))
+    else:
+        raise Http404()
