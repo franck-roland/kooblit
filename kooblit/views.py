@@ -8,9 +8,9 @@ from django.template import RequestContext
 # @login_required(login_url='/contact/')
 def homepage(request, essai=""):
 #    c = {}
- #   c.update(csrf(request))
-    r = random.randint(0, 1)
-    # if essai:
-    #     return render_to_response("homepage2.html",{})
-    # else:
-    return render_to_response("homepage.html",RequestContext(request))
+    try:
+        u = {'kooblit_username': request.user.username}
+    except Exception, e:
+        u = {}
+        raise e
+    return render_to_response("homepage.html",RequestContext(request, u))
