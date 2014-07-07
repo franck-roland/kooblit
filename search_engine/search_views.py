@@ -11,10 +11,17 @@ from django.views.decorators.cache import cache_page
 from django.http import HttpResponseBadRequest
 
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+
+from .models import Book
+
+from mongoengine import *
+connect('docs_db')
 
 def search_view(request):
 #    import pdb;pdb.set_trace()
-    
+    u = {'kooblit_username': request.user.username}
+
     title = ""
     try:
         title = request.GET.get('title', '')
@@ -28,8 +35,6 @@ def search_view(request):
                 tmp.append(i)
         title = ''.join(tmp)
         s = compute_args(title, settings.AMAZON_KEY)
-        
         return render_to_response("search_result.html", RequestContext(request, {'resultat': s}))
     except TypeError as e:
-        return HttpResponseBadRequest("Pas de donnees")
-
+        raise

@@ -11,12 +11,16 @@ import json
 import os
 import re
 
+# head = """GET
+# ecs.amazonaws.co.uk
+# /onca/xml
+# """
+# head = """GET
+# ecs.amazonaws.fr
+# /onca/xml
+# """
 head = """GET
-ecs.amazonaws.co.uk
-/onca/xml
-"""
-head = """GET
-ecs.amazonaws.fr
+{0}
 /onca/xml
 """
 
@@ -26,7 +30,8 @@ Operation=ItemSearch
 SearchIndex=Books
 Sort=salesrank
 Title={0}
-ResponseGroup=ItemAttributes%2CImages
+Page={1}
+ResponseGroup=ItemAttributes%2CImages%2CEditorialReview
 Version=2009-01-06
 Timestamp=2015-01-01T12%3A00%3A00Z
 AssociateTag=kooblit-21"""
@@ -67,35 +72,64 @@ def calculate_signature_amazon(k, m):
     return ''.join(l)
 
 def compute_json_one_result(result):
-    t = result.find('ItemAttributes').find('Title').text
+
+    title = result.find('ItemAttributes').find('Title').text
+    author = result.find('ItemAttributes').find('Author').text
     try:
-        r = result.find("LargeImage").find("URL").text
+        isbn = result.find('ItemAttributes').find('ISBN').text
     except AttributeError, e:
-        r = ""
-    finally:
-        d = result.find("DetailPageURL").text
-        return [t,r,d]
+        isbn = ""
+
+    try:
+        image = result.find("LargeImage").find("URL").text
+    except AttributeError, e:
+        image = ""
+
+    details = result.find("DetailPageURL").text
+    try:
+        summary = result.find('EditorialReviews').find('EditorialReview').find('Content').text
+    except AttributeError, e:
+        summary = ""
+    # return {
+    # 'title': title,
+    # 'author': author,
+    # 'isbn': isbn,
+    # 'image': image,
+    # 'summary': summary,
+    # }
+    return [title, author, isbn, image, summary, details]
 
 
 @sanitizer
 def compute_args(title,k):
     global template
     global head
-    m = template.format(title)
-    m = m.split("\n")
-    m.sort()
-    m = '&'.join(m)
-#    k = open("AMAZON_KEY.conf").read()[:-1]
-    link_url = "http://ecs.amazonaws.co.uk/onca/xml?"
-    link_url = "http://ecs.amazonaws.fr/onca/xml?"
-    u = urllib.urlopen(link_url+m+"&Signature="+calculate_signature_amazon(k, head+m))
-    deb = link_url+m+"&Signature="+calculate_signature_amazon(k, head+m)
-    s = u.read()
-    s = re.sub(' xmlns="[^"]+"', '', s, count=1)
-    root = ET.fromstring(s)
+    url = "http://{0}/onca/xml?"
     result = []
-    for t in root.iter('Item'):
-        result.append(compute_json_one_result(t))
+    for i in xrange(1,11):
+        m = template.format(title, str(i))
+        m = m.split("\n")
+        m.sort()
+        m = '&'.join(m)
+    #    k = open("AMAZON_KEY.conf").read()[:-1]
+        link_url = "http://ecs.amazonaws.co.uk/onca/xml?"
+        link_url = "http://ecs.amazonaws.fr/onca/xml?"
+        for link_url in ("ecs.amazonaws.co.uk", "ecs.amazonaws.fr"):
+            u = urllib.urlopen(''.join((url.format(link_url), 
+                m, 
+                "&Signature=", 
+                calculate_signature_amazon(k, head.format(link_url)+m))))
+
+            # deb = link_url+m+"&Signature="+calculate_signature_amazon(k, head+m)
+            
+            s = u.read()
+            s = re.sub(' xmlns="[^"]+"', '', s, count=1)
+            root = ET.fromstring(s)
+            for t in root.iter('Item'):
+                tmp = compute_json_one_result(t)
+                # import pdb;pdb.set_trace()
+                if not tmp[:2] in [i[:2] for i in result]:
+                    result.append(tmp)
     return result
 
 @sanitizer
