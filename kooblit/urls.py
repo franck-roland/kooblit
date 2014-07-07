@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^(?P<essai>\d{1})$', 'kooblit.views.homepage', name='homepage'),
     url(r'^search/', include('search_engine.urls', namespace='search_engine')),
     url(r'^accounts/', include('usr_management.urls', namespace='usr_management')),
+    url(r'^users/(?P<username>.{,30})/$', 'usr_management.views.user_profil', name='users'),
     
 )
 # + static(settings.STATIC_URL, settings.STATIC_ROOT)

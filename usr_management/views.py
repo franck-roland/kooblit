@@ -60,7 +60,6 @@ def try_login(request, username, password, next_url):
         raise
 
 def contact(request):
-    import pdb;pdb.set_trace()
     try:
         next_url = request.GET['next']
     except MultiValueDictKeyError, e:
