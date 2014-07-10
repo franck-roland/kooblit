@@ -8,5 +8,5 @@ urlpatterns = patterns('',
     url(r'^logout$', 'usr_management.views.user_logout', name='logout'),
     url(r'^delete$', 'usr_management.views.user_suppression', name='delete'),
     url(r'^confirmation/(?P<verification_id>[0-9a-f]{64})$', 'usr_management.views.email_confirm', name='email_confirm'),
-    
+    url(r'^InputValidator', 'usr_management.views.check_exist', name='validator'),
 )

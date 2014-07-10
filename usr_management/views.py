@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import UserCreationFormKooblit
 from django.contrib.auth.models import User
@@ -15,6 +15,9 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
+
+#JSON
+import json
 
 from django.template import RequestContext
 
@@ -151,3 +154,26 @@ def user_profil(request, username):
         return render(request, 'dashboard/index_profile.html', RequestContext(request, {'user_kooblit': user_kooblit}))
     else:
         raise Http404()
+
+def check_exist(request):
+    response_data = {}
+    response_data['result'] = 'success'
+    if request.method == 'GET':
+        kwargs = {}
+        username = request.GET.get('username','')
+        if not username:
+            mail = request.GET.get('email','')
+            if not mail:
+                return HttpResponse(json.dumps(response_data), content_type="application/json")    
+            kwargs['email'] = mail
+        else:
+            kwargs['username'] = username
+        try:
+            user_kooblit = UserKooblit.objects.get(**kwargs)
+            response_data['result'] = 'failed'
+            response_data['message'] = "L'utilisateur existe deja"
+        except UserKooblit.DoesNotExist, e:
+            pass
+        except Exception:
+            raise    
+    return HttpResponse(json.dumps(response_data), content_type="application/json")

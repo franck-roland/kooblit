@@ -71,16 +71,47 @@
 {% block script_block %}
 <script type="text/javascript">
 
-function validateMail(value) {
+function validateMail(obj, value) {
     var x = value;
     var atpos = x.indexOf("@");
     var dotpos = x.lastIndexOf(".");
     if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=x.length) {
-        return false;
+        return 'Entrer une adresse mail valide';
     }
-    return true;
+    $.ajax({
+        url: "{% url 'usr_management:validator' %}",
+        type: "GET",
+        cache: false,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            if(data['result'] == 'failed'){
+                checkAndWriteError(obj,'<ul class="errorlist"><li>'+'Cette adresse mail est déjà utilisée'+'</li></ul>');
+            }
+        },
+        data: {
+            "email": value,
+        }
+    });
+    return "";
 }
-
+function validateUser(obj, username) {
+    $.ajax({
+        url: "{% url 'usr_management:validator' %}",
+        type: "GET",
+        cache: false,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            if(data['result'] == 'failed'){
+                checkAndWriteError(obj,'<ul class="errorlist"><li>'+data['message']+'</li></ul>');
+            }
+        },
+        data: {
+            "username": username,
+        }
+    });
+}
 function checkAndWriteError(obj, error_msg){
     if (obj.parent().find('.errorlist').length == 0){
                     obj.after(error_msg);
@@ -96,8 +127,14 @@ $( ".django_form input" ).focusout(function() {
         checkAndWriteError($(this),'<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
     }
     else {
-        if( $(this).attr('id') == 'id_email' && !validateMail(x)){
-            checkAndWriteError($(this),'<ul class="errorlist"><li>Entrer une adresse mail valide</li></ul>');
+        if( $(this).attr('id') == 'id_username'){
+            validateUser($(this),x);
+        }
+        else if( $(this).attr('id') == 'id_email'){
+            var message = validateMail($(this),x);
+            if(message != ""){
+                checkAndWriteError($(this),'<ul class="errorlist"><li>'+message+'</li></ul>');
+            }
         }
         else if($(this).attr('id') == 'id_email2'){
             if($("#id_email").val() != x){
