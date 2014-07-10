@@ -3,5 +3,7 @@ PyYAML==3.11
 South==0.8.4
 argparse==1.2.1
 django-grappelli==2.5.3
+mongoengine==0.8.7
 psycopg2==2.5.3
+pymongo==2.7.1
 wsgiref==0.1.2
