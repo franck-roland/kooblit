@@ -95,10 +95,8 @@ def book_search(request, book_title):
 
         if a:
             book_title = request.GET['title']
-            b = Book.objects.get(title=book_title)
-            if not b:
-                return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
-            else:
+            try:
+                b = Book.objects.get(title=book_title)
                 res = Recherche.objects(book=b)[0]
 
                 if datetime.datetime.now().date() != res.day .date():
@@ -108,6 +106,10 @@ def book_search(request, book_title):
                 # import pdb;pdb.set_trace()
                 res.save()
                 return HttpResponseRedirect('../details/'+book_title[:32])
+            except Book.DoesNotExist, e:
+                return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
+            except Exception:
+                raise
         else:
             return HttpResponseRedirect('/')
 
