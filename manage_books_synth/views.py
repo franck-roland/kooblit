@@ -77,8 +77,12 @@ def create_book(book_title):
     r = Recherche(book=b, nb_searches=1)
     r.save()
     for book_dsc in s:
-        u_b = UniqueBook(book=b, isbn=book_dsc[2], image=book_dsc[3])
-        u_b.save()
+        try:
+            u_b = UniqueBook(book=b, isbn=book_dsc[2], image=book_dsc[3])
+            u_b.save()
+        except Exception, e:
+            pass
+    return 0
 
 @login_required
 def book_search(request, book_title):
@@ -120,8 +124,8 @@ def book_search(request, book_title):
             try:
                 b = Book.objects.get(title=book_title)
             except Book.DoesNotExist, e:
-                create_book(book_title)
-                b = Book.objects.get(title=book_title)
+                if not create_book(book_title):
+                    b = Book.objects.get(title=book_title)
             except Exception:
                 raise
             return HttpResponseRedirect('../details/'+book_title[:32])
