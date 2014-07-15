@@ -40,7 +40,7 @@ Timestamp=2015-01-01T12%3A00%3A00Z
 AssociateTag=kooblit-21"""
 # callback=%3F
 def sanitizer(func):
-    def do(title,*args):
+    def do(title,*args,**kwargs):
         l = []
         title = title.lower()
         for i in title:
@@ -49,18 +49,19 @@ def sanitizer(func):
             else:
                 l.append("%")
                 l.append(hex(ord(i)).upper()[2:])
-        return func(''.join(l),*args)
+        return func(''.join(l),*args,**kwargs)
     return do
 
 def sanitize(s):
     l = []
+    s = s.lower()
     for i in s:
         if i.isalnum():
             l.append(i)
         else:
             l.append("%")
             l.append(hex(ord(i)).upper()[2:])
-    return func(''.join(l),*args)  
+    return u''.join(l)
 
 def backward(m):
     prog = re.compile("(%([0-9a-fA-F]{2}))")
@@ -121,6 +122,7 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1):
     url = "http://{0}/onca/xml?"
     result = []
     # for i in xrange(1,11):
+    # import pdb;pdb.set_trace()
     for i in xrange(1,2):
         m = template.format(title, str(i))
         m = m.split("\n")
@@ -141,8 +143,8 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1):
             root = ET.fromstring(s)
             for t in root.iter('Item'):
                 tmp = compute_json_one_result(t)
-                if exact_match and sanitize(tmp[0]) == title or not exact_match:
                 # import pdb;pdb.set_trace()
+                if exact_match and sanitize(tmp[0]) == title or not exact_match:
                     if not tmp[:2] in [i[:2] for i in result] or not delete_duplicate:
                         result.append(tmp)
     return result

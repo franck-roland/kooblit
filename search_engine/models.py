@@ -1,8 +1,6 @@
 from mongoengine import *
 import datetime
 
-connect('docs_db')
-
 class SubGenre(Document):
     """docstring for SubGenre"""
     genre = StringField(max_length=100, required=True)
@@ -21,7 +19,7 @@ class UniqueBook(Document):
 # Create your models here.
 class Book(Document):
     title = StringField(max_length=100, required=True)
-    auteur = ListField(StringField(max_length=100, required=True))
+    author = ListField(StringField(max_length=100, required=True))
     description = StringField(max_length=4096, required=False)
     books = ListField(ReferenceField(UniqueBook))
     genres = ListField(ReferenceField(Genre, reverse_delete_rule=NULLIFY))
