@@ -131,8 +131,8 @@ filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='1');
 /*    -webkit-border-radius: 8px;
        -moz-border-radius: 8px;
             border-radius: 8px;*/
-    background-color: #FF5900;
-    color: white;
+    /*background-color: #FF5900;*/
+    /*color: white;*/
     white-space: normal;
 }
 

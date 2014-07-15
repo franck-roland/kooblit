@@ -1,12 +1,12 @@
-label {
+/*label {
     width: 20%;
-}
+}*/
 .errorlist {
     display: inline;
     color: red;
     width: 30%;
 }
-
+/*
 ul, li {
     display: inline;
-}
+}*/

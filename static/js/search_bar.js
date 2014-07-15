@@ -24,7 +24,7 @@ var substringMatcher = function(strs) {
 
 
 var livres = [];
-$('.form-control ').typeahead({
+$('#search_bar').typeahead({
   hint: true,
   highlight: true,
   minLength: 3
