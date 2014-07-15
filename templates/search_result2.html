@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+
+{% block extra_css %}
+<link href="{% static "css/result_page.css" %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="container container_result">
+</div>
+{% endblock %}
+{% block script_block %}
+<script type="text/javascript">
+  function httpGet(theUrl)
+  {
+      var xmlHttp = null;
+
+      xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", theUrl, false );
+      xmlHttp.send( null );
+      return xmlHttp.responseText;
+  }
+
+  var link = "{{ resultat.0 }}?";
+  {% for i in resultat.1 %}
+    link = link+"{{i.0}}={{i.1}}&"
+  {% endfor %} 
+
+  $(".container").html(httpGet(link.slice(0,link.length-1)));
+  // httpGet()
+  // var aj = $.ajax({ 
+      
+  //     url: link,
+  //     type: "GET",
+  //     cache: true,
+  //     // dataType: "xml",
+  //     success: function (data) {
+  //         alert("in");
+  //         console.log(data);
+  //         alert(data);
+  //         $('container').html(data);
+  //     },
+  //     error: function(jqXHR, textStatus, errorThrown ){
+  //       alert(textStatus);
+  //     },
+  //     // processData: false,
+  //     data: {
+          
+  //         {% for i in resultat.1 %}
+  //            "{{i.0}}":"{{i.1}}",
+  //         {% endfor %} 
+  //     //     q: request,
+  //     //     "search-alias": "english-books",
+  //     //     mkt: "5",
+  //     }
+  // });
+</script>
+{% endblock %}

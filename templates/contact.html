@@ -3,72 +3,148 @@
 {% load i18n %}
 
 {% block extra_css %}
-<link href="{% static "css/login.css" %}" rel="stylesheet">
+<!-- <link href="{% static "css/login.css" %}" rel="stylesheet"> -->
+<!-- <link href="{% static "css/homepage.css" %}" rel="stylesheet"> -->
+<link href="{% static "css/datepicker.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<h1 id="enregistrement"> S'enregistrer </h1>
-<form name='signup_form' class="django_form" onsubmit="return validateForm()" action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">{% csrf_token %}
+<div class="container" style="margin: auto; padding-top: 80px; background-color: #ecf0f1;" >
+<form name='signup_form' class="form-horizontal django_form" onsubmit="return validateForm()" action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">{% csrf_token %}
+    <fieldset>
+    <legend id="enregistrement">S'enregistrer</legend>
     {{ form.non_field_errors }}
-    <div class="fieldWrapper">
+    <!-- <div class="fieldWrapper">
         <label for="id_subject">Pseudo:</label>
-        {{ form.username }}
-        {{ form.username.errors }}
+    </div> -->
+    <!-- <div class="fieldWrapper"> -->
+    <div class="form-group">
+        <label for="id_username" class="col-lg-2 control-label ">Pseudo</label>
+        <div class="col-lg-5" >
+            <input id="id_username" class="form-control" maxlength="30" name="username" type="text" placeholder="Pseudo" >
+        <!-- {{ form.username }} -->
+            {{ form.username.errors }}
+        </div>    
     </div>
-    <div class="fieldWrapper">
-        <label for="id_subject">Prenom:</label>
-        {{ form.first_name }}
-        {{ form.first_name.errors }}
+    <div class="form-group">
+        <label for="id_last_name" class="col-lg-2 control-label ">Nom</label>
+        <div class="col-lg-5">
+            <input id="id_last_name" class="form-control" maxlength="30" name="last_name" type="text" placeholder="Nom" >
+        <!-- {{ form.name }} -->
+            {{ form.last_name.errors }}
+        </div>    
     </div>
-    <div class="fieldWrapper">
-        <label for="id_subject">Nom:</label>
-        {{ form.last_name }}
-        {{ form.last_name.errors }}
+    <div class="form-group">
+        <label for="id_first_name" class="col-lg-2 control-label ">Prenom</label>
+        <div class="col-lg-5">
+            <input id="id_first_name" class="form-control" maxlength="30" name="first_name" type="text" placeholder="Prenom" >
+        <!-- {{ form.first_name }} -->
+            {{ form.first_name.errors }}
+        </div>    
     </div>
-    <div class="fieldWrapper">
-        <label for="id_subject">Adresse Mail:</label>
-        {{ form.email }}
-        {{ form.email.errors }}
+    <div class="form-group">
+        <label for="id_email" class="col-lg-2 control-label ">Email</label>
+        <div class="col-lg-5">
+            <input id="id_email" class="form-control" maxlength="30" name="email" type="email" placeholder="adresse@example.com" >
+        <!-- {{ form.email }} -->
+            {{ form.email.errors }}
+        </div>    
     </div>
-    <div class="fieldWrapper">
-        <label for="id_subject">Confirmation Email:</label>
-        {{ form.email2 }}
-        {{ form.email2.errors }}
+    <div class="form-group">
+        <label for="id_email2" class="col-lg-2 control-label ">Confirmation email</label>
+        <div class="col-lg-5">
+            <input id="id_email2" class="form-control" maxlength="30" name="email2" type="email" placeholder="adresse@example.com" >
+        <!-- {{ form.email2 }} -->
+            {{ form.email2.errors }}
+        </div>    
     </div>
-    <div class="fieldWrapper">
+    <div class="form-group">
+        <label for="id_password1" class="col-lg-2 control-label ">Mot de passe</label>
+        <div class="col-lg-5">
+            <input id="id_password1" class="form-control" maxlength="30" name="password1" type="password" placeholder="mot de passe" >
+        <!-- {{ form.password1 }} -->
+            {{ form.password1.errors }}
+        </div>    
+    </div>
+    <div class="form-group">
+        <label for="id_password2" class="col-lg-2 control-label ">Confirmation mot de passe</label>
+        <div class="col-lg-5">
+            <input id="id_password2" class="form-control" maxlength="30" name="password2" type="password" placeholder="mot de passe" >
+        <!-- {{ form.password2 }} -->
+            {{ form.password2.errors }}
+        </div>    
+    </div>
+<!--     <div class="fieldWrapper">
         <label for="id_subject">Mot de passe:</label>
         {{ form.password1 }}
         {{ form.password1.errors }}
     </div>
-    <div class="fieldWrapper">
+ -->    
+<!--     <div class="fieldWrapper">
         <label for="id_subject">Confirmation du mot de passe:</label>
         {{ form.password2 }}
         {{ form.password2.errors }}
     </div>
-    <div class="fieldWrapper">
-        <label for="id_subject">Date d'anniversaire:</label>
+ -->
+    <div class="form-group">
+        <label for="id_birthday" class="col-lg-2 control-label ">Date d'anniversaire</label>
+        <div class="col-lg-5">
+            <input id="id_birthday" class="form-control" name="birthday" type="text" value="">
+<!--             <input id="id_birthday" name="birthday" type="datetime-local">
+ -->        <!-- {{ form.birthday }} -->
+            {{ form.birthday.errors }}
+        </div>    
+    </div>
+<!--          <label for="id_birthday">Date d'anniversaire:</label>
         {{ form.birthday }}
-        {{ form.birthday.errors }}
+        {{ form.birthday.errors }} -->
+    <div class="form-group">
+        <div class="col-lg-5 col-lg-offset-2">
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+        </div>
     </div>
-    <p><input type="submit" value="S'inscrire" /></p>
-</form>
 
-<h1 id="connection"> Se connecter </h1>
-<form name='login_form' action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">
-    {% csrf_token %}
-    <div class="fieldWrapper">
-    <label for="id_subject">Pseudo:</label>
-    <input type="text" name="username_log" value="" size="20" required>
-    </div>
-    <div class="fieldWrapper">
-    <label for="id_subject">Mot de passe:</label>
-    <input type="password" name="password_log" value="" size="20" required>
-    </div>
-    <p><input type="submit" value="Se connecter" /></p>
+    </fieldset>
 </form>
+</div>
+
+<div class="container" style="margin: auto; padding-top: 80px; background-color: #ecf0f1;" >
+<form name='login_form' class="form-horizontal django_form" action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">{% csrf_token %}
+    <fieldset>
+    <legend id="connection">Se connecter</legend>
+    {{ form.non_field_errors }}
+
+    <div class="form-group">
+        <label for="id_username_log" class="col-lg-2 control-label ">Pseudo</label>
+        <div class="col-lg-5" >
+            <input id="id_username_log" class="form-control" maxlength="30" name="username_log" type="text" placeholder="Pseudo" >
+        <!-- {{ form.username }} -->
+            {{ form.username_log.errors }}
+        </div>    
+    </div>
+    <div class="form-group">
+        <label for="id_password_log" class="col-lg-2 control-label ">Mot de passe</label>
+        <div class="col-lg-5">
+            <input id="id_password_log" class="form-control" maxlength="30" name="password_log" type="password" placeholder="mot de passe" >
+        <!-- {{ form.password1 }} -->
+            {{ form.password_log.errors }}
+        </div>    
+    </div>
+    <div class="form-group">
+        <div class="col-lg-5 col-lg-offset-2">
+            <button type="submit" class="btn btn-primary">Se connecter</button>
+        </div>
+    </div>
+
+    </fieldset>
+</form>
+</div>
+
 {% endblock %}
 
 {% block script_block %}
+<!-- <script src="{% static "js/jquery-ui.min.js" %}"></script> -->
+<script src="{% static "js/bootstrap-datepicker.js" %}"></script>
 <script type="text/javascript">
 
 function validateMail(obj, value) {
@@ -114,15 +190,24 @@ function validateUser(obj, username) {
 }
 function checkAndWriteError(obj, error_msg){
     if (obj.parent().find('.errorlist').length == 0){
+                    obj.parent().removeClass('has-success').addClass('has-error');
                     obj.after(error_msg);
+    }
+}
+function clean(obj){
+    if (obj.parent().find('.errorlist').length != 0){
+            obj.parent().children('.errorlist').remove();
+            obj.parent().removeClass('has-error').addClass('has-success');
     }
 }
 
 $( ".django_form input" ).focusout(function() {
-    var x = $.trim($(this).val())
-    if ($(this).parent().find('.errorlist').length != 0){
-            $(this).parent().children('.errorlist').remove();
+    if($(this).attr('id') === "id_birthday"){
+        return;
     }
+
+    var x = $.trim($(this).val())
+    clean($(this));
     if (x == null || x == ""){
         checkAndWriteError($(this),'<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
     }
@@ -147,8 +232,17 @@ $( ".django_form input" ).focusout(function() {
             }
         }
     }
-    
+});
+$( ".datepicker" ).focusout(function() {
+    var obj = $('#datepicker');
+    var x = $.trim(obj.val())
 
+    if (obj.parent().parent().find('.errorlist').length != 0){
+            obj.parent().parent().children('.errorlist').remove();
+    }
+    if (x == null || x == ""){
+        checkAndWriteError(obj,'<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
+    }
 });
 
 function validateForm() {
@@ -171,7 +265,7 @@ function validateForm() {
         }
     }
     var ok_birthday = true;
-    var birthArray = [document.forms["signup_form"]["birthday_day"].value, document.forms["signup_form"]["birthday_month"].value, document.forms["signup_form"]["birthday_year"].value];
+    var birthArray = [document.forms["signup_form"]["birthday"].value];
     console.log(birthArray);
     for (var i = 0; i < birthArray.length; i++) {
         if(birthArray[i].length == 0 || birthArray[i] == "0"){
@@ -187,5 +281,10 @@ function validateForm() {
     }
     return (ok && ok_birthday);
 }
+// $('#id_birthday').datepicker();
+   $('#id_birthday').datepicker({
+            format: 'dd/mm/yyyy'}); 
+   $("#id_username").popover({trigger:'hover',placement:'right',content:"Entrer un nom d'utilisateur qui vous permettra de vous connecter"});
+   $("#id_birthday").popover({trigger:'hover',placement:'right',content:"jj/mm/aaaa"});
 </script>
 {% endblock %}
