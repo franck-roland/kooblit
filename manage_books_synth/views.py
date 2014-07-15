@@ -117,11 +117,15 @@ def book_search(request, book_title):
         if request.user.is_authenticated() and request.GET:
             book_title = request.GET['title']
             # computeEmail(request.user.username,book_title)
-            b = Book.objects(title=book_title)
-            if not b:
+            try:
+                b = Book.objects.get(title=book_title)
+            except Book.DoesNotExist, e:
                 create_book(book_title)
-
-            return HttpResponseRedirect('/')
+                b = Book.objects.get(title=book_title)
+            except Exception:
+                raise
+            return HttpResponseRedirect('../details/'+book_title[:32])
+            
 @login_required
 def book_detail(request, book_title):
     b = Book.objects.get(small_title=book_title)

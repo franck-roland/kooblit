@@ -23,7 +23,7 @@ class Recherche(Document):
     day = DateTimeField(default=datetime.datetime.now)
     book = ReferenceField(Book)
     nb_searches = LongField()
-    
+
     @queryset_manager
     def objects(doc_cls, queryset):
         # This may actually also be done by defining a default ordering for
@@ -33,6 +33,6 @@ class Recherche(Document):
 class UniqueBook(Document):
     """docstring for UniqueBook"""
     book = ReferenceField(Book)
-    isbn = StringField(max_length=100, required=True, unique=True)
+    isbn = StringField(max_length=100, required=True)
     image = URLField()
     last_update = DateTimeField(default=datetime.datetime.now)
