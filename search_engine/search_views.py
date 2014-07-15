@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from aws_req import compute_args
 from aws_req import compute_args2
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.utils.http import urlquote
 # Create your views here.
 from django.views.decorators.cache import cache_page
@@ -35,6 +35,13 @@ def search_view(request):
                 tmp.append(i)
         title = ''.join(tmp)
         s = compute_args(title, settings.AMAZON_KEY)
+        # for i,j in enumerate(s):
+        #     s[i][0] = j[0][:32]
+
         return render_to_response("search_result.html", RequestContext(request, {'resultat': s}))
     except TypeError as e:
         raise
+
+@login_required
+def add_summary(request):
+    return HttpResponseRedirect('/')

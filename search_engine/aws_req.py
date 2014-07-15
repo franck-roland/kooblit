@@ -11,6 +11,9 @@ import json
 import os
 import re
 
+from mongoengine import *
+connect('docs_db')
+
 # head = """GET
 # ecs.amazonaws.co.uk
 # /onca/xml
@@ -39,6 +42,7 @@ AssociateTag=kooblit-21"""
 def sanitizer(func):
     def do(title,*args):
         l = []
+        title = title.lower()
         for i in title:
             if i.isalnum():
                 l.append(i)
@@ -48,6 +52,15 @@ def sanitizer(func):
         return func(''.join(l),*args)
     return do
 
+def sanitize(s):
+    l = []
+    for i in s:
+        if i.isalnum():
+            l.append(i)
+        else:
+            l.append("%")
+            l.append(hex(ord(i)).upper()[2:])
+    return func(''.join(l),*args)  
 
 def backward(m):
     prog = re.compile("(%([0-9a-fA-F]{2}))")
@@ -97,16 +110,18 @@ def compute_json_one_result(result):
     # 'image': image,
     # 'summary': summary,
     # }
+    title = title.lower()
     return [title, author, isbn, image, summary, details]
 
 
 @sanitizer
-def compute_args(title,k):
+def compute_args(title,k, exact_match=0, delete_duplicate=1):
     global template
     global head
     url = "http://{0}/onca/xml?"
     result = []
-    for i in xrange(1,11):
+    # for i in xrange(1,11):
+    for i in xrange(1,2):
         m = template.format(title, str(i))
         m = m.split("\n")
         m.sort()
@@ -120,17 +135,21 @@ def compute_args(title,k):
                 "&Signature=", 
                 calculate_signature_amazon(k, head.format(link_url)+m))))
 
-            # deb = link_url+m+"&Signature="+calculate_signature_amazon(k, head+m)
-            
+            deb = link_url+m+"&Signature="+calculate_signature_amazon(k, head+m)
             s = u.read()
             s = re.sub(' xmlns="[^"]+"', '', s, count=1)
             root = ET.fromstring(s)
             for t in root.iter('Item'):
                 tmp = compute_json_one_result(t)
+                if exact_match and sanitize(tmp[0]) == title or not exact_match:
                 # import pdb;pdb.set_trace()
-                if not tmp[:2] in [i[:2] for i in result]:
-                    result.append(tmp)
+                    if not tmp[:2] in [i[:2] for i in result] or not delete_duplicate:
+                        result.append(tmp)
     return result
+
+def create_book(title, k):
+    s = compute_args(title, k, exact_match=1, delete_duplicate=0)
+    # import pdb;pdb.set_trace()
 
 @sanitizer
 def compute_args2(title, k):
