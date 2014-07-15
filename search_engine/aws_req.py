@@ -84,32 +84,29 @@ def calculate_signature_amazon(k, m):
             l.append(hex(ord(i)).upper()[2:])
     return ''.join(l)
 
+def get_text(obj, name):
+    try:
+        ret = obj.find(name).text
+    except AttributeError, e:
+        ret = ""
+    return ret
+
 def compute_json_one_result(result):
 
-    title = result.find('ItemAttributes').find('Title').text
-    author = result.find('ItemAttributes').find('Author').text
-    try:
-        isbn = result.find('ItemAttributes').find('ISBN').text
-    except AttributeError, e:
-        isbn = ""
+    obj = result.find('ItemAttributes')
 
-    try:
-        image = result.find("LargeImage").find("URL").text
-    except AttributeError, e:
-        image = ""
+    title = get_text(obj,'Title')
+    author = get_text(obj,'Author')
+    isbn = get_text(obj,'ISBN')
 
+    obj = result.find("LargeImage")
+
+    image = get_text(obj, "URL")
     details = result.find("DetailPageURL").text
-    try:
-        summary = result.find('EditorialReviews').find('EditorialReview').find('Content').text
-    except AttributeError, e:
-        summary = ""
-    # return {
-    # 'title': title,
-    # 'author': author,
-    # 'isbn': isbn,
-    # 'image': image,
-    # 'summary': summary,
-    # }
+    
+    obj = result.find('EditorialReviews').find('EditorialReview')
+    summary = get_text(obj,'Content')
+
     title = title.lower()
     return [title, author, isbn, image, summary, details]
 
