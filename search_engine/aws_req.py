@@ -95,17 +95,20 @@ def compute_json_one_result(result):
 
     obj = result.find('ItemAttributes')
 
-    title = get_text(obj,'Title')
-    author = get_text(obj,'Author')
-    isbn = get_text(obj,'ISBN')
+    title = get_text(obj, 'Title')
+    author = get_text(obj, 'Author')
+    isbn = get_text(obj, 'ISBN')
 
     obj = result.find("LargeImage")
 
     image = get_text(obj, "URL")
     details = result.find("DetailPageURL").text
     
-    obj = result.find('EditorialReviews').find('EditorialReview')
-    summary = get_text(obj,'Content')
+    try:
+        obj = result.find('EditorialReviews').find('EditorialReview')
+        summary = get_text(obj, 'Content')
+    except AttributeError, e:
+        summary = ""
 
     title = title.lower()
     return [title, author, isbn, image, summary, details]
