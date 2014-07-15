@@ -49,7 +49,6 @@ def book_detail(request, book_title):
 
 @login_required
 def book_search(request, book_title):
-    import pdb;pdb.set_trace()
     if request.method == 'GET':
         a = 0
         try:
