@@ -1,4 +1,5 @@
 import re
+import datetime
 
 #Settings
 from django.conf import settings
@@ -92,13 +93,21 @@ def book_search(request, book_title):
         except Exception:
             raise
 
-        if a or 1:
+        if a:
             book_title = request.GET['title']
-            b = Book.objects(title=book_title)
+            b = Book.objects.get(title=book_title)
             if not b:
                 return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
             else:
-                return HttpResponseRedirect('../details')
+                res = Recherche.objects(book=b)[0]
+
+                if datetime.datetime.now().date() != res.day .date():
+                    res = Recherche(book=b, nb_searches=1)
+                else:
+                    res.nb_searches += 1
+                # import pdb;pdb.set_trace()
+                res.save()
+                return HttpResponseRedirect('../details/'+book_title[:32])
         else:
             return HttpResponseRedirect('/')
 
@@ -111,7 +120,16 @@ def book_search(request, book_title):
                 create_book(book_title)
 
             return HttpResponseRedirect('/')
-
+@login_required
+def book_detail(request, book_title):
+    b = Book.objects.get(small_title=book_title)
+    res = Recherche.objects(book=b)[0]
+    if not b:
+        return HttpResponseRedirect('/')        
+    u_b = UniqueBook.objects(book=b)[0]
+    # import pdb;pdb.set_trace()
+    return render_to_response('book_details.html',RequestContext(request,{'title': b.title, 'img_url': u_b.image, 
+        'nb_searches': res.nb_searches}))
 
 def check_exist(request, book_title):
     for b in Book.objects:

@@ -20,9 +20,15 @@ class Book(Document):
     # books = ListField(ReferenceField(UniqueBook))
         
 class Recherche(Document):
-    DateTimeField(default=datetime.datetime.now)
+    day = DateTimeField(default=datetime.datetime.now)
     book = ReferenceField(Book)
     nb_searches = LongField()
+    
+    @queryset_manager
+    def objects(doc_cls, queryset):
+        # This may actually also be done by defining a default ordering for
+        # the document, but this illustrates the use of manager methods
+        return queryset.order_by('-date')
 
 class UniqueBook(Document):
     """docstring for UniqueBook"""
