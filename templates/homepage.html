@@ -1,10 +1,31 @@
 {% extends "base.html" %}
-{% load static %}
+{% load staticfiles %}
 {% block extra_css %}
 <link href="{% static "css/homepage.css" %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <div class="jumbotron">
+    <div style="padding:40px; color:black;text-align:center;">
+    
+    <h2 style="font-size:40px;" >
+    Des millers de synthèses de livres <br>à partir de 1€
+   </h2>
+    <h4 style="padding-top:20px;">Découvrez le catalogue de synthèses écrites par les utilisateurs <br>
+        Et gagnez de l’argent en partageant les vôtres
+    </h4>
+    </div>
+     <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-2 col-md-offset-2" ><a class="thumbnail" href="/accounts/login/#enregistrement" style="height:80px;width:80px;background-color:#DDDDDD;margin:auto;"><img src="{% static "img/magnifier13.png" %}" width="30" style="height: 40px; width: 40px; display: block;text-align:center;margin-top:15px" /></a></div>
+      <div class="col-xs-12 col-sm-12 col-md-2 col-md-offset-1" ><a class="thumbnail" href="/accounts/login/#enregistrement" style="height:80px;width:80px;background-color:#DDDDDD;margin:auto;"><img src="{% static "img/coins24.png" %}" width="30" style="height: 40px; width: 40px; display: block;text-align:center;margin-top:15px" /></a></div>
+      <div class="col-xs-12 col-sm-12 col-md-2 col-md-offset-1" ><a class="thumbnail" href="/accounts/login/#enregistrement" style="height:80px;width:80px;background-color:#DDDDDD;margin:auto;"><img src="{% static "img/writing9.png" %}" width="30" style="height: 40px; width: 40px; display: block;text-align:center;margin-top:15px" /></a></div>
+      </div>
+      <!--<div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><a class="btn  btn-xlarge btn-default" href="/accounts/login/#enregistrement">S'inscrire</a></div>
+      <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><a class="btn btn-xlarge btn-default" href="/accounts/login/#connection">Se connecter</a></div>
+      -->
+    </div>
+</div>
+
+<!-- <div class="jumbotron">
     <div style="background-color:rgba(0, 0, 0, 0.15);color:#F0F0F0;padding:15px;" >
     {% if user.is_authenticated %}
     BIENVENUE {{ user.username }}
@@ -21,11 +42,7 @@
       <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><a class="btn  btn-xlarge btn-default"href="{% url 'usr_management:login' %}#enregistrement">S'inscrire</a></div>
       <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><a class="btn btn-xlarge btn-default" href="{% url 'usr_management:login' %}#connection">Se connecter</a></div>
       {% endif %}
-    </div>
-    <div id="footer_jumbotron" >
-      <p> KOOBLIT </p>
-      <img src="{% static "img/ico/point_kooblit.ico" %}" width="20" alt="point_kooblit"/>
-    </div>
+    </div> -->
 </div>
 {% endblock %}
 {% block script_block %}

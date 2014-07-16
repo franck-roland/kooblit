@@ -67,7 +67,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'kooblit_db',
-        'USER': 'endoderconic',
+        'USER': 'ubuntu',
         'PASSWORD': s['DB_PASSWORD'],
     }
 }
@@ -96,7 +96,7 @@ STATIC_ROOT = '/tmp/static/'
 STATICFILES_FINDER = ('django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder', )
 
-STATICFILES_DIRS = ( '/home/endoderconic/kooblit/kooblit/static/',)
+STATICFILES_DIRS = ( '/home/ubuntu/kooblit/static/',)
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates/'),

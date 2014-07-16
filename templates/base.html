@@ -12,8 +12,8 @@
     <title>KOOBLIT</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static "flatly/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "flatly/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "flatly/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "css/typeahead.css" %}" rel="stylesheet">
     <link href="{% static "css/base.css" %}" rel="stylesheet">
 
@@ -32,7 +32,7 @@
   </head>
 
   <body>
-    <div class="navbar navbar-fixed-top navbar-default " role="navigation">
+    <div class="navbar navbar-fixed-top navbar-default " role="navigation" style="background-color:white;border-bottom:1px solid rgb(220,220,220);color:rgb(44,62,80);">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -41,18 +41,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/" style="font-family:'Abadi MT Condensed Extra Bold'">KOOBLIT<img class="point_kooblit" src="{% static "img/ico/point_kooblit.ico" %}" width="10" alt="Point Kooblit"/></a>
+          <a class="navbar-brand" href="{% url 'homepage'%}" style="color:rgb(44,62,80);font-size:28px;/* line-height: 66px; *//* vertical-align: middle; */margin-top: -4px;">
+	<img class="point_kooblit" src="{% static "img/chouette.png" %}" width="35" alt="Logo Kooblit" style="padding-bottom:6px;"/>&nbsp;Kooblit</a>
         </div>
         <div class="collapse navbar-collapse">
           <div class="dropdown">
             <form class="navbar-form navbar-left" action="{% url 'search_engine:search' %}" role="search" method="get" >
               <div class="form-group">
-                <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title'>
+                <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="height:34px;margin-top:5px;">
               </div>
-              <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+              <button type="submit" class="btn btn-default" style="display:none;"></button>
             </form>
           </div>
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right" ="color:rgb(44,62,80);font-size:28px">
              {% if user.is_authenticated %}
              <li class="dropdown user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
@@ -95,8 +96,8 @@
 
              <!-- <li><a href="{% url 'usr_management:logout' %}"> Se déconnecter </a></li> -->
              {% else %}
-             <li><a href="{% url 'usr_management:login' %}#enregistrement"> S'enregistrer </a></li>
-             <li> <a href="{% url 'usr_management:login' %}#connection"> Se connecter </a></li>
+             <li><a href="{% url 'usr_management:login' %}#enregistrement" style="color:rgb(44,62,80);"> S'enregistrer </a></li>
+             <li> <a href="{% url 'usr_management:login' %}#connection" style="color:rgb(44,62,80);"> Se connecter </a></li>
              {% endif %}
           </ul>
         </div><!-- /.nav-collapse -->

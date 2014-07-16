@@ -33,6 +33,6 @@ class Recherche(Document):
 class UniqueBook(Document):
     """docstring for UniqueBook"""
     book = ReferenceField(Book)
-    isbn = StringField(max_length=100, required=True)
+    isbn = StringField(max_length=100, required=True, unique=False)
     image = URLField()
     last_update = DateTimeField(default=datetime.datetime.now)
