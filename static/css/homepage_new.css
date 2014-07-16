@@ -1,0 +1,28 @@
+.jumbotron {
+    
+    background-color:rgba(0, 0, 0, 0.05);
+}
+.thumbnail {
+  display: block;
+  padding: 4px;
+  margin-bottom: 21px;
+  line-height: 1.42857143;
+  background-color: #DDDDDD;
+  border: 0px;
+  border-radius: 0px;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+  background-color: #D0D0D0;
+}
+
+a:hover,
+a:focus {
+  /*color: #18bc9c;*/
+  /*text-decoration: underline;*/
+}
