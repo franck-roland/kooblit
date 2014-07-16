@@ -1,0 +1,9 @@
+.form-container{
+    padding-top: 10px; 
+    margin-top: 80px; 
+    background-color:rgba(0, 0, 0, 0.05);
+}
+
+legend {
+    text-align:center;
+}
