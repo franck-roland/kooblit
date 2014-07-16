@@ -20,7 +20,6 @@ from django.template import RequestContext
 
 import hashlib
 
-from mongoengine import *
 # Emails
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
@@ -64,9 +63,9 @@ def book_detail(request, book_title):
 #     isbn = StringField(max_length=100, required=True, unique=True)
 #     image = URLField()
 #     last_update = DateTimeField(default=datetime.datetime.now)
+# import pdb;pdb.set_trace()
 
 def create_book(book_title):
-    connect('docs_db')
     # import pdb;pdb.set_trace()
     s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
     if not s:
@@ -100,6 +99,7 @@ def book_search(request, book_title):
         if a:
             book_title = request.GET['title']
             try:
+
                 b = Book.objects.get(title=book_title)
                 res = Recherche.objects(book=b)[0]
 

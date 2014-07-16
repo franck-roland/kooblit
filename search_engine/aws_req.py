@@ -11,8 +11,8 @@ import json
 import os
 import re
 
-from mongoengine import *
-connect('docs_db')
+# from mongoengine import *
+# connect('docs_db')
 
 # head = """GET
 # ecs.amazonaws.co.uk

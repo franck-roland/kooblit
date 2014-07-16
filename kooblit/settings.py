@@ -17,7 +17,11 @@ s = yaml.load(open(os.path.join(PROJECT_ROOT, "config.yaml"),"r").read())
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 AMAZON_KEY = s["AMAZON_KEY"]
+MONGO_PWD = s["MONGO_PWD"]
+MONGO_USER = s["MONGO_USER"] 
 
+from mongoengine import connect
+connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 

@@ -15,8 +15,8 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Book
 
-from mongoengine import *
-connect('docs_db')
+# from mongoengine import *
+# connect('docs_db')
 
 def search_view(request):
 #    import pdb;pdb.set_trace()
