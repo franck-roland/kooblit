@@ -9,66 +9,67 @@
 {% endblock %}
 
 {% block content %}
-<div class="container" style="margin: auto; padding-top: 80px; background-color: #ecf0f1;" >
+<div class="container">
+<div class="container col-lg-4 col-lg-offset-1" style="padding-top: 10px; margin-top: 80px; background-color: #ecf0f1;" >
 <form name='signup_form' class="form-horizontal django_form" onsubmit="return validateForm()" action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">{% csrf_token %}
     <fieldset>
-    <legend id="enregistrement">S'enregistrer</legend>
+    <legend id="enregistrement" class="col-lg-12" style="text-align:center;">S'enregistrer</legend>
     {{ form.non_field_errors }}
     <!-- <div class="fieldWrapper">
         <label for="id_subject">Pseudo:</label>
     </div> -->
     <!-- <div class="fieldWrapper"> -->
     <div class="form-group">
-        <label for="id_username" class="col-lg-2 control-label ">Pseudo</label>
-        <div class="col-lg-5" >
+        <label for="id_username" class="col-lg-3 control-label ">Pseudo</label>
+        <div class="col-lg-7" >
             <input id="id_username" class="form-control" maxlength="30" name="username" type="text" placeholder="Pseudo" >
         <!-- {{ form.username }} -->
             {{ form.username.errors }}
         </div>    
     </div>
     <div class="form-group">
-        <label for="id_last_name" class="col-lg-2 control-label ">Nom</label>
-        <div class="col-lg-5">
+        <label for="id_last_name" class="col-lg-3 control-label ">Nom</label>
+        <div class="col-lg-7">
             <input id="id_last_name" class="form-control" maxlength="30" name="last_name" type="text" placeholder="Nom" >
         <!-- {{ form.name }} -->
             {{ form.last_name.errors }}
         </div>    
     </div>
     <div class="form-group">
-        <label for="id_first_name" class="col-lg-2 control-label ">Prenom</label>
-        <div class="col-lg-5">
+        <label for="id_first_name" class="col-lg-3 control-label ">Prenom</label>
+        <div class="col-lg-7">
             <input id="id_first_name" class="form-control" maxlength="30" name="first_name" type="text" placeholder="Prenom" >
         <!-- {{ form.first_name }} -->
             {{ form.first_name.errors }}
         </div>    
     </div>
     <div class="form-group">
-        <label for="id_email" class="col-lg-2 control-label ">Email</label>
-        <div class="col-lg-5">
+        <label for="id_email" class="col-lg-3 control-label ">Email</label>
+        <div class="col-lg-7">
             <input id="id_email" class="form-control" maxlength="30" name="email" type="email" placeholder="adresse@example.com" >
         <!-- {{ form.email }} -->
             {{ form.email.errors }}
         </div>    
     </div>
     <div class="form-group">
-        <label for="id_email2" class="col-lg-2 control-label ">Confirmation email</label>
-        <div class="col-lg-5">
+        <label for="id_email2" class="col-lg-3 control-label ">Confirmation email</label>
+        <div class="col-lg-7">
             <input id="id_email2" class="form-control" maxlength="30" name="email2" type="email" placeholder="adresse@example.com" >
         <!-- {{ form.email2 }} -->
             {{ form.email2.errors }}
         </div>    
     </div>
     <div class="form-group">
-        <label for="id_password1" class="col-lg-2 control-label ">Mot de passe</label>
-        <div class="col-lg-5">
+        <label for="id_password1" class="col-lg-3 control-label ">Mot de passe</label>
+        <div class="col-lg-7">
             <input id="id_password1" class="form-control" maxlength="30" name="password1" type="password" placeholder="mot de passe" >
         <!-- {{ form.password1 }} -->
             {{ form.password1.errors }}
         </div>    
     </div>
     <div class="form-group">
-        <label for="id_password2" class="col-lg-2 control-label ">Confirmation mot de passe</label>
-        <div class="col-lg-5">
+        <label for="id_password2" class="col-lg-3 control-label ">Confirmation mot de passe</label>
+        <div class="col-lg-7">
             <input id="id_password2" class="form-control" maxlength="30" name="password2" type="password" placeholder="mot de passe" >
         <!-- {{ form.password2 }} -->
             {{ form.password2.errors }}
@@ -87,8 +88,8 @@
     </div>
  -->
     <div class="form-group">
-        <label for="id_birthday" class="col-lg-2 control-label ">Date d'anniversaire</label>
-        <div class="col-lg-5">
+        <label for="id_birthday" class="col-lg-3 control-label ">Date d'anniversaire</label>
+        <div class="col-lg-7">
             <input id="id_birthday" class="form-control" name="birthday" type="text" value="">
 <!--             <input id="id_birthday" name="birthday" type="datetime-local">
  -->        <!-- {{ form.birthday }} -->
@@ -99,7 +100,7 @@
         {{ form.birthday }}
         {{ form.birthday.errors }} -->
     <div class="form-group">
-        <div class="col-lg-5 col-lg-offset-2">
+        <div class="col-lg-4 col-lg-offset-4">
             <button type="submit" class="btn btn-primary">S'inscrire</button>
         </div>
     </div>
@@ -108,7 +109,7 @@
 </form>
 </div>
 
-<div class="container" style="margin: auto; padding-top: 80px; background-color: #ecf0f1;" >
+<div class="container col-lg-4 col-lg-offset-1" style="padding-top: 10px; margin-top: 80px; background-color: #ecf0f1;" >
 <form name='login_form' class="form-horizontal django_form" action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">{% csrf_token %}
     <fieldset>
     <legend id="connection">Se connecter</legend>
@@ -139,7 +140,7 @@
     </fieldset>
 </form>
 </div>
-
+</div>
 {% endblock %}
 
 {% block script_block %}
@@ -190,14 +191,14 @@ function validateUser(obj, username) {
 }
 function checkAndWriteError(obj, error_msg){
     if (obj.parent().find('.errorlist').length == 0){
-                    obj.parent().removeClass('has-success').addClass('has-error');
+                    obj.parent().parent().removeClass('has-success').addClass('has-error');
                     obj.after(error_msg);
     }
 }
 function clean(obj){
     if (obj.parent().find('.errorlist').length != 0){
             obj.parent().children('.errorlist').remove();
-            obj.parent().removeClass('has-error').addClass('has-success');
+            obj.parent().parent().removeClass('has-error').addClass('has-success');
     }
 }
 
