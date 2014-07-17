@@ -89,7 +89,7 @@ def book_search(request, book_title):
         a = 0
         try:
             refer = request.META['HTTP_REFERER']
-            a = re.match("http://"+request.get_host()+'/search/\?.*',refer)
+            a = re.match("http://"+request.get_host()+'/.*',refer)
         except KeyError, e:
             return HttpResponseRedirect('/')
             # pass
