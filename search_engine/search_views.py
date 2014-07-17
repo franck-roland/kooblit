@@ -34,7 +34,8 @@ def search_view(request):
             else:
                 tmp.append(i)
         title = ''.join(tmp)
-        s = compute_args(title, settings.AMAZON_KEY)
+        # import pdb;pdb.set_trace()
+        s = compute_args(title, settings.AMAZON_KEY, escape=1)
         # for i,j in enumerate(s):
         #     s[i][0] = j[0][:32]
 
