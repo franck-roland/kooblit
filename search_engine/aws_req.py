@@ -56,19 +56,6 @@ def sanitize(s, to_lower=0):
 def sanitizer(func):
     def do(title,*args,**kwargs):
         return func(sanitize(title),*args,**kwargs)
-        # l = []
-        # title = title.lower()
-        # for i in title:
-        #     if not i in reserved:
-        #         l.append(i)
-        #     else:
-        #         l.append("%")
-        #         l.append(hex(ord(i)).upper()[2:])
-        # l = l[:20]
-        # import pdb;pdb.set_trace()
-        # if re.match('.*\%',''.join(l)):
-        #     l = l[:-1]
-        # return func(''.join(l),*args,**kwargs)
     return do
 
 
@@ -142,17 +129,17 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
                 m, 
                 "&Signature=", 
                 calculate_signature_amazon(k, head.format(link_url)+m)))
-            import pdb;pdb.set_trace()
+            # import pdb;pdb.set_trace()
             s = u.read()
             s = re.sub(' xmlns="[^"]+"', '', s, count=1)
             root = ET.fromstring(s)
             for t in root.iter('Item'):
                 tmp = compute_json_one_result(t)
-                # import pdb;pdb.set_trace()
                 if exact_match and sanitize(tmp[0]) == title or not exact_match:
+                    # import pdb;pdb.set_trace()
+                    if escape:
+                        tmp[0] = sanitize(tmp[0])
                     if not tmp[:2] in [i[:2] for i in result] or not delete_duplicate:
-                        if escape:
-                            tmp[0] = sanitize(tmp[0])
                         result.append(tmp)
     return result
 
