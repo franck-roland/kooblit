@@ -43,7 +43,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{% url 'homepage'%}" style="color:rgb(44,62,80);font-size:28px;/* line-height: 66px; *//* vertical-align: middle; */margin-top: -4px;">
+          <a class="navbar-brand" href="{% url 'homepage'%}" style="color:rgb(44,62,80);font-size:28px; margin-top: -4px;">
 	<img class="point_kooblit" src="{% static "img/chouette.png" %}" width="35" alt="Logo Kooblit" style="padding-bottom:6px;"/>&nbsp;Kooblit</a>
         </div>
         <div class="collapse navbar-collapse">
@@ -105,9 +105,10 @@
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
     </div><!-- /.navbar -->
+    <div id="block_content">
     {% block content %}{% endblock %}
-    
     </div>
+    </div> <!-- /.wrap -->
     <div id="footer" >
       <!-- <div class="row row-offcanvas row-offcanvas-right"> -->
         <!-- <hr> -->

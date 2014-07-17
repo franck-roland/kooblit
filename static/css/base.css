@@ -14,7 +14,9 @@ body {
 footer {
   padding: 30px 0;
 }
-
+#block_content {
+    margin-top: 60px;
+}
 
 /* Wrapper for page content to push down footer */
 #wrap {
