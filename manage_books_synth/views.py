@@ -44,12 +44,12 @@ def computeEmail(username, book_title):
     msg.content_subtype = "html"
     msg.send()
 
-def book_detail(request, book_title):
-    b = Book.objects(title=book_title)
-    if not b:
-        return render_to_response('doesnotexist.html',RequestContext(request))
-    else:
-        return render_to_response('details.html',RequestContext(request))
+# def book_detail(request, book_title):
+#     b = Book.objects(title=book_title)
+#     if not b:
+#         return render_to_response('doesnotexist.html',RequestContext(request))
+#     else:
+#         return render_to_response('details.html',RequestContext(request))
 
     # small_title = StringField(max_length=32, required=True, unique=True)
     # title = StringField(max_length=100, required=True, unique=True)
@@ -71,7 +71,7 @@ def create_book(book_title):
     if not s:
         return 1
     first = s[0]
-    b = Book(small_title=first[0][:32], title=first[0], author=[first[1]], description=first[4])
+    b = Book(small_title=first[0][:32], title=first[0][:256], author=[first[1]], description=first[4])
     b.save()
     r = Recherche(book=b, nb_searches=1)
     r.save()
