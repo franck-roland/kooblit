@@ -39,29 +39,38 @@ Version=2009-01-06
 Timestamp=2015-01-01T12%3A00%3A00Z
 AssociateTag=kooblit-21"""
 # callback=%3F
-def sanitizer(func):
-    def do(title,*args,**kwargs):
-        l = []
-        title = title.lower()
-        for i in title:
-            if i.isalnum():
-                l.append(i)
-            else:
-                l.append("%")
-                l.append(hex(ord(i)).upper()[2:])
-        return func(''.join(l),*args,**kwargs)
-    return do
+reserved = set([":", "/", "?", "#", "[", "]", "@", "!", "$", "&", "'", "(", ")", "*" , "+" , "," , ";" , "=", ' '])
 
-def sanitize(s):
+def sanitize(s, to_lower=0):
     l = []
-    s = s.lower()
+    if to_lower:
+        s = s.lower()
     for i in s:
-        if i.isalnum():
+        if i not in reserved:
             l.append(i)
         else:
             l.append("%")
             l.append(hex(ord(i)).upper()[2:])
-    return u''.join(l)
+    return ''.join(l)
+
+def sanitizer(func):
+    def do(title,*args,**kwargs):
+        return func(sanitize(title),*args,**kwargs)
+        # l = []
+        # title = title.lower()
+        # for i in title:
+        #     if not i in reserved:
+        #         l.append(i)
+        #     else:
+        #         l.append("%")
+        #         l.append(hex(ord(i)).upper()[2:])
+        # l = l[:20]
+        # import pdb;pdb.set_trace()
+        # if re.match('.*\%',''.join(l)):
+        #     l = l[:-1]
+        # return func(''.join(l),*args,**kwargs)
+    return do
+
 
 def backward(m):
     prog = re.compile("(%([0-9a-fA-F]{2}))")
@@ -75,15 +84,8 @@ def backward(m):
 def calculate_signature_amazon(k, m):
     h = hmac.new(k, m, sha256)
     d = h.digest()
-    b = base64.standard_b64encode(d)
-    l = []
-    for i in b:
-        if i.isalnum():
-            l.append(i)
-        else:
-            l.append("%")
-            l.append(hex(ord(i)).upper()[2:])
-    return ''.join(l)
+    b = sanitize(base64.standard_b64encode(d))
+    return b
 
 def get_text(obj, name):
     try:
@@ -116,13 +118,12 @@ def compute_json_one_result(result):
 
 
 @sanitizer
-def compute_args(title,k, exact_match=0, delete_duplicate=1):
+def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
     global template
     global head
     url = "http://{0}/onca/xml?"
     result = []
     # for i in xrange(1,11):
-    # import pdb;pdb.set_trace()
     for i in xrange(1,2):
         m = template.format(title, str(i))
         m = m.split("\n")
@@ -137,7 +138,11 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1):
                 "&Signature=", 
                 calculate_signature_amazon(k, head.format(link_url)+m))))
 
-            deb = link_url+m+"&Signature="+calculate_signature_amazon(k, head+m)
+            deb = ''.join((url.format(link_url), 
+                m, 
+                "&Signature=", 
+                calculate_signature_amazon(k, head.format(link_url)+m)))
+            import pdb;pdb.set_trace()
             s = u.read()
             s = re.sub(' xmlns="[^"]+"', '', s, count=1)
             root = ET.fromstring(s)
@@ -146,6 +151,8 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1):
                 # import pdb;pdb.set_trace()
                 if exact_match and sanitize(tmp[0]) == title or not exact_match:
                     if not tmp[:2] in [i[:2] for i in result] or not delete_duplicate:
+                        if escape:
+                            tmp[0] = sanitize(tmp[0])
                         result.append(tmp)
     return result
 
@@ -162,7 +169,7 @@ def compute_args2(title, k):
     m.sort()
     m = '&'.join(m)
 #    k = open("AMAZON_KEY.conf").read()[:-1]
-    link_url = "http://ecs.amazonaws.co.uk/onca/xml?"
+    link_url = "http://webservices.amazon.co.uk/onca/xml?"
     link_url = "http://ecs.amazonaws.fr/onca/xml?"
     l = ''.join([link_url, m, "&Signature=", calculate_signature_amazon(k, head+m)])
     l = l.split('?')
