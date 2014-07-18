@@ -34,7 +34,7 @@ Operation=ItemSearch
 SearchIndex=Books
 Sort=salesrank
 Title={0}
-Page={1}
+ItemPage={1}
 ResponseGroup=ItemAttributes%2CImages%2CEditorialReview
 Version=2009-01-06
 Timestamp=2015-01-01T12%3A00%3A00Z
@@ -143,15 +143,14 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
     url = "http://{0}/onca/xml?"
     result = []
     # for i in xrange(1,11):
-    for page_nb in xrange(1,2):
-        m = template.format(title, str(page_nb))
-        m = m.split("\n")
-        m.sort()
-        m = '&'.join(m)
-    #    k = open("AMAZON_KEY.conf").read()[:-1]
-        link_url = "http://ecs.amazonaws.co.uk/onca/xml?"
-        link_url = "http://ecs.amazonaws.fr/onca/xml?"
-        for link_url in ("ecs.amazonaws.co.uk", "ecs.amazonaws.fr"):
+    for link_url in ("ecs.amazonaws.co.uk", "ecs.amazonaws.fr"):
+        max_pages = 0
+        for page_nb in xrange(1,11):
+            m = template.format(title, str(page_nb))
+            m = m.split("\n")
+            m.sort()
+            m = '&'.join(m)
+
             s = check_in_tmp(title, page_nb, link_url)
             if not s:
                 u = urllib.urlopen(''.join((url.format(link_url), 
@@ -167,6 +166,16 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
                 create_tmp(title, page_nb, link_url, s)
             s = re.sub(' xmlns="[^"]+"', '', s, count=1)
             root = ET.fromstring(s)
+            if page_nb == 1:
+                try:
+                    max_pages = int(root.find('Items').find('TotalPages').text)
+                
+                except AttributeError:
+                    break
+
+                except Exception, e:
+                    raise
+
             for t in root.iter('Item'):
                 tmp = compute_json_one_result(t)
                 if exact_match and sanitize(tmp[0]) == title or not exact_match:
@@ -175,6 +184,10 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
                         tmp[0] = sanitize(tmp[0])
                     if not tmp[:2] in [i[:2] for i in result] or not delete_duplicate:
                         result.append(tmp)
+
+            if page_nb == max_pages:
+                break
+
     return result
 
 def create_book(title, k):
