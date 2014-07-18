@@ -29,6 +29,15 @@
     {% for item in resultat %}
       {% if forloop.counter0|divisibleby:4  %}
       <div class="item">
+        <div class="col-xs-12 col-sm-12 col-md-12" style="text-align:center;">
+          <span>
+          {% if forloop.last %}
+            {% widthratio resultat|length 4 1 %} / {% widthratio resultat|length 4 1 %}
+          {% else %}
+            {% widthratio forloop.counter0|add:4 4 1 %} / {% widthratio resultat|length 4 1 %}
+          {% endif %}
+          </span>
+        </div>
       {% endif %}
         {% if item.3 %}
         <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style='background-image:url("{{ item.3 }}");' >
@@ -51,15 +60,6 @@
          <a class="btn btn-lg btn-primary col-12" href="{% url 'book_management:search' '' %}?title={{item.0}}" role="button" style="z-index:9999;margin-bottom=0px;margin-left:auto;">Rechercher une synthèse</a> -->
         </div>
       {% if forloop.counter0|add:"1"|divisibleby:"4"  or forloop.last %}
-        <div class="col-xs-12 col-sm-12 col-md-12" style="text-align:center;">
-        <span>
-        {% if forloop.last %}
-          {% widthratio resultat|length 4 1 %} / {% widthratio resultat|length 4 1 %}
-        {% else %}
-          {% widthratio forloop.counter0 4 1 %} / {% widthratio resultat|length 4 1 %}
-        {% endif %}
-        </span>
-        </div>
       </div>
       {% endif %}
     {% endfor %}
