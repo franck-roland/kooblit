@@ -94,6 +94,9 @@
   }
   $(".item:first").addClass("active");
   $(document).ready(function() {  
+    $('.carousel').carousel({
+      interval: false
+    });
     if(isTouchSupported()){
        $("#carousel-example-generic").swiperight(function() {  
           $(this).carousel('prev');  
@@ -102,11 +105,6 @@
           $(this).carousel('next');
         $(".carousel-control").remove();  
      });
-    }
-    else{
-      $('.carousel').carousel({
-        interval: false
-      });
     }  
   }); 
 </script>
