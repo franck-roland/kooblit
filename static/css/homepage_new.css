@@ -9,7 +9,7 @@
   line-height: 1.42857143;
   background-color: #DDDDDD;
   border: 0px;
-  border-radius: 0px;
+  /*border-radius: 0px;*/
   -webkit-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
