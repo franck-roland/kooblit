@@ -72,10 +72,33 @@
 
 {% endblock %}
 {% block script_block %}
+<script type="text/javascript" src="{% static "js/jquery.mobile.custom.min.js" %}"></script>
 <script type="text/javascript">
+  function isTouchSupported() {
+    var msTouchEnabled = window.navigator.msMaxTouchPoints;
+    var generalTouchEnabled = "ontouchstart" in document.createElement("div");
+ 
+    if (msTouchEnabled || generalTouchEnabled) {
+        return true;
+    }
+    return false;
+  }
   $(".item:first").addClass("active");
-  $('.carousel').carousel({
-    interval: false
-  });
+  $(document).ready(function() {  
+    if(isTouchSupported() || 1){
+       $("#carousel-example-generic").swiperight(function() {  
+          $(this).carousel('prev');  
+          });  
+       $("#carousel-example-generic").swipeleft(function() {  
+          $(this).carousel('next');
+        $(".carousel-control").remove();  
+     });
+    }
+    else{
+      $('.carousel').carousel({
+        interval: false
+      });
+    }  
+  }); 
 </script>
 {% endblock %}
