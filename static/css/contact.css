@@ -2,6 +2,9 @@
     padding-top: 10px; 
     margin-top: 80px; 
     background-color:rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 
 legend {

@@ -53,7 +53,7 @@
         </div>    
     </div>
     <div class="form-group">
-        <label for="id_email2" class="col-lg-4 control-label ">Confirmation email</label>
+        <label for="id_email2" class="col-lg-4 control-label ">Confirmation</label>
         <div class="col-lg-8 input-container">
             <input id="id_email2" class="form-control" maxlength="30" name="email2" type="email" placeholder="adresse@example.com" >
         <!-- {{ form.email2 }} -->
@@ -69,7 +69,7 @@
         </div>    
     </div>
     <div class="form-group">
-        <label for="id_password2" class="col-lg-4 control-label ">Confirmation mot de passe</label>
+        <label for="id_password2" class="col-lg-4 control-label ">Confirmation</label>
         <div class="col-lg-8 input-container">
             <input id="id_password2" class="form-control" maxlength="30" name="password2" type="password" placeholder="mot de passe" >
         <!-- {{ form.password2 }} -->
@@ -89,7 +89,7 @@
     </div>
  -->
     <div class="form-group">
-        <label for="id_birthday" class="col-lg-4 control-label ">Date d'anniversaire</label>
+        <label for="id_birthday" class="col-lg-4 control-label ">Anniversaire</label>
         <div class="col-lg-8 input-container">
             <input id="id_birthday" class="form-control" name="birthday" type="text" value="">
 <!--             <input id="id_birthday" name="birthday" type="datetime-local">
@@ -199,8 +199,9 @@ function checkAndWriteError(obj, error_msg){
 function clean(obj){
     if (obj.parent().find('.errorlist').length != 0){
             obj.parent().children('.errorlist').remove();
-            obj.parent().parent().removeClass('has-error').addClass('has-success');
+            obj.parent().parent().removeClass('has-error');
     }
+    obj.parent().parent().addClass('has-success');
 }
 
 $( ".django_form input" ).focusout(function() {
@@ -233,17 +234,6 @@ $( ".django_form input" ).focusout(function() {
                 checkAndWriteError($(this),'<ul class="errorlist"><li>Mots de passe différents</li></ul>');       
             }
         }
-    }
-});
-$( ".datepicker" ).focusout(function() {
-    var obj = $('#datepicker');
-    var x = $.trim(obj.val())
-
-    if (obj.parent().parent().find('.errorlist').length != 0){
-            obj.parent().parent().children('.errorlist').remove();
-    }
-    if (x == null || x == ""){
-        checkAndWriteError(obj,'<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
     }
 });
 
@@ -284,8 +274,7 @@ function validateForm() {
     return (ok && ok_birthday);
 }
 // $('#id_birthday').datepicker();
-   $('#id_birthday').datepicker({
-            format: 'dd/mm/yyyy'}); 
+  
    $("#id_username").popover({trigger:'hover',placement:'right',content:"Entrer un nom d'utilisateur qui vous permettra de vous connecter"});
    $("#id_birthday").popover({trigger:'hover',placement:'right',content:"jj/mm/aaaa"});
 </script>
