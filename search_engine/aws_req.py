@@ -159,11 +159,10 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
                     "&Signature=", 
                     calculate_signature_amazon(k, head.format(link_url)+m))))
 
-                deb = ''.join((url.format(link_url), 
-                    m, 
-                    "&Signature=", 
-                    calculate_signature_amazon(k, head.format(link_url)+m)))
-                # import pdb;pdb.set_trace()
+                # deb = ''.join((url.format(link_url), 
+                #     m, 
+                #     "&Signature=", 
+                #     calculate_signature_amazon(k, head.format(link_url)+m)))
                 s = u.read()
                 create_tmp(title, page_nb, link_url, s)
             s = re.sub(' xmlns="[^"]+"', '', s, count=1)
