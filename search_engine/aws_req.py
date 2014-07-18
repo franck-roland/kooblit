@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from hashlib import sha256
+from hashlib import sha256, sha1
 import hmac
 import base64
 import urllib
@@ -10,6 +10,7 @@ import re
 import json
 import os
 import re
+from django.core.files import File
 
 # from mongoengine import *
 # connect('docs_db')
@@ -58,6 +59,37 @@ def sanitizer(func):
         return func(sanitize(title),*args,**kwargs)
     return do
 
+
+def create_dir_if_not_exists(path_name):
+    if not os.path.isdir(path_name):
+        if os.path.exists(path_name):
+            os.remove(path_name)
+        os.mkdir(path_name)
+
+#Check if this request has been done the last 24h and read the corresponding page_nb
+def check_in_tmp(title, page_nb, server_name):
+    dir_name = sha1(title).hexdigest()
+    dir_path = "/tmp/"+dir_name+"/"+server_name+"/"
+    ret = ''
+    if os.path.isdir(dir_path):
+        nber = len([name for name in os.listdir(dir_path) if os.path.isfile(dir_path+name)])
+        if page_nb <= nber and page_nb > 0:
+            with open(dir_path + "f_" + str(page_nb) + '.xml', 'r') as f:
+                _file = File(f)
+                ret = _file.read()
+    return ret
+
+def create_tmp(title, page_nb, server_name, result):
+    dir_name = sha1(title).hexdigest()
+    dir_path = "/tmp/"+dir_name+"/"
+    ret = ''
+    create_dir_if_not_exists(dir_path)
+    dir_path += server_name+"/"
+    create_dir_if_not_exists(dir_path)
+    file_name = dir_path+"f_"+str(page_nb)+'.xml'
+    with open(file_name, 'w') as f:
+        _file = File(f)
+        ret = _file.write(result)
 
 def backward(m):
     prog = re.compile("(%([0-9a-fA-F]{2}))")
@@ -111,8 +143,8 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
     url = "http://{0}/onca/xml?"
     result = []
     # for i in xrange(1,11):
-    for i in xrange(1,2):
-        m = template.format(title, str(i))
+    for page_nb in xrange(1,2):
+        m = template.format(title, str(page_nb))
         m = m.split("\n")
         m.sort()
         m = '&'.join(m)
@@ -120,17 +152,20 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
         link_url = "http://ecs.amazonaws.co.uk/onca/xml?"
         link_url = "http://ecs.amazonaws.fr/onca/xml?"
         for link_url in ("ecs.amazonaws.co.uk", "ecs.amazonaws.fr"):
-            u = urllib.urlopen(''.join((url.format(link_url), 
-                m, 
-                "&Signature=", 
-                calculate_signature_amazon(k, head.format(link_url)+m))))
+            s = check_in_tmp(title, page_nb, link_url)
+            if not s:
+                u = urllib.urlopen(''.join((url.format(link_url), 
+                    m, 
+                    "&Signature=", 
+                    calculate_signature_amazon(k, head.format(link_url)+m))))
 
-            deb = ''.join((url.format(link_url), 
-                m, 
-                "&Signature=", 
-                calculate_signature_amazon(k, head.format(link_url)+m)))
-            # import pdb;pdb.set_trace()
-            s = u.read()
+                deb = ''.join((url.format(link_url), 
+                    m, 
+                    "&Signature=", 
+                    calculate_signature_amazon(k, head.format(link_url)+m)))
+                # import pdb;pdb.set_trace()
+                s = u.read()
+                create_tmp(title, page_nb, link_url, s)
             s = re.sub(' xmlns="[^"]+"', '', s, count=1)
             root = ET.fromstring(s)
             for t in root.iter('Item'):
