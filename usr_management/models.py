@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import UserManager
 from django.utils import timezone
 from django.conf import settings
+# from manage_books_synth.models import Book
+
+import datetime
 # Model utilisateur
 
 class UserKooblit(User):
@@ -25,4 +28,22 @@ class Verification(models.Model):
     verification_id = models.CharField(max_length=240, unique=True, default=False)
     user = models.ForeignKey('UserKooblit')
     
+class Syntheses(models.Model):
+    _file = models.FileField(upload_to="syntheses")
+    user = models.ForeignKey('UserKooblit')
+    # livre = models.ForeignKey('Book')
+    livre_id = models.CharField(max_length=240, unique=True, default=False)
+    nb_achat = models.BigIntegerField(default=0)
+    note_moyenne = models.BigIntegerField(default=0)
+    nbre_notes = models.BigIntegerField(default=0)
+    date = models.DateField(null=True, default=datetime.datetime.now)
+    prix = models.DecimalField(max_digits=6, decimal_places=2)
+
+
+class Comments(models.Model):
+    user = models.ForeignKey('UserKooblit')
+    synthese = models.ForeignKey('Syntheses')
+    comment = models.CharField(max_length=2048, default=False)
+    date = models.DateField(null=True, default=datetime.datetime.now)
+        
         
