@@ -34,10 +34,10 @@ def search_view(request):
             else:
                 tmp.append(i)
         title = ''.join(tmp)
-        # import pdb;pdb.set_trace()
         s = compute_args(title, settings.AMAZON_KEY, escape=1)
-        for i,j in enumerate(s):
-            s[i].append(urllib.unquote(j[0])[:32])
+        # import pdb;pdb.set_trace()
+        for d in s:
+            d['little_title'] = urllib.unquote(d['title'])[:32]
 
         return render_to_response("search_result.html", RequestContext(request, {'resultat': s}))
     except TypeError as e:

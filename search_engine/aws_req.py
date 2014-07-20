@@ -134,7 +134,7 @@ def compute_json_one_result(result):
 
     title = title.lower()
 
-    return {'title'=title, 'author'=author, 'isbn'=isbn, 'image'=image, 'summary'=summary, 'details'=details}
+    return {'title': title, 'author': author, 'isbn': isbn, 'image': image, 'summary': summary, 'details': details}
 
 
 @sanitizer
