@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block extra_css %}
+{% endblock %}
+{% block content %}
+ <form name='upload_form' class="form-horizontal django_form" action="#" method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="form-group">
+        <label for="id_title" class="col-lg-4 control-label ">Titre de la synthese</label>
+        <div class="col-lg-8 input-container" >
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>    
+    </div>
+    <div class="form-group">
+        <label for="id_file" class="col-lg-4 control-label ">Fichier</label>
+        <div class="col-lg-8 input-container" >
+            {{ form.file }}
+            {{ form.file.errors }}
+        </div>    
+    </div>
+    <div class="form-group">
+        <div class="col-lg-4 col-lg-offset-4">
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </div>
+    </div>
+</form>
+<form id='ss' method="post" >
+    {% csrf_token %}
+    <textarea id="elt1" name="content" id="my_editor"></textarea>
+    <div class="form-group">
+        <div class="col-lg-4 col-lg-offset-4">
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
+{% block script_block %}
+<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+<script>
+var temp=''
+    tinymce.init({
+        selector:'textarea',
+         
+    });
+    $(document).on('submit','#ss',function (e) {
+    e.preventDefault();
+    var ed = tinyMCE.get('elt1');
+    var data = ed.getContent();
+    $.ajax({
+        type:       'POST',
+        cache:      false,
+        url:        '#',
+        data:       {'data' :(data),
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()},
+        success:    function(){
+                    // $("#ss").remove(); 
+                    // $("#output").html(data);
+                    }
+    });
+    return false;
+});
+</script>
+{% endblock %}

@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import datetime
 
 
@@ -40,6 +41,22 @@ from .forms import UploadFileForm
 # Imaginary function to handle an uploaded file.
 # from somewhere import handle_uploaded_file
 from HTMLParser import HTMLParser
+
+#!/usr/bin/env python
+"""
+This file opens a docx (Office 2007) file and dumps the text.
+
+If you need to extract text from documents, use this file as a basis for your
+work.
+
+Part of Python's docx module - http://github.com/mikemaccana/python-docx
+See LICENSE for licensing information.
+"""
+
+#fichier docx
+from docx import opendocx, getdocumentHtml
+
+
 def check_html(file_name):
     parser = HTMLParser()
     with open(file_name, 'rb') as _f:
@@ -65,15 +82,31 @@ def check_pdf(file_name):
 #     prix = models.DecimalField(max_digits=6, decimal_places=2)
 def handle_uploaded_file(f, book_title, title, csrf_token, username):
     file_name = ''.join(('/tmp/', f.name, csrf_token))
-    book = Book.objects.get('book_title')
+    book = Book.objects.get(title=book_title)
     user = UserKooblit.objects.get(username=username)
 
     with open(file_name, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-        synthese = Syntheses(_file=File(destination),
-                             livre_id=book._id, prix=2)
-        synthese.save()
+
+    document = opendocx(file_name)
+    with open(file_name+'.html', 'w') as newfile:
+        # newfile = open(file_name+'.html', 'w')
+        paratextlist = getdocumentHtml(document)
+        # Make explicit unicode version
+        newparatextlist = []
+        for paratext in paratextlist:
+            newparatextlist.append(paratext.encode("utf-8"))
+
+        # Print out text of document with two newlines under each paragraph
+        newfile.write('\n\n'.join(newparatextlist))    
+
+
+    with open(file_name, 'rb') as destination:
+        with open(file_name+'.html', 'r') as newfile:
+            synthese = Syntheses(_file=File(destination), _file_html=File(newfile), 
+                title=title, user=user, livre_id=book.id, prix=2)
+            synthese.save()
 
 
 def undo(s):
@@ -85,6 +118,32 @@ def undo(s):
             tmp.extend([v,i[2:]])
     return ''.join(tmp)
 
+def create_book(book_title):
+    s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+    if not s:
+        return 1
+    first = s[0]
+    b = Book(small_title=first['title'][:32], title=first['title'][:256], 
+        author=[first['author']], description=first['summary'])
+    b.save()
+    r = Recherche(book=b, nb_searches=1)
+    r.save()
+    for book_dsc in s:
+        try:
+            u_b = UniqueBook(book=b, isbn=book_dsc['isbn'], image=book_dsc['image'])
+            u_b.save()
+        except Exception, e:
+            pass
+    return 0
+
+def create_book_if_doesnt_exist(book_title):
+    try:
+        b = Book.objects.get(title=book_title)
+    except Book.DoesNotExist, e:
+        create_book(book_title)
+    except Exception:
+        raise
+
 @login_required
 def upload_file(request, book_title):
     if request.method == 'POST':
@@ -93,11 +152,10 @@ def upload_file(request, book_title):
         # data = u''.join((data,))
         # with open('/tmp/test.html', 'w') as f:
         #     f.write(data)
-        import pdb;pdb.set_trace()
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            if handle_uploaded_file(request.FILES['file'], request.POST['title'],
-                request.POST['csrfmiddlewaretoken']):
+            if handle_uploaded_file(request.FILES['file'], request.GET['title'], request.POST['title'],
+                request.POST['csrfmiddlewaretoken'], request.user.username):
                 return render_to_response('upload.html', RequestContext(request))
         # return HttpResponseRedirect('/')
     else:
@@ -137,23 +195,7 @@ def computeEmail(username, book_title):
 #     last_update = DateTimeField(default=datetime.datetime.now)
 # import pdb;pdb.set_trace()
 
-def create_book(book_title):
-    # import pdb;pdb.set_trace()
-    s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
-    if not s:
-        return 1
-    first = s[0]
-    b = Book(small_title=first[0][:32], title=first[0][:256], author=[first[1]], description=first[4])
-    b.save()
-    r = Recherche(book=b, nb_searches=1)
-    r.save()
-    for book_dsc in s:
-        try:
-            u_b = UniqueBook(book=b, isbn=book_dsc[2], image=book_dsc[3])
-            u_b.save()
-        except Exception, e:
-            pass
-    return 0
+
 
 @login_required
 def book_search(request, book_title):

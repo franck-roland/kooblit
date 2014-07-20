@@ -30,9 +30,11 @@ class Verification(models.Model):
     
 class Syntheses(models.Model):
     _file = models.FileField(upload_to="syntheses")
+    _file_html = models.FileField(upload_to="syntheses", default=False)
     user = models.ForeignKey('UserKooblit')
     # livre = models.ForeignKey('Book')
-    livre_id = models.CharField(max_length=240, unique=True, default=False)
+    title = models.CharField(max_length=240, default=False)
+    livre_id = models.CharField(max_length=240, default=False)
     nb_achat = models.BigIntegerField(default=0)
     note_moyenne = models.BigIntegerField(default=0)
     nbre_notes = models.BigIntegerField(default=0)
