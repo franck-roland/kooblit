@@ -120,16 +120,16 @@ def create_book(book_title):
     if not s:
         return 1
     first = s[0]
-    b = Book(small_title=first['title'][:32], title=first['title'][:256], 
+    book = Book(small_title=first['title'][:32], title=first['title'][:256], 
         author=[first['author']], description=first['summary'])
-    b.save()
-    r = Recherche(book=b, nb_searches=1)
+    book.save()
+    r = Recherche(book=book, nb_searches=1)
     r.save()
     isbn_list=[]
     for book_dsc in s:
         try:
             if not book_dsc['isbn'] in isbn_list:
-                u_b = UniqueBook(book=b, isbn=book_dsc['isbn'], image=book_dsc['image'])
+                u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'])
                 u_b.save()
                 isbn_list.append(book_dsc['isbn'])
         except Exception, e:
@@ -261,14 +261,17 @@ def book_search(request, book_title):
             
 @login_required
 def book_detail(request, book_title):
-    b = Book.objects.get(title=book_title)
-    res = Recherche.objects(book=b)[0]
-    if not b:
+    book = Book.objects.get(title=book_title)
+    res = Recherche.objects(book=book)[0]
+    if not book:
         return HttpResponseRedirect('/')        
-    u_b = UniqueBook.objects(book=b)[0]
+    u_b = UniqueBook.objects(book=book)[0]
+    syntheses = Syntheses.objects.filter(livre_id=book.id)
+    syntheses = [{'username':i.user.username, 'title':i.title,
+     'prix':i.prix, 'date':i.date} for i in syntheses]
     # import pdb;pdb.set_trace()
-    return render_to_response('book_details.html',RequestContext(request,{'title': b.title, 'img_url': u_b.image, 
-        'nb_searches': res.nb_searches}))
+    return render_to_response('book_details.html',RequestContext(request,{'title': book.title, 'img_url': u_b.image, 
+        'nb_searches': res.nb_searches, 'syntheses':syntheses}))
 
 def check_exist(request, book_title):
     for b in Book.objects:
