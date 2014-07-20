@@ -2,7 +2,8 @@ import os
 import re
 import sys
 import datetime
-
+import urllib
+import hashlib
 
 #Settings
 from django.conf import settings
@@ -19,7 +20,6 @@ from django.contrib.auth.decorators import login_required
 from django.template import Context
 from django.template import RequestContext
 
-import hashlib
 
 # Emails
 from django.core.mail import send_mail
@@ -55,6 +55,7 @@ See LICENSE for licensing information.
 
 #fichier docx
 from docx import opendocx, getdocumentHtml
+
 
 
 def check_html(file_name):
@@ -112,14 +113,7 @@ def handle_uploaded_file(f, book_title, title, csrf_token, username, confirm=0):
             synthese.save()
 
 
-def undo(s):
-    s = s.split("%")
-    tmp = []
-    for i in s:
-        if i:
-            v = chr(int(i[:2],16))
-            tmp.extend([v,i[2:]])
-    return ''.join(tmp)
+
 
 def create_book(book_title):
     s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
@@ -152,6 +146,7 @@ def create_book_if_doesnt_exist(book_title):
 
 @login_required
 def upload_file(request, book_title):
+    book_title = urllib.unquote(book_title)
     ret = {'form': '', 'prev': '', 'error': ''}
     if request.method == 'POST':
         # data = request.POST['data']
@@ -217,6 +212,7 @@ def computeEmail(username, book_title):
 
 @login_required
 def book_search(request, book_title):
+    book_title = urllib.unquote(book_title)
     if request.method == 'GET':
         a = 0
         try:
@@ -239,7 +235,6 @@ def book_search(request, book_title):
                     res = Recherche(book=b, nb_searches=1)
                 else:
                     res.nb_searches += 1
-                # import pdb;pdb.set_trace()
                 res.save()
                 return HttpResponseRedirect('../../details/'+ book_title)
             except Book.DoesNotExist, e:

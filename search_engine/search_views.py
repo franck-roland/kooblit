@@ -2,8 +2,7 @@
 from django.conf import settings
 from django.shortcuts import render
 from django.shortcuts import render_to_response
-from aws_req import compute_args
-from aws_req import compute_args2
+from aws_req import compute_args, unsanitize
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.utils.http import urlquote
 # Create your views here.
@@ -38,8 +37,8 @@ def search_view(request):
         # import pdb;pdb.set_trace()
         for d in s:
             d['little_title'] = urllib.unquote(d['title'])[:32]
-            d['title'] = urllib.unquote(d['title'])
-
+            d['title'] = unsanitize(d['title'])
+            
         return render_to_response("search_result.html", RequestContext(request, {'resultat': s}))
     except TypeError as e:
         raise

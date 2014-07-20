@@ -41,6 +41,22 @@ Timestamp=2015-01-01T12%3A00%3A00Z
 AssociateTag=kooblit-21"""
 # callback=%3F
 reserved = set([":", "/", "?", "#", "[", "]", "@", "!", "$", "&", "'", "(", ")", "*" , "+" , "," , ";" , "=", ' '])
+can_be = set([' '])
+
+def unsanitize(s, to_lower=0):
+    s = s.split("%")
+    tmp = [s[0]]
+    for i in s[1:]:
+        if i:
+            if chr(int(i[:2],16)) in can_be:
+                v = chr(int(i[:2],16))
+            else:
+                v = ''.join(('%',i[:2]))
+            tmp.extend([v,i[2:]])
+    s = ''.join(tmp)
+    if to_lower:
+        s = s.lower()
+    return s
 
 def sanitize(s, to_lower=0):
     l = []
