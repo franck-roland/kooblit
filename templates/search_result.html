@@ -40,21 +40,25 @@
         </div>
       {% endif %}
         {% if item.3 %}
-        <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style='background-image:url("{{ item.3 }}");' >
+        <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style='background-image:url("{{ item.3 }}");padding:0;' >
          <!--    <a href="{{ item.2 }}"><img class="img-responsive img_res" src='{{ item.1 }}' alt='{{ item.0 }}' /></a> -->
         {% else %}
-        <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style="background-image:url('{% static 'img/empty_gallery.png' %}');" >
+        <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style="background-image:url('{% static 'img/empty_gallery.png' %}');padding:0;">
             <!-- <a href="{{ item.2 }}"><img class="img-responsive img_res" src="{% static "img/empty_gallery.png" %}" alt='{{ item.0 }}' /></a> -->
         {% endif %}
-        <div class="col-xs-12 col-sm-12 col-md-4" >
+        <div class="col-xs-12 col-sm-12 col-md-4 " >
+          <a class="thumbnail" href="{% url 'book_management:search' '' %}?title={{item.0}}">
+            <img src="{% static "img/magnifier13.png" %}"/>
+          </a>
+          
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2" >
           <a class="thumbnail" href="{% url 'book_management:post' '' %}?title={{item.0}}">
             <img src="{% static "img/coins24.png" %}"/>
           </a>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2" >
-          <a class="thumbnail" href="{% url 'book_management:search' '' %}?title={{item.0}}">
-            <img src="{% static "img/magnifier13.png" %}"/>
-          </a>
+        <div class="col-xs-12 col-sm-12 col-md-12" style="text-align:center;background-color:white; padding:0;">
+          <u>{{item.1}}</u>:<br/>{{item.6}}
         </div>
          <!-- <a class="btn btn-lg btn-primary col-12" href="{% url 'book_management:post' '' %}?title={{item.0}}" role="button" style="z-index:9999;margin-bottom=0px;margin-left:auto;">Poster une synthèse</a>
          <a class="btn btn-lg btn-primary col-12" href="{% url 'book_management:search' '' %}?title={{item.0}}" role="button" style="z-index:9999;margin-bottom=0px;margin-left:auto;">Rechercher une synthèse</a> -->

@@ -14,7 +14,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
 from .models import Book
-
+import urllib
 # from mongoengine import *
 # connect('docs_db')
 
@@ -36,8 +36,8 @@ def search_view(request):
         title = ''.join(tmp)
         # import pdb;pdb.set_trace()
         s = compute_args(title, settings.AMAZON_KEY, escape=1)
-        # for i,j in enumerate(s):
-        #     s[i][0] = j[0][:32]
+        for i,j in enumerate(s):
+            s[i].append(urllib.unquote(j[0])[:32])
 
         return render_to_response("search_result.html", RequestContext(request, {'resultat': s}))
     except TypeError as e:
