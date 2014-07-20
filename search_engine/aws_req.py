@@ -133,7 +133,8 @@ def compute_json_one_result(result):
         summary = ""
 
     title = title.lower()
-    return [title, author, isbn, image, summary, details]
+
+    return {'title'=title, 'author'=author, 'isbn'=isbn, 'image'=image, 'summary'=summary, 'details'=details}
 
 
 @sanitizer
@@ -178,11 +179,11 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
 
             for t in root.iter('Item'):
                 tmp = compute_json_one_result(t)
-                if exact_match and sanitize(tmp[0]) == title or not exact_match:
+                if exact_match and sanitize(tmp['title']) == title or not exact_match:
                     # import pdb;pdb.set_trace()
                     if escape:
-                        tmp[0] = sanitize(tmp[0])
-                    if not tmp[:2] in [i[:2] for i in result] or not delete_duplicate:
+                        tmp['title'] = sanitize(tmp['title'])
+                    if not (tmp['title'], tmp['author']) in ((i['title'], i['author']) for i in result) or not delete_duplicate:
                         result.append(tmp)
 
             if page_nb == max_pages:
