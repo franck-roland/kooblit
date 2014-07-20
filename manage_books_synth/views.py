@@ -80,7 +80,8 @@ def check_pdf(file_name):
 #     nbre_notes = models.BigIntegerField(default=0)
 #     date = models.DateField(null=True, default=datetime.datetime.now)
 #     prix = models.DecimalField(max_digits=6, decimal_places=2)
-def handle_uploaded_file(f, book_title, title, csrf_token, username):
+def handle_uploaded_file(f, book_title, title, csrf_token, username, confirm=0):
+    create_book_if_doesnt_exist(book_title)
     file_name = ''.join(('/tmp/', f.name, csrf_token))
     book = Book.objects.get(title=book_title)
     user = UserKooblit.objects.get(username=username)
@@ -130,10 +131,13 @@ def create_book(book_title):
     b.save()
     r = Recherche(book=b, nb_searches=1)
     r.save()
+    isbn_list=[]
     for book_dsc in s:
         try:
-            u_b = UniqueBook(book=b, isbn=book_dsc['isbn'], image=book_dsc['image'])
-            u_b.save()
+            if not book_dsc['isbn'] in isbn_list:
+                u_b = UniqueBook(book=b, isbn=book_dsc['isbn'], image=book_dsc['image'])
+                u_b.save()
+                isbn_list.append(book_dsc['isbn'])
         except Exception, e:
             pass
     return 0
@@ -158,10 +162,10 @@ def upload_file(request, book_title):
         form = UploadFileForm(request.POST, request.FILES)
         ret['form'] = form
         if form.is_valid():
-            if handle_uploaded_file(request.FILES['file'], request.GET['title'], request.POST['title'],
+            if handle_uploaded_file(request.FILES['file'], book_title, request.POST['title'],
                 request.POST['csrfmiddlewaretoken'], request.user.username):
                 ret['error']='Une synthese avec le meme nom existe deja' 
-            book = Book.objects.get(title=request.GET['title'])
+            book = Book.objects.get(title=book_title)
             user = UserKooblit.objects.get(username=request.user.username)
             synthese = Syntheses.objects.get(user=user,title=request.POST['title'],livre_id=book.id)
             f = synthese._file_html
@@ -170,7 +174,7 @@ def upload_file(request, book_title):
             f.close()
             ret['prev'] = s
             return render_to_response('upload.html', RequestContext(request,ret))
-        # return HttpResponseRedirect('/')
+            # return HttpResponseRedirect('#tab2', RequestContext(request,ret))
     else:
         form = UploadFileForm()
         ret['form'] = form
@@ -225,7 +229,7 @@ def book_search(request, book_title):
             raise
 
         if a:
-            book_title = request.GET['title']
+            # book_title = request.GET['title']
             try:
 
                 b = Book.objects.get(title=book_title)
@@ -237,7 +241,7 @@ def book_search(request, book_title):
                     res.nb_searches += 1
                 # import pdb;pdb.set_trace()
                 res.save()
-                return HttpResponseRedirect('../details/'+book_title[:32])
+                return HttpResponseRedirect('../../details/'+ book_title)
             except Book.DoesNotExist, e:
                 return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
             except Exception:
@@ -246,8 +250,8 @@ def book_search(request, book_title):
             return HttpResponseRedirect('/')
 
     elif request.method == 'POST':
-        if request.user.is_authenticated() and request.GET:
-            book_title = request.GET['title']
+        if request.user.is_authenticated():
+            # book_title = request.GET['title']
             # computeEmail(request.user.username,book_title)
             try:
                 b = Book.objects.get(title=book_title)
@@ -256,11 +260,13 @@ def book_search(request, book_title):
                     b = Book.objects.get(title=book_title)
             except Exception:
                 raise
-            return HttpResponseRedirect('../details/'+book_title[:32])
+            return HttpResponseRedirect('../../details/'+ book_title)
+    else:
+        raise Exception('ok')
             
 @login_required
 def book_detail(request, book_title):
-    b = Book.objects.get(small_title=book_title)
+    b = Book.objects.get(title=book_title)
     res = Recherche.objects(book=b)[0]
     if not b:
         return HttpResponseRedirect('/')        
