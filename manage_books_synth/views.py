@@ -1,9 +1,12 @@
+import os
 import re
 import datetime
+
 
 #Settings
 from django.conf import settings
 
+from django.core.files import File
 #Rendu
 from django.shortcuts import render
 from django.shortcuts import render_to_response
@@ -11,11 +14,8 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 # from django.contrib.auth.forms import UserCreationForm
 from django.utils.datastructures import MultiValueDictKeyError
-
 from django.contrib.auth.decorators import login_required
-
 from django.template import Context
-
 from django.template import RequestContext
 
 import hashlib
@@ -25,12 +25,84 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
-#User kooblit
-from usr_management.models import UserKooblit
+
 
 #search for creation
 from search_engine.aws_req import compute_args
 from .models import Book, UniqueBook, Recherche
+#Usr_management models
+from usr_management.models import UserKooblit, Syntheses
+
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
+from .forms import UploadFileForm
+
+# Imaginary function to handle an uploaded file.
+# from somewhere import handle_uploaded_file
+from HTMLParser import HTMLParser
+def check_html(file_name):
+    parser = HTMLParser()
+    with open(file_name, 'rb') as _f:
+        parser.feed(_f.read())
+
+from pyPdf import PdfFileReader
+from pyPdf.utils import PdfReadError
+def check_pdf(file_name):
+    try:
+        doc = PdfFileReader(file(file_name, "rb"))
+        return 0
+    except PdfReadError, e:
+        return 1
+    except Exception:
+        raise
+# _file = models.FileField(upload_to="syntheses")
+#     user = models.ForeignKey('UserKooblit')
+#     livre_id = models.CharField(max_length=240, unique=True, default=False)
+#     nb_achat = models.BigIntegerField(default=0)
+#     note_moyenne = models.BigIntegerField(default=0)
+#     nbre_notes = models.BigIntegerField(default=0)
+#     date = models.DateField(null=True, default=datetime.datetime.now)
+#     prix = models.DecimalField(max_digits=6, decimal_places=2)
+def handle_uploaded_file(f, book_title, title, csrf_token, username):
+    file_name = ''.join(('/tmp/', f.name, csrf_token))
+    book = Book.objects.get('book_title')
+    user = UserKooblit.objects.get(username=username)
+
+    with open(file_name, 'wb') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+        synthese = Syntheses(_file=File(destination),
+                             livre_id=book._id, prix=2)
+        synthese.save()
+
+
+def undo(s):
+    s = s.split("%")
+    tmp = []
+    for i in s:
+        if i:
+            v = chr(int(i[:2],16))
+            tmp.extend([v,i[2:]])
+    return ''.join(tmp)
+
+@login_required
+def upload_file(request, book_title):
+    if request.method == 'POST':
+        # data = request.POST['data']
+        # h = HTMLParser()
+        # data = u''.join((data,))
+        # with open('/tmp/test.html', 'w') as f:
+        #     f.write(data)
+        import pdb;pdb.set_trace()
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            if handle_uploaded_file(request.FILES['file'], request.POST['title'],
+                request.POST['csrfmiddlewaretoken']):
+                return render_to_response('upload.html', RequestContext(request))
+        # return HttpResponseRedirect('/')
+    else:
+        form = UploadFileForm()
+    return render_to_response('upload.html', RequestContext(request,{'form': form}))
 
 
 def computeEmail(username, book_title):

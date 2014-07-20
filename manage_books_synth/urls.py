@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^post/(?P<book_title>.{,32})$', 'manage_books_synth.views.book_detail', name='post' ),
+    url(r'^post/(?P<book_title>.{,32})$', 'manage_books_synth.views.upload_file', name='post' ),
     url(r'^search/(?P<book_title>.{,32})$', 'manage_books_synth.views.book_search', name='search' ),
     url(r'^details/(?P<book_title>.{,32})$', 'manage_books_synth.views.book_detail', name='details' ),
 )
