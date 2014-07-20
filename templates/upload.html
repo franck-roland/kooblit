@@ -4,6 +4,23 @@
 <link href="{% static "css/upload.css" %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
+{% if prev %}
+<div id="prev" class="container">
+<h2>
+    Les lignes ci-dessous résumeront votre synthèse:
+</h2>
+</div>
+<div class="container">
+<h2>
+    Votre synthèse formatée en HTML:
+</h2>
+    <div id="preview" class="container">
+        {{ prev|safe }}
+    </div>
+</div>
+{% endif %}
+
+<div class="container" style="padding-top:50px;">
  <form name='upload_form' class="form-horizontal django_form" action="#" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div class="error">
         {{ error }}
@@ -28,6 +45,63 @@
         </div>
     </div>
 </form>
+</div>
+
+<!-- <form action="">
+    {% csrf_token %}
+     <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#tab1" data-toggle="tab">Section 1</a></li>
+          <li class=""><a href="#tab2" data-toggle="tab">Section 2</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab1">
+            <div class="error">
+                {{ error }}
+            </div>
+            <div class="form-group">
+                <label for="id_title" class="col-lg-4 control-label ">Titre de la synthese</label>
+                <div class="col-lg-8 input-container" >
+                    {{ form.title }}
+                    {{ form.title.errors }}
+                </div>    
+            </div>
+            <div class="form-group">
+                <label for="id_file" class="col-lg-4 control-label ">Fichier</label>
+                <div class="col-lg-8 input-container" >
+                    {{ form.file }}
+                    {{ form.file.errors }}
+                </div>    
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                </div>
+            </div>
+            <a href="#tab2" data-toggle="tab" class="btn pull-right">Next</a>
+          </div>
+          <div class="tab-pane" id="tab2">
+            {% if prev %}
+                <div id="prev" class="container">
+                <h2>
+                    Les lignes ci-dessous résumeront votre synthèse:
+                </h2>
+                </div>
+                <div class="container">
+                <h2>
+                    Votre synthèse formatée en HTML:
+                </h2>
+                    <div id="preview" class="container">
+                        {{ prev|safe }}
+                    </div>
+                </div>
+            {% endif %}
+            <a href="#tab1" data-toggle="tab" class="btn pull-left">Prev</a>
+          </div>
+        </div>
+      </div>
+</form> -->
+
 <!-- <form id='ss' method="post" >
     {% csrf_token %}
     <textarea id="elt1" name="content" id="my_editor"></textarea>
@@ -37,19 +111,7 @@
         </div>
     </div>
 </form> -->
-<div id="prev" class="container">
-<h2>
-    Les lignes ci-dessous résumeront votre synthèse:
-</h2>
-</div>
-<div class="container">
-<h2>
-    Votre synthèse formatée en HTML:
-</h2>
-    <div id="preview" class="container">
-        {{ prev|safe }}
-    </div>
-</div>
+
 {% endblock %}
 {% block script_block %}
 <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
