@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block extra_css %}
+<link href="{% static "css/upload.css" %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
  <form name='upload_form' class="form-horizontal django_form" action="#" method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="error">
+        {{ error }}
+    </div>
     <div class="form-group">
         <label for="id_title" class="col-lg-4 control-label ">Titre de la synthese</label>
         <div class="col-lg-8 input-container" >
@@ -24,7 +28,7 @@
         </div>
     </div>
 </form>
-<form id='ss' method="post" >
+<!-- <form id='ss' method="post" >
     {% csrf_token %}
     <textarea id="elt1" name="content" id="my_editor"></textarea>
     <div class="form-group">
@@ -32,11 +36,25 @@
             <button type="submit" class="btn btn-primary">Envoyer</button>
         </div>
     </div>
-</form>
+</form> -->
+<div id="prev" class="container">
+<h2>
+    Les lignes ci-dessous résumeront votre synthèse:
+</h2>
+</div>
+<div class="container">
+<h2>
+    Votre synthèse formatée en HTML:
+</h2>
+    <div id="preview" class="container">
+        {{ prev|safe }}
+    </div>
+</div>
 {% endblock %}
 {% block script_block %}
 <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
 <script>
+$( "#prev" ).append('<div class="container resume" > '+$('.summary').html()+'</div>');
 var temp=''
     tinymce.init({
         selector:'textarea',

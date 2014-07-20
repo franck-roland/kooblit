@@ -101,7 +101,9 @@ def handle_uploaded_file(f, book_title, title, csrf_token, username):
         # Print out text of document with two newlines under each paragraph
         newfile.write('\n\n'.join(newparatextlist))    
 
-
+    synthese = Syntheses.objects.filter(user=user,title=title,livre_id=book.id)
+    if synthese:
+        return 1
     with open(file_name, 'rb') as destination:
         with open(file_name+'.html', 'r') as newfile:
             synthese = Syntheses(_file=File(destination), _file_html=File(newfile), 
@@ -146,6 +148,7 @@ def create_book_if_doesnt_exist(book_title):
 
 @login_required
 def upload_file(request, book_title):
+    ret = {'form': '', 'prev': '', 'error': ''}
     if request.method == 'POST':
         # data = request.POST['data']
         # h = HTMLParser()
@@ -153,14 +156,25 @@ def upload_file(request, book_title):
         # with open('/tmp/test.html', 'w') as f:
         #     f.write(data)
         form = UploadFileForm(request.POST, request.FILES)
+        ret['form'] = form
         if form.is_valid():
             if handle_uploaded_file(request.FILES['file'], request.GET['title'], request.POST['title'],
                 request.POST['csrfmiddlewaretoken'], request.user.username):
-                return render_to_response('upload.html', RequestContext(request))
+                ret['error']='Une synthese avec le meme nom existe deja' 
+            book = Book.objects.get(title=request.GET['title'])
+            user = UserKooblit.objects.get(username=request.user.username)
+            synthese = Syntheses.objects.get(user=user,title=request.POST['title'],livre_id=book.id)
+            f = synthese._file_html
+            f.open()
+            s = f.read()
+            f.close()
+            ret['prev'] = s
+            return render_to_response('upload.html', RequestContext(request,ret))
         # return HttpResponseRedirect('/')
     else:
         form = UploadFileForm()
-    return render_to_response('upload.html', RequestContext(request,{'form': form}))
+        ret['form'] = form
+    return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
 
 
 def computeEmail(username, book_title):

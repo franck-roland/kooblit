@@ -1,0 +1,14 @@
+.resume{
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+#preview{
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+
+}
+.summary{
+    font-style: italic;
+
+}
