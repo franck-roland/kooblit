@@ -10,8 +10,9 @@ import re
 import json
 import os
 import re
+import time
+import shutil
 from django.core.files import File
-
 # from mongoengine import *
 # connect('docs_db')
 
@@ -82,12 +83,15 @@ def create_dir_if_not_exists(path_name):
             os.remove(path_name)
         os.mkdir(path_name)
 
-#Check if this request has been done the last 24h and read the corresponding page_nb
+#Check if this request has been done the last week and read the corresponding page_nb
 def check_in_tmp(title, page_nb, server_name):
     dir_name = sha1(title).hexdigest()
     dir_path = "/tmp/"+dir_name+"/"+server_name+"/"
     ret = ''
     if os.path.isdir(dir_path):
+        if int(time.time() - os.stat(dir_path).st_ctime)/86400 > 7:
+            shutil.rmtree(dir_path)
+            return ''
         nber = len([name for name in os.listdir(dir_path) if os.path.isfile(dir_path+name)])
         if page_nb <= nber and page_nb > 0:
             with open(dir_path + "f_" + str(page_nb) + '.xml', 'r') as f:
