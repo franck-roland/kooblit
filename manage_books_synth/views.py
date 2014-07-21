@@ -87,6 +87,10 @@ def handle_uploaded_file(f, book_title, title, csrf_token, username, confirm=0):
      csrf_token))
     book = Book.objects.get(title=book_title)
     user = UserKooblit.objects.get(username=username)
+    synthese = Syntheses.objects.filter(user=user,title=title,livre_id=book.id)
+    # Arret si deja existante
+    if synthese:
+        return 1
 
     with open(file_name, 'wb') as destination:
         for chunk in f.chunks():
@@ -104,9 +108,6 @@ def handle_uploaded_file(f, book_title, title, csrf_token, username, confirm=0):
         # Print out text of document with two newlines under each paragraph
         newfile.write('\n\n'.join(newparatextlist))    
 
-    synthese = Syntheses.objects.filter(user=user,title=title,livre_id=book.id)
-    if synthese:
-        return 1
     with open(file_name, 'rb') as destination:
         with open(file_name+'.html', 'r') as newfile:
             synthese = Syntheses(_file=File(destination), _file_html=File(newfile), 
