@@ -83,7 +83,8 @@ def check_pdf(file_name):
 #     prix = models.DecimalField(max_digits=6, decimal_places=2)
 def handle_uploaded_file(f, book_title, title, csrf_token, username, confirm=0):
     create_book_if_doesnt_exist(book_title)
-    file_name = ''.join(('/tmp/', f.name, csrf_token))
+    file_name = ''.join(('/tmp/', hashlib.sha1(f.name).hexdigest(),
+     csrf_token))
     book = Book.objects.get(title=book_title)
     user = UserKooblit.objects.get(username=username)
 
@@ -111,6 +112,8 @@ def handle_uploaded_file(f, book_title, title, csrf_token, username, confirm=0):
             synthese = Syntheses(_file=File(destination), _file_html=File(newfile), 
                 title=title, user=user, livre_id=book.id, prix=2)
             synthese.save()
+    os.remove(file_name)
+    os.remove(file_name+'.html')
 
 
 
