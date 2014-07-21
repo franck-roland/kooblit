@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import re
 import sys
@@ -83,7 +84,16 @@ def check_pdf(file_name):
 #     prix = models.DecimalField(max_digits=6, decimal_places=2)
 def handle_uploaded_file(f, book_title, title, csrf_token, username, confirm=0):
     create_book_if_doesnt_exist(book_title)
-    file_name = ''.join(('/tmp/', hashlib.sha1(f.name).hexdigest(),
+    
+    ch1 = u"àâçéèêëîïôùûüÿ"
+    ch2 = u"aaceeeeiiouuuy"
+    tmp = []
+    for i in f.name:
+        if i in ch1:
+            tmp.append(ch2[ch1.index(i)])
+        else:
+            tmp.append(i)
+    file_name = ''.join(('/tmp/', hashlib.sha1(u''.join(tmp)).hexdigest(),
      csrf_token))
     book = Book.objects.get(title=book_title)
     user = UserKooblit.objects.get(username=username)
