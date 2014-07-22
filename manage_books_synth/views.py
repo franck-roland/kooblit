@@ -147,7 +147,7 @@ def create_book(book_title):
                 u_b.save()
                 isbn_list.append(book_dsc['isbn'])
         except Exception, e:
-            pass
+            raise
     return 0
 
 def create_book_if_doesnt_exist(book_title):
@@ -155,8 +155,6 @@ def create_book_if_doesnt_exist(book_title):
         b = Book.objects.get(title=book_title)
     except Book.DoesNotExist, e:
         create_book(book_title)
-    except Exception:
-        raise
 
 @login_required
 def upload_file(request, book_title):
