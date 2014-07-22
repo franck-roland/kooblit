@@ -29,7 +29,7 @@ class Verification(models.Model):
     user = models.ForeignKey('UserKooblit')
     
 class Syntheses(models.Model):
-    _file = models.FileField(upload_to="syntheses")
+    _file = models.FileField(upload_to="syntheses", default=False)
     _file_html = models.FileField(upload_to="syntheses", default=False)
     user = models.ForeignKey('UserKooblit')
     # livre = models.ForeignKey('Book')
