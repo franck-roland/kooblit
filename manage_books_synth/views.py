@@ -40,19 +40,8 @@ from django.shortcuts import render_to_response
 from .forms import UploadFileForm
 
 # Imaginary function to handle an uploaded file.
-# from somewhere import handle_uploaded_file
 from HTMLParser import HTMLParser
 
-#!/usr/bin/env python
-"""
-This file opens a docx (Office 2007) file and dumps the text.
-
-If you need to extract text from documents, use this file as a basis for your
-work.
-
-Part of Python's docx module - http://github.com/mikemaccana/python-docx
-See LICENSE for licensing information.
-"""
 
 #fichier docx
 from docx import opendocx, getdocumentHtml
@@ -66,6 +55,7 @@ def check_html(file_name):
 
 from pyPdf import PdfFileReader
 from pyPdf.utils import PdfReadError
+
 def check_pdf(file_name):
     try:
         doc = PdfFileReader(file(file_name, "rb"))
@@ -82,52 +72,69 @@ def check_pdf(file_name):
 #     nbre_notes = models.BigIntegerField(default=0)
 #     date = models.DateField(null=True, default=datetime.datetime.now)
 #     prix = models.DecimalField(max_digits=6, decimal_places=2)
-def handle_uploaded_file(f, book_title, title, csrf_token, username, confirm=0):
-    create_book_if_doesnt_exist(book_title)
-    
+def slugify(filename):
     ch1 = u"àâçéèêëîïôùûüÿ"
     ch2 = u"aaceeeeiiouuuy"
     tmp = []
-    for i in f.name:
+    for i in filename:
         if i in ch1:
             tmp.append(ch2[ch1.index(i)])
         else:
             tmp.append(i)
-    file_name = ''.join(('/tmp/', hashlib.sha1(u''.join(tmp)).hexdigest(),
-     csrf_token))
-    book = Book.objects.get(title=book_title)
-    user = UserKooblit.objects.get(username=username)
-    synthese = Syntheses.objects.filter(user=user,title=title,livre_id=book.id)
-    # Arret si deja existante
-    if synthese:
-        return 1
+    return ''.join(tmp)
 
+def get_name(book_title, title, username):
+    inpart = ''.join((book_title, slugify(title), username))
+    part = hashlib.sha1(inpart).hexdigest()
+    return ''.join(('/tmp/', part))
+
+def create_tmp_file(f, book_title, title, username):
+    file_name = get_name(book_title, title, username)
     with open(file_name, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
     document = opendocx(file_name)
     with open(file_name+'.html', 'w') as newfile:
-        # newfile = open(file_name+'.html', 'w')
         paratextlist = getdocumentHtml(document)
-        # Make explicit unicode version
+        # Make explicit utf-8 version
         newparatextlist = []
         for paratext in paratextlist:
             newparatextlist.append(paratext.encode("utf-8"))
+        #Join Paragraphs and print them
+        newfile.write(''.join(newparatextlist))
 
-        # Print out text of document with two newlines under each paragraph
-        newfile.write('\n\n'.join(newparatextlist))    
+    user = UserKooblit.objects.get(username=username)
+    book = Book.objects.get(title=book_title)
+    synthese = Syntheses.objects.filter(user=user,title=title,livre_id=book.id)
+    return synthese
 
+def create_file(book_title, title, username):
+    user = UserKooblit.objects.get(username=username)
+    book = Book.objects.get(title=book_title)
+    file_name = get_name(book_title, title, username)
     with open(file_name, 'rb') as destination:
         with open(file_name+'.html', 'r') as newfile:
-            synthese = Syntheses(_file=File(destination), _file_html=File(newfile), 
+            try:
+                synthese = Syntheses.objects.get(user=user, title=title, livre_id=book.id)
+                synthese._file = File(destination)
+                synthese._file_html = File(newfile)
+                synthese.save()
+            except Syntheses.DoesNotExist, e: 
+                synthese = Syntheses(_file=File(destination), _file_html=File(newfile), 
                 title=title, user=user, livre_id=book.id, prix=2)
-            synthese.save()
+                synthese.save()
+                
     os.remove(file_name)
     os.remove(file_name+'.html')
 
 
-
+def delete_tmp_file(book_title, title, username):
+    filename = get_name(book_title, title, username)
+    if os.path.isfile(filename):
+        os.remove(filename)
+    if os.path.isfile(filename+'.html'):
+        os.remove(filename+'.html')
 
 def create_book(book_title):
     s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
@@ -157,35 +164,58 @@ def create_book_if_doesnt_exist(book_title):
         create_book(book_title)
 
 @login_required
-def upload_file(request, book_title):
+def upload_file(request, book_title, title):
     book_title = urllib.unquote(book_title)
-    ret = {'form': '', 'prev': '', 'error': ''}
+    ret = {'form': '', 'prev': '', 'error': '', 'replace': ''}
+    username = request.user.username
     if request.method == 'POST':
-        # data = request.POST['data']
-        # h = HTMLParser()
-        # data = u''.join((data,))
-        # with open('/tmp/test.html', 'w') as f:
-        #     f.write(data)
         form = UploadFileForm(request.POST, request.FILES)
-        ret['form'] = form
-        if form.is_valid():
-            if handle_uploaded_file(request.FILES['file'], book_title, request.POST['title'],
-                request.POST['csrfmiddlewaretoken'], request.user.username):
-                ret['error']='Une synthese avec le meme nom existe deja' 
-            book = Book.objects.get(title=book_title)
-            user = UserKooblit.objects.get(username=request.user.username)
-            synthese = Syntheses.objects.get(user=user,title=request.POST['title'],livre_id=book.id)
-            f = synthese._file_html
-            f.open()
-            s = f.read()
-            f.close()
+        if request.POST.get('oui',''):
+            create_file(book_title, title, username)
+            delete_tmp_file(book_title, title, username)
+            return HttpResponseRedirect('/')
+
+        elif request.POST.get('oui_replace',''):
+            return HttpResponseRedirect(request.POST['title'],RequestContext(request,ret))
+
+        elif request.POST.get('non_replace',''):
+            delete_tmp_file(book_title, request.POST['title'], username)
+            form = UploadFileForm()
+            ret['form'] = form
+            return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
+
+        else:
+            ret['form'] = form
+            if request.POST.get('non',''):
+                return render_to_response('upload.html', 
+                    RequestContext(request,ret))
+            else:
+                ret['form'] = form
+                if form.is_valid():
+                    if create_tmp_file(request.FILES['file'], book_title, request.POST['title'], username):
+                        ret['replace'] = 'oui'
+                        ret['title'] = urllib.quote(request.POST['title'])
+                        return render_to_response('upload.html', RequestContext(request,ret))
+                        # ret['error']='Une synthese avec le meme nom existe deja. Voulez-vous la remplacer'
+                    return HttpResponseRedirect(urllib.quote(request.POST['title']),RequestContext(request,ret))
+    elif title:
+        book = Book.objects.get(title=book_title)
+        user = UserKooblit.objects.get(username=username)
+        file_html = get_name(book_title, title, username)+'.html'
+        try:
+            with open(file_html, 'r') as f:
+                s = f.read()
             ret['prev'] = s
-            return render_to_response('upload.html', RequestContext(request,ret))
-            # return HttpResponseRedirect('#tab2', RequestContext(request,ret))
+        except IOError:
+            raise Http404()
+            # form = UploadFileForm()
+            # ret['form'] = form
+        return render_to_response('upload.html', RequestContext(request,ret))
+
     else:
         form = UploadFileForm()
         ret['form'] = form
-    return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
+        return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
 
 
 def computeEmail(username, book_title):
@@ -265,8 +295,6 @@ def book_search(request, book_title):
             except Book.DoesNotExist, e:
                 if not create_book(book_title):
                     b = Book.objects.get(title=book_title)
-            except Exception:
-                raise
             return HttpResponseRedirect('../../details/'+ book_title)
     else:
         raise Exception('ok')

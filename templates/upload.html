@@ -4,6 +4,7 @@
 <link href="{% static "css/upload.css" %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
+
 {% if prev %}
 <div id="prev" class="container">
 <h2>
@@ -18,10 +19,43 @@
         {{ prev|safe }}
     </div>
 </div>
-{% endif %}
+<div>
+    Continuer?
+</div>
+<div class="container" style="padding-top:30px;">
+    <form method="POST">{% csrf_token %}
+        <fieldset>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button type="submit" class="btn btn-primary" name="non" value="non">Non</button>
+                    <button type="submit" class="btn btn-primary" name="oui" value="oui">Oui</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% elif replace %}
+<div>
+    Une synthese avec le même titre existe déjà.
+    Voulez vous la remplacer?
+</div>
+<div class="container" style="padding-top:30px;">
+    <form method="POST">{% csrf_token %}
+        <fieldset>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <input name="title" value="{{ title }}" type="hidden">
+                    <button type="submit" class="btn btn-primary" name="non_replace" value="non">Non</button>
+                    <button type="submit" class="btn btn-primary" name="oui_replace" value="oui">Oui</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
 
+{% else %}
 <div class="container" style="padding-top:50px;">
- <form name='upload_form' class="form-horizontal django_form" action="#" method="post" enctype="multipart/form-data">{% csrf_token %}
+ <form name='upload_form' class="form-horizontal django_form" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div class="error">
         {{ error }}
     </div>
@@ -46,7 +80,7 @@
     </div>
 </form>
 </div>
-
+{% endif %}
 <!-- <form action="">
     {% csrf_token %}
      <div class="tabbable">
