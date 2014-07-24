@@ -256,35 +256,19 @@ def computeEmail(username, book_title):
 def book_search(request, book_title):
     book_title = urllib.unquote(book_title)
     if request.method == 'GET':
-        a = 0
         try:
-            refer = request.META['HTTP_REFERER']
-            a = re.match("http://"+request.get_host()+'/.*',refer)
-        except KeyError, e:
-            return HttpResponseRedirect('/')
-            # pass
-        except Exception:
-            raise
 
-        if a:
-            # book_title = request.GET['title']
-            try:
+            b = Book.objects.get(title=book_title)
+            res = Recherche.objects(book=b)[0]
 
-                b = Book.objects.get(title=book_title)
-                res = Recherche.objects(book=b)[0]
-
-                if datetime.datetime.now().date() != res.day .date():
-                    res = Recherche(book=b, nb_searches=1)
-                else:
-                    res.nb_searches += 1
-                res.save()
-                return HttpResponseRedirect('../../details/'+ book_title)
-            except Book.DoesNotExist, e:
-                return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
-            except Exception:
-                raise
-        else:
-            return HttpResponseRedirect('/')
+            if datetime.datetime.now().date() != res.day .date():
+                res = Recherche(book=b, nb_searches=1)
+            else:
+                res.nb_searches += 1
+            res.save()
+            return HttpResponseRedirect('../')
+        except Book.DoesNotExist, e:
+            return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
 
     elif request.method == 'POST':
         if request.user.is_authenticated():
@@ -295,9 +279,9 @@ def book_search(request, book_title):
             except Book.DoesNotExist, e:
                 if not create_book(book_title):
                     b = Book.objects.get(title=book_title)
-            return HttpResponseRedirect('../../details/'+ book_title)
+            return HttpResponseRedirect('../')
     else:
-        raise Exception('ok')
+        raise Http404()
             
 @login_required
 def book_detail(request, book_title):
