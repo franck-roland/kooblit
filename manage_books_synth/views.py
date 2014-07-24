@@ -9,13 +9,14 @@ import hashlib
 #Settings
 from django.conf import settings
 
+#Fichiers
 from django.core.files import File
+
 #Rendu
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
-# from django.contrib.auth.forms import UserCreationForm
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
 from django.template import Context
@@ -28,6 +29,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 
+#Messages
+from django.contrib import messages
 
 #search for creation
 from search_engine.aws_req import compute_args
@@ -171,9 +174,13 @@ def upload_file(request, book_title, title):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if request.POST.get('oui',''):
-            create_file(book_title, title, username)
+            try:
+                create_file(book_title, title, username)
+            except IOError, e:
+                raise Http404()
             delete_tmp_file(book_title, title, username)
-            return HttpResponseRedirect('/')
+            messages.success(request, u'Votre fichier <i>"%s"</i> a bien été enregistré.' % title)
+            return HttpResponseRedirect('/',RequestContext(request))
 
         elif request.POST.get('oui_replace',''):
             return HttpResponseRedirect(request.POST['title'],RequestContext(request,ret))
