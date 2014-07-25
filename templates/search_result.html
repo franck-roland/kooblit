@@ -6,6 +6,11 @@
 <link href="{% static "css/result_page.css" %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
+{% if resultat %}
+<div class="container">
+  {{ resultat|length }} résultats trouvés
+</div>
+{% endif %}
 <div class="container container_result" style="padding-top:50px;">
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
