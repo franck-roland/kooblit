@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
@@ -15,6 +16,9 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
+
+#Messages
+from django.contrib import messages
 
 #JSON
 import json
@@ -92,7 +96,9 @@ def contact(request):
                 form.save()
                 val = computeNewValidation(username)
                 computeEmail(username, email, val.verification_id)
-                return HttpResponseRedirect(next_url)
+                messages.success(request, "Félicitation. Un email de confirmation vous a été envoyé.\
+                    Vous ne pourrez vous connecter qu'après y avoir jeté un coup d'oeil")
+                return HttpResponseRedirect(next_url,RequestContext(request))
 
         else:
             form = UserCreationFormKooblit() # An unbound form
@@ -122,7 +128,6 @@ def email_confirm(request, verification_id):
             val.user.save()
             username = val.user.username
             password = val.user.password
-            # import pdb;pdb.set_trace()
             val.delete()
             
 
@@ -131,13 +136,13 @@ def email_confirm(request, verification_id):
                 if user.is_active:
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
                     login(request, user)
-            # return HttpResponse("")
-                    return render(request, 'baseMessages.html', {
-                    'message': 'Votre compte Kooblit est active!',
-                    })
-            return HttpResponse("Your Kooblit account is disabled.")    
+                    messages.success(request,'Votre compte Kooblit est activé!')
+                    return HttpResponseRedirect('/',RequestContext(request))
+            messages.error(request,"Votre compte kooblit est désactivé.")
+            return HttpResponseRedirect('/',RequestContext(request))
         else:
-            return HttpResponse("Your Kooblit account is disabled.")
+            messages.error(request,"Votre compte kooblit est désactivé.")
+            return HttpResponseRedirect('/',RequestContext(request))
     except Verification.DoesNotExist, e:
         raise Http404()
 
