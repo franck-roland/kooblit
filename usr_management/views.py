@@ -52,11 +52,10 @@ def try_login(request, username, password, next_url):
                 login(request, user)
                 return HttpResponseRedirect(next_url)
             elif not user.is_active:
-                return HttpResponse("Your Kooblit account is disabled.")
+                messages.error(request, "Votre compte est désactivé.")
             else:
-                return render(request, 'baseMessages.html', {
-                'message': 'Vous devez activer votre compte.',
-                })
+                messages.warning(request, "Vous devez activer votre compte.")
+            return HttpResponseRedirect('/',RequestContext(request))
         else:
             return HttpResponse("Mauvais mot de passe ou identifiant")
     except MultiValueDictKeyError, e:
