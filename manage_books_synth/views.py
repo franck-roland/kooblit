@@ -92,6 +92,7 @@ def get_name(book_title, title, username):
     return ''.join(('/tmp/', part))
 
 def create_tmp_file(f, book_title, title, username):
+    create_book_if_doesnt_exist(book_title)
     file_name = get_name(book_title, title, username)
     with open(file_name, 'wb') as destination:
         for chunk in f.chunks():
@@ -268,7 +269,7 @@ def book_search(request, book_title):
             b = Book.objects.get(title=book_title)
             res = Recherche.objects(book=b)[0]
 
-            if datetime.datetime.now().date() != res.day .date():
+            if datetime.datetime.now().date() != res.day.date():
                 res = Recherche(book=b, nb_searches=1)
             else:
                 res.nb_searches += 1
@@ -293,7 +294,7 @@ def book_search(request, book_title):
 @login_required
 def book_detail(request, book_title):
     book = Book.objects.get(title=book_title)
-    res = Recherche.objects(book=book)[0]
+    resu = [(res.nb_searches,res.day.strftime('%d, %b %Y')) for res in  Recherche.objects(book=book)]
     if not book:
         return HttpResponseRedirect('/')        
     u_b = UniqueBook.objects(book=book)[0]
@@ -302,7 +303,7 @@ def book_detail(request, book_title):
      'prix':i.prix, 'date':i.date} for i in syntheses]
     # import pdb;pdb.set_trace()
     return render_to_response('book_details.html',RequestContext(request,{'title': book.title, 'img_url': u_b.image, 
-        'nb_searches': res.nb_searches, 'syntheses':syntheses}))
+        'nb_searches': resu, 'syntheses':syntheses}))
 
 def check_exist(request, book_title):
     for b in Book.objects:
