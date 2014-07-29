@@ -44,7 +44,11 @@
         </div>
       {% endif %}
         {% if item.image %}
-        <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style='padding:0;text-align:center;' >
+          {% if forloop.counter0|divisibleby:4  %}
+          <div class="img_container2 col-2 col-sm-2 col-lg-2 col-xs-6" style='padding:0;text-align:center;margin-left:5%' >
+          {% else %}
+          <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style='padding:0;text-align:center;' >
+          {% endif %}
          <!--    <a href="{{ item.2 }}"><img class="img-responsive img_res" src='{{ item.1 }}' alt='{{ item.0 }}' /></a> -->
         {% else %}
         <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style="background-image:url('{% static 'img/empty_gallery.png' %}');padding:0;">
