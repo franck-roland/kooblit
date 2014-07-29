@@ -44,25 +44,36 @@
         </div>
       {% endif %}
         {% if item.image %}
-        <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style='background-image:url("{{ item.image }}");padding:0;' >
+        <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style='padding:0;text-align:center;' >
          <!--    <a href="{{ item.2 }}"><img class="img-responsive img_res" src='{{ item.1 }}' alt='{{ item.0 }}' /></a> -->
         {% else %}
         <div class="img_container2 col-2 col-sm-2 col-lg-2 col-md-offset-1 col-sm-offset-1 col-xs-6" style="background-image:url('{% static 'img/empty_gallery.png' %}');padding:0;">
             <!-- <a href="{{ item.2 }}"><img class="img-responsive img_res" src="{% static "img/empty_gallery.png" %}" alt='{{ item.0 }}' /></a> -->
         {% endif %}
-          <div class="col-xs-12 col-sm-12 col-md-4 " >
-            <a class="thumbnail" href="{% url 'book_management:search' item.title %}">
-              <img src="{% static "img/magnifier13.png" %}"/>
-            </a>
+          <div class="img_container2 col-10 col-sm-10 col-lg-10" style='padding:0;text-align:center;' >
+            <div class="repre_image" style="text-align:center;margin:auto;background-image:url('{{ item.image }}');">
+            <!-- <img src="{{ item.image }}" width="80%" height="80%"> -->
+            <!-- <span>zpoekf</span> -->
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12" style="text-align:center;background-color:white; padding:0;">
+              <u>{{item.author}}</u>:<br/>{{item.little_title}}
+            </div>
             
+            <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2" >
+              <a class="thumbnail" href="{% url 'book_management:search' item.title %}">
+                <img src="{% static "img/magnifier13.png" %}"/>
+              </a>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-1" >
+              <a class="thumbnail" href="{% url 'book_management:post' item.title '' %}">
+                <img src="{% static "img/coins24.png" %}"/>
+              </a>
+            </div>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2" >
+          <div class="img_container2 col-1 col-sm-1 col-lg-1 col-offset-1" style='padding:0;text-align:center;' >
             <a class="thumbnail" href="{% url 'book_management:post' item.title '' %}">
-              <img src="{% static "img/coins24.png" %}"/>
-            </a>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-12" style="text-align:center;background-color:white; padding:0;">
-            <u>{{item.author}}</u>:<br/>{{item.little_title}}
+                <img src="{% static "img/coins24.png" %}"/>
+              </a>
           </div>
         </div>
       {% if forloop.counter0|add:"1"|divisibleby:"4"  or forloop.last %}

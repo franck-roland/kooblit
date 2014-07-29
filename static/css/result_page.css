@@ -35,20 +35,21 @@
     display: block;
     padding-top: 100%;  /* initial ratio of 1:1*/
 }
-.img_container2 {
+.repre_image {
+    width: 80%;
+    height: 300px;
     background: no-repeat center center ; 
-    /*background-size: contain;*/
-    -webkit-background-size: cover;
+    background-size: contain;
+    /*-webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
+    background-size: cover;*/
 }
 
-.img_container2::before{
+.repre_image::before{
     content: "";
     display: block;
     padding-top: 100%;  /* initial ratio of 1:1*/
-
 }
 
 
