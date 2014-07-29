@@ -123,3 +123,9 @@ a:focus {
   height: 51px;
   overflow-y: hidden;
 }
+
+.popover {
+  font-size: 1.2em;
+  width: 170px;
+  text-align: center;
+}
