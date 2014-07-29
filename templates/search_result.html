@@ -56,9 +56,15 @@
             <!-- <span>zpoekf</span> -->
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12" style="text-align:center;background-color:white; padding:0;">
-              <u>{{item.author}}</u>:<br/>{{item.little_title}}
+              <div class="result_title">
+              {{item.little_title}}
+              </div>
+              {{item.author}}
+              <div class="result_editorial_review">
+              {{item.summary}}
+              </div>
             </div>
-            
+
             <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2" >
               <a class="thumbnail" href="{% url 'book_management:search' item.title %}">
                 <img src="{% static "img/magnifier13.png" %}"/>

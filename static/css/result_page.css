@@ -110,3 +110,16 @@ a:focus {
     background: none;
     background-image: none;   
 }
+
+.result_editorial_review{
+  font-size: 0.8em;
+  height: 51px;
+  overflow-y: hidden;
+}
+
+.result_title{
+  font-size: 1.2em; 
+  font-weight: bold;
+  height: 51px;
+  overflow-y: hidden;
+}
