@@ -72,7 +72,7 @@ font-size: 80%;
   background-color: #FF5900;
 }*/
 
-#search_button
+.search_button
 {
 	/*background-color: #32B232;*/
   background: url(/static/img/search_back.png) no-repeat center center;
@@ -81,7 +81,7 @@ font-size: 80%;
   -o-background-size: cover;
   background-size: cover;
 }
-#gold_button
+.gold_button
 {
     /*background-color: #32B232;*/
   background: url(/static/img/gold_back.png) no-repeat center center;
@@ -91,7 +91,7 @@ font-size: 80%;
   background-size: cover;
 	/*background-color: #EBEB00;*/
 }
-#subscribe_button
+.subscribe_button
 {
     background: url(/static/img/sub_back.png) no-repeat center center;
   -webkit-background-size: cover;
