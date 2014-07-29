@@ -1,7 +1,20 @@
+/*html, body {
+
+	height:100%;
+}*/
+#block_content{
+	height: 100%;
+
+}
 .jumbotron {
-    
+    height: 100%;   
     background-color:rgba(0, 0, 0, 0.05);
 }
+
+#wrap{
+	height: 100%;
+
+} 
 .thumbnail {
   display: block;
   padding: 4px;
@@ -25,4 +38,12 @@ a:hover,
 a:focus {
   /*color: #18bc9c;*/
   /*text-decoration: underline;*/
+}
+
+.button_subtitle
+{
+	text-align: center;
+	font-weight: bold;
+	margin-top: 10px;
+
 }
