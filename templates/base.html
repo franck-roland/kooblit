@@ -36,79 +36,80 @@
   <div id="wrap">
     <div class="navbar navbar-fixed-top navbar-default " role="navigation" style="background-color:white;border-bottom:1px solid rgb(220,220,220);color:rgb(44,62,80);">
       <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{% url 'homepage'%}" style="color:rgb(44,62,80);font-size:28px; margin-top: -4px;">
-	<img class="point_kooblit" src="{% static "img/chouette.png" %}" width="35" alt="Logo Kooblit" style="padding-bottom:6px;"/>&nbsp;Kooblit</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <div class="dropdown">
-            <form id="search_form" class="navbar-form navbar-left" action="{% url 'search_engine:search' %}" role="search" method="get" >
-              <div class="form-group">
-                <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="height:34px;margin-top:5px;">
-              </div>
-              <button type="submit" style="position:absolute;top:-9999px;width:1px;"></button>
-            </form>
-          </div>
-          <ul class="nav navbar-nav navbar-right" style="color:rgb(44,62,80);font-size:28px">
-             {% if user.is_authenticated %}
-             <li class="dropdown user">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                <!-- <img alt="" src="assets/img/avatar3_small.jpg"> -->
-                <span class="username">
-                   {{ user.username }}
-                </span>
-                <i class="fa fa-angle-down"></i>
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'homepage'%}" style="color:rgb(44,62,80);margin-top: -4px;">
+  	         <img class="point_kooblit" src="{% static "img/chouette.png" %}" width="35" alt="Logo Kooblit" style="padding-bottom:6px;"/>&nbsp;Kooblit
+            </a>
+          </div> <!-- navbar-header -->
+          <div class="collapse navbar-collapse">
+            <div class="dropdown">
+              <form id="search_form" class="navbar-form navbar-left" action="{% url 'search_engine:search' %}" role="search" method="get" >
+                <div class="form-group">
+                  <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="height:34px;margin-top:5px;">
+                </div>
+                <button type="submit" style="position:absolute;top:-9999px;width:1px;"></button>
+              </form>
+            </div>
+            <ul class="nav navbar-nav navbar-right" style="color:rgb(44,62,80);">
+               {% if user.is_authenticated %}
+               <li class="dropdown user">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                  <!-- <img alt="" src="assets/img/avatar3_small.jpg"> -->
+                  <span class="username">
+                     {{ user.username }}
+                  </span>
+                  <i class="fa fa-angle-down"></i>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
 
-                    <a href="{% url 'users' user.username %}"><i class="fa fa-user"></i> Mon profil </a>
-                  </li>
-                  <li>
-                    <a href="page_calendar.html"><i class="fa fa-calendar"></i> My Calendar</a>
-                  </li>
-                  <li>
-                    <a href="inbox.html"><i class="fa fa-envelope"></i> My Inbox
-                    <span class="badge badge-danger">
-                       3
-                    </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fa fa-tasks"></i> My Tasks
-                    <span class="badge badge-success">
-                       7
-                    </span>
-                    </a>
-                  </li>
-                  <li class="divider">
-                  </li>
-                
-                <li>
-                  <a href="{% url 'usr_management:logout' %}"><i class="fa fa-key"></i> Log Out</a>
-                </li>
+                      <a href="{% url 'users' user.username %}"><i class="fa fa-user"></i> Mon profil </a>
+                    </li>
+                    <li>
+                      <a href="page_calendar.html"><i class="fa fa-calendar"></i> My Calendar</a>
+                    </li>
+                    <li>
+                      <a href="inbox.html"><i class="fa fa-envelope"></i> My Inbox
+                      <span class="badge badge-danger">
+                         3
+                      </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#"><i class="fa fa-tasks"></i> My Tasks
+                      <span class="badge badge-success">
+                         7
+                      </span>
+                      </a>
+                    </li>
+                    <li class="divider">
+                    </li>
+                  
+                    <li>
+                      <a href="{% url 'usr_management:logout' %}"><i class="fa fa-key"></i> Log Out</a>
+                    </li>
+                  </ul>
+                </li> <!-- dropDown User -->
+
+                <!-- <li><a href="{% url 'usr_management:logout' %}"> Se déconnecter </a></li> -->
+                 {% else %}
+                 <li><a href="{% url 'usr_management:login' %}#enregistrement" style="color:rgb(44,62,80);"> S'enregistrer </a></li>
+                 <li> <a href="{% url 'usr_management:login' %}#connection" style="color:rgb(44,62,80);"> Se connecter </a></li>
+                 {% endif %}
               </ul>
-            </li> <!-- dropDown User -->
-
-             <!-- <li><a href="{% url 'usr_management:logout' %}"> Se déconnecter </a></li> -->
-             {% else %}
-             <li><a href="{% url 'usr_management:login' %}#enregistrement" style="color:rgb(44,62,80);"> S'enregistrer </a></li>
-             <li> <a href="{% url 'usr_management:login' %}#connection" style="color:rgb(44,62,80);"> Se connecter </a></li>
-             {% endif %}
-          </ul>
-        </div><!-- /.nav-collapse -->
-      </div><!-- /.container -->
-    </div><!-- /.navbar -->
-    <div id="block_content">
-    {% block content %}{% endblock %}
-    </div>
-    </div> <!-- /.wrap -->
+            </div><!-- /.nav-collapse -->
+          </div><!-- /.container -->
+        </div><!-- /.navbar -->
+        <div id="block_content">
+          {% block content %}{% endblock %}
+        </div>
+      </div> <!-- /.wrap -->
 
     <!-- <div id="footer" >
       <div id="container" >
