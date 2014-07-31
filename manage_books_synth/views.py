@@ -260,7 +260,7 @@ def computeEmail(username, book_title):
 
 
 
-@login_required
+# @login_required
 def book_search(request, book_title):
     book_title = urllib.unquote(book_title)
     if request.method == 'GET':
@@ -279,19 +279,19 @@ def book_search(request, book_title):
             return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
 
     elif request.method == 'POST':
-        if request.user.is_authenticated():
+        # if request.user.is_authenticated():
             # book_title = request.GET['title']
             # computeEmail(request.user.username,book_title)
-            try:
+        try:
+            b = Book.objects.get(title=book_title)
+        except Book.DoesNotExist, e:
+            if not create_book(book_title):
                 b = Book.objects.get(title=book_title)
-            except Book.DoesNotExist, e:
-                if not create_book(book_title):
-                    b = Book.objects.get(title=book_title)
-            return HttpResponseRedirect('../')
+        return HttpResponseRedirect('../')
     else:
         raise Http404()
             
-@login_required
+# @login_required
 def book_detail(request, book_title):
     try:
         book = Book.objects.get(title=book_title)
