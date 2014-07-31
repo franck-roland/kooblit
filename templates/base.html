@@ -14,7 +14,7 @@
     <!-- Bootstrap core CSS -->
     <!-- <link href="{% static "flatly/bootstrap.min.css" %}" rel="stylesheet"> -->
     <!-- <link href="{% static "flatly/bootstrapTmp.css" %}" rel="stylesheet"> -->
-    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "css/typeahead.css" %}" rel="stylesheet">
     <link href="{% static "css/base.css" %}" rel="stylesheet">
 
@@ -51,7 +51,8 @@
             <div class="dropdown">
               <form id="search_form" class="navbar-form navbar-left" action="{% url 'search_engine:search' %}" role="search" method="get" >
                 <div class="form-group">
-                  <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="height:34px;margin-top:5px;">
+                  <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="height:34px;margin-top:5px;padding-bottom: 5px;
+padding-top: 5px;">
                 </div>
                 <button type="submit" style="position:absolute;top:-9999px;width:1px;"></button>
               </form>
