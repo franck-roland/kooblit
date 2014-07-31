@@ -9,6 +9,7 @@
 .jumbotron {
     height: 100%;   
     background-color:rgba(0, 0, 0, 0.05);
+    margin-bottom: 0px;
 }
 
 #wrap{
