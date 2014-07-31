@@ -135,16 +135,16 @@ def get_text(obj, name):
 
 def compute_json_one_result(result):
 
-    obj = result.find('ItemAttributes')
+    DetailPageURL = result.find('DetailPageURL').text
+    details = result.find("DetailPageURL").text
 
+    obj = result.find('ItemAttributes')
     title = get_text(obj, 'Title')
     author = get_text(obj, 'Author')
     isbn = get_text(obj, 'ISBN')
 
     obj = result.find("LargeImage")
-
     image = get_text(obj, "URL")
-    details = result.find("DetailPageURL").text
     
     try:
         obj = result.find('EditorialReviews').find('EditorialReview')
@@ -154,7 +154,8 @@ def compute_json_one_result(result):
 
     title = title.lower()
 
-    return {'title': title, 'author': author, 'isbn': isbn, 'image': image, 'summary': summary, 'details': details}
+    return {'title': title, 'author': author, 'isbn': isbn, 'image': image, 
+    'summary': summary, 'details': details, 'DetailPageURL': DetailPageURL}
 
 
 @sanitizer

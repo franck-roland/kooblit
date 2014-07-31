@@ -88,8 +88,8 @@
             </div>
           </div>
           <div class="img_container2 col-1 col-sm-1 col-lg-1" style='padding:0;text-align:center;' >
-            <a class="thumbnail" href="{% url 'book_management:post' item.title '' %}">
-                <img src="{% static "img/coins24.png" %}"/>
+            <a class="thumbnail" href="{{item.DetailPageURL}}">
+                <button> Acheter le livre</button>
               </a>
           </div>
         </div>
@@ -142,6 +142,6 @@
     }  
   }); 
   $(".gold_button").popover({trigger:'hover',placement:'bottom',content:"Je vends une synthèse"});
-  $("#id_birthday").popover({trigger:'hover',placement:'right',content:"jj/mm/aaaa"});
+  $(".search_button").popover({trigger:'hover',placement:'bottom',content:"Je cherche un synthèse"});
 </script>
 {% endblock %}
