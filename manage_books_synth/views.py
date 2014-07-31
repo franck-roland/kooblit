@@ -293,7 +293,11 @@ def book_search(request, book_title):
             
 @login_required
 def book_detail(request, book_title):
-    book = Book.objects.get(title=book_title)
+    try:
+        book = Book.objects.get(title=book_title)
+    except Book.DoesNotExist, e:
+        raise Http404()
+        
     resu = [(res.nb_searches,res.day.strftime('%d, %b %Y')) for res in  Recherche.objects(book=book)]
     if not book:
         return HttpResponseRedirect('/')        
