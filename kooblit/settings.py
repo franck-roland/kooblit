@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import yaml
+from slugify import Slugify
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 s = yaml.load(open(os.path.join(PROJECT_ROOT, "config.yaml"),"r").read())
@@ -24,6 +25,10 @@ from mongoengine import connect
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+
+#SLUGIFY BOOKS TITLE
+BOOKS_SLUG = Slugify(to_lower=True)
+BOOKS_SLUG.separator = ' '
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
