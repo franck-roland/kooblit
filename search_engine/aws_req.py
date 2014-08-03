@@ -14,6 +14,7 @@ import time
 import shutil
 from bs4 import BeautifulSoup
 
+from django.conf import settings
 from django.core.files import File
 # from mongoengine import *
 # connect('docs_db')
@@ -61,7 +62,9 @@ def unsanitize(s, to_lower=0):
         s = s.lower()
     return s
 
-def sanitize(s, to_lower=0):
+def sanitize(s, to_lower=0, slugify=0):
+    if slugify:
+        s = settings.BOOKS_SLUG(s)
     l = []
     if to_lower:
         s = s.lower()
@@ -75,7 +78,7 @@ def sanitize(s, to_lower=0):
 
 def sanitizer(func):
     def do(title,*args,**kwargs):
-        return func(sanitize(title),*args,**kwargs)
+        return func(sanitize(title, slugify=1),*args,**kwargs)
     return do
 
 
@@ -99,6 +102,13 @@ def check_in_tmp(title, page_nb, server_name):
             with open(dir_path + "f_" + str(page_nb) + '.xml', 'r') as f:
                 _file = File(f)
                 ret = _file.read()
+                root = ET.fromstring(ret)
+                # Check if there was an error in the buffered page
+                try:
+                    root.find("{http://ecs.amazonaws.com/doc/2009-01-06/}Error").text 
+                    ret = ""
+                except AttributeError, e:
+                    pass
     return ret
 
 def create_tmp(title, page_nb, server_name, result):
@@ -166,7 +176,7 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
     global head
     url = "http://{0}/onca/xml?"
     result = []
-    # for i in xrange(1,11):
+    # for i in xrange(1,11):(title)
     for link_url in ("ecs.amazonaws.co.uk", "ecs.amazonaws.fr"):
         max_pages = 0
         for page_nb in xrange(1,11):
@@ -174,7 +184,6 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
             m = m.split("\n")
             m.sort()
             m = '&'.join(m)
-
             s = check_in_tmp(title, page_nb, link_url)
             if not s:
                 u = urllib.urlopen(''.join((url.format(link_url), 
@@ -202,7 +211,7 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
 
             for t in root.iter('Item'):
                 tmp = compute_json_one_result(t)
-                if exact_match and sanitize(tmp['title']) == title or not exact_match:
+                if exact_match and sanitize(tmp['title'], slugify=1) == title or not exact_match:
                     # import pdb;pdb.set_trace()
                     if escape:
                         tmp['title'] = sanitize(tmp['title'])
