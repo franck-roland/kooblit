@@ -12,6 +12,8 @@ import os
 import re
 import time
 import shutil
+from bs4 import BeautifulSoup
+
 from django.core.files import File
 # from mongoengine import *
 # connect('docs_db')
@@ -148,7 +150,7 @@ def compute_json_one_result(result):
     
     try:
         obj = result.find('EditorialReviews').find('EditorialReview')
-        summary = get_text(obj, 'Content')
+        summary = BeautifulSoup(get_text(obj, 'Content')).get_text()
     except AttributeError, e:
         summary = ""
 
