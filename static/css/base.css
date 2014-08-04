@@ -101,3 +101,7 @@ font-size: 80%;
 	/*background-color: #006A80;*/
 
 }
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a{
+  color: rgb(44, 62, 80);
+}
