@@ -36,7 +36,7 @@
 </div>
 {% elif replace %}
 <div>
-    Une synthese avec le même titre existe déjà.
+    Une synthese pour ce livre existe déjà.
     Voulez vous la remplacer?
 </div>
 <div class="container" style="padding-top:30px;">
@@ -75,16 +75,10 @@
     </div>
     <div class="container">
         <div class="form-group">
-            <label for="id_title" class="control-label ">Titre de la synthèse</label>
-                <input id="id_title" type="text" name="title" maxlength="50" required></input>
-                {{ form.title.errors }}
-        </div>
-        <div class="form-group">
-            <label for="id_file" class="control-label ">Fichier</label>
+            <label for="id_file" class="control-label ">Synthèse</label>
                 <input id="id_file" type="file" name="file" required></input>
                 {{ form.file.errors }}
         </div>
-
         <div class="form-group">
             <div class="col-lg-4 col-lg-offset-4">
                 <button type="submit" class="btn btn-primary">Envoyer</button>

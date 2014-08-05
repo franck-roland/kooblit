@@ -168,62 +168,68 @@ def send_alert(book_title):
         computeEmail(user.username, book_title, alert=1)
 
 @login_required
-def upload_file(request, book_title, title):
-    book_title = urllib.unquote(book_title)
-    ret = {'form': '', 'prev': '', 'error': '', 'replace': ''}
+def upload_file(request, book_title, author_username):
     username = request.user.username
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if request.POST.get('oui',''):
+    book_title = urllib.unquote(book_title)
+    if not author_username:
+        title = ''.join(("Kooblit de '", book_title, "' par ", username))
+    else:
+        title = ''.join(("Kooblit de '", book_title,"' par ",author_username))
+    ret = {'form': '', 'prev': '', 'error': '', 'replace': ''}
+    if username == author_username or not author_username:
+        if request.method == 'POST':
+            form = UploadFileForm(request.POST, request.FILES)
+            if request.POST.get('oui',''):
+                try:
+                    create_file(book_title, title, username)
+                except IOError, e:
+                    raise
+                delete_tmp_file(book_title, title, username)
+                messages.success(request, u'Votre fichier <i>"%s"</i> a bien été enregistré.' % title)
+                send_alert(book_title);
+                return HttpResponseRedirect('/',RequestContext(request))
+
+            elif request.POST.get('oui_replace',''):
+                return HttpResponseRedirect(username,RequestContext(request,ret))
+
+            elif request.POST.get('non_replace',''):
+                delete_tmp_file(book_title, title, username)
+                form = UploadFileForm()
+                ret['form'] = form
+                return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
+
+            else:
+                ret['form'] = form
+                if request.POST.get('non',''):
+                    return render_to_response('upload.html', 
+                        RequestContext(request,ret))
+                else:
+                    ret['form'] = form
+                    if form.is_valid():
+                        if create_tmp_file(request.FILES['file'], book_title, title, username):
+                            ret['replace'] = 'oui'
+                            ret['title'] = urllib.quote(username)
+                            return render_to_response('upload.html', RequestContext(request,ret))
+                        return HttpResponseRedirect(urllib.quote(username),RequestContext(request,ret))
+        elif author_username:
+            book = Book.objects.get(title=book_title)
+            user = UserKooblit.objects.get(username=username)
+            file_html = get_name(book_title, title, username)+'.html'
             try:
-                create_file(book_title, title, username)
-            except IOError, e:
-                raise Http404()
-            delete_tmp_file(book_title, title, username)
-            messages.success(request, u'Votre fichier <i>"%s"</i> a bien été enregistré.' % title)
-            send_alert(book_title);
-            return HttpResponseRedirect('/',RequestContext(request))
+                with open(file_html, 'r') as f:
+                    s = f.read()
+                ret['prev'] = s
+            except IOError:
+                raise 
+                # form = UploadFileForm()
+                # ret['form'] = form
+            return render_to_response('upload.html', RequestContext(request,ret))
 
-        elif request.POST.get('oui_replace',''):
-            return HttpResponseRedirect(request.POST['title'],RequestContext(request,ret))
-
-        elif request.POST.get('non_replace',''):
-            delete_tmp_file(book_title, request.POST['title'], username)
+        else:
             form = UploadFileForm()
             ret['form'] = form
             return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
 
-        else:
-            ret['form'] = form
-            if request.POST.get('non',''):
-                return render_to_response('upload.html', 
-                    RequestContext(request,ret))
-            else:
-                ret['form'] = form
-                if form.is_valid():
-                    if create_tmp_file(request.FILES['file'], book_title, request.POST['title'], username):
-                        ret['replace'] = 'oui'
-                        ret['title'] = urllib.quote(request.POST['title'])
-                        return render_to_response('upload.html', RequestContext(request,ret))
-                    return HttpResponseRedirect(urllib.quote(request.POST['title']),RequestContext(request,ret))
-    elif title:
-        book = Book.objects.get(title=book_title)
-        user = UserKooblit.objects.get(username=username)
-        file_html = get_name(book_title, title, username)+'.html'
-        try:
-            with open(file_html, 'r') as f:
-                s = f.read()
-            ret['prev'] = s
-        except IOError:
-            raise Http404()
-            # form = UploadFileForm()
-            # ret['form'] = form
-        return render_to_response('upload.html', RequestContext(request,ret))
-
-    else:
-        form = UploadFileForm()
-        ret['form'] = form
-        return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
 
 
 def computeEmail(username, book_title, alert=0):
