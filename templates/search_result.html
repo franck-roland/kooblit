@@ -70,7 +70,7 @@
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2" >
+            <div class="col-xs-12 col-sm-12 col-md-6" >
               <!-- <a id="search_button" class="thumbnail" href="/accounts/login/#enregistrement" style="height:80px;width:80px;margin:auto;">
                 <img src="{% static "img/magnifier13.png" %}" width="30" style="height: 40px; width: 40px; display: block;text-align:center;margin-top:15px" />
               </a> -->
@@ -78,7 +78,7 @@
                 <img src="{% static "img/magnifier13.png" %}"/>
               </a>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-1" >
+            <div class="col-xs-12 col-sm-12 col-md-6" >
               <a class="gold_button thumbnail" href="{% url 'book_management:post' item.title '' %}">
                 <img src="{% static "img/coins24.png" %}"/>
               </a>
@@ -139,7 +139,7 @@
      });
     }  
   }); 
-  $(".gold_button").popover({trigger:'hover',placement:'bottom',content:"Je vends une synthèse"});
-  $(".search_button").popover({trigger:'hover',placement:'bottom',content:"Je cherche un synthèse"});
+  $(".gold_button").popover({trigger:'hover',placement:'right',content:"Je vends une synthèse"});
+  $(".search_button").popover({trigger:'hover',placement:'top',content:"Je cherche un synthèse"});
 </script>
 {% endblock %}
