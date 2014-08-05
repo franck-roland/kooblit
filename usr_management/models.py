@@ -48,4 +48,6 @@ class Comments(models.Model):
     comment = models.CharField(max_length=2048, default=False)
     date = models.DateField(null=True, default=datetime.datetime.now)
         
-        
+class Demande(models.Model):
+    user = models.ForeignKey('UserKooblit')
+    book = models.CharField(max_length=240, default=False)

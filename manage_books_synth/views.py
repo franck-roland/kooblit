@@ -36,7 +36,7 @@ from django.contrib import messages
 from search_engine.aws_req import compute_args
 from .models import Book, UniqueBook, Recherche
 #Usr_management models
-from usr_management.models import UserKooblit, Syntheses
+from usr_management.models import UserKooblit, Syntheses, Demande
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -167,6 +167,13 @@ def create_book_if_doesnt_exist(book_title):
     except Book.DoesNotExist, e:
         create_book(book_title)
 
+def send_alert(book_title):
+    b = Book.objects.get(title=book_title)
+    demandes = Demande.objects.filter(book=b.id)
+    for d in demandes:
+        user = d.user
+        computeEmail(user.username, book_title, alert=1)
+
 @login_required
 def upload_file(request, book_title, title):
     book_title = urllib.unquote(book_title)
@@ -181,6 +188,7 @@ def upload_file(request, book_title, title):
                 raise Http404()
             delete_tmp_file(book_title, title, username)
             messages.success(request, u'Votre fichier <i>"%s"</i> a bien été enregistré.' % title)
+            send_alert(book_title);
             return HttpResponseRedirect('/',RequestContext(request))
 
         elif request.POST.get('oui_replace',''):
@@ -204,7 +212,6 @@ def upload_file(request, book_title, title):
                         ret['replace'] = 'oui'
                         ret['title'] = urllib.quote(request.POST['title'])
                         return render_to_response('upload.html', RequestContext(request,ret))
-                        # ret['error']='Une synthese avec le meme nom existe deja. Voulez-vous la remplacer'
                     return HttpResponseRedirect(urllib.quote(request.POST['title']),RequestContext(request,ret))
     elif title:
         book = Book.objects.get(title=book_title)
@@ -226,8 +233,11 @@ def upload_file(request, book_title, title):
         return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
 
 
-def computeEmail(username, book_title):
-    htmly = get_template('email_demande_infos.html')
+def computeEmail(username, book_title, alert=0):
+    if not alert:
+        htmly = get_template('email_demande_infos.html')
+    else:
+        htmly = get_template('email_synthese_dispo.html')
     email = UserKooblit.objects.get(username=username).email
     d = Context({'username': username, 'book_title': book_title})
     subject, from_email, to = ('[Kooblit] Alerte pour '+book_title, 
@@ -263,34 +273,68 @@ def computeEmail(username, book_title):
 # @login_required
 def book_search(request, book_title):
     book_title = urllib.unquote(book_title)
-    if request.method == 'GET':
-        try:
+    # if request.method == 'GET':
+    try:
 
-            b = Book.objects.get(title=book_title)
-            res = Recherche.objects(book=b)[0]
+        b = Book.objects.get(title=book_title)
+        res = Recherche.objects(book=b)[0]
 
-            if datetime.datetime.now().date() != res.day.date():
-                res = Recherche(book=b, nb_searches=1)
-            else:
-                res.nb_searches += 1
-            res.save()
-            return HttpResponseRedirect('../')
-        except Book.DoesNotExist, e:
-            return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
+        if datetime.datetime.now().date() != res.day.date():
+            res = Recherche(book=b, nb_searches=1)
+        else:
+            res.nb_searches += 1
+        res.save()
 
-    elif request.method == 'POST':
-        # if request.user.is_authenticated():
-            # book_title = request.GET['title']
-            # computeEmail(request.user.username,book_title)
-        try:
-            b = Book.objects.get(title=book_title)
-        except Book.DoesNotExist, e:
-            if not create_book(book_title):
-                b = Book.objects.get(title=book_title)
+        synthese = Syntheses.objects.get(livre_id=b.id)
         return HttpResponseRedirect('../')
-    else:
-        raise Http404()
-            
+    except Book.DoesNotExist:
+        return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
+    except Syntheses.DoesNotExist:
+        if request.user.is_authenticated() and Demande.objects.filter(user=UserKooblit.get(username=request.user.username)):
+            return HttpResponseRedirect('../')
+        else:
+            return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title, 'url_title':urllib.quote(book_title)}))
+
+    raise Http404()
+
+    # elif request.method == 'POST':
+    #     import pdb;pdb.set_trace()
+    #     try:
+    #         b = Book.objects.get(title=book_title)
+    #     except Book.DoesNotExist, e:
+    #         if not create_book(book_title):
+    #             b = Book.objects.get(title=book_title)
+    #         else:
+    #             raise Http400()
+    #     if request.user.is_authenticated():
+    #         user = UserKooblit.objects.get(username=request.user.username)
+    #         computeEmail(user.username,book_title)
+    #         demande = Demande(user=user, book=b.id)
+    #     else:
+    #         return HttpResponseRedirect('/accounts/login/?next=/book/'+book_title+'/ask')
+    #     return HttpResponseRedirect('../')
+    # else:
+    #     raise Http404()
+
+@login_required
+def demande_livre(request, book_title):
+    book_title = urllib.unquote(book_title)
+    try:        
+        b = Book.objects.get(title=book_title)
+    except Book.DoesNotExist, e:
+        if not create_book(book_title):
+            b = Book.objects.get(title=book_title)
+        else:
+            raise Http404()
+    user = UserKooblit.objects.get(username=request.user.username)
+    computeEmail(user.username,book_title)
+    try:
+        Demande.objects.get(user=user, book=b.id)
+    except Demande.DoesNotExist:
+        demande = Demande(user=user, book=b.id)
+        demande.save()
+    return HttpResponseRedirect('../')
+
 # @login_required
 def book_detail(request, book_title):
     try:

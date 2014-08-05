@@ -6,20 +6,11 @@
 {% endblock %}
 {% block content %}
 <div class="container" style="padding-top:30px;">
-    Le livre <h5>{{ title }}</h5> que vous recherchez n'est malheureusement pas disponible.<br/>
-    voulez-vous être prévenu dès qu'une synthèse sera disponible?
+    L'ouvrage <h5>{{ title }}</h5> ne dispose pas de synthèse disponible sur le site à ce jour. Nous allons faire notre possible pour vous procurer une synthèse dans les plus brefs délais. Souhaitez-vous être prévenu lorsqu'une synthèse sera en ligne?
 </div>
 <div class="container" style="padding-top:30px;">
-    <form method="POST">{% csrf_token %}
-        <fieldset>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <a class="btn btn-default" href="{% url 'homepage' %}" >Non</a>
-                    <button type="submit" class="btn btn-primary">Oui</button>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+    <a class="btn btn-primary" href="{% url 'book_management:ask' url_title %}" >Oui</a>
+    <a class="btn btn-default" href="{% url 'homepage' %}" >Non</a>
 </div>
 {% endblock %}
 {% block script_block %}
