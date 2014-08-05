@@ -67,14 +67,7 @@ def check_pdf(file_name):
         return 1
     except Exception:
         raise
-# _file = models.FileField(upload_to="syntheses")
-#     user = models.ForeignKey('UserKooblit')
-#     livre_id = models.CharField(max_length=240, unique=True, default=False)
-#     nb_achat = models.BigIntegerField(default=0)
-#     note_moyenne = models.BigIntegerField(default=0)
-#     nbre_notes = models.BigIntegerField(default=0)
-#     date = models.DateField(null=True, default=datetime.datetime.now)
-#     prix = models.DecimalField(max_digits=6, decimal_places=2)
+
 def slugify(filename):
     ch1 = u"àâçéèêëîïôùûüÿ"
     ch2 = u"aaceeeeiiouuuy"
@@ -273,6 +266,7 @@ def computeEmail(username, book_title, alert=0):
 # @login_required
 def book_search(request, book_title):
     book_title = urllib.unquote(book_title)
+    doesnotexist = {'title': book_title, 'url_title': urllib.unquote(book_title)}
     # if request.method == 'GET':
     try:
 
@@ -288,12 +282,12 @@ def book_search(request, book_title):
         synthese = Syntheses.objects.get(livre_id=b.id)
         return HttpResponseRedirect('../')
     except Book.DoesNotExist:
-        return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title}))
+        return render_to_response('doesnotexist.html',RequestContext(request, doesnotexist))
     except Syntheses.DoesNotExist:
         if request.user.is_authenticated() and Demande.objects.filter(user=UserKooblit.get(username=request.user.username)):
             return HttpResponseRedirect('../')
         else:
-            return render_to_response('doesnotexist.html',RequestContext(request,{'title': book_title, 'url_title':urllib.quote(book_title)}))
+            return render_to_response('doesnotexist.html',RequestContext(request, doesnotexist))
 
     raise Http404()
 
@@ -325,7 +319,7 @@ def demande_livre(request, book_title):
         if not create_book(book_title):
             b = Book.objects.get(title=book_title)
         else:
-            raise Http404()
+            raise Exception("Erreur de creation du livre")
     user = UserKooblit.objects.get(username=request.user.username)
     computeEmail(user.username,book_title)
     try:
