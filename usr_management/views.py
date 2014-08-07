@@ -40,16 +40,16 @@ def computeEmail(username, email, validation_id):
     msg.send()
 
 def computeNewValidation(username):
-    user = UserKooblit.objects.get(username=username)
+    user = UserKooblit.objects.get(username__iexact=username)
     val = Verification(user=user, verification_id=hashlib.sha256(username).hexdigest())
     val.save()
     return val
 
 def try_login(request, username, password, next_url):
     try:
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=username.lower(), password=password)
         if user is not None:
-            user_kooblit = UserKooblit.objects.get(username=user.username)
+            user_kooblit = UserKooblit.objects.get(username__iexact=user.username)
             if user.is_active and user_kooblit.is_confirmed:
                 login(request, user)
                 return HttpResponseRedirect(next_url)
@@ -132,7 +132,7 @@ def email_confirm(request, verification_id):
             val.delete()
             
 
-            user = User.objects.get(username=username)
+            user = User.objects.get(username__iexact=username)
             if user is not None:
                 if user.is_active:
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
@@ -155,7 +155,7 @@ def user_suppression(request):
 
 @login_required
 def user_profil(request, username):
-    user_kooblit = UserKooblit.objects.get(username=username)
+    user_kooblit = UserKooblit.objects.get(username__iexact=username)
     if user_kooblit.is_active and user_kooblit.is_confirmed:   
         return render(request, 'dashboard/index_profile.html', RequestContext(request, {'user_kooblit': user_kooblit}))
     else:
@@ -173,7 +173,7 @@ def check_exist(request):
                 return HttpResponse(json.dumps(response_data), content_type="application/json")    
             kwargs['email'] = mail
         else:
-            kwargs['username'] = username
+            kwargs['username__iexact'] = username
         try:
             user_kooblit = UserKooblit.objects.get(**kwargs)
             response_data['result'] = 'failed'
