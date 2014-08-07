@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
+from random import randrange
+import hashlib
+
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 # from django.contrib.auth.forms import UserCreationForm
-from .forms import UserCreationFormKooblit
+from .forms import UserCreationFormKooblit, ReinitialisationForm
 from django.contrib.auth.models import User
-from .models import Verification, UserKooblit
+from .models import Verification, UserKooblit, Reinitialisation
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth import logout
@@ -25,7 +28,6 @@ import json
 
 from django.template import RequestContext
 
-import hashlib
 
 def computeEmail(username, email, validation_id):
     htmly = get_template('email.html')
@@ -181,3 +183,28 @@ def check_exist(request):
         except Exception:
             raise    
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+def ask_reinitialisation(request):
+    if request.method == 'POST':
+        form = ReinitialisationForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+            try:
+                while True:
+                    x = randrange(2**64)
+                    rnd = hashlib.sha1(str(x)).hexdigest()
+                    Reinitialisation.objects.get(rnd=rnd)
+            except Reinitialisation.DoesNotExist:
+                pass
+            user = UserKooblit.objects.get(email=email)
+            r = Reinitialisation(user=user, rnd=rnd)
+            r.save()
+            messages.success(request, "Un email vous a été renvoyé")
+            return HttpResponseRedirect('/',RequestContext(request))
+        else:
+            print form
+            return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))    
+
+    else:
+        form = ReinitialisationForm()
+        return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))

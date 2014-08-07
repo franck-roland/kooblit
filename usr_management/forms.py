@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserKooblit
+from .models import UserKooblit, Reinitialisation
 from django.contrib.admin.widgets import AdminDateWidget 
 from django.forms.extras.widgets import SelectDateWidget
 import datetime
@@ -54,7 +54,7 @@ class UserCreationFormKooblit(UserCreationForm):
         if email and email2 and email2 != email:
             raise forms.ValidationError(u'Email addresses mismatch.')
         username = self.cleaned_data.get('username')
-        if email and User.objects.filter(email=email).exclude(username=username).count():
+        if email and User.objects.filter(email=email).count():
             raise forms.ValidationError(u'Cette adresse est deja utilisee')
         return email
 
@@ -64,3 +64,14 @@ class UserCreationFormKooblit(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class ReinitialisationForm(forms.Form):
+    email = forms.EmailField()
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise forms.ValidationError(u'Champ obligatoire')
+        if not User.objects.filter(email=email).count():
+            raise forms.ValidationError(u"Cette adresse n'existe pas")
+        return email
+        

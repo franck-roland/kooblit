@@ -51,3 +51,8 @@ class Comments(models.Model):
 class Demande(models.Model):
     user = models.ForeignKey('UserKooblit')
     book = models.CharField(max_length=240, default=False)
+
+class Reinitialisation(models.Model):
+    user = models.ForeignKey('UserKooblit')
+    rnd = models.CharField(max_length=42, unique=True)
+        

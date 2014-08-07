@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+
+{% block extra_css %}
+{% endblock %}
+{% block content %}
+<div class="container" style="padding-top:50px;padding-bottom:20px;background-color: rgba(0, 0, 0, 0.05)">
+    <h2>
+        Entrer votre email
+    </h2>
+    <div class="container" style="padding-top:30px;">
+        <form method="POST">{% csrf_token %}
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                        <button type="submit" class="btn btn-primary">Réinitialiser</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block script_block %}
+{% endblock %}
