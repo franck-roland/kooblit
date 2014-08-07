@@ -47,16 +47,16 @@
   	         <img class="point_kooblit" src="{% static "img/chouette.png" %}" width="35" alt="Logo Kooblit" style="padding-bottom:6px;"/>&nbsp;Kooblit
             </a>
           </div> <!-- navbar-header -->
-          <div class="collapse navbar-collapse">
-            <div class="dropdown">
-              <form id="search_form" class="navbar-form navbar-left" action="{% url 'search_engine:search' %}" role="search" method="get" >
-                <div class="form-group">
-                  <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="height:34px;margin-top:5px;padding-bottom: 5px;
+            <form id="search_form" class="navbar-form navbar-left" action="{% url 'search_engine:search' %}" role="search" method="get" >
+              <div class="form-group">
+          <div class="dropdown">
+                <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="height:34px;margin-top:5px;padding-bottom: 5px;
 padding-top: 5px;">
-                </div>
-                <button type="submit" style="position:absolute;top:-9999px;width:1px;"></button>
-              </form>
-            </div>
+          </div>
+              </div>
+              <button type="submit" style="position:absolute;top:-9999px;width:1px;"></button>
+            </form>
+          <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right" style="color:rgb(44,62,80);">
                {% if user.is_authenticated %}
                <li class="dropdown user">
