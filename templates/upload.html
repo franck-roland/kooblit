@@ -6,54 +6,73 @@
 {% block content %}
 
 {% if prev %}
+<div class="container" style="padding-top:50px;">
+    <div class="progress">
+      <div class="progress-bar" style="width: 100%;"></div>
+    </div>
+</div>
 <div id="prev" class="container">
-<h2>
-    Les lignes ci-dessous résumeront votre synthèse:
-</h2>
+    <h2>
+        Les lignes ci-dessous résumeront votre synthèse:
+    </h2>
 </div>
 <div class="container">
-<h2>
-    Votre synthèse formatée en HTML:
-</h2>
+    <h2>
+        Votre synthèse formatée en HTML:
+    </h2>
     <div id="preview" class="container">
         {{ prev|safe }}
     </div>
 </div>
-<div>
-    Continuer?
-</div>
-<div class="container" style="padding-top:30px;">
-    <form method="POST">{% csrf_token %}
-        <fieldset>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <button type="submit" class="btn btn-primary" name="non" value="non">Non</button>
-                    <button type="submit" class="btn btn-primary" name="oui" value="oui">Oui</button>
+<div class="container">
+    <h2>
+        Continuer?
+    </h2>
+    <div class="container" style="padding-top:30px;">
+        <form method="POST">{% csrf_token %}
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="submit" class="btn btn-primary" name="non" value="non">Non</button>
+                        <button type="submit" class="btn btn-primary" name="oui" value="oui">Oui</button>
+                    </div>
                 </div>
-            </div>
-        </fieldset>
-    </form>
+            </fieldset>
+        </form>
+    </div>
 </div>
 {% elif replace %}
-<div>
-    Une synthese pour ce livre existe déjà.
-    Voulez vous la remplacer?
+<div class="container" style="padding-top:50px;">
+    <div class="progress">
+      <div class="progress-bar" style="width: 50%;"></div>
+    </div>
 </div>
-<div class="container" style="padding-top:30px;">
-    <form method="POST">{% csrf_token %}
-        <fieldset>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <input name="title" value="{{ title }}" type="hidden">
-                    <button type="submit" class="btn btn-primary" name="non_replace" value="non">Non</button>
-                    <button type="submit" class="btn btn-primary" name="oui_replace" value="oui">Oui</button>
+<div class="container" style="padding-top:50px;padding-bottom:20px;background-color: rgba(0, 0, 0, 0.05)">
+    <div>
+        Une synthese pour ce livre existe déjà.
+        Voulez vous la remplacer?
+    </div>
+    <div class="container" style="padding-top:30px;">
+        <form method="POST">{% csrf_token %}
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <input name="title" value="{{ title }}" type="hidden">
+                        <button type="submit" class="btn btn-primary" name="non_replace" value="non">Non</button>
+                        <button type="submit" class="btn btn-primary" name="oui_replace" value="oui">Oui</button>
+                    </div>
                 </div>
-            </div>
-        </fieldset>
-    </form>
+            </fieldset>
+        </form>
+    </div>
 </div>
 
 {% else %}
+<div class="container" style="padding-top:50px;">
+    <div class="progress">
+      <div class="progress-bar" style="width: 0%;"></div>
+    </div>
+</div>
 <div class="container" style="padding-top:50px;background-color: rgba(0, 0, 0, 0.05)">
  <form name='upload_form' class="form-horizontal django_form" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div class="container">
