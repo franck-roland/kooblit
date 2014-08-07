@@ -132,7 +132,8 @@
             {{ form.password_log.errors }}
         </div>    
     </div>
-    <div class="form-group">
+    <a href="{% url 'usr_management:ask_reinitialisation' %}" > mot de passe oublié </a>
+    <div class="form-group" style="padding-top:10px;" >
         <div class="col-lg-4 col-lg-offset-4">
             <button type="submit" class="btn btn-primary">Se connecter</button>
         </div>
