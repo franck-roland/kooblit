@@ -8,6 +8,7 @@ from django.conf import settings
 import datetime
 # Model utilisateur
 
+
 class UserKooblit(User):
     # username = models.CharField(max_length=30, unique=True)
     birthday = models.DateField(null=True)
@@ -25,9 +26,11 @@ class UserKooblit(User):
 
 class Verification(models.Model):
     """docstring for Verification"""
-    verification_id = models.CharField(max_length=240, unique=True, default=False)
+    verification_id = models.CharField(max_length=240, unique=True,
+                                       default=False)
     user = models.ForeignKey('UserKooblit')
-    
+
+
 class Syntheses(models.Model):
     _file = models.FileField(upload_to="syntheses", default=False)
     _file_html = models.FileField(upload_to="syntheses", default=False)
@@ -47,12 +50,13 @@ class Comments(models.Model):
     synthese = models.ForeignKey('Syntheses')
     comment = models.CharField(max_length=2048, default=False)
     date = models.DateField(null=True, default=datetime.datetime.now)
-        
+
+
 class Demande(models.Model):
     user = models.ForeignKey('UserKooblit')
     book = models.CharField(max_length=240, default=False)
 
+
 class Reinitialisation(models.Model):
     user = models.ForeignKey('UserKooblit')
     rnd = models.CharField(max_length=42, unique=True)
-        

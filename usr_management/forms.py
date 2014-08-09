@@ -1,4 +1,4 @@
-#--* coding: latin-1 *--
+#--* coding: utf-8 *--
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -6,6 +6,7 @@ from .models import UserKooblit, Reinitialisation
 from django.contrib.admin.widgets import AdminDateWidget 
 from django.forms.extras.widgets import SelectDateWidget
 import datetime
+
 
 class UserCreationFormKooblit(UserCreationForm):
     birthday = forms.DateField(label="Birthday",  
@@ -65,6 +66,7 @@ class UserCreationFormKooblit(UserCreationForm):
             user.save()
         return user
 
+
 class ReinitialisationForm(forms.Form):
     email = forms.EmailField()
     def clean_email(self):
@@ -74,4 +76,24 @@ class ReinitialisationForm(forms.Form):
         if not User.objects.filter(email=email).count():
             raise forms.ValidationError(u"Cette adresse n'existe pas")
         return email
+
+
+class DoReinitialisationForm(forms.Form):
+    mdp1 = forms.CharField(widget=forms.PasswordInput())
+    mdp2 = forms.CharField(widget=forms.PasswordInput())
+
+    def clean_mdp1(self):
+        mdp1 = self.cleaned_data.get('mdp1')
+        if not mdp1:
+            raise forms.ValidationError(u'Champ obligatoire')
+        return mdp1
+
+    def clean_mdp2(self):
+        mdp1 = self.cleaned_data.get('mdp1')
+        mdp2 = self.cleaned_data.get('mdp2')
+        if not mdp2:
+            raise forms.ValidationError(u'Champ obligatoire')
+        if mdp1 != mdp2:
+            raise forms.ValidationError(u'Mot de passe différent')
+        return mdp2
         

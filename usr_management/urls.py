@@ -8,7 +8,8 @@ urlpatterns = patterns('',
     url(r'^logout$', 'usr_management.views.user_logout', name='logout'),
     url(r'^delete$', 'usr_management.views.user_suppression', name='delete'),
     url(r'^confirmation/(?P<verification_id>[0-9a-f]{64})$', 'usr_management.views.email_confirm', name='email_confirm'),
-    url(r'^InputValidator', 'usr_management.views.check_exist', name='validator'),
-    url(r'^reinitialisation/', 'usr_management.views.ask_reinitialisation', name='ask_reinitialisation'),
+    url(r'^InputValidator$', 'usr_management.views.check_exist', name='validator'),
+    url(r'^reinitialisation/$', 'usr_management.views.ask_reinitialisation', name='ask_reinitialisation'),
+    url(r'^reinit/(?P<r_id>[0-9a-f]{40})$', 'usr_management.views.do_reinitialisation', name='do_reinitialisation'),
 
 )

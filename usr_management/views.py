@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 # from django.contrib.auth.forms import UserCreationForm
-from .forms import UserCreationFormKooblit, ReinitialisationForm
+from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm
 from django.contrib.auth.models import User
 from .models import Verification, UserKooblit, Reinitialisation
 from django.contrib.auth import authenticate, login
@@ -33,6 +33,16 @@ def computeEmail(username, email, validation_id):
     htmly = get_template('email.html')
     d = Context({'username': username, 'validation_id': validation_id})
     subject, from_email, to = ('Welcome to Kooblit!!', 
+                                'noreply@kooblit.com', email)
+    html_content = htmly.render(d)
+    msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+    msg.content_subtype = "html"
+    msg.send()
+
+def computeEmail_reinitialisation(username, email, validation_id):
+    htmly = get_template('email_reinitialisation.html')
+    d = Context({'username': username, 'validation_id': validation_id})
+    subject, from_email, to = ('[Kooblit] Réinitialisation de mot de passe', 
                                 'noreply@kooblit.com', email)
     html_content = htmly.render(d)
     msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
@@ -189,22 +199,46 @@ def ask_reinitialisation(request):
         form = ReinitialisationForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get("email")
+            user = UserKooblit.objects.get(email=email)
+            # Suppression d'une demande si déjà existante
+            reinits = Reinitialisation.objects.filter(user=user)
+            for reinit in reinits:
+                reinit.delete()
             try:
                 while True:
                     x = randrange(2**64)
-                    rnd = hashlib.sha1(str(x)).hexdigest()
+                    rnd = hashlib.sha1(''.join((email,str(x)))).hexdigest()
                     Reinitialisation.objects.get(rnd=rnd)
             except Reinitialisation.DoesNotExist:
                 pass
             user = UserKooblit.objects.get(email=email)
             r = Reinitialisation(user=user, rnd=rnd)
             r.save()
+            computeEmail_reinitialisation(user.username, email, rnd)
             messages.success(request, "Un email vous a été renvoyé")
             return HttpResponseRedirect('/',RequestContext(request))
         else:
-            print form
             return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))    
 
     else:
         form = ReinitialisationForm()
         return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))
+
+def do_reinitialisation(request, r_id):
+    try:
+        reinit = Reinitialisation.objects.get(rnd=r_id)
+    except Reinitialisation.DoesNotExist:
+        raise Http404()
+    if request.method == 'GET':
+        form = DoReinitialisationForm()
+        return render(request, 'do_reinitialisation.html', RequestContext(request, {'form': form}))
+    elif request.method == 'POST':
+        form = DoReinitialisationForm(request.POST)
+        if form.is_valid():
+            user = reinit.user
+            user.set_password(form.cleaned_data.get("mdp1"))
+            user.save()
+            reinit.delete()
+            messages.success(request, 'Votre mot de passe a bien été changé')
+            return HttpResponseRedirect('/',RequestContext(request))
+        return render(request, 'do_reinitialisation.html', RequestContext(request, {'form': form}))
