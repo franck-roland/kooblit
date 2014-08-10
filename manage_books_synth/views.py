@@ -49,8 +49,8 @@ from HTMLParser import HTMLParser
 #fichier docx
 from docx import opendocx, getdocumentHtml
 
-
-
+re_get_summary = re.compile('.*<div class="summary">(.+)</div>.*')
+re_get_extrait = re.compile('(<h1>.+</h1><div class="summary">.+</div><h3>.*</h3><p>.+</p>)<h3>.+</p>')
 def check_html(file_name):
     parser = HTMLParser()
     with open(file_name, 'rb') as _f:
@@ -98,8 +98,9 @@ def create_tmp_file(f, book_title, title, username):
         newparatextlist = []
         for paratext in paratextlist:
             newparatextlist.append(paratext.encode("utf-8"))
+        page_html = ''.join(('<html>',''.join(newparatextlist),'</html>'))
         #Join Paragraphs and print them
-        newfile.write(''.join(newparatextlist))
+        newfile.write(page_html)
 
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
@@ -285,7 +286,9 @@ def book_search(request, book_title):
             res.nb_searches += 1
         res.save()
 
-        synthese = Syntheses.objects.get(livre_id=b.id)
+        synthese = Syntheses.objects.filter(livre_id=b.id)
+        if not synthese:
+            return render_to_response('doesnotexist.html',RequestContext(request, doesnotexist))    
         return HttpResponseRedirect('../')
     except Book.DoesNotExist:
         return render_to_response('doesnotexist.html',RequestContext(request, doesnotexist))
@@ -347,11 +350,20 @@ def book_detail(request, book_title):
         return HttpResponseRedirect('/')        
     u_b = UniqueBook.objects(book=book)[0]
     syntheses = Syntheses.objects.filter(livre_id=book.id)
-    syntheses = [{'username':i.user.username, 'title':i.title,
-     'prix':i.prix, 'date':i.date} for i in syntheses]
+    resumes = []
+    extraits = []
+    for synt in syntheses:
+        resume = synt._file_html.read()
+        extrait = re_get_extrait.match(resume).groups()
+        print extrait
+        resume = re_get_summary.match(resume).groups()[0]
+        resumes.append(resume)
+        extraits.append(extrait)
+    content = zip(syntheses,resumes, extraits)
+
     # import pdb;pdb.set_trace()
-    return render_to_response('book_details.html',RequestContext(request,{'title': book.title, 'img_url': u_b.image, 
-        'nb_searches': resu, 'syntheses':syntheses}))
+    return render_to_response('details.html',RequestContext(request,{'title': book.title, 'img_url': u_b.image, 
+        'nb_searches': resu, 'content':content}))
 
 def check_exist(request, book_title):
     for b in Book.objects:
