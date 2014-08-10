@@ -1,1 +1,88 @@
-blah
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top visible-xs" role="navigation" id="">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle navigation</span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+
+        </button>
+        <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target=".navbar-ex2-collapse"> <span class="sr-only">Toggle navigation</span>
+ <i class="icon-user"></i>
+
+        </button> <a class="navbar-brand" style="text-align:center;" href="">Some link here centered</a>
+
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <li class="active"><a href="#">AAAA 1</a>
+
+        </li>
+        <li class="active"><a href="#">AAAA 2</a>
+
+        </li>
+        <li class="active"><a href="#">AAAA 3</a>
+
+        </li>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex2-collapse">
+        <li class="active"><a href="#">BBBB 1</a>
+
+        </li>
+        <li class="active"><a href="#">BBBB 2</a>
+
+        </li>
+        <li class="active"><a href="#">BBBB 3</a>
+
+        </li>
+    </div>
+</nav> -->
+<div class="panel-group col-md-8" id="accordion">
+	{% for s, r, e in content %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{forloop.counter0}}">
+        	{{s.user.username}}
+        </a>
+      </h4>
+           	{{s.date}}
+           	{{s.note_moyenne}}
+    		    {{s.prix}}€
+
+    </div>
+    <div id="collapse_{{forloop.counter0}}" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div class="extrait">
+      	 {{ r }}
+         </div>
+         <div class="sub_extrait">
+          <button class="btn btn-primary" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
+            Voir un extrait
+          </button>
+        </div>
+          <!-- Modal -->
+        <div class="modal fade" id="myModal_{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel"><img src="{% static 'img/logo/owl_only.png' %}" width="50px" alt="logo kooblit" > {{s.title}}</h4>
+              </div>
+              <div class="modal-body">
+                {{e|safe}}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div> <!-- Modal -->
+      </div>
+    </div>
+  </div>
+  	{% endfor %}
+</div> <!-- panel-group -->
+{% endblock %}

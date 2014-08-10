@@ -5,6 +5,7 @@ import sys
 import datetime
 import urllib
 import hashlib
+from lxml import etree
 
 #Settings
 from django.conf import settings
@@ -50,7 +51,7 @@ from HTMLParser import HTMLParser
 from docx import opendocx, getdocumentHtml
 
 re_get_summary = re.compile('.*<div class="summary">(.+)</div>.*')
-re_get_extrait = re.compile('(<h1>.+</h1><div class="summary">.+</div><h3>.*</h3><p>.+</p>)<h3>.+</p>')
+re_get_extrait = re.compile('(.*)')
 def check_html(file_name):
     parser = HTMLParser()
     with open(file_name, 'rb') as _f:
@@ -354,14 +355,22 @@ def book_detail(request, book_title):
     extraits = []
     for synt in syntheses:
         resume = synt._file_html.read()
-        extrait = re_get_extrait.match(resume).groups()
-        print extrait
+        extrait = re_get_extrait.match(resume).groups()[0]
+        root = etree.fromstring(resume)
+        count = 0
+        for elt in root.iter():
+            if elt.tag == 'h1':
+                elt.text = ''
+            if elt.tag == 'h3':
+                count += 1
+            if count >= 3:
+                elt.getparent().remove(elt)
+        extrait = etree.tostring(root)
         resume = re_get_summary.match(resume).groups()[0]
         resumes.append(resume)
         extraits.append(extrait)
     content = zip(syntheses,resumes, extraits)
 
-    # import pdb;pdb.set_trace()
     return render_to_response('details.html',RequestContext(request,{'title': book.title, 'img_url': u_b.image, 
         'nb_searches': resu, 'content':content}))
 
