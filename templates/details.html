@@ -39,7 +39,33 @@
         </li>
     </div>
 </nav> -->
-<div class="panel-group col-md-8" id="accordion">
+<div class=" container col-md-12" style="padding-top:10px;">
+  <div class="col-md-2">
+    <img src="{{img_url}}" class="img-rounded" width="100%">
+  </div>
+  <div class="col-md-10">
+    <dl>
+      <dt>Titre</dt>
+      <dd>{{title}}</dd>
+      <dt>Nombre de syntheses disponibles</dt>
+      <dd>{{nb_syntheses}}</dd>
+    </dl>
+    <div class="img_container2 col-3 col-sm-3 col-lg-3 col-xs-3" style='padding:0;text-align:center;' >
+      <a href="{{buy_url}}">
+          <button type="button" class="btn btn-primary" style="font-size:0.7em;width:100%"> Acheter<br/> le livre</button>
+        </a>
+    </div>
+  </div>
+</div>
+<div class="container col-md-12">
+<hr/>
+  <h1> Description </h1>
+  {{description}}
+
+<hr/>
+</div>
+<div class="panel-group col-md-12" id="accordion">
+  <h1> Synthèses </h1>
 	{% for s, r, e in content %}
   <div class="panel panel-default">
     <div class="panel-heading">
