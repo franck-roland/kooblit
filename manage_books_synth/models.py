@@ -13,7 +13,7 @@ class Genre(Document):
 
 
 class Book(Document):
-    small_title = StringField(max_length=32, required=True, unique=True)
+    small_title = StringField(max_length=32, required=True, unique=False)
     title = StringField(max_length=settings.MAX_BOOK_TITLE_LEN, required=True, unique=True)
     author = ListField(StringField(max_length=100, required=True))
     description = StringField(max_length=4096, required=False)

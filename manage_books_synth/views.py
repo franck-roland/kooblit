@@ -52,6 +52,7 @@ from docx import opendocx, getdocumentHtml
 
 re_get_summary = re.compile('.*<div class="summary">(.+)</div>.*')
 re_get_extrait = re.compile('(.*)')
+
 def check_html(file_name):
     parser = HTMLParser()
     with open(file_name, 'rb') as _f:
@@ -269,7 +270,10 @@ def computeEmail(username, book_title, alert=0):
 def book_search(request, book_title):
     book_title = urllib.unquote(book_title)
     doesnotexist = {'title': book_title, 'url_title': urllib.unquote(book_title)}
-    # if request.method == 'GET':
+    # if request.method == 'GET'
+    if not request.META.get('HTTP_REFERER','').startswith(''.join(('http://',request.META['HTTP_HOST'],'/search/?title='))):
+        raise Http404()
+    create_book_if_doesnt_exist(book_title)
     try:
 
         b = Book.objects.get(title=book_title)
