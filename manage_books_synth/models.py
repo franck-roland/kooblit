@@ -37,3 +37,4 @@ class UniqueBook(Document):
     isbn = StringField(max_length=100, required=True, unique=False)
     image = URLField()
     last_update = DateTimeField(default=datetime.datetime.now)
+    buy_url = URLField()

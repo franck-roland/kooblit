@@ -145,15 +145,9 @@ def create_book(book_title):
     book.save()
     r = Recherche(book=book, nb_searches=1)
     r.save()
-    isbn_list=[]
     for book_dsc in s:
-        try:
-            if not book_dsc['isbn'] in isbn_list:
-                u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'])
-                u_b.save()
-                isbn_list.append(book_dsc['isbn'])
-        except Exception, e:
-            raise
+        u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
+        u_b.save()
     return 0
 
 def create_book_if_doesnt_exist(book_title):
@@ -351,6 +345,8 @@ def book_detail(request, book_title):
         return HttpResponseRedirect('/')        
     u_b = UniqueBook.objects(book=book)[0]
     syntheses = Syntheses.objects.filter(livre_id=book.id)
+    nb_syntheses = len(syntheses)
+
     resumes = []
     extraits = []
     for synt in syntheses:
@@ -372,7 +368,7 @@ def book_detail(request, book_title):
     content = zip(syntheses,resumes, extraits)
 
     return render_to_response('details.html',RequestContext(request,{'title': book.title, 'img_url': u_b.image, 
-        'nb_searches': resu, 'content':content}))
+        'nb_syntheses': nb_syntheses, 'content':content, 'description':book.description, 'buy_url':u_b.buy_url}))
 
 def check_exist(request, book_title):
     for b in Book.objects:
