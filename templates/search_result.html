@@ -74,14 +74,18 @@
               <!-- <a id="search_button" class="thumbnail" href="/accounts/login/#enregistrement" style="height:80px;width:80px;margin:auto;">
                 <img src="{% static "img/magnifier13.png" %}" width="30" style="height: 40px; width: 40px; display: block;text-align:center;margin-top:15px" />
               </a> -->
-              <a class="search_button thumbnail" href="{% url 'book_management:search' item.title %}">
-                <img src="{% static "img/magnifier13.png" %}"/>
-              </a>
+              <div class="bs-component">
+                <a class="search_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je cherche une synthèse" href="{% url 'book_management:search' item.title %}">
+                  <img src="{% static "img/magnifier13.png" %}"/>
+                </a>
+              </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6" >
-              <a class="gold_button thumbnail" href="{% url 'book_management:post' item.title '' %}">
+              <div class="bs-component">
+              <a class="gold_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post' item.title '' %}">
                 <img src="{% static "img/coins24.png" %}"/>
               </a>
+              </div>
             </div>
             </div>
           </div>
@@ -139,7 +143,8 @@
      });
     }  
   }); 
-  $(".gold_button").popover({trigger:'hover',placement:'right',content:"Je vends une synthèse"});
-  $(".search_button").popover({trigger:'hover',placement:'top',content:"Je cherche un synthèse"});
+   $('.bs-component [data-toggle="tooltip"]').tooltip();
+  // $(".gold_button").popover({trigger:'hover',placement:'right',content:"Je vends une synthèse"});
+  // $(".search_button").popover({trigger:'hover',placement:'top',content:"Je cherche un synthèse"});
 </script>
 {% endblock %}
