@@ -386,6 +386,8 @@ def book_detail(request, book_title):
     for synt in syntheses:
         resume = synt._file_html.read()
         extrait = re_get_extrait.match(resume).groups()[0]
+        if not resume.startswith('<html>'):
+            resume = "".join(("<html>", resume, "</html>"))
         root = etree.fromstring(resume)
         count = 0
         for elt in root.iter():
