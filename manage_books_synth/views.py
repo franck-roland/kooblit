@@ -263,7 +263,33 @@ def computeEmail(username, book_title, alert=0):
 #     image = URLField()
 #     last_update = DateTimeField(default=datetime.datetime.now)
 # import pdb;pdb.set_trace()
+def create_book(book_title):
+    s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+    if not s:
+        return 1
+    first = s[0]
+    book = Book(small_title=first['title'][:32], title=first['title'][:256], 
+        author=[first['author']], description=first['summary'])
+    book.save()
+    r = Recherche(book=book, nb_searches=1)
+    r.save()
+    for book_dsc in s:
+        u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
+        u_b.save()
+    return 0
 
+def book_refresh(book_title):
+    s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+    if not s:
+        return 1
+    first = s[0]
+    book = Book.objects.get(small_title=first['title'][:32], title=first['title'][:256], 
+        author=[first['author']], description=first['summary'])
+    u_bs = UniqueBook.objects.filter(book=book)
+    for u_b,book_dsc in zip(u_bs, s):
+        u_b.buy_url = book_dsc['DetailPageURL']
+        u_b.save()
+    return 0
 
 
 # @login_required
@@ -348,6 +374,10 @@ def book_detail(request, book_title):
     if not book:
         return HttpResponseRedirect('/')        
     u_b = UniqueBook.objects(book=book)[0]
+    if not u_b.buy_url:
+        book_refresh(book_title)
+        u_b = UniqueBook.objects(book=book)[0]
+
     syntheses = Syntheses.objects.filter(livre_id=book.id)
     nb_syntheses = len(syntheses)
 
