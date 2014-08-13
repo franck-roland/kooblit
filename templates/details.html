@@ -42,7 +42,7 @@
 <div class=" container col-md-12" style="padding-top:10px;background-color: rgba(0, 0, 0, 0.05);padding-bottom:20px;border-bottom:2px solid rgb(214, 214, 214);">
   <div class="col-md-2">
     <img src="{{img_url}}" class="img-rounded" width="100%">
-    <div class="img_container2 col-12 col-sm-12 col-lg-12 col-xs-12" style='text-align:center;' >
+    <div class="img_container2 col-12 col-sm-12 col-lg-12 col-xs-12" style='text-align:center;padding:0;' >
       <a href="{{buy_url}}" target="_blank">
           <button type="button" class="btn btn-primary" style="font-size:0.7em;width:100%"> Acheter<br/> le livre</button>
         </a>
@@ -67,7 +67,7 @@
 </div>
 <div class="container col-md-12">
   <h1> Description </h1>
-  {{description}}
+  {{description|safe}}
 
 <hr/>
 </div>

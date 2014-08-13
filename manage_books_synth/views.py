@@ -283,8 +283,7 @@ def book_refresh(book_title):
     if not s:
         return 1
     first = s[0]
-    book = Book.objects.get(small_title=first['title'][:32], title=first['title'][:256], 
-        author=[first['author']], description=first['summary'])
+    book = Book.objects.get(title=book_title) 
     u_bs = UniqueBook.objects.filter(book=book)
     for u_b,book_dsc in zip(u_bs, s):
         u_b.buy_url = book_dsc['DetailPageURL']
@@ -365,6 +364,7 @@ def demande_livre(request, book_title):
 
 # @login_required
 def book_detail(request, book_title):
+    book_title = urllib.unquote(book_title)
     try:
         book = Book.objects.get(title=book_title)
     except Book.DoesNotExist, e:
