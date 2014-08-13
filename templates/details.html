@@ -65,12 +65,15 @@
     </div>
   </div>
 </div>
+{% if description %}
 <div class="container col-md-12">
   <h1> Description </h1>
   {{description|safe}}
 
 <hr/>
 </div>
+{% endif %}
+{% if content %}
 <div class="panel-group col-md-12" id="accordion">
   <h1> Synthèses </h1>
 	{% for s, r, e in content %}
@@ -117,7 +120,8 @@
     </div>
   </div>
   	{% endfor %}
-</div> <!-- panel-group -->
+</div> <!-- panel-group accordion -->
+{% endif %}
 {% endblock %}
 {% block script_block %}
 <script type="text/javascript">
