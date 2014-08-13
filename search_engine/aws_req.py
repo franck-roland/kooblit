@@ -160,7 +160,8 @@ def compute_json_one_result(result):
     
     try:
         obj = result.find('EditorialReviews').find('EditorialReview')
-        summary = BeautifulSoup(get_text(obj, 'Content')).get_text()
+        # summary = BeautifulSoup(get_text(obj, 'Content')).get_text()
+        summary = get_text(obj, 'Content')
     except AttributeError, e:
         summary = ""
 
