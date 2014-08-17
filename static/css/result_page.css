@@ -1,6 +1,14 @@
 .book_sub{
   font-size: 0.7em;
 }
+.img_container2{
+}
+.sub_img_container{
+  padding-top: 20px;
+  background-color: #DDDDDD;
+  width: 98%;
+  height: 100%;
+}
 .img_container{
     overflow: hidden;
     /*width: 140px;*/
