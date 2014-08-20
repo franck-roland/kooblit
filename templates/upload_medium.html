@@ -8,13 +8,16 @@
     <link rel="stylesheet" href="{% static "css/themes/default.css"%}">
 {% endblock %}
 {% block content %}
+    <div id="container">
     <form method="POST" id="form_synth">{% csrf_token %}
 
         <input id="container" name='q' type="hidden" value=""></input>
         <input id="container" name='e' type="hidden" value=""></input>
     </form>
-            <h1>Editez votre synthèse</h1>
-            <div class="editable">{{content|safe}}</div>
+    <h1>Editez votre synthèse</h1>
+    <div class="titre"></div>
+    <div class="editable">{{content|safe}}</div>
+    </div>
     <div id="container">
         <button class="btn btn-default" onclick="sauvegarder()"> Enregistrer </button>
         <button type="submit" class="btn btn-default" onclick="envoyer()" form="form_synth"> Envoyer </button>

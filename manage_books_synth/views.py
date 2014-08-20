@@ -109,11 +109,20 @@ def create_file_medium(s, book_title, username):
         s = s.replace('<br>','<br/>')
     if '<script' in s:
         s = s.replace('<script','\\<script')
+    # if '<style' in s:
+    #     x = s.split('<style')
+    #     tmp = []
+    #     for i in x:
+    #         if '/style>' in i:
+    #             tmp.append(i.split('/style>')[1])
+    #         else:
+    #             tmp.append(i)
+    #     s = ''.join(tmp)
 
     with codecs.open(filename, 'w', encoding='utf-8') as newfile:
         newfile.write(s)
 
-    with codecs.open(filename, 'r', encoding='utf-8') as destination:
+    with open(filename, 'r') as destination:
         try:
             synthese = Syntheses.objects.get(user=user, livre_id=book.id)
             synthese._file = File(destination)
@@ -452,16 +461,19 @@ def book_detail(request, book_title):
         # extrait = re_get_extrait.match(resume).groups()[0]
         if not resume.startswith('<html>'):
             resume = "".join(("<html>", resume, "</html>"))
-        root = etree.fromstring(resume)
-        count = 0
-        for elt in root.iter():
-            if elt.tag == 'h1':
-                elt.text = ''
-            if elt.tag == 'h3':
-                count += 1
-            if count >= 3:
-                elt.getparent().remove(elt)
-        extrait = etree.tostring(root)
+        # root = etree.fromstring(resume)
+        # count = 0
+        # for elt in root.iter():
+        #     if elt.tag == 'h1':
+        #         elt.text = ''
+        #     if elt.tag == 'h3':
+        #         count += 1
+        #     if count >= 3:
+        #         elt.getparent().remove(elt)
+        # extrait = etree.tostring(root)
+        extrait = resume
+        # resume = "ok"
+        # extrait = "ok"
         # resume = re_get_summary.match(resume).groups()[0]
         resumes.append(resume)
         extraits.append(extrait)
