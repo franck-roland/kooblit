@@ -8,24 +8,30 @@
     <link rel="stylesheet" href="{% static "css/themes/default.css"%}">
 {% endblock %}
 {% block content %}
-    <form method="POST">{% csrf_token %}
+    <form method="POST" id="form_synth">{% csrf_token %}
 
-        <div id="container">
+        <input id="container" name='q' type="hidden" value=""></input>
+        <input id="container" name='e' type="hidden" value=""></input>
+    </form>
             <h1>Editez votre synthèse</h1>
             <div class="editable">{{content|safe}}</div>
-        </div>
-    </form>
     <div id="container">
         <button class="btn btn-default" onclick="sauvegarder()"> Enregistrer </button>
+        <button type="submit" class="btn btn-default" onclick="envoyer()" form="form_synth"> Envoyer </button>
     </div>
 {% endblock %}
 {% block script_block %}
     <script src="{% static "js/medium-editor.js"%}"></script>
 
     <script>
+        var changed = 0;
         var editor = new MediumEditor('.editable', {
             buttonLabels: 'fontawesome'
         });
+        var d = new Date();
+        var t_interval = d.getTime();
+        var t_editor = d.getTime();
+
         $('.editable').on('input', function() {
             var d = new Date();
             t_editor = d.getTime();
@@ -45,11 +51,13 @@
                     csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]')[0].value
                     }
             });
+            changed = 0;
         }
-        var changed = 0
-        var d = new Date();
-        var t_interval = d.getTime();
-        var t_editor = d.getTime();
+        function envoyer () {
+            var ser = editor.serialize();
+            $('input[name="q"]')[0].value = ser['element-0']['value'];
+            $('input[name="e"]')[0].value = "1";
+        }
         var timer = setInterval(function() {
             var d = new Date();
             t_interval = d.getTime();

@@ -89,8 +89,11 @@ def get_name(book_title, username):
 
 def get_tmp_medium_file(book_title, username):
     filename = get_name(book_title, username)
-    with codecs.open(filename, 'r', encoding='utf-8') as newfile:
-        return newfile.read()
+    try:
+        with codecs.open(filename, 'r', encoding='utf-8') as newfile:
+            return newfile.read()
+    except IOError:
+        return ''
 
 def create_tmp_medium_file(s, book_title, username):
     create_book_if_doesnt_exist(book_title)
@@ -110,7 +113,7 @@ def create_file_medium(s, book_title, username):
             synthese.save()
         except Syntheses.DoesNotExist, e: 
             synthese = Syntheses(_file=File(destination), _file_html=File(destination), 
-            title=title, user=user, livre_id=book.id, prix=2)
+            user=user, livre_id=book.id, prix=2)
             synthese.save()
     os.remove(filename)
 
@@ -191,6 +194,7 @@ def send_alert(book_title):
     for d in demandes:
         user = d.user
         computeEmail(user.username, book_title, alert=1)
+        d.delete()
 
 @login_required
 def upload_file(request, book_title, author_username):
@@ -257,10 +261,17 @@ def upload_file(request, book_title, author_username):
 
 @login_required
 def upload_medium(request, book_title):
+    book_title = urllib.unquote(book_title)
     username = request.user.username
     if request.method=='POST':
-        create_tmp_medium_file(request.POST['q'], book_title, username)
-        return HttpResponse()
+        if request.POST.get('e',''):
+            create_file_medium(request.POST['q'], book_title, username) 
+            messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
+            send_alert(book_title)
+            return HttpResponseRedirect('/',RequestContext(request))
+        else:
+            create_tmp_medium_file(request.POST['q'], book_title, username)
+            return HttpResponse()
     else:
         s = get_tmp_medium_file(book_title, username)
         return render_to_response('upload_medium.html', RequestContext(request, {'book_title': book_title, 'content': s}))
@@ -421,7 +432,8 @@ def book_detail(request, book_title):
     extraits = []
     for synt in syntheses:
         resume = synt._file_html.read()
-        extrait = re_get_extrait.match(resume).groups()[0]
+        extrait = ""
+        # extrait = re_get_extrait.match(resume).groups()[0]
         if not resume.startswith('<html>'):
             resume = "".join(("<html>", resume, "</html>"))
         root = etree.fromstring(resume)
@@ -434,7 +446,7 @@ def book_detail(request, book_title):
             if count >= 3:
                 elt.getparent().remove(elt)
         extrait = etree.tostring(root)
-        resume = re_get_summary.match(resume).groups()[0]
+        # resume = re_get_summary.match(resume).groups()[0]
         resumes.append(resume)
         extraits.append(extrait)
     content = zip(syntheses,resumes, extraits)
