@@ -105,7 +105,15 @@ def create_file_medium(s, book_title, username):
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
     filename = get_name(book_title, username)
-    with open(filename, 'rb') as destination:
+    if '<br>' in s:
+        s = s.replace('<br>','<br/>')
+    if '<script' in s:
+        s = s.replace('<script','\\<script')
+
+    with codecs.open(filename, 'w', encoding='utf-8') as newfile:
+        newfile.write(s)
+
+    with codecs.open(filename, 'r', encoding='utf-8') as destination:
         try:
             synthese = Syntheses.objects.get(user=user, livre_id=book.id)
             synthese._file = File(destination)
@@ -263,6 +271,7 @@ def upload_file(request, book_title, author_username):
 def upload_medium(request, book_title):
     book_title = urllib.unquote(book_title)
     username = request.user.username
+    user = UserKooblit.objects.get(username=username)
     if request.method=='POST':
         if request.POST.get('e',''):
             create_file_medium(request.POST['q'], book_title, username) 
@@ -274,6 +283,13 @@ def upload_medium(request, book_title):
             return HttpResponse()
     else:
         s = get_tmp_medium_file(book_title, username)
+        if not s:
+            try:
+                book = Book.objects.get(title=book_title)
+                synthese = Syntheses.objects.get(user=user, livre_id=book.id)
+                s = synthese._file_html.read()
+            except Syntheses.DoesNotExist, Book.DoesNotExist:
+                pass
         return render_to_response('upload_medium.html', RequestContext(request, {'book_title': book_title, 'content': s}))
 
 def computeEmail(username, book_title, alert=0):
