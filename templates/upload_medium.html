@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<!DOCTYPE html>
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "css/demo.css"%}">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="{% static "css/medium-editor.css"%}">
+    <link rel="stylesheet" href="{% static "css/themes/default.css"%}">
+{% endblock %}
+{% block content %}
+    <form method="POST">{% csrf_token %}
+
+        <div id="container">
+            <h1>Editez votre synthèse</h1>
+            <div class="editable">{{content|safe}}</div>
+        </div>
+    </form>
+    <div id="container">
+        <button class="btn btn-default" onclick="sauvegarder()"> Enregistrer </button>
+    </div>
+{% endblock %}
+{% block script_block %}
+    <script src="{% static "js/medium-editor.js"%}"></script>
+
+    <script>
+        var editor = new MediumEditor('.editable', {
+            buttonLabels: 'fontawesome'
+        });
+        $('.editable').on('input', function() {
+            var d = new Date();
+            t_editor = d.getTime();
+            changed = 1;
+        });
+
+        function sauvegarder () {
+            var ser = editor.serialize();
+            $.ajax({
+                    url: "{% url 'book_management:post_medium' book_title %}",
+                    type: "POST",
+                    cache: false,
+                    success: function (data) {
+                    },
+                    data: {
+                    q: ser['element-0']['value'],
+                    csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]')[0].value
+                    }
+            });
+        }
+        var changed = 0
+        var d = new Date();
+        var t_interval = d.getTime();
+        var t_editor = d.getTime();
+        var timer = setInterval(function() {
+            var d = new Date();
+            t_interval = d.getTime();
+            if(t_interval - t_editor >= 2000 && changed){
+                var ser = editor.serialize();
+                $.ajax({
+                        url: "{% url 'book_management:post_medium' book_title %}",
+                        type: "POST",
+                        cache: false,
+                        success: function (data) {
+                        },
+                        data: {
+                        q:ser['element-0']['value'],
+                        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]')[0].value
+                        }
+                });
+                changed = 0;
+            }
+        }, 2000);
+        
+        
+    </script>
+{% endblock %}

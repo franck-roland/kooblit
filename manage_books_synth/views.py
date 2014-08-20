@@ -5,6 +5,7 @@ import sys
 import datetime
 import urllib
 import hashlib
+import codecs
 from lxml import etree
 
 #Settings
@@ -81,14 +82,41 @@ def slugify(filename):
             tmp.append(i)
     return ''.join(tmp)
 
-def get_name(book_title, title, username):
-    inpart = ''.join((book_title, slugify(title), username))
+def get_name(book_title, username):
+    inpart = ''.join((book_title, username))
     part = hashlib.sha1(inpart).hexdigest()
     return ''.join(('/tmp/', part))
 
-def create_tmp_file(f, book_title, title, username):
+def get_tmp_medium_file(book_title, username):
+    filename = get_name(book_title, username)
+    with codecs.open(filename, 'r', encoding='utf-8') as newfile:
+        return newfile.read()
+
+def create_tmp_medium_file(s, book_title, username):
     create_book_if_doesnt_exist(book_title)
-    file_name = get_name(book_title, title, username)
+    filename = get_name(book_title, username)
+    with codecs.open(filename, 'w', encoding='utf-8') as newfile:
+        newfile.write(s)
+
+def create_file_medium(s, book_title, username):
+    user = UserKooblit.objects.get(username=username)
+    book = Book.objects.get(title=book_title)
+    filename = get_name(book_title, username)
+    with open(filename, 'rb') as destination:
+        try:
+            synthese = Syntheses.objects.get(user=user, livre_id=book.id)
+            synthese._file = File(destination)
+            synthese._file_html = File(destination)
+            synthese.save()
+        except Syntheses.DoesNotExist, e: 
+            synthese = Syntheses(_file=File(destination), _file_html=File(destination), 
+            title=title, user=user, livre_id=book.id, prix=2)
+            synthese.save()
+    os.remove(filename)
+
+def create_tmp_file(f, book_title, username):
+    create_book_if_doesnt_exist(book_title)
+    file_name = get_name(book_title, username)
     with open(file_name, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
@@ -109,14 +137,14 @@ def create_tmp_file(f, book_title, title, username):
     synthese = Syntheses.objects.filter(user=user,title=title,livre_id=book.id)
     return synthese
 
-def create_file(book_title, title, username):
+def create_file(book_title, username):
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
-    file_name = get_name(book_title, title, username)
-    with open(file_name, 'rb') as destination:
-        with open(file_name+'.html', 'r') as newfile:
+    filename = get_name(book_title, username)
+    with open(filename, 'rb') as destination:
+        with open(filename+'.html', 'r') as newfile:
             try:
-                synthese = Syntheses.objects.get(user=user, title=title, livre_id=book.id)
+                synthese = Syntheses.objects.get(user=user, livre_id=book.id)
                 synthese._file = File(destination)
                 synthese._file_html = File(newfile)
                 synthese.save()
@@ -125,8 +153,8 @@ def create_file(book_title, title, username):
                 title=title, user=user, livre_id=book.id, prix=2)
                 synthese.save()
                 
-    os.remove(file_name)
-    os.remove(file_name+'.html')
+    os.remove(filename)
+    os.remove(filename+'.html')
 
 
 def delete_tmp_file(book_title, title, username):
@@ -178,7 +206,7 @@ def upload_file(request, book_title, author_username):
             form = UploadFileForm(request.POST, request.FILES)
             if request.POST.get('oui',''):
                 try:
-                    create_file(book_title, title, username)
+                    create_file(book_title, username)
                 except IOError, e:
                     raise
                 delete_tmp_file(book_title, title, username)
@@ -227,7 +255,15 @@ def upload_file(request, book_title, author_username):
             ret['form'] = form
             return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
 
-
+@login_required
+def upload_medium(request, book_title):
+    username = request.user.username
+    if request.method=='POST':
+        create_tmp_medium_file(request.POST['q'], book_title, username)
+        return HttpResponse()
+    else:
+        s = get_tmp_medium_file(book_title, username)
+        return render_to_response('upload_medium.html', RequestContext(request, {'book_title': book_title, 'content': s}))
 
 def computeEmail(username, book_title, alert=0):
     if not alert:
