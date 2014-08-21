@@ -76,6 +76,10 @@
 	{% for s, e in content %}
   <div class="panel panel-default">
     <div class="panel-heading">
+      <form id="form_ajout" method="POST">{% csrf_token %}
+        <input type="hidden" name="username" value="{{s.user.username}}">
+        <input type="hidden" name="book_title" value="{{title}}">
+      </form>
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{forloop.counter0}}">
         	{{s.user.username}}
@@ -91,6 +95,9 @@
          <div class="sub_extrait">
           <button class="btn btn-primary" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
             Voir un extrait
+          </button>
+          <button class="btn btn-primary" form="form_ajout">
+            Ajouter au panier
           </button>
         </div>
           <!-- Modal -->
@@ -119,5 +126,8 @@
 {% block script_block %}
 <script type="text/javascript">
 $('.bs-component [data-toggle="tooltip"]').tooltip();
+function ajouter (argument) {
+  // body...
+}
 </script>
 {% endblock %}
