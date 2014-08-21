@@ -73,7 +73,7 @@
 </div>
 <div class="panel-group col-md-12" id="accordion">
   <h1> Synthèses </h1>
-	{% for s, r, e in content %}
+	{% for s, e in content %}
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -88,9 +88,6 @@
     </div>
     <div id="collapse_{{forloop.counter0}}" class="panel-collapse collapse">
       <div class="panel-body">
-        <div class="extrait">
-      	 {{ r }}
-         </div>
          <div class="sub_extrait">
           <button class="btn btn-primary" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
             Voir un extrait

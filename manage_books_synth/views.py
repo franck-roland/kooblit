@@ -471,14 +471,14 @@ def book_detail(request, book_title):
         #     if count >= 3:
         #         elt.getparent().remove(elt)
         # extrait = etree.tostring(root)
-        extrait = resume
+        # extrait = resume
         # resume = "ok"
         # extrait = "ok"
         # resume = re_get_summary.match(resume).groups()[0]
         resumes.append(resume)
         extraits.append(extrait)
-    content = zip(syntheses,resumes, extraits)
-
+    content = zip(syntheses, resumes)
+    print content
     return render_to_response('details.html',RequestContext(request,{'title': book.title, 'img_url': u_b.image, 
         'nb_syntheses': nb_syntheses, 'content':content, 'description':book.description, 'buy_url':u_b.buy_url}))
 
