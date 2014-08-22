@@ -14,6 +14,15 @@
         <input id="container" name='q' type="hidden" value=""></input>
         <input id="container" name='e' type="hidden" value=""></input>
     </form>
+    <div class="container" style="height:50px;">
+        <div id="enregistrement-en-cours" class="alert alert-dismissable alert-success" style="display:none;">
+          Enregistrement de votre fichier.
+        </div>
+
+        <div id="enregistrement-success" class="alert alert-dismissable alert-success" style="display:none;">
+          Votre fichier a bien été enregistré.
+        </div>
+    </div>
     <h1>Editez votre synthèse</h1>
     <div class="titre"></div>
     <div class="editable">{{content|safe}}</div>
@@ -48,13 +57,21 @@
                     type: "POST",
                     cache: false,
                     success: function (data) {
+                        $("#enregistrement-en-cours").css('display','none');
+                        $("#enregistrement-success").fadeIn();
+                        setInterval(function() {$("#enregistrement-success").fadeOut();},5000);
                     },
+                    beforeSend: function(){
+                        $("#enregistrement-en-cours").fadeIn();
+                        changed = 0;
+                        return true;
+                    }
+                    ,
                     data: {
                     q: ser['element-0']['value'],
                     csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]')[0].value
                     }
             });
-            changed = 0;
         }
         function envoyer () {
             var ser = editor.serialize();
@@ -80,7 +97,5 @@
                 changed = 0;
             }
         }, 2000);
-        
-        
     </script>
 {% endblock %}
