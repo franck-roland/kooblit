@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class=" container col-md-12" style="padding-top:10px;background-color: rgba(0, 0, 0, 0.05);padding-bottom:20px;border-bottom:2px solid rgb(214, 214, 214);">
+{% if cart %}
+<div class="container col-md-12">
+  <h1> Cart </h1>
+  {% for i in cart %}
+  <div>
+     {{i}}
+  </div>
+  {% endfor %}
+
+<hr/>
+</div>
+{% else %}
+<div class="container col-md-12">
+  <h1> Votre panier est vide </h1>
+</div>
+{% endif %}
+
+{% endblock %}

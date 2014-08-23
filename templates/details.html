@@ -39,6 +39,16 @@
         </li>
     </div>
 </nav> -->
+{% if messages %}
+    <div class="container">
+      {% for message in messages %}
+        <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          {{ message|safe }}
+        </div>
+      {% endfor %}
+    </div>
+{% endif %}
 <div class=" container col-md-12" style="padding-top:10px;background-color: rgba(0, 0, 0, 0.05);padding-bottom:20px;border-bottom:2px solid rgb(214, 214, 214);">
   <div class="col-md-2">
     <img src="{{img_url}}" class="img-rounded" width="100%">
@@ -76,12 +86,11 @@
 {% if content %}
 <div class="panel-group col-md-12" id="accordion">
   <h1> Synthèses </h1>
-	{% for s, e in content %}
+	{% for s, e, ids in content %}
   <div class="panel panel-default">
     <div class="panel-heading">
-      <form id="form_ajout" method="POST">{% csrf_token %}
-        <input type="hidden" name="username" value="{{s.user.username}}">
-        <input type="hidden" name="book_title" value="{{title}}">
+      <form id="form_ajout" method="POST" >{% csrf_token %}
+        <input type="hidden" name="synthese" value="{{ids}}">
       </form>
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{forloop.counter0}}">
@@ -131,7 +140,7 @@
 <script type="text/javascript">
 $('.bs-component [data-toggle="tooltip"]').tooltip();
 function ajouter (argument) {
-  // body...
+  
 }
 </script>
 {% endblock %}

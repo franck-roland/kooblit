@@ -436,6 +436,21 @@ def demande_livre(request, book_title):
 
 # @login_required
 def book_detail(request, book_title):
+    if request.method == 'POST':
+        if not request.POST.get('synthese',[]):
+            raise Http404()
+
+        if not request.session.get('cart',''):
+            request.session.set_expiry(60*60)
+            request.session['cart'] = [request.POST['synthese'],]
+            messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
+        else:
+            if request.POST['synthese'] not in request.session['cart']:
+                request.session['cart'].append(request.POST['synthese'])
+                request.session.modified = True
+            else:
+                messages.warning(request, "Cette synthèse est déjà dans votre panier")
+
     book_title = urllib.unquote(book_title)
     try:
         book = Book.objects.get(title=book_title)
@@ -455,6 +470,7 @@ def book_detail(request, book_title):
 
     resumes = []
     extraits = []
+    syntheses_ids = []
     for synt in syntheses:
         resume = synt._file_html.read()
         extrait = ""
@@ -477,10 +493,10 @@ def book_detail(request, book_title):
         # resume = re_get_summary.match(resume).groups()[0]
         resumes.append(resume)
         extraits.append(extrait)
-    content = zip(syntheses, resumes)
-    print content
+        syntheses_ids.append(synt.id)
+    content = zip(syntheses, resumes, syntheses_ids)
     return render_to_response('details.html',RequestContext(request,{'title': book.title, 'img_url': u_b.image, 
-        'nb_syntheses': nb_syntheses, 'content':content, 'description':book.description, 'buy_url':u_b.buy_url}))
+            'nb_syntheses': nb_syntheses, 'content':content, 'description':book.description, 'buy_url':u_b.buy_url}))
 
 def check_exist(request, book_title):
     for b in Book.objects:
