@@ -444,10 +444,13 @@ def book_detail(request, book_title):
             request.session.set_expiry(60*60)
             request.session['cart'] = [request.POST['synthese'],]
             messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
+            request.nbre_achats += 1
         else:
             if request.POST['synthese'] not in request.session['cart']:
                 request.session['cart'].append(request.POST['synthese'])
                 request.session.modified = True
+                messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
+                request.nbre_achats += 1
             else:
                 messages.warning(request, "Cette synthèse est déjà dans votre panier")
 

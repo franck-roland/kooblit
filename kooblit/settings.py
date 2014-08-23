@@ -61,6 +61,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'achat.middleware.CartMiddleware',
 )
 
 
@@ -105,7 +106,7 @@ STATIC_ROOT = '/tmp/static/'
 STATICFILES_FINDER = ('django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder', )
 
-STATICFILES_DIRS = ( '/home/endoderconic/kooblit/kooblit/static/',)
+STATICFILES_DIRS = ( '/home/endoderconic/kooblit/static/',)
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates/'),

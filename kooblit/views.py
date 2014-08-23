@@ -8,6 +8,7 @@ from django.template import RequestContext
 # @login_required(login_url='/contact/')
 def homepage(request, essai=""):
 #    c = {}
+    print request
     try:
         u = {'kooblit_username': request.user.username}
     except Exception, e:
