@@ -5,6 +5,7 @@ import sys
 import datetime
 import urllib
 import hashlib
+import codecs
 from lxml import etree
 
 #Settings
@@ -81,14 +82,61 @@ def slugify(filename):
             tmp.append(i)
     return ''.join(tmp)
 
-def get_name(book_title, title, username):
-    inpart = ''.join((book_title, slugify(title), username))
+def get_name(book_title, username):
+    inpart = ''.join((book_title, username))
     part = hashlib.sha1(inpart).hexdigest()
     return ''.join(('/tmp/', part))
 
-def create_tmp_file(f, book_title, title, username):
+def get_tmp_medium_file(book_title, username):
+    filename = get_name(book_title, username)
+    try:
+        with codecs.open(filename, 'r', encoding='utf-8') as newfile:
+            return newfile.read()
+    except IOError:
+        return ''
+
+def create_tmp_medium_file(s, book_title, username):
     create_book_if_doesnt_exist(book_title)
-    file_name = get_name(book_title, title, username)
+    filename = get_name(book_title, username)
+    with codecs.open(filename, 'w', encoding='utf-8') as newfile:
+        newfile.write(s)
+
+def create_file_medium(s, book_title, username):
+    user = UserKooblit.objects.get(username=username)
+    book = Book.objects.get(title=book_title)
+    filename = get_name(book_title, username)
+    if '<br>' in s:
+        s = s.replace('<br>','<br/>')
+    if '<script' in s:
+        s = s.replace('<script','\\<script')
+    # if '<style' in s:
+    #     x = s.split('<style')
+    #     tmp = []
+    #     for i in x:
+    #         if '/style>' in i:
+    #             tmp.append(i.split('/style>')[1])
+    #         else:
+    #             tmp.append(i)
+    #     s = ''.join(tmp)
+
+    with codecs.open(filename, 'w', encoding='utf-8') as newfile:
+        newfile.write(s)
+
+    with open(filename, 'r') as destination:
+        try:
+            synthese = Syntheses.objects.get(user=user, livre_id=book.id)
+            synthese._file = File(destination)
+            synthese._file_html = File(destination)
+            synthese.save()
+        except Syntheses.DoesNotExist, e: 
+            synthese = Syntheses(_file=File(destination), _file_html=File(destination), 
+            user=user, livre_id=book.id, prix=2)
+            synthese.save()
+    os.remove(filename)
+
+def create_tmp_file(f, book_title, username):
+    create_book_if_doesnt_exist(book_title)
+    file_name = get_name(book_title, username)
     with open(file_name, 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
@@ -109,14 +157,14 @@ def create_tmp_file(f, book_title, title, username):
     synthese = Syntheses.objects.filter(user=user,title=title,livre_id=book.id)
     return synthese
 
-def create_file(book_title, title, username):
+def create_file(book_title, username):
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
-    file_name = get_name(book_title, title, username)
-    with open(file_name, 'rb') as destination:
-        with open(file_name+'.html', 'r') as newfile:
+    filename = get_name(book_title, username)
+    with open(filename, 'rb') as destination:
+        with open(filename+'.html', 'r') as newfile:
             try:
-                synthese = Syntheses.objects.get(user=user, title=title, livre_id=book.id)
+                synthese = Syntheses.objects.get(user=user, livre_id=book.id)
                 synthese._file = File(destination)
                 synthese._file_html = File(newfile)
                 synthese.save()
@@ -125,8 +173,8 @@ def create_file(book_title, title, username):
                 title=title, user=user, livre_id=book.id, prix=2)
                 synthese.save()
                 
-    os.remove(file_name)
-    os.remove(file_name+'.html')
+    os.remove(filename)
+    os.remove(filename+'.html')
 
 
 def delete_tmp_file(book_title, title, username):
@@ -163,6 +211,7 @@ def send_alert(book_title):
     for d in demandes:
         user = d.user
         computeEmail(user.username, book_title, alert=1)
+        d.delete()
 
 @login_required
 def upload_file(request, book_title, author_username):
@@ -178,7 +227,7 @@ def upload_file(request, book_title, author_username):
             form = UploadFileForm(request.POST, request.FILES)
             if request.POST.get('oui',''):
                 try:
-                    create_file(book_title, title, username)
+                    create_file(book_title, username)
                 except IOError, e:
                     raise
                 delete_tmp_file(book_title, title, username)
@@ -227,7 +276,30 @@ def upload_file(request, book_title, author_username):
             ret['form'] = form
             return render_to_response('upload.html', RequestContext(request,{'form': form, 'prev': ''}))
 
-
+@login_required
+def upload_medium(request, book_title):
+    book_title = urllib.unquote(book_title)
+    username = request.user.username
+    user = UserKooblit.objects.get(username=username)
+    if request.method=='POST':
+        if request.POST.get('e',''):
+            create_file_medium(request.POST['q'], book_title, username) 
+            messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
+            send_alert(book_title)
+            return HttpResponseRedirect('/',RequestContext(request))
+        else:
+            create_tmp_medium_file(request.POST['q'], book_title, username)
+            return HttpResponse()
+    else:
+        s = get_tmp_medium_file(book_title, username)
+        if not s:
+            try:
+                book = Book.objects.get(title=book_title)
+                synthese = Syntheses.objects.get(user=user, livre_id=book.id)
+                s = synthese._file_html.read()
+            except Syntheses.DoesNotExist, Book.DoesNotExist:
+                pass
+        return render_to_response('upload_medium.html', RequestContext(request, {'book_title': book_title, 'content': s}))
 
 def computeEmail(username, book_title, alert=0):
     if not alert:
@@ -385,24 +457,28 @@ def book_detail(request, book_title):
     extraits = []
     for synt in syntheses:
         resume = synt._file_html.read()
-        extrait = re_get_extrait.match(resume).groups()[0]
+        extrait = ""
+        # extrait = re_get_extrait.match(resume).groups()[0]
         if not resume.startswith('<html>'):
             resume = "".join(("<html>", resume, "</html>"))
-        root = etree.fromstring(resume)
-        count = 0
-        for elt in root.iter():
-            if elt.tag == 'h1':
-                elt.text = ''
-            if elt.tag == 'h3':
-                count += 1
-            if count >= 3:
-                elt.getparent().remove(elt)
-        extrait = etree.tostring(root)
-        resume = re_get_summary.match(resume).groups()[0]
+        # root = etree.fromstring(resume)
+        # count = 0
+        # for elt in root.iter():
+        #     if elt.tag == 'h1':
+        #         elt.text = ''
+        #     if elt.tag == 'h3':
+        #         count += 1
+        #     if count >= 3:
+        #         elt.getparent().remove(elt)
+        # extrait = etree.tostring(root)
+        # extrait = resume
+        # resume = "ok"
+        # extrait = "ok"
+        # resume = re_get_summary.match(resume).groups()[0]
         resumes.append(resume)
         extraits.append(extrait)
-    content = zip(syntheses,resumes, extraits)
-
+    content = zip(syntheses, resumes)
+    print content
     return render_to_response('details.html',RequestContext(request,{'title': book.title, 'img_url': u_b.image, 
         'nb_syntheses': nb_syntheses, 'content':content, 'description':book.description, 'buy_url':u_b.buy_url}))
 

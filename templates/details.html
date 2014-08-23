@@ -58,7 +58,7 @@
     
     <div class="col-xs-12 col-sm-12 col-md-12" >
       <div class="bs-component" style="padding-right:92%">
-        <a class="gold_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post' title '' %}">
+        <a class="gold_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' title %}">
           <img src="{% static "img/coins24.png" %}"/>
         </a>
       </div>
@@ -76,9 +76,13 @@
 {% if content %}
 <div class="panel-group col-md-12" id="accordion">
   <h1> Synthèses </h1>
-	{% for s, r, e in content %}
+	{% for s, e in content %}
   <div class="panel panel-default">
     <div class="panel-heading">
+      <form id="form_ajout" method="POST">{% csrf_token %}
+        <input type="hidden" name="username" value="{{s.user.username}}">
+        <input type="hidden" name="book_title" value="{{title}}">
+      </form>
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{forloop.counter0}}">
         	{{s.user.username}}
@@ -91,12 +95,12 @@
     </div>
     <div id="collapse_{{forloop.counter0}}" class="panel-collapse collapse">
       <div class="panel-body">
-        <div class="extrait">
-      	 {{ r }}
-         </div>
          <div class="sub_extrait">
           <button class="btn btn-primary" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
             Voir un extrait
+          </button>
+          <button class="btn btn-primary" form="form_ajout">
+            Ajouter au panier
           </button>
         </div>
           <!-- Modal -->
@@ -126,5 +130,8 @@
 {% block script_block %}
 <script type="text/javascript">
 $('.bs-component [data-toggle="tooltip"]').tooltip();
+function ajouter (argument) {
+  // body...
+}
 </script>
 {% endblock %}
