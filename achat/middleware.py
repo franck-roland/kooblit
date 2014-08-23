@@ -12,5 +12,4 @@ class CartMiddleware(object):
 			request.nbre_achats = 0
 
 	def process_response(self, request, response):
-		print response
 		return response

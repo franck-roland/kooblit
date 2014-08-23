@@ -63,12 +63,14 @@
                   <img src="{% static 'img/shopping43.png'%}" width="35px;" />
                   <i class="fa fa-angle-down"></i>
                 </a>
-                <ul class="dropdown-menu">
-                    <li>
-                      <a href="{% url 'achats:cart_details' %}" ><i class="fa fa-user"></i> Mon panier <span class="badge badge-success">
+                <ul class="dropdown-menu list-group">
+                  <li class="list-group-item">
+                      <a href="{% url 'achats:cart_details' %}" >
+                      
+                       Mon panier <span class="badge">
                         {{ request.nbre_achats }}
                       </span></a>
-                    </li>                    
+                  </li>
                   </ul>
               </li>
                {% if user.is_authenticated %}

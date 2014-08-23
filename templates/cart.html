@@ -3,12 +3,15 @@
 
 {% block content %}
 <div class=" container col-md-12" style="padding-top:10px;background-color: rgba(0, 0, 0, 0.05);padding-bottom:20px;border-bottom:2px solid rgb(214, 214, 214);">
-{% if cart %}
+{% if results %}
 <div class="container col-md-12">
   <h1> Cart </h1>
-  {% for i in cart %}
+  {% for title, index  in results %}
   <div>
-     {{i}}
+    <form method="POST">{% csrf_token %}
+     <input type="hidden" name="synthese_id" value="{{index}}">
+     <h4>{{title}}</h4> <button type="submit">x</button>
+     </form>
   </div>
   {% endfor %}
 
