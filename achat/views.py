@@ -1,3 +1,6 @@
+import pymill
+
+from django.conf import settings
 # model
 from usr_management.models import Syntheses
 from manage_books_synth.models import Book
@@ -25,7 +28,26 @@ def cart_details(request):
             raise Http404()
     cart = request.session.get('cart', [])
     cart = ["".join(("Kooblit de ", Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title, " par ",
-        			Syntheses.objects.get(id=i).user.username)) for i in cart]
+                    Syntheses.objects.get(id=i).user.username)) for i in cart]
     cart_ids = request.session.get('cart', [])
     results = zip(cart, cart_ids)
     return render_to_response('cart.html', RequestContext(request, {'results': results}))
+
+
+def paiement(request):
+    cart = request.session.get('cart',[])
+    if cart:
+        if request.method == 'POST':
+            p = pymill.Pymill(settings.PAYMILL_PRIV)
+            payment = p.new_card(token=request.POST['paymillToken'])
+            payement_id = payment.id
+            import pdb;pdb.set_trace()
+            transaction = p.transact(
+                amount=sum([int(float(Syntheses.objects.get(id=i).prix)*100) for i in cart]),
+                currency='EUR',
+                description='Test Transaction',
+                payment=payement_id
+            )
+            print transaction.status
+        return render_to_response('paiement.html', RequestContext(request))
+    raise Http404()  
