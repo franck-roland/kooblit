@@ -14,19 +14,21 @@ import yaml
 from slugify import Slugify
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-s = yaml.load(open(os.path.join(PROJECT_ROOT, "config.yaml"),"r").read())
+s = yaml.load(open(os.path.join(PROJECT_ROOT, "config.yaml"), "r").read())
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 AMAZON_KEY = s["AMAZON_KEY"]
 MONGO_PWD = s["MONGO_PWD"]
-MONGO_USER = s["MONGO_USER"] 
+MONGO_USER = s["MONGO_USER"]
+PAYMILL_PRIV = s["PAYMILL_PRIV"]
+PAYMILL_PUB = s["PAYMILL_PUB"]
 
 from mongoengine import connect
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-#SLUGIFY BOOKS TITLE
+# SLUGIFY BOOKS TITLE
 BOOKS_SLUG = Slugify(to_lower=True)
 BOOKS_SLUG.separator = ' '
 
@@ -103,7 +105,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/tmp/static/'
 
-STATICFILES_FINDER = ('django.contrib.staticfiles.finders.AppDirectoriesFinder',
+STATICFILES_FINDER = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder', )
 
 STATICFILES_DIRS = ( '/home/endoderconic/kooblit/static/',)
