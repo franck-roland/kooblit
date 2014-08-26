@@ -109,7 +109,7 @@ STATICFILES_FINDER = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder', )
 
-STATICFILES_DIRS = ( '/home/endoderconic/kooblit/static/',)
+STATICFILES_DIRS = ('/home/endoderconic/kooblit/static/',)
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates/'),
@@ -134,4 +134,4 @@ EMAIL_PORT = 587
 # INTERNE
 MAX_BOOK_TITLE_LEN = 1024
 
-MEDIA_ROOT='/var/www/media'
+MEDIA_ROOT = '/var/www/media'

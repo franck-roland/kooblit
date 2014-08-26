@@ -17,7 +17,6 @@ from django.views.decorators.http import require_GET
 
 
 def cart_details(request):
-    print request
     if request.method == 'POST':
         if request.POST.get('synthese_id', ''):
             if request.POST['synthese_id'] in request.session.get('cart', ''):
@@ -35,19 +34,18 @@ def cart_details(request):
 
 
 def paiement(request):
-    cart = request.session.get('cart',[])
+    cart = request.session.get('cart', [])
     if cart:
         if request.method == 'POST':
             p = pymill.Pymill(settings.PAYMILL_PRIV)
             payment = p.new_card(token=request.POST['paymillToken'])
             payement_id = payment.id
-            import pdb;pdb.set_trace()
             transaction = p.transact(
-                amount=sum([int(float(Syntheses.objects.get(id=i).prix)*100) for i in cart]),
+                amount=sum([int(float(Syntheses.objects.get(id=i).prix) * 100) for i in cart]),
                 currency='EUR',
                 description='Test Transaction',
                 payment=payement_id
             )
             print transaction.status
         return render_to_response('paiement.html', RequestContext(request))
-    raise Http404()  
+    raise Http404()
