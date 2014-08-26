@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class=" container col-md-12" style="padding-top:10px;background-color: rgba(0, 0, 0, 0.05);padding-bottom:20px;border-bottom:2px solid rgb(214, 214, 214);">
+<div class="controls controls-row">
+  <div class="btn-group span4">
+  <button id="btn-paymenttype-cc" class="paymenttype btn btn-primary disabled" value="cc">Credit card</button>
+<button id="btn-paymenttype-elv" class="paymenttype btn" value="elv">ELV</button>
+  </div>
+</div>
+<form id="payment-form" class="span4" action="#" method="POST">{% csrf_token %}
+ <p class="payment-errors alert-error span3" style="display:none;"></p>
+ <div id="payment-form-cc">
+  <div class="controls controls-row">
+   <div class="span2">
+    <label class="card-number-label">Card number</label>
+    <input class="card-number span2" type="text" size="20" value="4111111111111111"/>
+   </div>
+   <div class="span1">
+    <label class="card-cvc-label">CVC</label>
+    <input class="card-cvc span1" type="text" size="4" value="111"/>
+   </div>
+  </div>
+  <div class="controls controls-row">
+   <div class="span3 card-icon"></div>
+  </div>
+  <div class="controls controls-row">
+   <div class="span3">
+    <label class="card-holdername-label">Name</label>
+    <input class="card-holdername span3" type="text" size="20" value="lala"/>
+   </div>
+  </div>
+  <div class="controls controls-row">
+   <div class="span3">
+    <label class="card-expiry-label">Expiry date (MM/YYYY)</label>
+    <input class="card-expiry-month span1" type="text" size="2" value="12"/>
+
+    <span style="float:left;"> / </span>
+
+    <input class="card-expiry-year span1" type="text" size="4" value="2015"/>
+   </div>
+  </div>
+ </div>
+ <div id="payment-form-elv" style="display: none;">
+  <div class="controls controls-row">
+   <div class="span3">
+    <label class="elv-holdername-label">Account holder</label>
+    <input class="elv-holdername span3" type="text" size="20" value="Chris Hansen"/>
+   </div>
+  </div>
+  <div class="controlscontrols-row">
+   <div class="span3">
+    <label class="elv-account-label">Account number</label>
+    <input class="elv-account span3" type="text" size="20" value="648489890"/>
+   </div>
+  </div>
+  <div class="controls controls-row">
+   <div class="span3">
+    <label class="elv-bankcode-label">Bank code</label>
+    <input class="elv-bankcode span3" type="text" size="20" value="50010517"/>
+   </div>
+  </div>
+ </div>
+ <div class="controls controls-row">
+   <div class="span2"><label class="amount-label">Amount</label>
+    <input class="amount span2" type="text" size="5" value="10.00" name="amount"/>
+   </div>
+   <div class="span1"><label class="currency-label">Currency</label>
+    <input class="currency span1" type="text" size="3" value="EUR" name="currency"/>
+   </div>
+  </div>
+  <div class="controls controls-row">
+   <div class="span4">
+    <button class="submit-button btn btn-primary" type="submit" ></button>
+   </div>
+  </div>
+ </form>
+</div>
+{% endblock %}
+
+{% block script_block %}
+<script type="text/javascript">
+  var PAYMILL_PUBLIC_KEY = '0617344440204ad2af64041854b45e1e';
+</script>
+<script type="text/javascript" src="https://bridge.paymill.com/"></script>
+<script type="text/javascript">
+var translation = new Array();
+//German
+//Creditcard
+translation["de"] = new Object();
+translation["de"]["form"] = new Object();
+translation["de"]["form"]["card-paymentname"] = 'Kreditkarte';
+translation["de"]["form"]["card-number"] = 'Kartennummer';
+translation["de"]["form"]["card-cvc"] = 'CVC';
+translation["de"]["form"]["card-holdername"] = 'Karteninhaber';
+translation["de"]["form"]["card-expiry"] = 'Gültigkeitsdatum (MM/YYYY)';
+translation["de"]["form"]["amount"] = 'Betrag';
+translation["de"]["form"]["currency"] = 'Währung';
+translation["de"]["form"]["submit-button"] = 'Abschicken';
+//Elv
+translation["de"]["form"]["elv-paymentname"] = 'Elektronisches Lastschriftverfahren';
+translation["de"]["form"]["elv-account"] = 'Kontonummer';
+translation["de"]["form"]["elv-holdername"] = 'Kontoinhaber';
+translation["de"]["form"]["elv-bankcode"] = 'Bankleitzahl';
+//Error
+translation["de"]["error"] = new Object();
+translation["de"]["error"]["invalid-card-number"] = 'Ungültige Kartennummer';
+translation["de"]["error"]["invalid-card-expiry-date"] = 'Ungültiges Gültigkeitsdatum';
+translation["de"]["error"]["invalid-card-holdername"] = 'Bitte geben Sie den Karteninhaber an.';
+translation["de"]["error"]["invalid-elv-holdername"] = 'Bitte geben Sie den Kontoinhaber an.';
+translation["de"]["error"]["invalid-elv-accountnumber"] = 'Bitte geben Sie eine gültige Kontonummer ein.';
+translation["de"]["error"]["invalid-elv-bankcode"] = 'Bitte geben Sie eine gültige BLZ ein.';
+//English
+//Creditcard
+translation["en"] = new Object();
+translation["en"]["form"] = new Object();
+translation["en"]["form"]["card-paymentname"] = 'Creditcard';
+translation["en"]["form"]["card-number"] = 'Cardnumber';
+translation["en"]["form"]["card-cvc"] = 'CVC';
+translation["en"]["form"]["card-holdername"] = 'Cardholder';
+translation["en"]["form"]["card-expiry"] = 'Valid until (MM/YYYY)';
+translation["en"]["form"]["amount"] = 'Amount';
+translation["en"]["form"]["currency"] = 'Currency';
+translation["en"]["form"]["submit-button"] = 'Submit';
+//Elv
+translation["en"]["form"]["elv-paymentname"] = 'Directdebit';
+translation["en"]["form"]["elv-account"] = 'Accountnumber';
+translation["en"]["form"]["elv-holdername"] = 'Accountholder';
+translation["en"]["form"]["elv-bankcode"] = 'Bankcode';
+//Error
+translation["en"]["error"] = new Object();
+translation["en"]["error"]["invalid-card-number"] = 'Invalid cardnumber.';
+translation["en"]["error"]["invalid-card-expiry-date"] = 'Invalid expire-date.';
+translation["en"]["error"]["invalid-card-holdername"] = 'Please enter the cardholders name.';
+translation["en"]["error"]["invalid-elv-holdername"] = 'Please enter the accountholders name.';
+translation["en"]["error"]["invalid-elv-accountnumber"] = 'Please enter a valid accountnumber.';
+translation["en"]["error"]["invalid-elv-bankcode"] = 'Please enter a valid bankcode.';
+
+function PaymillResponseHandler(error, result) {
+  if (error) {
+    // Shows the error above the form
+    $(".payment-errors").text(error.apierror);
+    $(".submit-button").removeAttr("disabled");
+  } else {
+    var form = $("#payment-form");
+    // Output token
+    var token = result.token;
+    // Insert token into form in order to submit to server
+    form.append(
+      "<input type='hidden' name='paymillToken' value='"+token+"'/>"
+    );
+    form.get(0).submit();
+  }
+}
+
+$(document).ready(function() {
+ $("#payment-form").submit(function (event) {
+  // Absenden Button deaktivieren um weitere Klicks zu vermeiden
+  $('.submit-button').attr("disabled", "disabled");
+
+  paymenttype = $('.paymenttype.disabled').length ? $('.paymenttype.disabled').val() : 'cc';
+  switch (paymenttype) {
+    case "cc":
+      if (false == paymill.validateCardNumber($('.card-number').val())) {
+        $(".payment-errors").text(translation[formlang]["error"]["invalid-card-number"]);
+        $(".payment-errors").css("display","inline-block");
+        $(".submit-button").removeAttr("disabled");
+      }
+      if (false == paymill.validateExpiry($('.card-expiry-month').val(), $('.card-expiry-year').val())) {
+        $(".payment-errors").text(translation[formlang]["error"]["invalid-card-expiry-date"]);
+        $(".payment-errors").css("display","inline-block");
+        $(".submit-button").removeAttr("disabled");
+      }
+
+      if ($('.card-holdername').val() == '') {
+        $(".payment-errors").text(translation[formlang]["error"]["invalid-card-holdername"]);
+        $(".payment-errors").css("display","inline-block");
+        $(".submit-button").removeAttr("disabled");
+      }
+      var params = {
+        amount_int: $('.amount').val() * 100, // E.g. "15" for 0.15 Eur
+        currency: $('.currency').val(), // ISO 4217 e.g. "EUR"
+        number: $('.card-number').val(),
+        exp_month: $('.card-expiry-month').val(),
+        exp_year: $('.card-expiry-year').val(),
+        cvc: $('.card-cvc').val(),
+        cardholder: $('.card-holdername').val()
+      };
+    break;
+
+    case "elv":
+      if (false == $('.elv-holdername').val()) {
+        $(".payment-errors").text(translation["error"]["invalid-elv-holdername"]);
+        $(".payment-errors").css("display","inline-block");
+        $(".submit-button").removeAttr("disabled");
+        return false;
+      }
+      if (false == paymill.validateAccountNumber($('.elv-account').val())) {
+        $(".payment-errors").text(translation["error"]["invalid-elv-accountnumber"]);
+        $(".payment-errors").css("display","inline-block");
+        $(".submit-button").removeAttr("disabled");
+        return false;
+      }
+      if (false == paymill.validateBankCode($('.elv-bankcode').val())) {
+        $(".payment-errors").text(translation["error"]["invalid-elv-bankcode"]);
+        $(".payment-errors").css("display","inline-block");
+        $(".submit-button").removeAttr("disabled");
+        return false;
+      }
+      var params = {
+        number: $('.elv-account').val(),
+        bank: $('.elv-bankcode').val(),
+        accountholder: $('.elv-holdername').val()
+      };
+    break;
+  }
+  paymill.createToken(params, PaymillResponseHandler);
+  return false;
+ });
+
+});
+
+</script>
+{% endblock %}
