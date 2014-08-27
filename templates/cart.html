@@ -6,18 +6,21 @@
 {% if results %}
 <div class="container col-md-12">
   <h1> Cart </h1>
-  {% for title, index  in results %}
+  {% for synth, index  in results %}
   <div>
     <form method="POST">{% csrf_token %}
      <input type="hidden" name="synthese_id" value="{{index}}">
-     <h4>{{title}}</h4> <button type="submit">x</button>
+     <h4>{{synth.0}}</h4> {{synth.1}}€ <button type="submit">x</button>
      </form>
   </div>
   {% endfor %}
+  <div>
+     <h4>Total</h4> {{total}}€
+  </div>
 
 <hr/>
 </div>
-<button type="btn"> Valider le panier </button>
+<a href="{% url 'achats:paiement' %}" class="btn"> Valider le panier </button>
 {% else %}
 <div class="container col-md-12">
   <h1> Votre panier est vide </h1>

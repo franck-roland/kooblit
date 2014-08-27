@@ -26,11 +26,12 @@ def cart_details(request):
         else:
             raise Http404()
     cart = request.session.get('cart', [])
-    cart = ["".join(("Kooblit de ", Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title, " par ",
-                    Syntheses.objects.get(id=i).user.username)) for i in cart]
+    cart = [("".join(("Kooblit de ", Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title, " par ",
+                      Syntheses.objects.get(id=i).user.username)), Syntheses.objects.get(id=i).prix) for i in cart]
     cart_ids = request.session.get('cart', [])
     results = zip(cart, cart_ids)
-    return render_to_response('cart.html', RequestContext(request, {'results': results}))
+    total = sum((i[1] for i in cart))
+    return render_to_response('cart.html', RequestContext(request, {'results': results, 'total': total}))
 
 
 def paiement(request):
@@ -47,5 +48,7 @@ def paiement(request):
                 payment=payement_id
             )
             print transaction.status
-        return render_to_response('paiement.html', RequestContext(request))
+            print payement_id
+        total = sum((Syntheses.objects.get(id=i).prix for i in cart))
+        return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))
     raise Http404()
