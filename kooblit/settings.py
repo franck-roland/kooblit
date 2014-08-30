@@ -20,8 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 AMAZON_KEY = s["AMAZON_KEY"]
 MONGO_PWD = s["MONGO_PWD"]
 MONGO_USER = s["MONGO_USER"]
-PAYMILL_PRIV = s["PAYMILL_PRIV"]
-PAYMILL_PUB = s["PAYMILL_PUB"]
+PAYMILL_PRIVATE_KEY = s["PAYMILL_PRIV"]
+PAYMILL_PUBLIC_KEY = s["PAYMILL_PUB"]
 
 from mongoengine import connect
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
@@ -53,7 +53,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'search_engine',
     'usr_management',
+    'achat',
     'south',
+    'crispy_forms',
 )
 
 MIDDLEWARE_CLASSES = (

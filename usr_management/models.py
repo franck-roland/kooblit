@@ -22,6 +22,7 @@ class UserKooblit(User):
     # USERNAME_FIELD = 'username'
     # REQUIRED_FIELDS = ['email']
     objects = UserManager()
+    cagnotte = models.DecimalField(max_digits=100, decimal_places=2, default=0, unique=False)
 
 
 class Verification(models.Model):
@@ -60,3 +61,15 @@ class Demande(models.Model):
 class Reinitialisation(models.Model):
     user = models.ForeignKey('UserKooblit')
     rnd = models.CharField(max_length=42, unique=True)
+
+
+class Transaction(models.Model):
+    """docstring for Verification"""
+    remote_id = models.CharField(max_length=64, default=False)
+    user_from = models.ForeignKey('UserKooblit', default=False, unique=False)
+
+
+class Entree(models.Model):
+    user_dest = models.ForeignKey('UserKooblit', default=False, unique=False)
+    montant = models.DecimalField(max_digits=6, decimal_places=2, default=False, unique=False)
+    transaction = models.ForeignKey('Transaction', default=False)
