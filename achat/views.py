@@ -1,3 +1,5 @@
+import json
+import sys
 import pymill
 from hashlib import sha256
 import datetime
@@ -19,6 +21,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 def cart_details(request):
     if request.method == 'POST':
@@ -73,17 +78,13 @@ def crediter(user, montant):
 
 # TODO SEND EMAIL AVEC FACTURE
 @csrf_exempt
-def webhook(request, _id_hook):
+def webhook(request):
+    print >> sys.stderr, str(request)
     if request.method == 'POST':
-        print request.POST
+        json_string = request.META['wsgi.input'].read()
+        print >> sys.stderr, json_string
         try:
-            transaction = Transaction.objects.get(url=_id_hook)
-            entrees = Entree.objects.filter(transaction=transaction)
-            for e in entrees:
-                crediter(e.user_dest, e.montant)
-                e.delete()
-            transaction.delete()
-
+            return HttpResponse()
         except Transaction.DoesNotExist:
             raise Http404()
     else:
