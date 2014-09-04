@@ -442,12 +442,12 @@ def book_search(request, book_title):
         synthese = Syntheses.objects.filter(livre_id=b.id)
         if not synthese:
             return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
-        return HttpResponseRedirect(reverse('book_management:details', book_title_save))
+        return HttpResponseRedirect('../')
     except Book.DoesNotExist:
         return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
     except Syntheses.DoesNotExist:
         if request.user.is_authenticated() and Demande.objects.filter(user=UserKooblit.get(username=request.user.username)):
-            return HttpResponseRedirect(reverse('book_management:details', book_title_save))
+            # return HttpResponseRedirect(reverse('book_management:details', book_title_save))
             return HttpResponseRedirect('../')
         else:
             return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
