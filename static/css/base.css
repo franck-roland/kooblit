@@ -2,6 +2,11 @@
  * Style tweaks
  * --------------------------------------------------
  */
+
+ @font-face{
+  font-family: "Helvetica Neue Thin";
+  src: url('../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf') format('opentype');
+ }
 html,
 body {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
