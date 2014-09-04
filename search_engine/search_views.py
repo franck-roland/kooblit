@@ -46,7 +46,7 @@ def search_view(request):
             d['little_title'] = t + "..."
             d['title'] = unsanitize(d['title'])
 
-        return render_to_response("search_result.html", RequestContext(request, {'title': title, 'resultat': s, 'nb_result': 6}))
+        return render_to_response("search_result.html", RequestContext(request, {'titre': title, 'resultat': s, 'nb_result': 6}))
     except TypeError as e:
         raise
 
