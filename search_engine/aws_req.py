@@ -31,12 +31,12 @@ head = """GET
 {0}
 /onca/xml
 """
+"""Sort=relevance"""
 
 template = u"""Service=AWSECommerceService
 AWSAccessKeyId=AKIAJC6ZI2BWV4H7XTMQ
 Operation=ItemSearch
 SearchIndex=Books
-Sort=salesrank
 Title={0}
 ItemPage={1}
 ResponseGroup=ItemAttributes%2CImages%2CEditorialReview
@@ -44,23 +44,25 @@ Version=2009-01-06
 Timestamp=2015-01-01T12%3A00%3A00Z
 AssociateTag=kooblit-21"""
 # callback=%3F
-reserved = set([":", "/", "?", "#", "[", "]", "@", "!", "$", "&", "'", "(", ")", "*" , "+" , "," , ";" , "=", ' '])
+reserved = set([":", "/", "?", "#", "[", "]", "@", "!", "$", "&", "'", "(", ")", "*", "+", ",", ";", "=", ' '])
 can_be = set([' '])
+
 
 def unsanitize(s, to_lower=0):
     s = s.split("%")
     tmp = [s[0]]
     for i in s[1:]:
         if i:
-            if chr(int(i[:2],16)) in can_be:
-                v = chr(int(i[:2],16))
+            if chr(int(i[:2], 16)) in can_be:
+                v = chr(int(i[:2], 16))
             else:
-                v = ''.join(('%',i[:2]))
-            tmp.extend([v,i[2:]])
+                v = ''.join(('%', i[:2]))
+            tmp.extend([v, i[2:]])
     s = ''.join(tmp)
     if to_lower:
         s = s.lower()
     return s
+
 
 def sanitize(s, to_lower=0, slugify=0):
     if slugify:
@@ -76,9 +78,10 @@ def sanitize(s, to_lower=0, slugify=0):
             l.append(hex(ord(i)).upper()[2:])
     return ''.join(l)
 
+
 def sanitizer(func):
-    def do(title,*args,**kwargs):
-        return func(sanitize(title, slugify=1),*args,**kwargs)
+    def do(title, *args, **kwargs):
+        return func(sanitize(title, slugify=1), *args, **kwargs)
     return do
 
 
@@ -88,16 +91,17 @@ def create_dir_if_not_exists(path_name):
             os.remove(path_name)
         os.mkdir(path_name)
 
-#Check if this request has been done the last week and read the corresponding page_nb
+
+# Check if this request has been done the last week and read the corresponding page_nb
 def check_in_tmp(title, page_nb, server_name):
     dir_name = sha1(title).hexdigest()
-    dir_path = "/tmp/"+dir_name+"/"+server_name+"/"
+    dir_path = "/tmp/" + dir_name + "/" + server_name + "/"
     ret = ''
     if os.path.isdir(dir_path):
-        if int(time.time() - os.stat(dir_path).st_ctime)/86400 > 7:
+        if int(time.time() - os.stat(dir_path).st_ctime) / 86400 > 7:
             shutil.rmtree(dir_path)
             return ''
-        nber = len([name for name in os.listdir(dir_path) if os.path.isfile(dir_path+name)])
+        nber = len([name for name in os.listdir(dir_path) if os.path.isfile(dir_path + name)])
         if page_nb <= nber and page_nb > 0:
             with open(dir_path + "f_" + str(page_nb) + '.xml', 'r') as f:
                 _file = File(f)
@@ -105,31 +109,32 @@ def check_in_tmp(title, page_nb, server_name):
                 root = ET.fromstring(ret)
                 # Check if there was an error in the buffered page
                 try:
-                    root.find("{http://ecs.amazonaws.com/doc/2009-01-06/}Error").text 
+                    root.find("{http://ecs.amazonaws.com/doc/2009-01-06/}Error").text
                     ret = ""
                 except AttributeError, e:
                     pass
     return ret
 
+
 def create_tmp(title, page_nb, server_name, result):
     dir_name = sha1(title).hexdigest()
-    dir_path = "/tmp/"+dir_name+"/"
+    dir_path = "/tmp/" + dir_name + "/"
     ret = ''
     create_dir_if_not_exists(dir_path)
-    dir_path += server_name+"/"
+    dir_path += server_name + "/"
     create_dir_if_not_exists(dir_path)
-    file_name = dir_path+"f_"+str(page_nb)+'.xml'
+    file_name = dir_path + "f_" + str(page_nb) + '.xml'
     with open(file_name, 'w') as f:
         _file = File(f)
         ret = _file.write(result)
 
+
 def backward(m):
     prog = re.compile("(%([0-9a-fA-F]{2}))")
-    l =  prog.findall(m)
+    l = prog.findall(m)
     for i in l:
-        m = m.replace(i[0],chr(int(i[1],16)))
+        m = m.replace(i[0], chr(int(i[1], 16)))
     return m
-
 
 
 def calculate_signature_amazon(k, m):
@@ -138,12 +143,14 @@ def calculate_signature_amazon(k, m):
     b = sanitize(base64.standard_b64encode(d))
     return b
 
+
 def get_text(obj, name):
     try:
         ret = obj.find(name).text
     except AttributeError, e:
         ret = ""
     return ret
+
 
 def compute_json_one_result(result):
 
@@ -154,10 +161,15 @@ def compute_json_one_result(result):
     title = get_text(obj, 'Title')
     author = get_text(obj, 'Author')
     isbn = get_text(obj, 'ISBN')
+    book_format = get_text(obj, 'Binding')
+    try:
+        languages = obj.find('Languages').find('Language')
+        language = get_text(languages, 'Name')
+    except AttributeError, e:
+        language = ""
 
     obj = result.find("LargeImage")
     image = get_text(obj, "URL")
-    
     try:
         obj = result.find('EditorialReviews').find('EditorialReview')
         # summary = BeautifulSoup(get_text(obj, 'Content')).get_text()
@@ -167,34 +179,36 @@ def compute_json_one_result(result):
 
     title = title.lower()
 
-    return {'title': title, 'author': author, 'isbn': isbn, 'image': image, 
-    'summary': summary, 'details': details, 'DetailPageURL': DetailPageURL}
+    return {'title': title, 'author': author, 'isbn': isbn, 'image': image,
+            'summary': summary, 'details': details, 'DetailPageURL': DetailPageURL, 'book_format': book_format,
+            'language': language}
 
 
 @sanitizer
-def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
+def compute_args(title, k, exact_match=0, delete_duplicate=1, escape=0):
     global template
     global head
     url = "http://{0}/onca/xml?"
     result = []
-    # for i in xrange(1,11):(title)
-    for link_url in ("ecs.amazonaws.co.uk", "ecs.amazonaws.fr"):
+    # for i in xrange(1, 11):(title)
+    # "ecs.amazonaws.co.uk"
+    for link_url in ("ecs.amazonaws.fr", "ecs.amazonaws.com"):
         max_pages = 0
-        for page_nb in xrange(1,11):
+        for page_nb in xrange(1, 11):
             m = template.format(title, str(page_nb))
             m = m.split("\n")
             m.sort()
             m = '&'.join(m)
             s = check_in_tmp(title, page_nb, link_url)
             if not s:
-                u = urllib.urlopen(''.join((url.format(link_url), 
-                    m, 
-                    "&Signature=", 
-                    calculate_signature_amazon(k, head.format(link_url)+m))))
+                u = urllib.urlopen(''.join((url.format(link_url),
+                                            m,
+                                            "&Signature=",
+                                            calculate_signature_amazon(k, head.format(link_url) + m))))
 
-                # deb = ''.join((url.format(link_url), 
-                #     m, 
-                #     "&Signature=", 
+                # deb = ''.join((url.format(link_url),
+                #     m,
+                #     "&Signature=",
                 #     calculate_signature_amazon(k, head.format(link_url)+m)))
                 s = u.read()
                 create_tmp(title, page_nb, link_url, s)
@@ -203,12 +217,9 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
             if page_nb == 1:
                 try:
                     max_pages = int(root.find('Items').find('TotalPages').text)
-                
+
                 except AttributeError:
                     break
-
-                except Exception, e:
-                    raise
 
             for t in root.iter('Item'):
                 tmp = compute_json_one_result(t)
@@ -224,9 +235,11 @@ def compute_args(title,k, exact_match=0, delete_duplicate=1, escape=0):
 
     return result
 
+
 def create_book(title, k):
     s = compute_args(title, k, exact_match=1, delete_duplicate=0)
     # import pdb;pdb.set_trace()
+
 
 @sanitizer
 def compute_args2(title, k):
@@ -239,32 +252,30 @@ def compute_args2(title, k):
 #    k = open("AMAZON_KEY.conf").read()[:-1]
     link_url = "http://webservices.amazon.co.uk/onca/xml?"
     link_url = "http://ecs.amazonaws.fr/onca/xml?"
-    l = ''.join([link_url, m, "&Signature=", calculate_signature_amazon(k, head+m)])
+    l = ''.join([link_url, m, "&Signature=", calculate_signature_amazon(k, head + m)])
     l = l.split('?')
     l[1] = l[1].split("&")
     # import pdb;pdb.set_trace()
-    for i,v in enumerate(l[1]):
+    for i, v in enumerate(l[1]):
         l[1][i] = v.split("=")
         l[1][i][1] = backward(l[1][i][1])
     return l
 
+
 def main(f):
-    m = open(f,"rb").read()[:-1]
+    m = open(f, "rb").read()[:-1]
     m = m.split("\n")
     m.sort()
     m = '&'.join(m)
     k = os.environ["AMAZON_KEY"]
-    u = urllib.urlopen("http://ecs.amazonaws.co.uk/onca/xml?"+m+"&Signature="+calculate_signature_amazon(k, head+m))
+    u = urllib.urlopen("http://ecs.amazonaws.co.uk/onca/xml?" + m + "&Signature=" + calculate_signature_amazon(k, head + m))
     s = u.read()
     s = re.sub(' xmlns="[^"]+"', '', s, count=1)
     root = ET.fromstring(s)
     result = ['resultat']
     for t in root.iter('Item'):
         result.append(compute_json_one_result(t))
-    print "resultat = "+str(result)
-
-
-
+    print "resultat = " + str(result)
 
 
 if __name__ == "__main__":
