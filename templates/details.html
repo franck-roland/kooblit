@@ -98,7 +98,31 @@
         </a>
       </h4>
            	{{s.date}}
-           	{{s.note_moyenne}}
+            <div class="starRating">
+              {% if s.note_moyenne < 0.5 %}
+              <span class="aag_hdrStars fbr-stars-00">
+              {% elif s.note_moyenne < 1 %}
+              <span class="aag_hdrStars fbr-stars-05">
+              {% elif s.note_moyenne < 1.5 %}
+              <span class="aag_hdrStars fbr-stars-10">
+              {% elif s.note_moyenne < 2 %}
+              <span class="aag_hdrStars fbr-stars-15">
+              {% elif s.note_moyenne < 2.5 %}
+              <span class="aag_hdrStars fbr-stars-20">
+              {% elif s.note_moyenne < 3 %}
+              <span class="aag_hdrStars fbr-stars-25">
+              {% elif s.note_moyenne < 3.5 %}
+              <span class="aag_hdrStars fbr-stars-30">
+              {% elif s.note_moyenne < 4 %}
+              <span class="aag_hdrStars fbr-stars-35">
+              {% elif s.note_moyenne < 4.5 %}
+              <span class="aag_hdrStars fbr-stars-40">
+              {% elif s.note_moyenne < 5 %}
+              <span class="aag_hdrStars fbr-stars-45">
+              {% endif %}
+           	  <!-- {{s.note_moyenne}} -->
+              </span>
+            </div>
     		    {{s.prix}}€
 
     </div>
