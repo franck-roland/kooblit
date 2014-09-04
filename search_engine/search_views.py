@@ -37,7 +37,6 @@ def search_view(request):
         s = [d for d in s if d['book_format'] == u'Broché' or d['book_format'] == 'Hardcover']
         s = [d for d in s if d['language'] == u'Français' or d['language'] == 'Anglais' or d['language'] == 'English']
         for d in s:
-            print d['language']
             t = urllib.unquote(d['title'])
 
             if ":" in t:
@@ -45,11 +44,9 @@ def search_view(request):
                 t += "</span>"
 
             d['little_title'] = t + "..."
-            title = d['title']
-            title = unsanitize(title)
-            d['title'] = title
+            d['title'] = unsanitize(d['title'])
 
-        return render_to_response("search_result.html", RequestContext(request, {'resultat': s, 'nb_result': 6}))
+        return render_to_response("search_result.html", RequestContext(request, {'title': title, 'resultat': s, 'nb_result': 6}))
     except TypeError as e:
         raise
 

@@ -4,11 +4,22 @@
 .img_container2{
 }
 .sub_img_container{
+  padding: 0px;
   padding-top: 20px;
-  background-color: #DDDDDD;
-  width: 98%;
+  background-color: white;
+  width: 70%;
   height: 100%;
+  box-shadow: 3px 3px 8px #555;
 }
+.paragraph_end{
+  height: 19px;
+  width: 45px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), white) repeat scroll 0% 0% transparent;
+  bottom: 0px;
+  position: absolute;
+  right: 0px;
+}
+
 .img_container{
     overflow: hidden;
     /*width: 140px;*/
