@@ -15,12 +15,12 @@
 {% endif %}
   </div>
 {% if resultat|length > 6 %}
-  <div class="col-xs-2 col-sm-2 col-md-2">
-    <button type="button" class="btn btn-primary plus_button" style="font-size:0.7em;width:70%" onclick='afficher_plus()'> Plus</button>
+  <div class="col-xs-2 col-sm-2 col-md-2" style="position: absolute; bottom: 0px; right: 0px;">
+    <button type="button" class="btn btn-danger plus_button" style="font-size:0.7em;width:40%;margin-left: 50%;" onclick='afficher_plus()'> Plus</button>
   </div>
 {% endif %}
 </div>
-<div class="container container_result" style="padding-top:50px;background-color: rgba(0, 0, 0, 0.05);">
+<div class="container container_result" style="padding-top:50px;background-color: rgb(230, 230, 230);">
 <!-- <div id="carousel-example-generic" class="carousel slide" data-ride="carousel"> -->
   <!-- Indicators -->
 <!--   <ol class="carousel-indicators">
@@ -49,14 +49,15 @@
           <div class="img_container2 col-{% widthratio 12 nb_result 1 %} col-sm-{% widthratio 12 nb_result 1 %} col-lg-{% widthratio 12 nb_result 1 %} col-xs-6" style='' >
           {% endif %}
             <div class="sub_img_container container">
-            <div class="col-12 col-sm-12 col-lg-12 col-xs-12" style='padding:0;text-align:center;margin-bottom:5px;' >
+            <!-- <div class="col-12 col-sm-12 col-lg-12 col-xs-12" style='padding:0;text-align:center;margin-bottom:5px;' >
               <a href="{{item.DetailPageURL}}" target="_blank">
                 <button type="button" class="btn btn-primary" style="font-size:0.7em;width:70%"> Acheter<br/> le livre</button>
               </a>
-            </div> <!-- Bouton Acheter le livre -->
+            </div>  --><!-- Bouton Acheter le livre -->
             <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Je cherche une synthèse" href="{% url 'book_management:search' item.title %}">
         {% if item.image %}
-              <div class="repre_image col-xs-12 col-sm-12 col-md-12" style="text-align:center;background-image:url('{{ item.image }}');">
+              <div class="repre_image col-xs-12 col-sm-12 col-md-12" style="text-align:center;" >
+                <img src="{{ item.image }}" width=100%; style="box-shadow: 3px 3px 8px #555;">
               </div>
         {% else %}
               <div class="repre_image col-xs-12 col-sm-12 col-md-12" style="text-align:center;background-image:url('{% static 'img/empty_gallery.png' %}');">
@@ -81,9 +82,9 @@
                   </a>
                 </div>
               </div> --> <!-- BOUTON Recherche de synthese -->
-              <!-- <div class="col-xs-12 col-sm-12 col-md-6" >
+             <!--  <div class="col-xs-12 col-sm-12 col-md-12" style="text-align:center;" >
                 <div class="bs-component">
-                <a class="gold_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' item.title %}">
+                <a class="gold_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' item.title %}" >
                   <img src="{% static "img/coins24.png" %}"/>
                 </a>
                 </div>
