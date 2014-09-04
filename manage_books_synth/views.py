@@ -23,7 +23,8 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
 from django.template import Context
 from django.template import RequestContext
-
+from django.core.urlresolvers import reverse
+from django.templatetags.static import static
 
 # Emails
 from django.core.mail import send_mail
@@ -40,8 +41,6 @@ from .models import Book, UniqueBook, Recherche
 # Usr_management models
 from usr_management.models import UserKooblit, Syntheses, Demande
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
 from .forms import UploadFileForm
 
 # Imaginary function to handle an uploaded file.
@@ -194,6 +193,40 @@ def delete_tmp_file(book_title, title, username):
         os.remove(filename + '.html')
 
 
+def clean_create_book(request, book_title):
+    s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+    s = [d for d in s if d['book_format'] == u'Broché' or d['book_format'] == 'Hardcover']
+    s = [d for d in s if d['language'] == u'Français' or d['language'] == 'Anglais' or d['language'] == 'English']
+    if not s:
+        return 1
+    first = s[0]
+    try:
+        book = Book.objects.get(small_title=first['title'][:32], title=first['title'][:256],
+                                author=[first['author']], description=first['summary'])
+    except Book.DoesNotExist:
+        book = Book(small_title=first['title'][:32], title=first['title'][:256],
+                    author=[first['author']], description=first['summary'])
+    book.save()
+    try:
+        r = Recherche.objects.get(book=book, nb_searches=1)
+    except Recherche.DoesNotExist:
+        r = Recherche(book=book, nb_searches=1)
+    r.save()
+    for book_dsc in s:
+        try:
+            if book_dsc['image']:
+                u_b = UniqueBook.objects.get(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
+            else:
+                u_b = UniqueBook.objects.get(book=book, isbn=book_dsc['isbn'], image='http://' + request.get_host() + static('img/empty_gallery.png'), buy_url=book_dsc['DetailPageURL'])
+        except UniqueBook.DoesNotExist:
+            if book_dsc['image']:
+                u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
+            else:
+                u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image='http://' + request.get_host() + static('img/empty_gallery.png'), buy_url=book_dsc['DetailPageURL'])
+        u_b.save()
+    return 0
+
+
 def create_book(book_title):
     s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
     s = [d for d in s if d['book_format'] == u'Broché' or d['book_format'] == 'Hardcover']
@@ -207,7 +240,10 @@ def create_book(book_title):
     r = Recherche(book=book, nb_searches=1)
     r.save()
     for book_dsc in s:
-        u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
+        if book_dsc['image']:
+            u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
+        else:
+            u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=static('img/largeStars-sprite.png'), buy_url=book_dsc['DetailPageURL'])
         u_b.save()
     return 0
 
@@ -385,6 +421,7 @@ def book_refresh(book_title):
 
 # @login_required
 def book_search(request, book_title):
+    book_title_save = book_title
     book_title = urllib.unquote(book_title)
     doesnotexist = {'title': book_title, 'url_title': urllib.unquote(book_title)}
     # if request.method == 'GET'
@@ -405,11 +442,12 @@ def book_search(request, book_title):
         synthese = Syntheses.objects.filter(livre_id=b.id)
         if not synthese:
             return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
-        return HttpResponseRedirect('../')
+        return HttpResponseRedirect(reverse('book_management:details', book_title_save))
     except Book.DoesNotExist:
         return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
     except Syntheses.DoesNotExist:
         if request.user.is_authenticated() and Demande.objects.filter(user=UserKooblit.get(username=request.user.username)):
+            return HttpResponseRedirect(reverse('book_management:details', book_title_save))
             return HttpResponseRedirect('../')
         else:
             return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
@@ -485,7 +523,12 @@ def book_detail(request, book_title):
     resu = [(res.nb_searches, res.day.strftime('%d, %b %Y')) for res in Recherche.objects(book=book)]
     if not book:
         return HttpResponseRedirect('/')
-    u_b = UniqueBook.objects(book=book)[0]
+    try:
+        u_b = UniqueBook.objects(book=book)[0]
+    except IndexError:
+        clean_create_book(request, book_title)
+        u_b = UniqueBook.objects(book=book)[0]
+
     if not u_b.buy_url:
         book_refresh(book_title)
         u_b = UniqueBook.objects(book=book)[0]
