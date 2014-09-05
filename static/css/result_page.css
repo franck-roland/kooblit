@@ -152,3 +152,29 @@ a:focus {
   text-align: center;
 }
 
+.parent-element {
+  /*-webkit-transform-style: preserve-3d;*/
+  /*-moz-transform-style: preserve-3d;*/
+  /*transform-style: preserve-3d;*/
+  /*height: 300px;*/
+  /*border: 1px solid;*/
+  padding: 0px;
+  /*display: table-cell;*/
+  /*vertical-align: bottom;*/
+  /*position: absolute;*/
+
+}
+
+.element {
+  /*position: relative;*/
+  /*bottom: 0%;*/
+  display: inline-block;
+  vertical-align: bottom;
+  float: none;
+  /*padding: 0px;*/
+  /*transform: translateY(100%);*/
+}
+
+.col-2, .col-lg-2, .col-md-2 {
+  width: 16.4%;
+}
