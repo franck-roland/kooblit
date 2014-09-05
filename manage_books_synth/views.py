@@ -442,13 +442,13 @@ def book_search(request, book_title):
         synthese = Syntheses.objects.filter(livre_id=b.id)
         if not synthese:
             return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
-        return HttpResponseRedirect('../')
+        return HttpResponseRedirect('../details')
     except Book.DoesNotExist:
         return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
     except Syntheses.DoesNotExist:
         if request.user.is_authenticated() and Demande.objects.filter(user=UserKooblit.get(username=request.user.username)):
             # return HttpResponseRedirect(reverse('book_management:details', book_title_save))
-            return HttpResponseRedirect('../')
+            return HttpResponseRedirect('../details')
         else:
             return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
 
@@ -491,7 +491,51 @@ def demande_livre(request, book_title):
     except Demande.DoesNotExist:
         demande = Demande(user=user, book=b.id)
         demande.save()
-    return HttpResponseRedirect('../')
+    return HttpResponseRedirect('../details')
+
+
+def selection(request, book_title):
+    book_title = urllib.unquote(book_title)
+    try:
+        book = Book.objects.get(title=book_title)
+    except Book.DoesNotExist, e:
+        raise Http404()
+
+    resu = [(res.nb_searches, res.day.strftime('%d, %b %Y')) for res in Recherche.objects(book=book)]
+    if not book:
+        return HttpResponseRedirect('/')
+    try:
+        u_b = UniqueBook.objects(book=book)[0]
+    except IndexError:
+        clean_create_book(request, book_title)
+        u_b = UniqueBook.objects(book=book)[0]
+
+    if not u_b.buy_url:
+        book_refresh(book_title)
+        u_b = UniqueBook.objects(book=book)[0]
+
+    syntheses = Syntheses.objects.filter(livre_id=book.id)
+    nb_syntheses = len(syntheses)
+
+    # resumes = []
+    # extraits = []
+    # syntheses_ids = []
+    # for synt in syntheses:
+    #     resume = synt._file_html.read()
+    #     extrait = ""
+    #     if not resume.startswith('<html>'):
+    #         resume = "".join(("<html>", resume, "</html>"))
+    #     resumes.append(resume)
+    #     extraits.append(extrait)
+    #     syntheses_ids.append(synt.id)
+    # content = zip(syntheses, resumes, syntheses_ids)
+    return render_to_response('selection.html',
+                              RequestContext(request,
+                                             {'title': book.title, 'author': book.author[0], 'genre': book.genres,
+                                              'img_url': u_b.image, 'nb_syntheses': nb_syntheses, 'description': book.description, 'buy_url': u_b.buy_url
+                                              }
+                                             )
+                              )
 
 
 # @login_required
@@ -542,23 +586,8 @@ def book_detail(request, book_title):
     for synt in syntheses:
         resume = synt._file_html.read()
         extrait = ""
-        # extrait = re_get_extrait.match(resume).groups()[0]
         if not resume.startswith('<html>'):
             resume = "".join(("<html>", resume, "</html>"))
-        # root = etree.fromstring(resume)
-        # count = 0
-        # for elt in root.iter():
-        #     if elt.tag == 'h1':
-        #         elt.text = ''
-        #     if elt.tag == 'h3':
-        #         count += 1
-        #     if count >= 3:
-        #         elt.getparent().remove(elt)
-        # extrait = etree.tostring(root)
-        # extrait = resume
-        # resume = "ok"
-        # extrait = "ok"
-        # resume = re_get_summary.match(resume).groups()[0]
         resumes.append(resume)
         extraits.append(extrait)
         syntheses_ids.append(synt.id)

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+{% if messages %}
+    <div class="container">
+      {% for message in messages %}
+        <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          {{ message|safe }}
+        </div>
+      {% endfor %}
+    </div>
+{% endif %}
+<div class=" container col-md-12" style="padding-top:10px;">
+  <h1 style="margin-top:0px;font-family:'Helvetica Neue Thin';color:rgb(74,74,74);">Vous avez sélectionné</h1>
+  <h3 style="font-family:'Helvetica Neue Thin';color:rgb(180,180,180);">{{title}}</h3>
+</div>
+<div class=" container col-md-12" style="padding-top:10px;padding-bottom:20px;">
+  <div class="col-md-2">
+    <!-- <img src="{{img_url}}" class="" width="100%"> -->
+    <div class="repre_image col-xs-12 col-sm-12 col-md-12" style="text-align:center;" >
+      <img src="{{img_url}}" width=100%; style="box-shadow: 3px 3px 8px #555;">
+    </div>
+    <div class="result_title col-xs-12 col-sm-12 col-md-12" style="overflow:hidden;white-space: nowrap ;line-height:15px;margin-top:15px;font-size:14px;font-family:'Helvetica Neue Thin';color:rgb(74,74,74);">
+      {{title}}
+      <span class="paragraph_end" ></span>
+      </div>
+    <div class="col-xs-12 col-sm-12 col-md-12" style="margin-bottom:10px;font-family:'Helvetica Neue Thin';color:rgb(180,180,180);">
+      {{author}}
+    </div>
+<!--     <div class="img_container2 col-12 col-sm-12 col-lg-12 col-xs-12" style='text-align:center;padding:0;' >
+      <a href="{{buy_url}}" target="_blank">
+          <button type="button" class="btn btn-primary" style="font-size:0.7em;width:100%"> Acheter<br/> le livre</button>
+        </a>
+    </div> -->
+  </div>
+  <div class="col-md-10">
+    <dl>
+      {% if description %}
+      <dt><h1> Description </h1></dt>
+      <dd>{{description|safe}}</dd>
+      {% endif %}
+      <dt><h1> Informations </h1></dt>
+      <dd><dl>
+      {% if genre %}
+
+        <dt>GENRE</dt>
+        <dd>{{genre}}</dd>
+      </dl></dd>
+      {% endif %}
+      <dt>Nombre de syntheses disponibles</dt>
+      <dd>{{nb_syntheses}}</dd>
+    </dl>
+    
+    <div class="col-xs-12 col-sm-12 col-md-12" >
+      <div class="bs-component" style="padding-right:92%">
+        <a class="gold_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' title %}">
+          <img src="{% static "img/coins24.png" %}"/>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block script_block %}
+<script type="text/javascript">
+$('.bs-component [data-toggle="tooltip"]').tooltip();
+
+</script>
+{% endblock %}
