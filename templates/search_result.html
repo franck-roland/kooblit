@@ -25,7 +25,8 @@
   {% if resultat %}
     {% for item in resultat %}
       {% if forloop.counter0|divisibleby:nb_result  %}
-        <div class="row" style="">
+        <div class="col-lg-11 col-lg-offset-1 col-11 col-offset 1" style="">
+          <div class="col-lg-11 col-11" style="">
       {% endif %}
           {% if forloop.counter0 >= nb_result  %}
           <div class="element img_container2 col-{% widthratio 12 nb_result 1 %} col-sm-{% widthratio 12 nb_result 1 %} col-lg-{% widthratio 12 nb_result 1 %} col-xs-6" style='display:none;' >
@@ -49,7 +50,7 @@
         {% endif %}
               </a>
               <div class="result_title col-xs-12 col-sm-12 col-md-12" style="overflow:hidden;white-space: nowrap ;line-height:15px;margin-top:15px;font-size:14px;font-family:'Helvetica Neue Thin';color:rgb(74,74,74);">
-              {{item.little_title|safe}}
+              {{item.little_title}}
               <span class="paragraph_end" ></span>
               </div>
             <div class="col-xs-12 col-sm-12 col-md-12" style="text-align:center; padding:0;margin-bottom:10px;font-family:'Helvetica Neue Thin';color:rgb(180,180,180);">
@@ -77,7 +78,8 @@
         </div> <!-- sub_img_container -->
         </div> <!-- img_container2 -->
       {% if forloop.counter0|add:"1"|divisibleby:nb_result  or forloop.last %}
-      </div> <!-- ligne de resultat -->
+        </div> <!-- ligne de resultat interieur -->
+      </div> <!-- une ligne de resultat avec offset -->
       {% endif %}
     {% endfor %}
   {% else %}
