@@ -54,10 +54,23 @@
     </dl>
     
     <div class="col-xs-12 col-sm-12 col-md-12" >
-      <div class="bs-component" style="padding-right:92%">
-        <a class="gold_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' title %}">
-          <img src="{% static "img/coins24.png" %}"/>
+      <div class="bs-component col-xs-4 col-sm-4 col-md-4" style="">
+        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Acheter le livre" href="{{buy_url}}" target="_blank">
+          <img src="{% static "img/pictos/Credit_card.png" %}" width=80px; />
         </a>
+        <span style="font-family:Helvetica Neue Thin"><b>Acheter le livre</b></span>
+      </div>
+      <div class="bs-component col-xs-4 col-sm-4 col-md-4" style="">
+        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je cherche une synthèse" href="{% url 'book_management:details' title %}">
+          <img src="{% static "img/pictos/Search.png" %}" width=80px; />
+        </a>
+        <span style="font-family:Helvetica Neue Thin"><b>Voir les synthèses</b></span>
+      </div>
+      <div class="bs-component col-xs-4 col-sm-4 col-md-4" style="">
+        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' title %}">
+          <img src="{% static "img/pictos/Sell.png" %}" width=80px; />
+        </a>
+        <span style="font-family:Helvetica Neue Thin"><b>Vendre une synthèse</b></span>
       </div>
     </div>
   </div>
@@ -65,7 +78,7 @@
 {% endblock %}
 {% block script_block %}
 <script type="text/javascript">
-$('.bs-component [data-toggle="tooltip"]').tooltip();
+// $('.bs-component [data-toggle="tooltip"]').tooltip();
 
 </script>
 {% endblock %}
