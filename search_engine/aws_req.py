@@ -207,11 +207,13 @@ def compute_json_one_result(result):
     details = result.find("DetailPageURL").text
 
     browseNodes = result.find('BrowseNodes')
-
-    for node in browseNodes.iter('BrowseNode'):
-        theme = compute_theme(node)
-        if theme:
-            break
+    if browseNodes is not None:
+        for node in browseNodes.iter('BrowseNode'):
+            theme = compute_theme(node)
+            if theme:
+                break
+    else:
+        theme = ''
 
     obj = result.find('ItemAttributes')
     editeur = get_text(obj, 'Publisher')
