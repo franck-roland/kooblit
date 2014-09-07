@@ -45,7 +45,8 @@
                 <img src="{{ item.image }}" width=100%; style="box-shadow: 3px 3px 8px #555;">
               </div>
         {% else %}
-              <div class="repre_image col-xs-12 col-sm-12 col-md-12" style="text-align:center;background-image:url('{% static 'img/empty_gallery.png' %}');">
+              <div class="repre_image col-xs-12 col-sm-12 col-md-12" style="text-align:center;">
+                <img src='{% static 'img/empty_gallery.png' %}' width=100%; style="box-shadow: 3px 3px 8px #555;">
               </div>
         {% endif %}
               </a>
