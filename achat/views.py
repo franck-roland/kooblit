@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import sys
 import pymill
@@ -19,7 +20,9 @@ from django.views.decorators.http import require_GET
 from django.contrib.auth.decorators import login_required
 
 from django.views.decorators.csrf import csrf_exempt
-# Create your views here.
+
+# Messages
+from django.contrib import messages
 
 import logging
 
@@ -117,6 +120,9 @@ def paiement(request):
                 e = Entree(user_dest=Syntheses.objects.get(id=i).user, montant=float(Syntheses.objects.get(id=i).prix),
                            transaction=trans)
                 e.save()
+            if transaction.status == 'closed':
+                messages.success(request, u'Votre commande a bien été enregistrée. Une facture vous sera envoyée à votre adresse email.')
+                return HttpResponseRedirect('/')
         total = sum((Syntheses.objects.get(id=i).prix for i in cart))
         return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))
     raise Http404()
