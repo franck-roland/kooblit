@@ -113,7 +113,7 @@ if (typeof module === 'object') {
             forcePlainText: true,
             placeholder: 'Ecrire votre synthèse ici',
             secondHeader: 'h4',
-            targetBlank: false,
+            targetBlank: true,
             extensions: {},
             activeButtonClass: 'medium-editor-button-active',
             firstButtonClass: 'medium-editor-button-first',
