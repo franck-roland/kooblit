@@ -100,8 +100,8 @@ def get_tmp_medium_file(book_title, username):
         return ''
 
 
-def create_tmp_medium_file(s, book_title, username):
-    create_book_if_doesnt_exist(book_title)
+def create_tmp_medium_file(request, s, book_title, username):
+    create_book_if_doesnt_exist(request, book_title)
     filename = get_name(book_title, username)
     with codecs.open(filename, 'w', encoding='utf-8') as newfile:
         newfile.write(s)
@@ -141,8 +141,8 @@ def create_file_medium(s, book_title, username):
     os.remove(filename)
 
 
-def create_tmp_file(f, book_title, username):
-    create_book_if_doesnt_exist(book_title)
+def create_tmp_file(request, f, book_title, username):
+    create_book_if_doesnt_exist(request, book_title)
     file_name = get_name(book_title, username)
     with open(file_name, 'wb') as destination:
         for chunk in f.chunks():
@@ -201,8 +201,7 @@ def clean_create_book(request, book_title):
         return 1
     first = s[0]
     try:
-        book = Book.objects.get(small_title=first['title'][:32], title=first['title'][:256],
-                                author=[first['author']], description=first['summary'])
+        book = Book.objects.get(title=first['title'][:256])
     except Book.DoesNotExist:
         book = Book(small_title=first['title'][:32], title=first['title'][:256],
                     author=[first['author']], description=first['summary'])
@@ -253,11 +252,11 @@ def create_book(book_title):
     return 0
 
 
-def create_book_if_doesnt_exist(book_title):
+def create_book_if_doesnt_exist(request, book_title):
     try:
         b = Book.objects.get(title=book_title)
     except Book.DoesNotExist, e:
-        clean_create_book(book_title)
+        clean_create_book(request, book_title)
 
 
 def send_alert(book_title):
@@ -308,7 +307,7 @@ def upload_file(request, book_title, author_username):
                 else:
                     ret['form'] = form
                     if form.is_valid():
-                        if create_tmp_file(request.FILES['file'], book_title, title, username):
+                        if create_tmp_file(request, request.FILES['file'], book_title, title, username):
                             ret['replace'] = 'oui'
                             ret['title'] = urllib.quote(username)
                             return render_to_response('upload.html', RequestContext(request, ret))
@@ -345,7 +344,7 @@ def upload_medium(request, book_title):
             send_alert(book_title)
             return HttpResponseRedirect('/', RequestContext(request))
         else:
-            create_tmp_medium_file(request.POST['q'], book_title, username)
+            create_tmp_medium_file(request, request.POST['q'], book_title, username)
             return HttpResponse()
     else:
         s = get_tmp_medium_file(book_title, username)
@@ -432,11 +431,16 @@ def book_search(request, book_title):
     # if request.method == 'GET'
     if not request.META.get('HTTP_REFERER', '').startswith(''.join(('http://', request.META['HTTP_HOST'], '/search/?title='))):
         raise Http404()
-    create_book_if_doesnt_exist(book_title)
+    create_book_if_doesnt_exist(request, book_title)
     try:
 
         b = Book.objects.get(title=book_title)
-        res = Recherche.objects(book=b)[0]
+        res = Recherche.objects(book=b)
+        if not res:
+            res = Recherche(book=b, nb_searches=1)
+            res.save()
+        else:
+            res = res[0]
 
         if datetime.datetime.now().date() != res.day.date():
             res = Recherche(book=b, nb_searches=1)
@@ -485,7 +489,7 @@ def demande_livre(request, book_title):
     try:
         b = Book.objects.get(title=book_title)
     except Book.DoesNotExist, e:
-        if not clean_create_book(book_title):
+        if not clean_create_book(request, book_title):
             b = Book.objects.get(title=book_title)
         else:
             raise Exception("Erreur de creation du livre")
@@ -515,7 +519,7 @@ def selection(request, book_title):
         clean_create_book(request, book_title)
         u_b = UniqueBook.objects(book=book)[0]
 
-    if not u_b.buy_url or not book.themes:
+    if not u_b.buy_url:
         clean_create_book(request, book_title)
         u_b = UniqueBook.objects(book=book)[0]
 
@@ -534,9 +538,13 @@ def selection(request, book_title):
     #     extraits.append(extrait)
     #     syntheses_ids.append(synt.id)
     # content = zip(syntheses, resumes, syntheses_ids)
+    if book.themes:
+        genre = book.themes[0].theme
+    else:
+        genre = ""
     return render_to_response('selection.html',
                               RequestContext(request,
-                                             {'title': book.title, 'author': book.author[0], 'genre': str([str(i.theme) for i in book.themes]).rstrip(']').lstrip('['),
+                                             {'title': book.title, 'author': book.author[0], 'genre': genre,
                                               'img_url': u_b.image, 'nb_syntheses': nb_syntheses, 'description': book.description, 'buy_url': u_b.buy_url
                                               }
                                              )

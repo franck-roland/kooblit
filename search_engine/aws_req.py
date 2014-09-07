@@ -177,7 +177,7 @@ def compute_theme(current_node, childs_theme=None):
                 father_theme.save()
             for child in childs_theme:
                 try:
-                    child_theme = Theme.objects.get(amazon_id=child['amazon_id'])
+                    child_theme = Theme.objects.get(theme=child['theme'])
                 except Theme.DoesNotExist:
                     child_theme = Theme(**child)
                     child_theme.save()
