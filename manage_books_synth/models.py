@@ -2,14 +2,12 @@ from django.conf import settings
 from mongoengine import *
 import datetime
 
-class SubGenre(Document):
-    """docstring for SubGenre"""
-    genre = StringField(max_length=100, required=True)
 
-class Genre(Document):
-    """docstring for Genre"""
-    genre = StringField(max_length=100, required=True)
-    sub_genre = ListField(ReferenceField(SubGenre))
+class Theme(Document):
+    """docstring for Theme"""
+    theme = StringField(max_length=100, required=True, unique=True)
+    sub_theme = ListField(ReferenceField('Theme'))
+    amazon_id = LongField(default=None, unique=True)
 
 
 class Book(Document):
@@ -17,9 +15,10 @@ class Book(Document):
     title = StringField(max_length=settings.MAX_BOOK_TITLE_LEN, required=True, unique=True)
     author = ListField(StringField(max_length=100, required=True))
     description = StringField(max_length=4096, required=False)
-    genres = ListField(ReferenceField(Genre, reverse_delete_rule=NULLIFY))
+    themes = ListField(ReferenceField(Theme, reverse_delete_rule=NULLIFY))
     # books = ListField(ReferenceField(UniqueBook))
-        
+
+
 class Recherche(Document):
     day = DateTimeField(default=datetime.datetime.now)
     book = ReferenceField(Book)
@@ -30,6 +29,7 @@ class Recherche(Document):
         # This may actually also be done by defining a default ordering for
         # the document, but this illustrates the use of manager methods
         return queryset.order_by('-date')
+
 
 class UniqueBook(Document):
     """docstring for UniqueBook"""

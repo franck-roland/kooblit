@@ -37,7 +37,7 @@ from django.contrib import messages
 
 # search for creation
 from search_engine.aws_req import compute_args
-from .models import Book, UniqueBook, Recherche
+from .models import Book, UniqueBook, Recherche, Theme
 # Usr_management models
 from usr_management.models import UserKooblit, Syntheses, Demande
 
@@ -206,7 +206,12 @@ def clean_create_book(request, book_title):
     except Book.DoesNotExist:
         book = Book(small_title=first['title'][:32], title=first['title'][:256],
                     author=[first['author']], description=first['summary'])
-    book.save()
+        book.save()
+    if first['theme']:
+        theme = Theme.objects.get(amazon_id=first['theme'])
+        if theme not in book.themes:
+            book.themes.append(theme)
+            book.save()
     try:
         r = Recherche.objects.get(book=book, nb_searches=1)
     except Recherche.DoesNotExist:
@@ -252,7 +257,7 @@ def create_book_if_doesnt_exist(book_title):
     try:
         b = Book.objects.get(title=book_title)
     except Book.DoesNotExist, e:
-        create_book(book_title)
+        clean_create_book(book_title)
 
 
 def send_alert(book_title):
@@ -480,7 +485,7 @@ def demande_livre(request, book_title):
     try:
         b = Book.objects.get(title=book_title)
     except Book.DoesNotExist, e:
-        if not create_book(book_title):
+        if not clean_create_book(book_title):
             b = Book.objects.get(title=book_title)
         else:
             raise Exception("Erreur de creation du livre")
@@ -510,8 +515,8 @@ def selection(request, book_title):
         clean_create_book(request, book_title)
         u_b = UniqueBook.objects(book=book)[0]
 
-    if not u_b.buy_url:
-        book_refresh(book_title)
+    if not u_b.buy_url or not book.themes:
+        clean_create_book(request, book_title)
         u_b = UniqueBook.objects(book=book)[0]
 
     syntheses = Syntheses.objects.filter(livre_id=book.id)
@@ -531,7 +536,7 @@ def selection(request, book_title):
     # content = zip(syntheses, resumes, syntheses_ids)
     return render_to_response('selection.html',
                               RequestContext(request,
-                                             {'title': book.title, 'author': book.author[0], 'genre': book.genres,
+                                             {'title': book.title, 'author': book.author[0], 'genre': str([str(i.theme) for i in book.themes]).rstrip(']').lstrip('['),
                                               'img_url': u_b.image, 'nb_syntheses': nb_syntheses, 'description': book.description, 'buy_url': u_b.buy_url
                                               }
                                              )
@@ -574,7 +579,7 @@ def book_detail(request, book_title):
         u_b = UniqueBook.objects(book=book)[0]
 
     if not u_b.buy_url:
-        book_refresh(book_title)
+        clean_create_book(request, book_title)
         u_b = UniqueBook.objects(book=book)[0]
 
     syntheses = Syntheses.objects.filter(livre_id=book.id)
