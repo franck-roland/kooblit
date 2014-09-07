@@ -16,6 +16,7 @@ class Book(Document):
     author = ListField(StringField(max_length=100, required=True))
     description = StringField(max_length=4096, required=False)
     themes = ListField(ReferenceField(Theme, reverse_delete_rule=NULLIFY))
+    langue = StringField(max_length=32, unique=False)
     # books = ListField(ReferenceField(UniqueBook))
 
 
@@ -38,3 +39,4 @@ class UniqueBook(Document):
     image = URLField()
     last_update = DateTimeField(default=datetime.datetime.now)
     buy_url = URLField()
+    editeur = StringField(max_length=100)

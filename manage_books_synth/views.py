@@ -206,6 +206,10 @@ def clean_create_book(request, book_title):
         book = Book(small_title=first['title'][:32], title=first['title'][:256],
                     author=[first['author']], description=first['summary'])
         book.save()
+    if not book.langue and first['language']:
+        book.langue = first['language']
+        book.save()
+
     if first['theme']:
         theme = Theme.objects.get(amazon_id=first['theme'])
         if theme not in book.themes:
@@ -542,9 +546,13 @@ def selection(request, book_title):
         genre = book.themes[0].theme
     else:
         genre = ""
+    if book.langue:
+        langue = book.langue
+    else:
+        langue = ''
     return render_to_response('selection.html',
                               RequestContext(request,
-                                             {'title': book.title, 'author': book.author[0], 'genre': genre,
+                                             {'title': book.title, 'author': book.author[0], 'genre': genre, 'langue': langue,
                                               'img_url': u_b.image, 'nb_syntheses': nb_syntheses, 'description': book.description, 'buy_url': u_b.buy_url
                                               }
                                              )
