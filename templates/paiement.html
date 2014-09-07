@@ -51,7 +51,7 @@
   </div>
   <div class="controls controls-row">
    <div class="span4">
-    <button class="submit-button btn btn-primary" type="submit" ></button>
+    <button class="submit-button btn btn-primary" type="" ></button>
    </div>
   </div>
  </form>
@@ -65,6 +65,7 @@
 <script type="text/javascript" src="https://bridge.paymill.com/"></script>
 <script type="text/javascript">
 var translation = new Array();
+var formlang = "en";
 //German
 //Creditcard
 translation["de"] = new Object();
@@ -109,7 +110,7 @@ translation["en"]["form"]["elv-holdername"] = 'Accountholder';
 translation["en"]["form"]["elv-bankcode"] = 'Bankcode';
 //Error
 translation["en"]["error"] = new Object();
-translation["en"]["error"]["invalid-card-number"] = 'Invalid cardnumber.';
+translation["en"]["error"]["invalid-card-number"] = 'Invalid card number.';
 translation["en"]["error"]["invalid-card-expiry-date"] = 'Invalid expire-date.';
 translation["en"]["error"]["invalid-card-holdername"] = 'Please enter the cardholders name.';
 translation["en"]["error"]["invalid-elv-holdername"] = 'Please enter the accountholders name.';
@@ -145,17 +146,20 @@ $(document).ready(function() {
         $(".payment-errors").text(translation[formlang]["error"]["invalid-card-number"]);
         $(".payment-errors").css("display","inline-block");
         $(".submit-button").removeAttr("disabled");
+        return false;
       }
       if (false == paymill.validateExpiry($('.card-expiry-month').val(), $('.card-expiry-year').val())) {
         $(".payment-errors").text(translation[formlang]["error"]["invalid-card-expiry-date"]);
         $(".payment-errors").css("display","inline-block");
         $(".submit-button").removeAttr("disabled");
+        return false;
       }
 
       if ($('.card-holdername').val() == '') {
         $(".payment-errors").text(translation[formlang]["error"]["invalid-card-holdername"]);
         $(".payment-errors").css("display","inline-block");
         $(".submit-button").removeAttr("disabled");
+        return false;
       }
       var params = {
         amount_int: $('.amount').val() * 100, // E.g. "15" for 0.15 Eur
