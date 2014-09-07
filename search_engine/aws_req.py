@@ -214,6 +214,8 @@ def compute_json_one_result(result):
             break
 
     obj = result.find('ItemAttributes')
+    editeur = get_text(obj, 'Publisher')
+
     title = get_text(obj, 'Title')
     author = get_text(obj, 'Author')
     isbn = get_text(obj, 'ISBN')
@@ -237,7 +239,7 @@ def compute_json_one_result(result):
 
     return {'title': title, 'author': author, 'isbn': isbn, 'image': image,
             'summary': summary, 'details': details, 'DetailPageURL': DetailPageURL, 'book_format': book_format,
-            'language': language, 'theme': theme}
+            'language': language, 'theme': theme, 'editeur': editeur}
 
 
 @sanitizer

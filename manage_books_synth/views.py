@@ -232,6 +232,9 @@ def clean_create_book(request, book_title):
             else:
                 u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image='http://' + request.get_host() + static('img/empty_gallery.png'), buy_url=book_dsc['DetailPageURL'])
         u_b.save()
+        if book_dsc['editeur']:
+            u_b.editeur = book_dsc['editeur']
+            u_b.save()
     return 0
 
 
@@ -398,20 +401,20 @@ def computeEmail(username, book_title, alert=0):
 # import pdb;pdb.set_trace()
 
 
-def create_book(book_title):
-    s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
-    if not s:
-        return 1
-    first = s[0]
-    book = Book(small_title=first['title'][:32], title=first['title'][:256],
-                author=[first['author']], description=first['summary'])
-    book.save()
-    r = Recherche(book=book, nb_searches=1)
-    r.save()
-    for book_dsc in s:
-        u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
-        u_b.save()
-    return 0
+# def create_book(book_title):
+#     s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+#     if not s:
+#         return 1
+#     first = s[0]
+#     book = Book(small_title=first['title'][:32], title=first['title'][:256],
+#                 author=[first['author']], description=first['summary'])
+#     book.save()
+#     r = Recherche(book=book, nb_searches=1)
+#     r.save()
+#     for book_dsc in s:
+#         u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
+#         u_b.save()
+#     return 0
 
 
 def book_refresh(book_title):
@@ -552,7 +555,7 @@ def selection(request, book_title):
         langue = ''
     return render_to_response('selection.html',
                               RequestContext(request,
-                                             {'title': book.title, 'author': book.author[0], 'genre': genre, 'langue': langue,
+                                             {'title': book.title, 'author': book.author[0], 'genre': genre, 'langue': langue, 'editeur': u_b.editeur,
                                               'img_url': u_b.image, 'nb_syntheses': nb_syntheses, 'description': book.description, 'buy_url': u_b.buy_url
                                               }
                                              )
