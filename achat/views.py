@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from decimal import Decimal
 import json
 import sys
 import pymill
@@ -98,6 +99,19 @@ def cart_details(request):
     return render_to_response('cart.html', RequestContext(request, {'results': results, 'total': total}))
 
 
+def ajouter_et_payer(buyer, synthese):
+    buyer.syntheses.add(synthese)
+    buyer.save()
+    author = synthese.user
+    price = synthese.prix
+    PRIX_TRANSACTION = Decimal('0.0295') * price + Decimal('0.28')
+    PRIX_TVA = Decimal('0.055') * price
+    gain = price - PRIX_TVA - PRIX_TRANSACTION
+    assert(gain > 0)
+    author.cagnotte += gain / Decimal('2')
+    author.save()
+
+
 @login_required
 def paiement(request):
     cart = request.session.get('cart', [])
@@ -114,14 +128,22 @@ def paiement(request):
                 description='Test Transaction',
                 payment=payement_id
             )
-            trans = Transaction(user_from=UserKooblit.objects.get(username=request.user.username), remote_id=transaction.id)
+            buyer = UserKooblit.objects.get(username=request.user.username)
+            trans = Transaction(user_from=buyer, remote_id=transaction.id)
             trans.save()
             for i in cart:
                 e = Entree(user_dest=Syntheses.objects.get(id=i).user, montant=float(Syntheses.objects.get(id=i).prix),
                            transaction=trans)
                 e.save()
+                print type(transaction.response_code)
+                if transaction.status == 'closed' and transaction.response_code == 20000:
+                    # Ajouter la synthese aux syntheses achetées
+                    synthese = Syntheses.objects.get(id=i)
+                    ajouter_et_payer(buyer, synthese)
             if transaction.status == 'closed':
+                request.session['cart'] = []
                 messages.success(request, u'Votre commande a bien été enregistrée. Une facture vous sera envoyée à votre adresse email.')
+
                 return HttpResponseRedirect('/')
         total = sum((Syntheses.objects.get(id=i).prix for i in cart))
         return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))

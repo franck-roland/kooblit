@@ -23,6 +23,7 @@ class UserKooblit(User):
     # REQUIRED_FIELDS = ['email']
     objects = UserManager()
     cagnotte = models.DecimalField(max_digits=100, decimal_places=2, default=0, unique=False)
+    syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
 
 
 class Verification(models.Model):
@@ -35,7 +36,7 @@ class Verification(models.Model):
 class Syntheses(models.Model):
     _file = models.FileField(upload_to="syntheses", default=False)
     _file_html = models.FileField(upload_to="syntheses", default=False)
-    user = models.ForeignKey('UserKooblit')
+    user = models.ForeignKey('UserKooblit', related_name='+')
     # livre = models.ForeignKey('Book')
     # title = models.CharField(max_length=240, default=False)
     livre_id = models.CharField(max_length=240, default=False)
