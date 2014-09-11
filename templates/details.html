@@ -89,7 +89,7 @@
 	{% for s, e, ids, bought in content %}
   <div class="panel panel-default">
     <div class="panel-heading">
-      <form id="form_ajout" method="POST" >{% csrf_token %}
+      <form id="form_ajout_{{ids}}" method="POST" >{% csrf_token %}
         <input type="hidden" name="synthese" value="{{ids}}">
       </form>
       <h4 class="panel-title">
@@ -134,7 +134,7 @@
           <button class="btn btn-primary" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
             Voir un extrait
           </button>
-          <button class="btn btn-primary" form="form_ajout">
+          <button class="btn btn-primary" form="form_ajout_{{ids}}">
             Ajouter au panier
           </button>
           {% else %}
