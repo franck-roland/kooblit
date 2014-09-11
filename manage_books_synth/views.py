@@ -562,6 +562,12 @@ def selection(request, book_title):
                               )
 
 
+def valid_synthese_for_add(id_synthese, username):
+    synthese = Syntheses.objects.get(id=id_synthese)
+    buyer = UserKooblit.objects.get(username=username)
+    return synthese.user.username != username and synthese not in buyer.syntheses.all()
+
+
 # @login_required
 def book_detail(request, book_title):
     if request.method == 'POST':
@@ -570,11 +576,17 @@ def book_detail(request, book_title):
 
         if not request.session.get('cart', ''):
             request.session.set_expiry(60 * 60)
-            request.session['cart'] = [request.POST['synthese'], ]
-            messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
-            request.nbre_achats += 1
+            if request.user.is_authenticated() and not valid_synthese_for_add(request.POST['synthese'], request.user.username):
+                messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
+            else:
+                request.session['cart'] = [request.POST['synthese'], ]
+                messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
+                request.nbre_achats += 1
         else:
-            if request.POST['synthese'] not in request.session['cart']:
+            if request.user.is_authenticated() and not valid_synthese_for_add(request.POST['synthese'], request.user.username):
+                messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
+
+            elif request.POST['synthese'] not in request.session['cart']:
                 request.session['cart'].append(request.POST['synthese'])
                 request.session.modified = True
                 messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")

@@ -90,7 +90,10 @@ def cart_details(request):
                 request.nbre_achats -= 1
         else:
             raise Http404()
+
     cart = request.session.get('cart', [])
+    if request.user.is_authenticated():
+        cart = clean_cart(cart, request.user.username)
     cart = [("".join(("Kooblit de ", Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title, " par ",
                       Syntheses.objects.get(id=i).user.username)), Syntheses.objects.get(id=i).prix) for i in cart]
     cart_ids = request.session.get('cart', [])
