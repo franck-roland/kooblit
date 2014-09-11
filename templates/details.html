@@ -138,9 +138,11 @@
             Ajouter au panier
           </button>
           {% else %}
-          <button class="btn btn-primary">
-            Lire la synthèse
-          </button>
+          <a href="{% url 'usr_management:lire_synthese' s.id %}">
+            <button class="btn btn-primary">
+              Lire la synthèse
+            </button>
+          </a>
           {% endif %}
         </div>
           <!-- Modal -->
