@@ -623,10 +623,10 @@ def book_detail(request, book_title):
     for synt in syntheses:
         resume = synt._file_html.read()
         extrait = ""
-        taille_resume = resume.count(' ')
-        taille = max(50, 0.1 * taille_resume)
-        taille = min(taille_resume, taille)
-        resume = ' '.join(resume.split(' ')[:taille])
+        # taille_resume = resume.count(' ')
+        # taille = max(50, 0.1 * taille_resume)
+        # taille = min(taille_resume, taille)
+        # resume = ' '.join(resume.split(' ')[:taille])
         if not resume.startswith('<html>'):
             resume = "".join(("<html>", resume, "</html>"))
         resumes.append(resume)
