@@ -619,6 +619,7 @@ def book_detail(request, book_title):
     resumes = []
     extraits = []
     syntheses_ids = []
+    bought = []
     for synt in syntheses:
         resume = synt._file_html.read()
         extrait = ""
@@ -631,7 +632,11 @@ def book_detail(request, book_title):
         resumes.append(resume)
         extraits.append(extrait)
         syntheses_ids.append(synt.id)
-    content = zip(syntheses, resumes, syntheses_ids)
+        if request.user.is_authenticated() and not valid_synthese_for_add(synt.id, request.user.username):
+            bought.append(1)
+        else:
+            bought.append(0)
+    content = zip(syntheses, resumes, syntheses_ids, bought)
     return render_to_response('details.html', RequestContext(request, {'title': book.title, 'img_url': u_b.image,
                               'nb_syntheses': nb_syntheses, 'content': content, 'description': book.description, 'buy_url': u_b.buy_url}))
 
