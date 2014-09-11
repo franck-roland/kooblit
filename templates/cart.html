@@ -2,6 +2,16 @@
 {% load staticfiles %}
 
 {% block content %}
+{% if messages %}
+    <div class="container">
+      {% for message in messages %}
+        <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          {{ message|safe }}
+        </div>
+      {% endfor %}
+    </div>
+{% endif %}
 <div class=" container col-md-12" style="padding-top:10px;background-color: rgba(0, 0, 0, 0.05);padding-bottom:20px;border-bottom:2px solid rgb(214, 214, 214);">
 {% if results %}
 <div class="container col-md-12">

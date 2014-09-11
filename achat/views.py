@@ -112,10 +112,31 @@ def ajouter_et_payer(buyer, synthese):
     author.save()
 
 
+def clean_cart(cart, username):
+    """ Enlève les synthèses qui ont déjà été achetées par l'utilisateur ou qui ont été publiées par lui """
+    buyer = UserKooblit.objects.get(username=username)
+    cart_final = []
+    for id_synthese in cart:
+        synthese = Syntheses.objects.get(id=id_synthese)
+        if synthese.user.username != username and synthese not in buyer.syntheses.all():
+            cart_final.append(id_synthese)
+    return cart_final
+
+
 @login_required
 def paiement(request):
     cart = request.session.get('cart', [])
     if cart:
+        if cart != clean_cart(cart, request.user.username):
+            messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
+            request.session['cart'] = clean_cart(cart, request.user.username)
+            cart = request.session.get('cart', [])
+            cart = [("".join(("Kooblit de ", Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title, " par ",
+                              Syntheses.objects.get(id=i).user.username)), Syntheses.objects.get(id=i).prix) for i in cart]
+            cart_ids = request.session.get('cart', [])
+            results = zip(cart, cart_ids)
+            total = sum((i[1] for i in cart))
+            return render_to_response('cart.html', RequestContext(request, {'results': results, 'total': total}))
         if request.method == 'POST':
             p = pymill.Pymill(settings.PAYMILL_PRIVATE_KEY)
 
