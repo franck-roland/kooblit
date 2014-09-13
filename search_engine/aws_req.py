@@ -171,7 +171,7 @@ def compute_theme(current_node, childs_theme=None):
         else:
 
             try:
-                father_theme = Theme.objects.get(amazon_id=amazon_id)
+                father_theme = Theme.objects.get(theme=theme)
             except Theme.DoesNotExist:
                 father_theme = Theme(theme=theme, amazon_id=amazon_id)
                 father_theme.save()
@@ -185,7 +185,7 @@ def compute_theme(current_node, childs_theme=None):
                     father_theme.sub_theme.append(child_theme)
                     father_theme.save()
                 father_theme = child_theme
-            return amazon_id
+            return theme
     else:
         if childs_theme is None:
             childs_theme = []
@@ -196,7 +196,7 @@ def compute_theme(current_node, childs_theme=None):
         else:
             next_node = ancestors.find('BrowseNode')
             if compute_theme(next_node, childs_theme):
-                return amazon_id
+                return theme
             else:
                 return
 

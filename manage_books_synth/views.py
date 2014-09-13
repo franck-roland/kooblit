@@ -86,6 +86,7 @@ def slugify(filename):
 
 
 def get_name(book_title, username):
+    book_title = slugify(book_title)
     inpart = ''.join((book_title, username))
     part = hashlib.sha1(inpart).hexdigest()
     return ''.join(('/tmp/', part))
@@ -211,7 +212,7 @@ def clean_create_book(request, book_title):
         book.save()
 
     if first['theme']:
-        theme = Theme.objects.get(amazon_id=first['theme'])
+        theme = Theme.objects.get(theme=first['theme'])
         if theme not in book.themes:
             book.themes.append(theme)
             book.save()
@@ -262,7 +263,7 @@ def create_book(book_title):
 def create_book_if_doesnt_exist(request, book_title):
     try:
         b = Book.objects.get(title=book_title)
-    except Book.DoesNotExist, e:
+    except Book.DoesNotExist:
         clean_create_book(request, book_title)
 
 
