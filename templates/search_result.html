@@ -12,6 +12,8 @@
     <h3 style="font-family:'Helvetica Neue Thin';color:rgb(180,180,180);">{{titre}}</h3>
 {% if resultat %}
   {{ resultat|length }} résultats trouvés
+{% else %}
+  Aucun resultat trouvé
 {% endif %}
   </div>
 {% if resultat|length > 6 %}
@@ -84,7 +86,7 @@
       {% endif %}
     {% endfor %}
   {% else %}
-    <img class="img-responsive img_res" src="{% static "img/empty_gallery.png" %}" alt='empty' />
+    <!-- <img class="img-responsive img_res" src="{% static "img/empty_gallery.png" %}" alt='empty' /> -->
   {% endif %}
   </div> <!-- container_result -->
 
