@@ -66,9 +66,11 @@ def unsanitize(s, to_lower=0):
 
 
 def sanitize(s, to_lower=0, slugify=0):
-    s = s.replace("'"," ")
+    s = s.replace("'","321645e321ezf")
     if slugify:
         s = settings.BOOKS_SLUG(s)
+    s = s.replace("321645e321ezf","'")
+    
     l = []
     if to_lower:
         s = s.lower()
