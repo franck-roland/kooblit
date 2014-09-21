@@ -361,7 +361,7 @@ def upload_medium(request, book_title):
                 book = Book.objects.get(title=book_title)
                 synthese = Syntheses.objects.get(user=user, livre_id=book.id)
                 s = synthese._file_html.read()
-            except Syntheses.DoesNotExist, Book.DoesNotExist:
+            except (Syntheses.DoesNotExist, Book.DoesNotExist):
                 pass
         return render_to_response('upload_medium.html', RequestContext(request, {'book_title': book_title, 'content': s}))
 
