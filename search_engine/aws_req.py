@@ -66,6 +66,7 @@ def unsanitize(s, to_lower=0):
 
 
 def sanitize(s, to_lower=0, slugify=0):
+    s = s.replace("'"," ")
     if slugify:
         s = settings.BOOKS_SLUG(s)
     l = []
@@ -97,6 +98,7 @@ def create_dir_if_not_exists(path_name):
 def check_in_tmp(title, page_nb, server_name):
     dir_name = sha1(title).hexdigest()
     dir_path = "/tmp/" + dir_name + "/" + server_name + "/"
+    print dir_path
     ret = ''
     if os.path.isdir(dir_path):
         if int(time.time() - os.stat(dir_path).st_ctime) / 86400 > 7:
@@ -246,6 +248,7 @@ def compute_json_one_result(result):
 
 @sanitizer
 def compute_args(title, k, exact_match=0, delete_duplicate=1, escape=0):
+    print title
     global template
     global head
     url = "http://{0}/onca/xml?"
