@@ -7,6 +7,10 @@
   font-family: "Helvetica Neue Thin";
   src: url('../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf') format('opentype');
  }
+ @font-face{
+  font-family: "Helvetica Neue Medium";
+  src: url('../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf') format('opentype');
+ }
 html,
 body {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
@@ -45,7 +49,7 @@ height: 60px;
 @media (max-width: 1105px) {
 #wrap {
 min-height: 100%;
-height: auto !important;
+/*height: auto !important;*/
 margin: 0 auto 0;
 /* Negative indent footer by it's height */
 }
