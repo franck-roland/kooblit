@@ -24,6 +24,8 @@ def search_view(request):
     title = ""
     try:
         title = request.GET.get('title', '')
+        if title == '':
+            return render_to_response("search_page.html", RequestContext(request))
         ch1 = u"àâçéèêëîïôùûüÿ"
         ch2 = u"aaceeeeiiouuuy"
         tmp = []
