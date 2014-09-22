@@ -47,7 +47,7 @@
   	         <img class="point_kooblit" src="{% static "img/logo/owl_only.png" %}" width="35" alt="Logo Kooblit" style="padding-bottom:6px;"/>&nbsp;Kooblit
             </a>
           </div> <!-- navbar-header -->
-          <form id="search_form" class="collapse navbar-collapse navbar-form navbar-left" action="{% url 'search_engine:search' %}" role="search" method="get" onsubmit="return display_loader()" >
+          <form id="search_form" class="collapse navbar-collapse navbar-form navbar-left" action="{% url 'search_engine:search' %}" role="search" method="get" onsubmit="return display_loader('#ajax_loader')" >
             <div class="form-group">
               <div class="dropdown">
                     <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="height:34px;margin-top:5px;padding-bottom: 5px;padding-top: 5px;">
@@ -146,11 +146,15 @@
     <script src="{% static "js/typehead.js" %}" type="text/javascript"></script>
     <script src="{% static "js/search_bar.js" %}" type="text/javascript"></script>
     <script type="text/javascript">
+    var loaders = ['#ajax_loader', '#main_ajax_loader'];
+    for (var i=0; i<loaders.length; i++){
+      $(loaders[i]).css('display', 'none');
+    }
     $('#search_bar').bind("typeahead:selected", function () {
         $("#search_form").submit();
     });
-    function display_loader(){
-        $('#ajax_loader').css('display', 'inline-block');
+    function display_loader(loader_name){
+        $(loader_name).css('display', 'inline-block');
     }
     </script>
     {% block script_block %}{% endblock %}
