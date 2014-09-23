@@ -1,4 +1,11 @@
-#!/usr/bin/env python
+#!/bin/bash
+
+"true" '''\' This shebang is here to ensure that we use the venv python in all cases.
+# So we use bash as the base script, then figure out which python to use, and run
+# this script again. We use the 'true' command because it ignores its argument.
+exec "$(dirname $0)/env/bin/python" "$0" "$@"
+'''
+
 import os
 import sys
 

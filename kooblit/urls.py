@@ -15,5 +15,4 @@ urlpatterns = patterns('',
                        url(r'^book/', include('manage_books_synth.urls', namespace='book_management')),
                        url(r'^cart/', include('achat.urls', namespace='achats')),
                        url(r'^hooks/12QA21EJD92J93329RIU92JDRF$', 'achat.views.webhook'),
-
                        )
