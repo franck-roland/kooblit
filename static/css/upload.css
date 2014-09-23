@@ -21,10 +21,10 @@
 
 .nav-steps {
   border: none;
-  padding-bottom: 1px; 
+  padding-bottom: 1px;
   background-color: orange;
   display: inline-block;
-overflow: hidden; 
+overflow: hidden;
 }
 
 .nav-steps>li>a {
@@ -58,7 +58,7 @@ width: 31px;
 .nav-steps>li a:hover {
   background-color: pink;
   color: white;
-  border-radius: 0px;  
+  border-radius: 0px;
 }
 
 

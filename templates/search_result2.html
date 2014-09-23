@@ -24,12 +24,12 @@
   var link = "{{ resultat.0 }}?";
   {% for i in resultat.1 %}
     link = link+"{{i.0}}={{i.1}}&"
-  {% endfor %} 
+  {% endfor %}
 
   $(".container").html(httpGet(link.slice(0,link.length-1)));
   // httpGet()
-  // var aj = $.ajax({ 
-      
+  // var aj = $.ajax({
+
   //     url: link,
   //     type: "GET",
   //     cache: true,
@@ -45,10 +45,10 @@
   //     },
   //     // processData: false,
   //     data: {
-          
+
   //         {% for i in resultat.1 %}
   //            "{{i.0}}":"{{i.1}}",
-  //         {% endfor %} 
+  //         {% endfor %}
   //     //     q: request,
   //     //     "search-alias": "english-books",
   //     //     mkt: "5",

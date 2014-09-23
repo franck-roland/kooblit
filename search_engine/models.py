@@ -24,7 +24,6 @@ class Book(Document):
     books = ListField(ReferenceField(UniqueBook))
     genres = ListField(ReferenceField(Genre, reverse_delete_rule=NULLIFY))
     nb_search = LongField()
-        
 
 
 
