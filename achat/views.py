@@ -1,23 +1,19 @@
 # -*- coding: utf-8 -*-
 from decimal import Decimal
 import json
-import sys
 import pymill
-from hashlib import sha256
-import datetime
 
 from django.conf import settings
 # model
 from usr_management.models import Syntheses, Transaction, UserKooblit, Entree
 from manage_books_synth.models import Book
 # rendu
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 # decorateur
-from django.views.decorators.http import require_GET
 from django.contrib.auth.decorators import login_required
 
 from django.views.decorators.csrf import csrf_exempt
@@ -26,6 +22,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 import logging
+
 
 logger = logging.getLogger(__name__)
 paymill_response_code = {

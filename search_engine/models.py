@@ -1,29 +1,30 @@
-from mongoengine import *
 import datetime
+import mongoengine
 
-class SubGenre(Document):
+
+class SubGenre(mongoengine.Document):
     """docstring for SubGenre"""
-    genre = StringField(max_length=100, required=True)
+    genre = mongoengine.StringField(max_length=100, required=True)
 
-class Genre(Document):
+class Genre(mongoengine.Document):
     """docstring for Genre"""
-    genre = StringField(max_length=100, required=True)
-    sub_genre = ListField(ReferenceField(SubGenre))
+    genre = mongoengine.StringField(max_length=100, required=True)
+    sub_genre = mongoengine.ListField(mongoengine.ReferenceField(SubGenre))
 
-class UniqueBook(Document):
+class UniqueBook(mongoengine.Document):
     """docstring for UniqueBook"""
-    isbn = StringField(max_length=100, required=True, unique=True)
-    image = URLField()
-    last_update = DateTimeField(default=datetime.datetime.now)
+    isbn = mongoengine.StringField(max_length=100, required=True, unique=True)
+    image = mongoengine.URLField()
+    last_update = mongoengine.DateTimeField(default=datetime.datetime.now)
 
 # Create your models here.
-class Book(Document):
-    title = StringField(max_length=100, required=True)
-    author = ListField(StringField(max_length=100, required=True))
-    description = StringField(max_length=4096, required=False)
-    books = ListField(ReferenceField(UniqueBook))
-    genres = ListField(ReferenceField(Genre, reverse_delete_rule=NULLIFY))
-    nb_search = LongField()
+class Book(mongoengine.Document):
+    title = mongoengine.StringField(max_length=100, required=True)
+    author = mongoengine.ListField(mongoengine.StringField(max_length=100, required=True))
+    description = mongoengine.StringField(max_length=4096, required=False)
+    books = mongoengine.ListField(mongoengine.ReferenceField(UniqueBook))
+    genres = mongoengine.ListField(mongoengine.ReferenceField(Genre, reverse_delete_rule=mongoengine.NULLIFY))
+    nb_search = mongoengine.LongField()
 
 
 

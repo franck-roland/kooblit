@@ -2,8 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserKooblit, Reinitialisation
-from django.contrib.admin.widgets import AdminDateWidget
+from .models import UserKooblit
 from django.forms.extras.widgets import SelectDateWidget
 import datetime
 
@@ -45,6 +44,7 @@ class UserCreationFormKooblit(UserCreationForm):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
+            # TODO: clean: unused message
             msg = "Passwords don't match"
             raise forms.ValidationError("Password mismatch")
         return password2
@@ -54,6 +54,8 @@ class UserCreationFormKooblit(UserCreationForm):
         email2 = self.cleaned_data.get('email2')
         if email and email2 and email2 != email:
             raise forms.ValidationError(u'Email addresses mismatch.')
+
+        # TODO: clean: unused username
         username = self.cleaned_data.get('username')
         if email and User.objects.filter(email=email).count():
             raise forms.ValidationError(u'Cette adresse est deja utilisee')
