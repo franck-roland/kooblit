@@ -5,7 +5,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-                       # Examples:
                        url(r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^$', 'kooblit.views.homepage', name='homepage'),
@@ -18,4 +17,3 @@ urlpatterns = patterns('',
                        url(r'^hooks/12QA21EJD92J93329RIU92JDRF$', 'achat.views.webhook'),
 
                        )
-# + static(settings.STATIC_URL, settings.STATIC_ROOT)
