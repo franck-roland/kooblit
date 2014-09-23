@@ -22,6 +22,7 @@ def search_view(request):
         title = request.GET.get('title', '')
         if title == '':
             return render_to_response("search_page.html", RequestContext(request))
+        # TODO: clean: use str replace
         ch1 = u"àâçéèêëîïôùûüÿ"
         ch2 = u"aaceeeeiiouuuy"
         tmp = []
@@ -48,7 +49,7 @@ def search_view(request):
     except TypeError:
         raise
 
-
+# TODO: clean: useless now
 @login_required
 def add_summary(request):
     return HttpResponseRedirect('/')

@@ -104,6 +104,8 @@ def ajouter_et_payer(buyer, synthese):
     buyer.save()
     author = synthese.user
     price = synthese.prix
+    # TODO: clean: remove those magic number (put them in a CONSTANT)
+    # and why use decimal?
     PRIX_TRANSACTION = Decimal('0.0295') * price + Decimal('0.28')
     PRIX_TVA = Decimal('0.055') * price
     gain = price - PRIX_TVA - PRIX_TRANSACTION
@@ -115,6 +117,9 @@ def ajouter_et_payer(buyer, synthese):
 def clean_cart(cart, username):
     """ Enlève les synthèses qui ont déjà été achetées par l'utilisateur ou qui ont été publiées par lui """
     buyer = UserKooblit.objects.get(username=username)
+    # TODO: clean:
+    # buyer_syntheses_ids = [synth.id for synth in buyer.syntheses] (more simplifiable I think)
+    # return Syntheses.objects.filter(id__in=cart).exclude(user__username=username, id__in=buyer_syntheses_ids)
     cart_final = []
     for id_synthese in cart:
         synthese = Syntheses.objects.get(id=id_synthese)
