@@ -6,16 +6,61 @@
 	height: 100%;
 
 }
-.jumbotron {
-    height: 100%;   
-    background-color:rgba(0, 0, 0, 0.05);
-    margin-bottom: 0px;
+.homepage_content {
+    /*height: 100%;
+    margin-bottom: 0px;*/
+    background: black;
+}
+
+.homepage_quote {
+  padding: 40px 0;
+  color: white;
+  /*text-align: center;*/
+}
+
+.homepage_quote h2, .homepage_quote h4{
+  font-family: 'Helvetica Neue Thin';
+  color: rgb(251, 251, 251);
+}
+
+.homepage_quote h2 {
+  font-size:40px;
+}
+
+.homepage_quote h4 {
+  padding-top:20px;
+  text-shadow: 1px 1px black;
+}
+
+.homepage_quote em {
+  color: rgb(198, 198, 198);
+  font-style: normal;
+}
+
+.homepage_icon {
+  bottom: -100px;
+  font-family: 'Helvetica Neue Medium'
+}
+
+.homepage_icon a {
+  display: block;
+  height: 100px;
+  width: 100px;
+  margin: auto;
+}
+
+.homepage_icon img {
+  width: 100px;
+}
+
+.homepage_icon div {
+  text-align: center;
 }
 
 #wrap{
 	height: 100%;
 
-} 
+}
 .thumbnail {
   display: block;
   padding: 4px;

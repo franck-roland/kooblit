@@ -19,11 +19,11 @@
     <link href="{% static "css/base.css" %}" rel="stylesheet">
 
     <!-- CSS Conquer -->
-    
-  
+
+
     <!-- Custom styles for this template -->
     {% block extra_css %}{% endblock %}
-    
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -66,7 +66,7 @@
                 <ul class="dropdown-menu list-group">
                   <li class="list-group-item">
                       <a href="{% url 'achats:cart_details' %}" >
-                      
+
                        Mon panier <span class="badge">
                         {{ request.nbre_achats }}
                       </span></a>
@@ -104,10 +104,10 @@
                       </span>
                       </a>
                     </li> -->
-                    
+
                     <li class="divider">
                     </li>
-                  
+
                     <li>
                       <a href="{% url 'usr_management:logout' %}"><i class="fa fa-key"></i> Log Out</a>
                     </li>
