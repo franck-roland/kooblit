@@ -8,21 +8,23 @@
 {% block wrapped_content %}
 <div id="block_content">
 
-  <div class="container" style="text-align:center;margin-top:10%;">
-    <div class="column-12 md-column-12" style="margin-bottom:10%;">
+  <div class="container">
 
-      <img class="" src="{% static "img/logo/owl_only_2.png" %}" width="9%" alt="Logo Kooblit" style="display:inline-block;vertical-align:middle;float:none;"/>
+    <div id="logo" class="column-12 md-column-12">
+      <img src="{% static "img/logo/owl_only_2.png" %}" alt="Logo Kooblit"/>
 
-      <h1 style="display: inline-block;vertical-align:middle;float:none;font-family:'Helvetica Neue Medium';margin:0px;">&nbsp;Kooblit</h1>
-
+      <h1>&nbsp;Kooblit</h1>
     </div>
 
-    <form id="main_search_form" action="{% url 'search_engine:search' %}" role="search" method="get" onsubmit="return display_loader('#main_ajax_loader')" style="margin:auto;width:100%;" >
-      <div class="form-group" style="margin:auto;width:100%;">
-        <input id="main_search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="height:50px;margin-top:5px;padding-bottom: 5px;padding-top: 5px;width:100%;border-color:rgb(180,180,180);color:rgb(180, 180, 180);font-family:'Helvetica Neue Medium';">
-        <img src="{% static "img/ajax-loader.gif"%}" height=34px; id="main_ajax_loader" style="display:none;float:none;vertical-align: bottom;" />
+    <form id="main_search_form" action="{% url 'search_engine:search' %}" role="search" method="get" onsubmit="return display_loader('#main_ajax_loader')">
+      <div class="form-group">
+
+        <input id="main_search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage, un auteur, un thème..." name='title'>
+
+        <img src="{% static "img/ajax-loader.gif"%}" id="main_ajax_loader" />
+
       </div>
-      <button type="submit" style="position:absolute;top:-9999px;width:1px;" ></button>
+      <button type="submit" style="display:none" ></button>
     </form>
 
   </div>
