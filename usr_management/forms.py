@@ -2,14 +2,13 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserKooblit, Reinitialisation
-from django.contrib.admin.widgets import AdminDateWidget 
+from .models import UserKooblit
 from django.forms.extras.widgets import SelectDateWidget
 import datetime
 
 
 class UserCreationFormKooblit(UserCreationForm):
-    birthday = forms.DateField(label="Birthday",  
+    birthday = forms.DateField(label="Birthday",
         widget=SelectDateWidget(years=range(datetime.date.today().year, 1930, -1))
         , localize=True)
     email2 = forms.EmailField()
@@ -19,7 +18,7 @@ class UserCreationFormKooblit(UserCreationForm):
         # widgets = {
         #     'birthday': forms.PasswordInput(),
         # }
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1',
                   'password2', 'birthday', 'email2')
 
     def clean_birthday(self):
@@ -29,13 +28,13 @@ class UserCreationFormKooblit(UserCreationForm):
         return birthday
 
     def clean_first_name(self):
-        first_name = self.cleaned_data.get("first_name") 
+        first_name = self.cleaned_data.get("first_name")
         if not first_name:
             raise forms.ValidationError(u'Prenom obligatoire')
         return first_name
 
     def clean_last_name(self):
-        last_name = self.cleaned_data.get("last_name") 
+        last_name = self.cleaned_data.get("last_name")
         if not last_name:
             raise forms.ValidationError(u'Nom obligatoire')
         return last_name
@@ -45,15 +44,18 @@ class UserCreationFormKooblit(UserCreationForm):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
+            # TODO: clean: unused message
             msg = "Passwords don't match"
             raise forms.ValidationError("Password mismatch")
         return password2
-    
+
     def clean_email2(self):
         email = self.cleaned_data.get('email')
         email2 = self.cleaned_data.get('email2')
         if email and email2 and email2 != email:
             raise forms.ValidationError(u'Email addresses mismatch.')
+
+        # TODO: clean: unused username
         username = self.cleaned_data.get('username')
         if email and User.objects.filter(email=email).count():
             raise forms.ValidationError(u'Cette adresse est deja utilisee')
@@ -96,4 +98,3 @@ class DoReinitialisationForm(forms.Form):
         if mdp1 != mdp2:
             raise forms.ValidationError(u'Mot de passe différent')
         return mdp2
-        

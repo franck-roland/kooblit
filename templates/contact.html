@@ -26,7 +26,7 @@
             <input id="id_username" class="form-control" maxlength="30" name="username" type="text" placeholder="Pseudo" >
         <!-- {{ form.username }} -->
             {{ form.username.errors }}
-        </div>    
+        </div>
     </div>
     <div class="form-group">
         <label for="id_last_name" class="col-lg-4 control-label ">Nom</label>
@@ -34,7 +34,7 @@
             <input id="id_last_name" class="form-control" maxlength="30" name="last_name" type="text" placeholder="Nom" >
         <!-- {{ form.name }} -->
             {{ form.last_name.errors }}
-        </div>    
+        </div>
     </div>
     <div class="form-group">
         <label for="id_first_name" class="col-lg-4 control-label ">Prenom</label>
@@ -42,7 +42,7 @@
             <input id="id_first_name" class="form-control" maxlength="30" name="first_name" type="text" placeholder="Prenom" >
         <!-- {{ form.first_name }} -->
             {{ form.first_name.errors }}
-        </div>    
+        </div>
     </div>
     <div class="form-group">
         <label for="id_email" class="col-lg-4 control-label ">Email</label>
@@ -50,7 +50,7 @@
             <input id="id_email" class="form-control" maxlength="30" name="email" type="email" placeholder="adresse@example.com" >
         <!-- {{ form.email }} -->
             {{ form.email.errors }}
-        </div>    
+        </div>
     </div>
     <div class="form-group">
         <label for="id_email2" class="col-lg-4 control-label ">Confirmation</label>
@@ -58,7 +58,7 @@
             <input id="id_email2" class="form-control" maxlength="30" name="email2" type="email" placeholder="adresse@example.com" >
         <!-- {{ form.email2 }} -->
             {{ form.email2.errors }}
-        </div>    
+        </div>
     </div>
     <div class="form-group">
         <label for="id_password1" class="col-lg-4 control-label ">Mot de passe</label>
@@ -66,7 +66,7 @@
             <input id="id_password1" class="form-control" maxlength="30" name="password1" type="password" placeholder="mot de passe" >
         <!-- {{ form.password1 }} -->
             {{ form.password1.errors }}
-        </div>    
+        </div>
     </div>
     <div class="form-group">
         <label for="id_password2" class="col-lg-4 control-label ">Confirmation</label>
@@ -74,14 +74,14 @@
             <input id="id_password2" class="form-control" maxlength="30" name="password2" type="password" placeholder="mot de passe" >
         <!-- {{ form.password2 }} -->
             {{ form.password2.errors }}
-        </div>    
+        </div>
     </div>
 <!--     <div class="fieldWrapper">
         <label for="id_subject">Mot de passe:</label>
         {{ form.password1 }}
         {{ form.password1.errors }}
     </div>
- -->    
+ -->
 <!--     <div class="fieldWrapper">
         <label for="id_subject">Confirmation du mot de passe:</label>
         {{ form.password2 }}
@@ -95,7 +95,7 @@
 <!--             <input id="id_birthday" name="birthday" type="datetime-local">
  -->        <!-- {{ form.birthday }} -->
             {{ form.birthday.errors }}
-        </div>    
+        </div>
     </div>
 <!--          <label for="id_birthday">Date d'anniversaire:</label>
         {{ form.birthday }}
@@ -122,7 +122,7 @@
             <input id="id_username_log" class="form-control" maxlength="30" name="username_log" type="text" placeholder="Pseudo" >
         <!-- {{ form.username }} -->
             {{ form.username_log.errors }}
-        </div>    
+        </div>
     </div>
     <div class="form-group">
         <label for="id_password_log" class="col-lg-4 control-label ">Mot de passe</label>
@@ -130,7 +130,7 @@
             <input id="id_password_log" class="form-control" maxlength="30" name="password_log" type="password" placeholder="mot de passe" >
         <!-- {{ form.password1 }} -->
             {{ form.password_log.errors }}
-        </div>    
+        </div>
     </div>
     <a href="{% url 'usr_management:ask_reinitialisation' %}" > mot de passe oublié </a>
     <div class="form-group" style="padding-top:10px;" >
@@ -227,19 +227,19 @@ $( ".django_form input" ).focusout(function() {
         }
         else if($(this).attr('id') == 'id_email2'){
             if($("#id_email").val() != x){
-                checkAndWriteError($(this),'<ul class="errorlist"><li>Adresses mail différentes</li></ul>');       
+                checkAndWriteError($(this),'<ul class="errorlist"><li>Adresses mail différentes</li></ul>');
             }
         }
         else if($(this).attr('id') == 'id_password2'){
             if($("#id_password1").val() != x){
-                checkAndWriteError($(this),'<ul class="errorlist"><li>Mots de passe différents</li></ul>');       
+                checkAndWriteError($(this),'<ul class="errorlist"><li>Mots de passe différents</li></ul>');
             }
         }
     }
 });
 
 function validateForm() {
-    var elements = [ "username", "first_name", "last_name", "email", "email2", "password1", 
+    var elements = [ "username", "first_name", "last_name", "email", "email2", "password1",
     "password2"];
     var ok = true;
     for (var i = 0; i < elements.length; i++) {
@@ -275,7 +275,7 @@ function validateForm() {
     return (ok && ok_birthday);
 }
 // $('#id_birthday').datepicker();
-  
+
    $("#id_username").popover({trigger:'hover',placement:'right',content:"Entrer un nom d'utilisateur qui vous permettra de vous connecter"});
    $("#id_birthday").popover({trigger:'hover',placement:'right',content:"jj/mm/aaaa"});
 </script>

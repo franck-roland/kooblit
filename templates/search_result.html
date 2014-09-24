@@ -99,33 +99,33 @@
       var res = $(this)
       // setTimeout(function () {
         res.css('display','inline-block');
-      // }, 20); 
+      // }, 20);
     });
   }
   function isTouchSupported() {
     var msTouchEnabled = window.navigator.msMaxTouchPoints;
     var generalTouchEnabled = "ontouchstart" in document.createElement("div");
- 
+
     if (msTouchEnabled || generalTouchEnabled) {
         return true;
     }
     return false;
   }
   $(".item:first").addClass("active");
-  $(document).ready(function() {  
+  $(document).ready(function() {
     $('.carousel').carousel({
       interval: false
     });
     if(isTouchSupported()){
-       $("#carousel-example-generic").swiperight(function() {  
-          $(this).carousel('prev');  
-          });  
-       $("#carousel-example-generic").swipeleft(function() {  
+       $("#carousel-example-generic").swiperight(function() {
+          $(this).carousel('prev');
+          });
+       $("#carousel-example-generic").swipeleft(function() {
           $(this).carousel('next');
-        $(".carousel-control").remove();  
+        $(".carousel-control").remove();
      });
-    }  
-  }); 
+    }
+  });
    $('.bs-component [data-toggle="tooltip"]').tooltip();
   // $(".gold_button").popover({trigger:'hover',placement:'right',content:"Je vends une synthèse"});
   // $(".search_button").popover({trigger:'hover',placement:'top',content:"Je cherche un synthèse"});

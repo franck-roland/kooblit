@@ -1,31 +1,28 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.shortcuts import render
 from django.shortcuts import render_to_response
 from aws_req import compute_args, unsanitize
-from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.utils.http import urlquote
-# Create your views here.
-from django.views.decorators.cache import cache_page
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseRedirect
 
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from .models import Book
 import urllib
 # from mongoengine import *
 # connect('docs_db')
 
 
 def search_view(request):
+    # TODO: clean: unused
     u = {'kooblit_username': request.user.username}
 
     title = ""
+    # TODO: clean: useless try catch
     try:
         title = request.GET.get('title', '')
         if title == '':
             return render_to_response("search_page.html", RequestContext(request))
+        # TODO: clean: use str replace
         ch1 = u"àâçéèêëîïôùûüÿ"
         ch2 = u"aaceeeeiiouuuy"
         tmp = []
@@ -49,10 +46,10 @@ def search_view(request):
             d['title'] = unsanitize(d['title'])
 
         return render_to_response("search_result.html", RequestContext(request, {'titre': title, 'resultat': s, 'nb_result': 6}))
-    except TypeError as e:
+    except TypeError:
         raise
 
-
+# TODO: clean: useless now
 @login_required
 def add_summary(request):
     return HttpResponseRedirect('/')

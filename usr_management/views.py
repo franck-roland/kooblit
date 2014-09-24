@@ -15,7 +15,6 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 # Emails
-from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
@@ -73,21 +72,17 @@ def try_login(request, username, password, next_url):
             return HttpResponseRedirect('/', RequestContext(request))
         else:
             return HttpResponse("Mauvais mot de passe ou identifiant")
-    except MultiValueDictKeyError, e:
+    except MultiValueDictKeyError:
         raise
-    except UserKooblit.DoesNotExist, e:
+    except UserKooblit.DoesNotExist:
         return HttpResponse("Mauvais mot de passe ou identifiant")
-    except Exception, e:
-        raise
 
 
 def contact(request):
     try:
         next_url = request.GET['next']
-    except MultiValueDictKeyError, e:
+    except MultiValueDictKeyError:
         next_url = "/"
-    except Exception:
-        raise
 
     if not request.user.is_authenticated():
         if request.method == 'POST':  # If the form has been submitted...
@@ -98,10 +93,8 @@ def contact(request):
                 username = request.POST['username_log']
                 password = request.POST['password_log']
                 return try_login(request, username, password, next_url)
-            except MultiValueDictKeyError, e:
+            except MultiValueDictKeyError:
                 pass
-            except Exception, e:
-                raise
 
             # New user
             if form.is_valid():  # All validation rules pass
@@ -159,6 +152,7 @@ def email_confirm(request, verification_id):
         if val.user.is_active:
             val.user.is_confirmed = True
             val.user.save()
+            # TODO: clean: unused password
             username = val.user.username
             password = val.user.password
             val.delete()
@@ -175,7 +169,7 @@ def email_confirm(request, verification_id):
         else:
             messages.error(request, "Votre compte kooblit est désactivé.")
             return HttpResponseRedirect('/', RequestContext(request))
-    except Verification.DoesNotExist, e:
+    except Verification.DoesNotExist:
         raise Http404()
 
 
@@ -209,13 +203,12 @@ def check_exist(request):
         else:
             kwargs['username__iexact'] = username
         try:
+            # TODO: clean: unused user_kooblit
             user_kooblit = UserKooblit.objects.get(**kwargs)
             response_data['result'] = 'failed'
             response_data['message'] = "L'utilisateur existe deja"
-        except UserKooblit.DoesNotExist, e:
+        except UserKooblit.DoesNotExist:
             pass
-        except Exception:
-            raise
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 

@@ -1,42 +1,42 @@
 from django.conf import settings
-from mongoengine import *
 import datetime
+import mongoengine
 
 
-class Theme(Document):
+class Theme(mongoengine.Document):
     """docstring for Theme"""
-    theme = StringField(max_length=100, required=True, unique=True)
-    sub_theme = ListField(ReferenceField('Theme'))
-    amazon_id = LongField(default=None, unique=True)
+    theme = mongoengine.StringField(max_length=100, required=True, unique=True)
+    sub_theme = mongoengine.ListField(mongoengine.ReferenceField('Theme'))
+    amazon_id = mongoengine.LongField(default=None, unique=True)
 
 
-class Book(Document):
-    small_title = StringField(max_length=32, required=True, unique=False)
-    title = StringField(max_length=settings.MAX_BOOK_TITLE_LEN, required=True, unique=True)
-    author = ListField(StringField(max_length=100, required=True))
-    description = StringField(max_length=4096, required=False)
-    themes = ListField(ReferenceField(Theme, reverse_delete_rule=NULLIFY))
-    langue = StringField(max_length=32, unique=False)
-    # books = ListField(ReferenceField(UniqueBook))
+class Book(mongoengine.Document):
+    small_title = mongoengine.StringField(max_length=32, required=True, unique=False)
+    title = mongoengine.StringField(max_length=settings.MAX_BOOK_TITLE_LEN, required=True, unique=True)
+    author = mongoengine.ListField(mongoengine.StringField(max_length=100, required=True))
+    description = mongoengine.StringField(max_length=4096, required=False)
+    themes = mongoengine.ListField(mongoengine.ReferenceField(Theme, reverse_delete_rule=mongoengine.NULLIFY))
+    langue = mongoengine.StringField(max_length=32, unique=False)
+    # books = mongoengine.ListField(mongoengine.ReferenceField(UniqueBook))
 
 
-class Recherche(Document):
-    day = DateTimeField(default=datetime.datetime.now)
-    book = ReferenceField(Book)
-    nb_searches = LongField()
+class Recherche(mongoengine.Document):
+    day = mongoengine.DateTimeField(default=datetime.datetime.now)
+    book = mongoengine.ReferenceField(Book)
+    nb_searches = mongoengine.LongField()
 
-    @queryset_manager
+    @mongoengine.queryset_manager
     def objects(doc_cls, queryset):
         # This may actually also be done by defining a default ordering for
-        # the document, but this illustrates the use of manager methods
+        # the mongoengine.document, but this illustrates the use of manager methods
         return queryset.order_by('-date')
 
 
-class UniqueBook(Document):
+class UniqueBook(mongoengine.Document):
     """docstring for UniqueBook"""
-    book = ReferenceField(Book)
-    isbn = StringField(max_length=100, required=True, unique=False)
-    image = URLField()
-    last_update = DateTimeField(default=datetime.datetime.now)
-    buy_url = URLField()
-    editeur = StringField(max_length=100)
+    book = mongoengine.ReferenceField(Book)
+    isbn = mongoengine.StringField(max_length=100, required=True, unique=False)
+    image = mongoengine.URLField()
+    last_update = mongoengine.DateTimeField(default=datetime.datetime.now)
+    buy_url = mongoengine.URLField()
+    editeur = mongoengine.StringField(max_length=100)

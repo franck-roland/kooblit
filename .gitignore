@@ -41,6 +41,7 @@ coverage.xml
 .mr.developer.cfg
 .project
 .pydevproject
+.DS_Store
 
 # Rope
 .ropeproject
@@ -56,5 +57,8 @@ docs/_build/
 *.conf
 *.yaml
 
-#vim 
+#vim
 .swp
+
+# config
+config/config.yml

@@ -12,18 +12,19 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import yaml
 from slugify import Slugify
+from mongoengine import connect
 
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-s = yaml.load(open(os.path.join(PROJECT_ROOT, "config.yaml"), "r").read())
+
+PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+config = yaml.load(open(os.path.join(PROJECT_ROOT, "config", "config.yml"), "r").read())
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-AMAZON_KEY = s["AMAZON_KEY"]
-MONGO_PWD = s["MONGO_PWD"]
-MONGO_USER = s["MONGO_USER"]
-PAYMILL_PRIVATE_KEY = s["PAYMILL_PRIV"]
-PAYMILL_PUBLIC_KEY = s["PAYMILL_PUB"]
+AMAZON_KEY = config["AMAZON_KEY"]
+MONGO_PWD = config["MONGO_PWD"]
+MONGO_USER = config["MONGO_USER"]
+PAYMILL_PRIVATE_KEY = config["PAYMILL_PRIV"]
+PAYMILL_PUBLIC_KEY = config["PAYMILL_PUB"]
 
-from mongoengine import connect
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -39,7 +40,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SECRET_KEY = s["SECRET_KEY"]
+SECRET_KEY = config["SECRET_KEY"]
 
 # Application definition
 
@@ -82,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'kooblit_db',
         'USER': 'endoderconic',
-        'PASSWORD': s['DB_PASSWORD'],
+        'PASSWORD': config['DB_PASSWORD'],
     }
 }
 
@@ -103,15 +104,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
 STATIC_URL = '/static/'
 STATIC_ROOT = '/tmp/static/'
-
-STATICFILES_FINDER = (
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.FileSystemFinder', )
-
-STATICFILES_DIRS = ('/home/endoderconic/kooblit/static/',)
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates/'),
@@ -127,9 +124,9 @@ AUTHENTICATION_BACKENDS = (
     'usr_management.backends.EmailOrUsernameModelBackend',
     'django.contrib.auth.backends.ModelBackend'
 )
-EMAIL_HOST = s['EMAIL_HOST']
-EMAIL_HOST_PASSWORD = s['EMAIL_HOST_PASSWORD']
-EMAIL_HOST_USER = s['EMAIL_HOST_USER']
+EMAIL_HOST = config['EMAIL_HOST']
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
+EMAIL_HOST_USER = config['EMAIL_HOST_USER']
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 

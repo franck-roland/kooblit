@@ -1,23 +1,19 @@
 # -*- coding: utf-8 -*-
 from decimal import Decimal
 import json
-import sys
 import pymill
-from hashlib import sha256
-import datetime
 
 from django.conf import settings
 # model
 from usr_management.models import Syntheses, Transaction, UserKooblit, Entree
 from manage_books_synth.models import Book
 # rendu
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 # decorateur
-from django.views.decorators.http import require_GET
 from django.contrib.auth.decorators import login_required
 
 from django.views.decorators.csrf import csrf_exempt
@@ -26,6 +22,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 import logging
+
 
 logger = logging.getLogger(__name__)
 paymill_response_code = {
@@ -107,6 +104,8 @@ def ajouter_et_payer(buyer, synthese):
     buyer.save()
     author = synthese.user
     price = synthese.prix
+    # TODO: clean: remove those magic number (put them in a CONSTANT)
+    # and why use decimal?
     PRIX_TRANSACTION = Decimal('0.0295') * price + Decimal('0.28')
     PRIX_TVA = Decimal('0.055') * price
     gain = price - PRIX_TVA - PRIX_TRANSACTION
@@ -118,6 +117,9 @@ def ajouter_et_payer(buyer, synthese):
 def clean_cart(cart, username):
     """ Enlève les synthèses qui ont déjà été achetées par l'utilisateur ou qui ont été publiées par lui """
     buyer = UserKooblit.objects.get(username=username)
+    # TODO: clean:
+    # buyer_syntheses_ids = [synth.id for synth in buyer.syntheses] (more simplifiable I think)
+    # return Syntheses.objects.filter(id__in=cart).exclude(user__username=username, id__in=buyer_syntheses_ids)
     cart_final = []
     for id_synthese in cart:
         synthese = Syntheses.objects.get(id=id_synthese)

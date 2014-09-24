@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-import sys
 import datetime
 import urllib
 import hashlib
 import codecs
-from lxml import etree
 
 # Settings
 from django.conf import settings
@@ -15,22 +13,17 @@ from django.conf import settings
 from django.core.files import File
 
 # Rendu
-from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
-from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
 from django.template import Context
 from django.template import RequestContext
-from django.core.urlresolvers import reverse
 from django.templatetags.static import static
 
 # Emails
-from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-from django.template import Context
 
 # Messages
 from django.contrib import messages
@@ -65,9 +58,9 @@ from pyPdf.utils import PdfReadError
 
 def check_pdf(file_name):
     try:
-        doc = PdfFileReader(file(file_name, "rb"))
+        PdfFileReader(file(file_name, "rb"))
         return 0
-    except PdfReadError, e:
+    except PdfReadError:
         return 1
     except Exception:
         raise
@@ -135,7 +128,7 @@ def create_file_medium(s, book_title, username):
             synthese._file = File(destination)
             synthese._file_html = File(destination)
             synthese.save()
-        except Syntheses.DoesNotExist, e:
+        except Syntheses.DoesNotExist:
             synthese = Syntheses(_file=File(destination), _file_html=File(destination),
                                  user=user, livre_id=book.id, prix=2)
             synthese.save()
@@ -162,6 +155,7 @@ def create_tmp_file(request, f, book_title, username):
 
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
+    # TODO: clean: title is not defined
     synthese = Syntheses.objects.filter(user=user, title=title, livre_id=book.id)
     return synthese
 
@@ -177,7 +171,8 @@ def create_file(book_title, username):
                 synthese._file = File(destination)
                 synthese._file_html = File(newfile)
                 synthese.save()
-            except Syntheses.DoesNotExist, e:
+            except Syntheses.DoesNotExist:
+                # TODO: clean: title is not defined
                 synthese = Syntheses(_file=File(destination), _file_html=File(newfile),
                                      title=title, user=user, livre_id=book.id, prix=2)
                 synthese.save()
@@ -262,7 +257,7 @@ def create_book(book_title):
 
 def create_book_if_doesnt_exist(request, book_title):
     try:
-        b = Book.objects.get(title=book_title)
+        Book.objects.get(title=book_title)
     except Book.DoesNotExist:
         clean_create_book(request, book_title)
 
@@ -291,7 +286,7 @@ def upload_file(request, book_title, author_username):
             if request.POST.get('oui', ''):
                 try:
                     create_file(book_title, username)
-                except IOError, e:
+                except IOError:
                     raise
                 delete_tmp_file(book_title, title, username)
                 messages.success(request, u'Votre fichier <i>"%s"</i> a bien été enregistré.' % title)
@@ -321,9 +316,11 @@ def upload_file(request, book_title, author_username):
                             return render_to_response('upload.html', RequestContext(request, ret))
                         return HttpResponseRedirect(urllib.quote(username), RequestContext(request, ret))
         elif author_username:
+            # TODO: clean: why getting those
             book = Book.objects.get(title=book_title)
             user = UserKooblit.objects.get(username=username)
             file_html = get_name(book_title, title, username) + '.html'
+            # TODO: clean: useless try catch
             try:
                 with open(file_html, 'r') as f:
                     s = f.read()
@@ -496,7 +493,7 @@ def demande_livre(request, book_title):
     book_title = urllib.unquote(book_title)
     try:
         b = Book.objects.get(title=book_title)
-    except Book.DoesNotExist, e:
+    except Book.DoesNotExist:
         if not clean_create_book(request, book_title):
             b = Book.objects.get(title=book_title)
         else:
@@ -515,7 +512,7 @@ def selection(request, book_title):
     book_title = urllib.unquote(book_title)
     try:
         book = Book.objects.get(title=book_title)
-    except Book.DoesNotExist, e:
+    except Book.DoesNotExist:
         raise Http404()
 
     resu = [(res.nb_searches, res.day.strftime('%d, %b %Y')) for res in Recherche.objects(book=book)]
@@ -598,7 +595,7 @@ def book_detail(request, book_title):
     book_title = urllib.unquote(book_title)
     try:
         book = Book.objects.get(title=book_title)
-    except Book.DoesNotExist, e:
+    except Book.DoesNotExist:
         raise Http404()
 
     resu = [(res.nb_searches, res.day.strftime('%d, %b %Y')) for res in Recherche.objects(book=book)]

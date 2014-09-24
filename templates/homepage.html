@@ -16,7 +16,7 @@
     </div>
 {% endif %}
     <div style="padding:40px; color:black;text-align:center;">
-    
+
       <h2 style="font-size:40px;" >
       Des milliers de synthèses de livres <br>à partir de 1€
      </h2>
@@ -58,11 +58,11 @@
     {% endif %}
     <h1 >
     DES MILLIERS<br/> DE SYNTHÈSES <br/> DE LIVRES <br/> POUR SEULEMENT 1€</h1>
-    <h2 >Découvrez le catalogue de synthèses écrites par les utilisateurs 
+    <h2 >Découvrez le catalogue de synthèses écrites par les utilisateurs
         Et gagnez de l’argent en partageant les vôtres
     </h2>
     </div>
-    <div style="margin-top:50px; width:100%; height: 100px;"> 
+    <div style="margin-top:50px; width:100%; height: 100px;">
       <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><button type="button" class="btn  btn-xlarge btn-default " >Rechercher un titre <span class="glyphicon glyphicon-search"></span></button></div>
       {% if not user.is_authenticated %}
       <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><a class="btn  btn-xlarge btn-default"href="{% url 'usr_management:login' %}#enregistrement">S'inscrire</a></div>
