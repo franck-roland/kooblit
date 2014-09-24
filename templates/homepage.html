@@ -1,76 +1,61 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
 {% block extra_css %}
 <link href="{% static "css/homepage_new.css" %}" rel="stylesheet">
 {% endblock %}
+
 {% block content %}
-<div class="jumbotron">
-{% if messages %}
-    <div class="container">
-      {% for message in messages %}
-        <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          {{ message|safe }}
-        </div>
-      {% endfor %}
+<div class="row homepage_content">
+
+  {% if messages %}
+  <div class="container">
+    {% for message in messages %}
+    <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      {{ message|safe }}
     </div>
-{% endif %}
-    <div style="padding:40px; color:black;text-align:center;">
+    {% endfor %}
+  </div>
+  {% endif %}
 
-      <h2 style="font-size:40px;" >
-      Des milliers de synthèses de livres <br>à partir de 1€
-     </h2>
-      <h4 style="padding-top:20px;">Découvrez le catalogue de synthèses écrites par les utilisateurs <br>
-          Et gagnez de l’argent en partageant les vôtres
-      </h4>
-    </div>
-      <div class="row">
-        <div  class="col-xs-12 col-sm-12 col-md-2 col-md-offset-2">
-          <a href="{% url 'search_engine:search' %}" style="height:80px;width:80px;margin:auto;">
-            <img src="{% static "img/pictos/Search.png" %}" style="width: 80px; display: block;text-align:center;margin-top:15px" />
-          </a>
-          <div style="font-family:Helvetica Neue Medium;">Je cherche une<br/>synthèse</div>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-2 col-md-offset-1" >
-          <a  href="{% url 'search_engine:search' %}" style="height:80px;width:80px;margin:auto;">
-            <img src="{% static "img/pictos/Sell.png" %}" style="width: 80px; display: block;text-align:center;margin-top:15px" />
-          </a>
-          <div style="font-family:Helvetica Neue Medium;">Je vends une<br/>synthèse</div>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-2 col-md-offset-1" >
-          <a  href="{% url 'usr_management:login' %}" style="height:80px;width:80px;margin:auto;">
-          <img src="{% static "img/pictos/Suscribe.png" %}" style="width: 80px; display: block;text-align:center;margin-top:15px" />
-          </a>
-          <div style="font-family:Helvetica Neue Medium;">Je m'inscris<br/>gratuitement</div></div>
-      </div>
-      <!--<div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><a class="btn  btn-xlarge btn-default" href="/accounts/login/#enregistrement">S'inscrire</a></div>
-      <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><a class="btn btn-xlarge btn-default" href="/accounts/login/#connection">Se connecter</a></div>
-      -->
-    </div>
-<!-- </div> -->
-
-<!-- <div class="jumbotron">
-    <div style="background-color:rgba(0, 0, 0, 0.15);color:#F0F0F0;padding:15px;" >
-    {% if user.is_authenticated %}
-    BIENVENUE {{ user.username }}
-    {% endif %}
-    <h1 >
-    DES MILLIERS<br/> DE SYNTHÈSES <br/> DE LIVRES <br/> POUR SEULEMENT 1€</h1>
-    <h2 >Découvrez le catalogue de synthèses écrites par les utilisateurs
-        Et gagnez de l’argent en partageant les vôtres
+<<<<<<< HEAD
+  <div class="col-xs-offset-1 col-xs-11 col-md-10 col-md-offset-2 homepage_quote">
+    <h2>
+      Des
+      <br/>milliers
+      <br/>de <em>synthèses de livres</em>
+      <br/>pour seulement quelques euros
     </h2>
-    </div>
-    <div style="margin-top:50px; width:100%; height: 100px;">
-      <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><button type="button" class="btn  btn-xlarge btn-default " >Rechercher un titre <span class="glyphicon glyphicon-search"></span></button></div>
-      {% if not user.is_authenticated %}
-      <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><a class="btn  btn-xlarge btn-default"href="{% url 'usr_management:login' %}#enregistrement">S'inscrire</a></div>
-      <div class="btn-group btn-group-perso col-xs-12 col-sm-12 col-md-4"><a class="btn btn-xlarge btn-default" href="{% url 'usr_management:login' %}#connection">Se connecter</a></div>
-      {% endif %}
-    </div> -->
-<!-- </div> -->
+    <h4>
+      Découvrez le catalogue de synthèses écrites par les utilisateurs <br>Et gagnez de l’argent en partageant les vôtres
+    </h4>
+  </div>
+
+  <div  class="homepage_icon col-xs-12 col-md-2 col-md-offset-2">
+    <a href="{% url 'search_engine:search' %}">
+      <img src="{% static "img/pictos/Search.png" %}"/>
+    </a>
+    <div>Je cherche une<br/>synthèse</div>
+  </div>
+
+  <div class="homepage_icon col-xs-12 col-md-2 col-md-offset-1" >
+    <a  href="{% url 'search_engine:search' %}">
+      <img src="{% static "img/pictos/Sell.png" %}"/>
+    </a>
+    <div>Je vends une<br/>synthèse</div>
+  </div>
+
+  <div class="homepage_icon col-xs-12 col-md-2 col-md-offset-1" >
+    <a  href="{% url 'usr_management:login' %}">
+      <img src="{% static "img/pictos/Suscribe.png" %}"/>
+    </a>
+    <div>Je m'inscris<br/>gratuitement</div>
+  </div>
+
+</div>
 {% endblock %}
+
 {% block script_block %}
   <script src="{% static "js/homepage.js" %}" type="text/javascript"></script>
 {% endblock %}

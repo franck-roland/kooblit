@@ -3,42 +3,50 @@
  * --------------------------------------------------
  */
 
- @font-face{
+@font-face{
+  font-family: "Helvetica Neue";
+  src: url('../fonts/Helvetica_Neue/HelveticaNeue.otf') format('opentype');
+}
+@font-face{
   font-family: "Helvetica Neue Thin";
   src: url('../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf') format('opentype');
- }
- @font-face{
+}
+@font-face{
   font-family: "Helvetica Neue Medium";
   src: url('../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf') format('opentype');
- }
+}
+
 html,
 body {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
   height: 100%;
-  /*font-family:'Abadi MT Condensed Extra Bold';*/
+  background-color: rgb(239, 239, 239);
+  font-family:'Helvetica Neue';
 }
-body {
-  /*padding-top: 50px;*/
+
+li {
+  list-style: none;
 }
+
 footer {
   padding: 30px 0;
 }
+
 #block_content {
-    padding-top: 60px;
+  padding-top: 60px;
 }
 
 /* Wrapper for page content to push down footer */
 #wrap {
-/*min-height: 100%;*/
-height: 100%;
-/* Negative indent footer by it's height */
-margin: 0 auto 0;
+  /*min-height: 100%;*/
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto 0;
 }
 
 /* Set the fixed height of the footer here */
-#push,
-#footer {
-height: 60px;
+#push, #footer {
+  height: 60px;
 }
 #footer {
 /*background-color: #f5f5f5;*/
@@ -47,20 +55,80 @@ height: 60px;
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 1105px) {
-#wrap {
-min-height: 100%;
-/*height: auto !important;*/
-margin: 0 auto 0;
-/* Negative indent footer by it's height */
-}
-#footer {
-  margin-left: -20px;
-  margin-right: -20px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
+  #wrap {
+    min-height: 100%;
+    /*height: auto !important;*/
+    margin: 0 auto 0;
+    /* Negative indent footer by it's height */
+  }
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
+nav.navbar {
+  background-color: white;
+  border-bottom: 1px solid rgb(220,220,220);
+  color: rgb(127, 127, 127);
+}
+
+.navbar-header a.navbar-brand {
+  color: black;
+  font-size: 24px;
+  margin-top: -4px;
+}
+
+.navbar-header .navbar-nav {
+  padding: 0;
+}
+
+.navbar-brand img {
+  width: 40px;
+  margin-top: -6px;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a{
+  color: rgb(44, 62, 80);
+}
+
+#search_bar {
+  height: 34px;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+#ajax_loader {
+  display: none;
+  float: none;
+  vertical-align: bottom;
+}
+
+.navbar_img {
+  width: 35px
+}
+
+.fa.fa-shopping-cart {
+  font-size: 24px;
+}
+
+.navbar-nav > li {
+  /* Useful when collapsed (mobile) */
+  text-align: center;
+}
+
+.navbar-nav > li > a.navbar_login {
+  color: rgb(127, 127, 127);
+  font-size: 18px;
+}
+
+#achats a:hover {
+  background-color: white;
+  color: #18bc9c;
+}
 
 
 /* Custom page CSS
@@ -111,19 +179,15 @@ font-size: 80%;
 
 }
 
-.navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a{
-  color: rgb(44, 62, 80);
-}
-
 .aag_hdrStars {display: inline-block; width: 90px; height: 17px; background-image: url("/static/img/largeStars-sprite.png"); background-repeat: no-repeat; background-color: transparent; background-position: 0 0; position: relative; top: 3px;}
-.aag_hdrStars span {  left: -9999px; position: absolute; }    
+.aag_hdrStars span {  left: -9999px; position: absolute; }
 .aag_hdrStars.fbr-stars-45 {background-position: 0 -23px;}
-.aag_hdrStars.fbr-stars-40 {background-position: -18px 0;}    
+.aag_hdrStars.fbr-stars-40 {background-position: -18px 0;}
 .aag_hdrStars.fbr-stars-35 {background-position: -18px -23px;}
-.aag_hdrStars.fbr-stars-30 {background-position: -36px 0;}        
+.aag_hdrStars.fbr-stars-30 {background-position: -36px 0;}
 .aag_hdrStars.fbr-stars-25 {background-position: -36px -23px;}
-.aag_hdrStars.fbr-stars-20 {background-position: -54px 0;}        
+.aag_hdrStars.fbr-stars-20 {background-position: -54px 0;}
 .aag_hdrStars.fbr-stars-15 {background-position: -54px -23px;}
-.aag_hdrStars.fbr-stars-10 {background-position: -72px 0;}        
+.aag_hdrStars.fbr-stars-10 {background-position: -72px 0;}
 .aag_hdrStars.fbr-stars-05 {background-position: -72px -23px;}
-.aag_hdrStars.fbr-stars-00 {background-position: -90px 0;}    
+.aag_hdrStars.fbr-stars-00 {background-position: -90px 0;}
