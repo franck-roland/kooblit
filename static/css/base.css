@@ -3,18 +3,19 @@
  * --------------------------------------------------
  */
 
- @font-face{
+@font-face{
   font-family: "Helvetica Neue";
   src: url('../fonts/Helvetica_Neue/HelveticaNeue.otf') format('opentype');
- }
- @font-face{
+}
+@font-face{
   font-family: "Helvetica Neue Thin";
   src: url('../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf') format('opentype');
- }
- @font-face{
+}
+@font-face{
   font-family: "Helvetica Neue Medium";
   src: url('../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf') format('opentype');
- }
+}
+
 html,
 body {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
@@ -22,28 +23,26 @@ body {
   background-color: rgb(239, 239, 239);
   font-family:'Helvetica Neue';
 }
-body {
-  /*padding-top: 50px;*/
-}
+
 footer {
   padding: 30px 0;
 }
+
 #block_content {
-    padding-top: 60px;
+  padding-top: 60px;
 }
 
 /* Wrapper for page content to push down footer */
 #wrap {
-/*min-height: 100%;*/
-height: 100%;
-/* Negative indent footer by it's height */
-margin: 0 auto 0;
+  /*min-height: 100%;*/
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto 0;
 }
 
 /* Set the fixed height of the footer here */
-#push,
-#footer {
-height: 60px;
+#push, #footer {
+  height: 60px;
 }
 #footer {
 /*background-color: #f5f5f5;*/
@@ -52,20 +51,60 @@ height: 60px;
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 1105px) {
-#wrap {
-min-height: 100%;
-/*height: auto !important;*/
-margin: 0 auto 0;
-/* Negative indent footer by it's height */
-}
-#footer {
-  margin-left: -20px;
-  margin-right: -20px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
+  #wrap {
+    min-height: 100%;
+    /*height: auto !important;*/
+    margin: 0 auto 0;
+    /* Negative indent footer by it's height */
+  }
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
+nav.navbar {
+  background-color: white;
+  border-bottom: 1px solid rgb(220,220,220);
+  color: rgb(127, 127, 127);
+}
+
+.navbar-header a.navbar-brand {
+  color: rgb(44,62,80);
+  margin-top: -4px;
+}
+
+.navbar-header img {
+  width: 35px;
+  padding-bottom: 6px;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a{
+  color: rgb(44, 62, 80);
+}
+
+#search_bar {
+  height: 34px;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+#ajax_loader {
+  display: none;
+  float: none;
+  vertical-align: bottom;
+}
+
+.navbar_img {
+  width: 35px
+}
+
+.navbar-nav > li > a.navbar_login {
+  color: rgb(127, 127, 127);
+}
 
 
 /* Custom page CSS
@@ -114,10 +153,6 @@ font-size: 80%;
   background-size: cover;
 	/*background-color: #006A80;*/
 
-}
-
-.navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a{
-  color: rgb(44, 62, 80);
 }
 
 .aag_hdrStars {display: inline-block; width: 90px; height: 17px; background-image: url("/static/img/largeStars-sprite.png"); background-repeat: no-repeat; background-color: transparent; background-position: 0 0; position: relative; top: 3px;}
