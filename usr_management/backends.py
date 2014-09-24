@@ -1,8 +1,9 @@
-from django.conf import settings
 from django.contrib.auth.models import User
-from .models import Verification, UserKooblit
 import re
+
+
 email_matching = re.compile("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$")
+
 
 class EmailOrUsernameModelBackend(object):
     """
@@ -20,7 +21,7 @@ class EmailOrUsernameModelBackend(object):
                 kwargs = {'email': username}
             else:
                 kwargs = {'username': username}
-            
+
             user = User.objects.get(**kwargs)
             if user.check_password(password):
                 return user

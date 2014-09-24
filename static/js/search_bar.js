@@ -1,13 +1,13 @@
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substringRegex;
- 
+
     // an array that will be populated with substring matches
     matches = [];
- 
+
     // regex used to determine if a string contains the substring `q`
     substrRegex = new RegExp(q, 'i');
- 
+
     // iterate through the pool of strings and for any string that
     // contains the substring `q`, add it to the `matches` array
     $.each(strs, function(i, str) {
@@ -17,7 +17,7 @@ var substringMatcher = function(strs) {
         matches.push({ value: str });
       }
     });
- 
+
     cb(matches);
   };
 };
@@ -71,7 +71,7 @@ $('#search_bar').typeahead({
                             $('.tt-dataset-livres').after('<div class="divider"></div>');
                         }
                         cb(temp);
-                        
+
                     },
                     data: {
                         q: request,

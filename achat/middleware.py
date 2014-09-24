@@ -1,7 +1,3 @@
-
-
-
-
 class CartMiddleware(object):
 	"""docstring for CartMiddleware"""
 

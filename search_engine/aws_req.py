@@ -7,12 +7,9 @@ import urllib
 import sys
 import xml.etree.ElementTree as ET
 import re
-import json
 import os
-import re
 import time
 import shutil
-from bs4 import BeautifulSoup
 
 from django.conf import settings
 from django.core.files import File
@@ -124,14 +121,13 @@ def check_in_tmp(title, page_nb, server_name):
 def create_tmp(title, page_nb, server_name, result):
     dir_name = sha1(title).hexdigest()
     dir_path = "/tmp/" + dir_name + "/"
-    ret = ''
     create_dir_if_not_exists(dir_path)
     dir_path += server_name + "/"
     create_dir_if_not_exists(dir_path)
     file_name = dir_path + "f_" + str(page_nb) + '.xml'
     with open(file_name, 'w') as f:
         _file = File(f)
-        ret = _file.write(result)
+        _file.write(result)
 
 
 def backward(m):
@@ -152,7 +148,7 @@ def calculate_signature_amazon(k, m):
 def get_text(obj, name):
     try:
         ret = obj.find(name).text
-    except AttributeError, e:
+    except AttributeError:
         ret = ""
     return ret
 
@@ -229,7 +225,7 @@ def compute_json_one_result(result):
     try:
         languages = obj.find('Languages').find('Language')
         language = get_text(languages, 'Name')
-    except AttributeError, e:
+    except AttributeError:
         language = ""
 
     obj = result.find("LargeImage")
@@ -238,7 +234,7 @@ def compute_json_one_result(result):
         obj = result.find('EditorialReviews').find('EditorialReview')
         # summary = BeautifulSoup(get_text(obj, 'Content')).get_text()
         summary = get_text(obj, 'Content')
-    except AttributeError, e:
+    except AttributeError:
         summary = ""
 
     title = title.lower()
@@ -302,7 +298,7 @@ def compute_args(title, k, exact_match=0, delete_duplicate=1, escape=0):
 
 
 def create_book(title, k):
-    s = compute_args(title, k, exact_match=1, delete_duplicate=0)
+    compute_args(title, k, exact_match=1, delete_duplicate=0)
     # import pdb;pdb.set_trace()
 
 
