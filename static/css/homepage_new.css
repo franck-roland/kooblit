@@ -9,7 +9,7 @@
 .homepage_content {
     /*height: 100%;
     margin-bottom: 0px;*/
-    background: black;
+    background: url("../img/moon.jpg");
 }
 
 .homepage_quote {
