@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-md-12 homepage_content">
+<div class="col-xs-12 homepage_content">
 
   {% if messages %}
   <div class="container">
@@ -18,7 +18,7 @@
     {% endfor %}
   </div>
   {% endif %}
-  <div class="col-xs-offset-1 col-xs-11 col-md-10 col-md-offset-2 homepage_quote">
+  <div class="col-xs-offset-1 col-xs-11 col-sm-10 col-sm-offset-2 homepage_quote">
     <h2>
       Des
       <br/>milliers
@@ -30,28 +30,29 @@
     </h4>
   </div>
 
-  <div  class="homepage_icon col-xs-12 col-md-2 col-md-offset-2">
-    <a href="{% url 'search_engine:search' %}">
-      <img src="{% static "img/pictos/Search.png" %}"/>
-    </a>
-    <div>Je cherche une<br/>synthèse</div>
-  </div>
-
-  <div class="homepage_icon col-xs-12 col-md-2 col-md-offset-1" >
-    <a  href="{% url 'search_engine:search' %}">
-      <img src="{% static "img/pictos/Sell.png" %}"/>
-    </a>
-    <div>Je vends une<br/>synthèse</div>
-  </div>
-
-  <div class="homepage_icon col-xs-12 col-md-2 col-md-offset-1" >
-    <a  href="{% url 'usr_management:login' %}">
-      <img src="{% static "img/pictos/Suscribe.png" %}"/>
-    </a>
-    <div>Je m'inscris<br/>gratuitement</div>
-  </div>
-
 </div>
+
+<div  class="homepage_icon col-xs-12 col-sm-2 col-sm-offset-2">
+  <a href="{% url 'search_engine:search' %}">
+    <img src="{% static "img/pictos/Search.png" %}"/>
+  </a>
+  <div>Je cherche une<br/>synthèse</div>
+</div>
+
+<div class="homepage_icon col-xs-12 col-sm-2 col-sm-offset-1" >
+  <a  href="{% url 'search_engine:search' %}">
+    <img src="{% static "img/pictos/Sell.png" %}"/>
+  </a>
+  <div>Je vends une<br/>synthèse</div>
+</div>
+
+<div class="homepage_icon col-xs-12 col-sm-2 col-sm-offset-1" >
+  <a  href="{% url 'usr_management:login' %}">
+    <img src="{% static "img/pictos/Suscribe.png" %}"/>
+  </a>
+  <div>Je m'inscris<br/>gratuitement</div>
+</div>
+
 {% endblock %}
 
 {% block script_block %}

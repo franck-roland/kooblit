@@ -7,15 +7,17 @@
 
 }
 .homepage_content {
-    /*height: 100%;
-    margin-bottom: 0px;*/
+    background-color: white;
     background: url("../img/moon.jpg");
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: cover;
 }
 
 .homepage_quote {
   padding: 40px 0;
   color: white;
-  /*text-align: center;*/
+  text-shadow: 1px 1px black;
 }
 
 .homepage_quote h2, .homepage_quote h4{
@@ -24,12 +26,12 @@
 }
 
 .homepage_quote h2 {
-  font-size:40px;
+  font-size: 50px;
 }
 
 .homepage_quote h4 {
-  padding-top:20px;
-  text-shadow: 1px 1px black;
+  padding: 40px 0;
+  font-size: 21px;
 }
 
 .homepage_quote em {
@@ -38,7 +40,7 @@
 }
 
 .homepage_icon {
-  bottom: -100px;
+  top: -30px;
   font-family: 'Helvetica Neue Medium'
 }
 
