@@ -34,6 +34,13 @@ venv_deps:
 
 
 ##############
+# Shell      #
+##############
+
+shell:
+	./manage.py shell -i ipython
+
+##############
 # CleanUp    #
 ##############
 
