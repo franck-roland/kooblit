@@ -30,28 +30,29 @@
     </h4>
   </div>
 
-  <div  class="homepage_icon col-xs-12 col-md-2 col-md-offset-2">
-    <a href="{% url 'search_engine:search' %}">
-      <img src="{% static "img/pictos/Search.png" %}"/>
-    </a>
-    <div>Je cherche une<br/>synthèse</div>
-  </div>
-
-  <div class="homepage_icon col-xs-12 col-md-2 col-md-offset-1" >
-    <a  href="{% url 'search_engine:search' %}">
-      <img src="{% static "img/pictos/Sell.png" %}"/>
-    </a>
-    <div>Je vends une<br/>synthèse</div>
-  </div>
-
-  <div class="homepage_icon col-xs-12 col-md-2 col-md-offset-1" >
-    <a  href="{% url 'usr_management:login' %}">
-      <img src="{% static "img/pictos/Suscribe.png" %}"/>
-    </a>
-    <div>Je m'inscris<br/>gratuitement</div>
-  </div>
-
 </div>
+
+<div  class="homepage_icon col-xs-12 col-md-2 col-md-offset-2">
+  <a href="{% url 'search_engine:search' %}">
+    <img src="{% static "img/pictos/Search.png" %}"/>
+  </a>
+  <div>Je cherche une<br/>synthèse</div>
+</div>
+
+<div class="homepage_icon col-xs-12 col-md-2 col-md-offset-1" >
+  <a  href="{% url 'search_engine:search' %}">
+    <img src="{% static "img/pictos/Sell.png" %}"/>
+  </a>
+  <div>Je vends une<br/>synthèse</div>
+</div>
+
+<div class="homepage_icon col-xs-12 col-md-2 col-md-offset-1" >
+  <a  href="{% url 'usr_management:login' %}">
+    <img src="{% static "img/pictos/Suscribe.png" %}"/>
+  </a>
+  <div>Je m'inscris<br/>gratuitement</div>
+</div>
+
 {% endblock %}
 
 {% block script_block %}
