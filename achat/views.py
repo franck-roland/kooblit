@@ -118,14 +118,14 @@ def clean_cart(cart, username):
     """ Enlève les synthèses qui ont déjà été achetées par l'utilisateur ou qui ont été publiées par lui """
     buyer = UserKooblit.objects.get(username=username)
     # TODO: clean:
-    # buyer_syntheses_ids = [synth.id for synth in buyer.syntheses] (more simplifiable I think)
-    # return Syntheses.objects.filter(id__in=cart).exclude(user__username=username, id__in=buyer_syntheses_ids)
-    cart_final = []
-    for id_synthese in cart:
-        synthese = Syntheses.objects.get(id=id_synthese)
-        if synthese.user.username != username and synthese not in buyer.syntheses.all():
-            cart_final.append(id_synthese)
-    return cart_final
+    buyer_syntheses_ids = [synth.id for synth in buyer.syntheses.all()]
+    return [synth.id for synth in Syntheses.objects.filter(id__in=cart).exclude(user__username=username).exclude(id__in=buyer_syntheses_ids)]
+    # cart_final = []
+    # for id_synthese in cart:
+    #     synthese = Syntheses.objects.get(id=id_synthese)
+    #     if synthese.user.username != username and synthese not in buyer.syntheses.all():
+    #         cart_final.append(id_synthese)
+    # return cart_final
 
 
 @login_required
