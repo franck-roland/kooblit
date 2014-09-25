@@ -11,7 +11,7 @@
     background: url("../img/moon.jpg");
     background-repeat: no-repeat;
     background-position: left;
-    background-size: 100%;
+    background-size: cover;
 }
 
 .homepage_quote {
