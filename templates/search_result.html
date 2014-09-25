@@ -5,129 +5,131 @@
 {% block extra_css %}
 <link href="{% static "css/result_page.css" %}" rel="stylesheet">
 {% endblock %}
+
 {% block content %}
-<div class="col-xs-12 col-sm-12 col-md-12" style="margin-top:20px;">
-  <div class="col-xs-10 col-sm-10 col-md-10">
-    <h1 style="margin-top:0px;font-family:'Helvetica Neue Thin';color:rgb(74,74,74);">Résultats de recherche</h1>
-    <h3 style="font-family:'Helvetica Neue Thin';color:rgb(180,180,180);">{{titre}}</h3>
-{% if resultat %}
-  {{ resultat|length }} résultats trouvés
-{% else %}
-  Aucun resultat trouvé
-{% endif %}
-  </div>
-{% if resultat|length > 6 %}
-  <div class="col-xs-2 col-sm-2 col-md-2" style="position: absolute; bottom: 0px; right: 0px;">
-    <button type="button" class="btn btn-danger plus_button" style="font-size:0.7em;width:40%;margin-left: 50%;font-family:'Helvetica Neue';font-weight:bold;" onclick='afficher_plus()'> Plus</button>
-  </div> <!-- Bouton PLUS -->
-{% endif %}
-</div>
-
-<div class="container container_result" style="padding-top:50px;background-color: rgb(239, 239, 239);">
-  {% if resultat %}
-    {% for item in resultat %}
-      {% if forloop.counter0|divisibleby:nb_result  %}
-        <div class="col-lg-11 col-lg-offset-1 col-11 col-offset 1" style="">
-          <div class="col-lg-11 col-11" style="">
-      {% endif %}
-          {% if forloop.counter0 >= nb_result  %}
-          <div class="element img_container2 col-{% widthratio 12 nb_result 1 %} col-sm-{% widthratio 12 nb_result 1 %} col-lg-{% widthratio 12 nb_result 1 %} col-xs-6" style='display:none;' >
-          {% else %}
-          <div class="element img_container2 col-{% widthratio 12 nb_result 1 %} col-sm-{% widthratio 12 nb_result 1 %} col-lg-{% widthratio 12 nb_result 1 %} col-xs-6" style='' >
-          {% endif %}
-            <div class="sub_img_container container" style="">
-            <!-- <div class="col-12 col-sm-12 col-lg-12 col-xs-12" style='padding:0;text-align:center;margin-bottom:5px;' >
-              <a href="{{item.DetailPageURL}}" target="_blank">
-                <button type="button" class="btn btn-primary" style="font-size:0.7em;width:70%"> Acheter<br/> le livre</button>
-              </a>
-            </div>  --><!-- Bouton Acheter le livre -->
-            <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Je cherche une synthèse" href="{% url 'book_management:search' item.title %}">
-        {% if item.image %}
-              <div class="repre_image col-xs-12 col-sm-12 col-md-12" style="text-align:center;" >
-                <img src="{{ item.image }}" width=100%; style="box-shadow: 3px 3px 8px #555;">
-              </div>
+<div class="container">
+  <div class="row results_header">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <div class="col-xs-10 col-sm-10 col-md-10">
+        <h1>Résultats de recherche</h1>
+        <h2>{{titre}}</h3>
+        {% if resultat %}
+          {{ resultat|length }} résultats
         {% else %}
-              <div class="repre_image col-xs-12 col-sm-12 col-md-12" style="text-align:center;">
-                <img src='{% static 'img/empty_gallery.png' %}' width=100%; style="box-shadow: 3px 3px 8px #555;">
-              </div>
+          Aucun resultat
         {% endif %}
-              </a>
-              <div class="result_title col-xs-12 col-sm-12 col-md-12" style="overflow:hidden;white-space: nowrap ;line-height:15px;margin-top:15px;font-size:14px;font-family:'Helvetica Neue Thin';color:rgb(74,74,74);">
-              {{item.little_title|safe}}
-              <span class="paragraph_end" ></span>
-              </div>
-            <div class="col-xs-12 col-sm-12 col-md-12" style="margin-bottom:10px;font-family:'Helvetica Neue Thin';color:rgb(180,180,180);">
-              {{item.author}}
-            </div>
-            <!-- <div class="col-xs-12 col-sm-12 col-md-12">
-              <div class="col-xs-12 col-sm-12 col-md-6" > -->
-                <!-- <a id="search_button" class="thumbnail" href="/accounts/login/#enregistrement" style="height:80px;width:80px;margin:auto;">
-                  <img src="{% static "img/magnifier13.png" %}" width="30" style="height: 40px; width: 40px; display: block;text-align:center;margin-top:15px" />
-                </a> -->
-                <!-- <div class="bs-component">
-                  <a class="search_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je cherche une synthèse" href="{% url 'book_management:search' item.title %}">
-                    <img src="{% static "img/magnifier13.png" %}"/>
-                  </a>
-                </div>
-              </div> --> <!-- BOUTON Recherche de synthese -->
-             <!--  <div class="col-xs-12 col-sm-12 col-md-12" style="text-align:center;" >
-                <div class="bs-component">
-                <a class="gold_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' item.title %}" >
-                  <img src="{% static "img/coins24.png" %}"/>
-                </a>
-                </div>
-              </div> --> <!-- Bouton poster une synthese -->
-            <!-- </div> -->
-        </div> <!-- sub_img_container -->
-        </div> <!-- img_container2 -->
-      {% if forloop.counter0|add:"1"|divisibleby:nb_result  or forloop.last %}
-        </div> <!-- ligne de resultat interieur -->
-      </div> <!-- une ligne de resultat avec offset -->
-      {% endif %}
-    {% endfor %}
-  {% else %}
-    <!-- <img class="img-responsive img_res" src="{% static "img/empty_gallery.png" %}" alt='empty' /> -->
-  {% endif %}
-  </div> <!-- container_result -->
+      </div>
+    </div>
+  </div>
 
+  {% if resultat|length > 6 %}
+    <div class="row">
+      <div class="col-xs-offset-11 col-xs-1">
+        <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
+      </div> <!-- Bouton PLUS -->
+    </div>
+  {% endif %}
+
+  <div class="row">
+      {% if resultat %}
+        {% for item in resultat %}
+
+          <div class="element img_container2 col-md-2 col-sm-4 col-xs-6" {% if forloop.counter0 >= nb_result  %}style="display:none"{% endif %}>
+            <div class="sub_img_container">
+
+              <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Je cherche une synthèse" href="{% url 'book_management:search' item.title %}">
+                {% if item.image %}
+                  <div class="repre_image">
+                    <img src="{{ item.image }}" />
+                  </div>
+                {% else %}
+                  <div class="repre_image">
+                    <img src='{% static 'img/empty_gallery.png' %}' />
+                  </div>
+                {% endif %}
+              </a>
+
+              <div class="result_info">
+                <div class="result_title">
+                  {{item.little_title|title|safe}}
+                </div>
+
+                <div class="result_author">
+                  {{item.author}}
+                </div>
+              </div>
+
+            </div> <!-- sub_img_container -->
+          </div>
+
+        {% endfor %}
+
+      {% endif %}
+  </div>
+</div>
 {% endblock %}
+
 {% block script_block %}
 <script type="text/javascript" src="{% static "js/jquery.mobile.custom.min.js" %}"></script>
 <script type="text/javascript">
+
   function afficher_plus(){
     $('.img_container2').each(function(){
-      var res = $(this)
+      var res = $(this);
       // setTimeout(function () {
-        res.css('display','inline-block');
+      res.css('display','inline-block');
       // }, 20);
     });
   }
+
   function isTouchSupported() {
     var msTouchEnabled = window.navigator.msMaxTouchPoints;
     var generalTouchEnabled = "ontouchstart" in document.createElement("div");
 
     if (msTouchEnabled || generalTouchEnabled) {
-        return true;
+      return true;
     }
     return false;
   }
+
   $(".item:first").addClass("active");
-  $(document).ready(function() {
+
+  $(function() {
     $('.carousel').carousel({
       interval: false
     });
     if(isTouchSupported()){
-       $("#carousel-example-generic").swiperight(function() {
-          $(this).carousel('prev');
-          });
-       $("#carousel-example-generic").swipeleft(function() {
-          $(this).carousel('next');
+
+      $("#carousel-example-generic").swiperight(function() {
+        $(this).carousel('prev');
+      });
+
+      $("#carousel-example-generic").swipeleft(function() {
+        $(this).carousel('next');
         $(".carousel-control").remove();
-     });
+      });
     }
   });
-   $('.bs-component [data-toggle="tooltip"]').tooltip();
-  // $(".gold_button").popover({trigger:'hover',placement:'right',content:"Je vends une synthèse"});
-  // $(".search_button").popover({trigger:'hover',placement:'top',content:"Je cherche un synthèse"});
+
+  $('.bs-component [data-toggle="tooltip"]').tooltip();
+
+
+  function resizeImageRepr() {
+    var maxHeight = Math.max.apply(
+      Math, $('.repre_image img').map(function(){
+        return $(this).height();
+      }).get()
+    );
+
+    $('.repre_image').each(function(){
+        $(this).height(maxHeight);
+    });
+  }
+
+  resizeImageRepr();
+  $(window).resize(function(){
+    resizeImageRepr();
+  });
+
 </script>
 {% endblock %}

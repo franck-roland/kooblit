@@ -15,6 +15,10 @@
   font-family: "Helvetica Neue Medium";
   src: url('../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf') format('opentype');
 }
+@font-face{
+  font-family: "Helvetica Neue Bold";
+  src: url('../fonts/Helvetica_Neue/HelveticaNeue-Bold.otf') format('opentype');
+}
 
 html,
 body {
