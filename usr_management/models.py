@@ -1,8 +1,10 @@
+import datetime
+import string
+from bs4 import BeautifulSoup
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import UserManager
 
-import datetime
 # Model utilisateur
 
 
@@ -42,6 +44,14 @@ class Syntheses(models.Model):
     nbre_notes = models.BigIntegerField(default=0)
     date = models.DateField(null=True, default=datetime.datetime.now)
     prix = models.DecimalField(max_digits=6, decimal_places=2)
+
+    @property
+    def nbre_mots(self):
+        self._file_html.seek(0)  # We need to be at the beginning of the file
+        text = BeautifulSoup(self._file_html.read()).get_text()
+        exclude = set(string.punctuation)
+        filtered_text = ''.join(ch for ch in text if ch not in exclude)
+        return len(filtered_text.split(" "))
 
 
 class Comments(models.Model):

@@ -1,44 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "css/selection.css"%}">
+    <link rel="stylesheet" href="{% static "css/details.css"%}">
+{% endblock %}
+
 {% block content %}
-<!-- <nav class="navbar navbar-inverse navbar-fixed-top visible-xs" role="navigation" id="">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle navigation</span>
- <span class="icon-bar"></span>
- <span class="icon-bar"></span>
- <span class="icon-bar"></span>
-
-        </button>
-        <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target=".navbar-ex2-collapse"> <span class="sr-only">Toggle navigation</span>
- <i class="icon-user"></i>
-
-        </button> <a class="navbar-brand" style="text-align:center;" href="">Some link here centered</a>
-
-    </div>
-    <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <li class="active"><a href="#">AAAA 1</a>
-
-        </li>
-        <li class="active"><a href="#">AAAA 2</a>
-
-        </li>
-        <li class="active"><a href="#">AAAA 3</a>
-
-        </li>
-    </div>
-    <div class="collapse navbar-collapse navbar-ex2-collapse">
-        <li class="active"><a href="#">BBBB 1</a>
-
-        </li>
-        <li class="active"><a href="#">BBBB 2</a>
-
-        </li>
-        <li class="active"><a href="#">BBBB 3</a>
-
-        </li>
-    </div>
-</nav> -->
 {% if messages %}
     <div class="container">
       {% for message in messages %}
@@ -49,129 +17,116 @@
       {% endfor %}
     </div>
 {% endif %}
-<div class=" container col-md-12" style="padding-top:10px;background-color: rgba(0, 0, 0, 0.05);padding-bottom:20px;border-bottom:2px solid rgb(214, 214, 214);">
-  <div class="col-md-2">
-    <img src="{{img_url}}" class="img-rounded" width="100%">
-    <div class="img_container2 col-12 col-sm-12 col-lg-12 col-xs-12" style='text-align:center;padding:0;' >
-      <a href="{{buy_url}}" target="_blank">
-          <button type="button" class="btn btn-primary" style="font-size:0.7em;width:100%"> Acheter<br/> le livre</button>
-        </a>
-    </div>
-  </div>
-  <div class="col-md-10">
-    <dl>
-      <dt>Titre</dt>
-      <dd>{{title}}</dd>
-      <dt>Nombre de syntheses disponibles</dt>
-      <dd>{{nb_syntheses}}</dd>
-    </dl>
 
-    <div class="col-xs-12 col-sm-12 col-md-12" >
-      <div class="bs-component" style="padding-right:92%">
-        <a class="gold_button thumbnail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' title %}">
-          <img src="{% static "img/coins24.png" %}"/>
+<div class="container">
+  <div class="row">
+    <div class="selection_header">
+      <h2>Synthèses disponibles pour le livre</h1>
+      <h3>{{title|title}}</h3>
+    </h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-2 col-sm-offset-0 col-xs-10 col-xs-offset-1">
+
+    <div class="row">
+      <div class="repre_image col-xs-12">
+        <img src="{{img_url}}" />
+
+        <div class="result_info">
+          <div class="result_title">
+            {{title|title}}
+          </div>
+          <div class="result_author">
+            {{author}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="bs-component col-xs-12">
+        <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Acheter le livre" href="{{buy_url}}" target="_blank">
+          <img src="{% static "img/pictos/Credit_card.png" %}" />
+          Acheter le livre
+        </a>
+      </div>
+
+      <div class="bs-component col-xs-12">
+        <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' title %}">
+          <img src="{% static "img/pictos/Sell.png" %}" />
+          Vendre une synthèse
         </a>
       </div>
     </div>
+
   </div>
-</div>
-{% if description %}
-<div class="container col-md-12">
-  <h1> Description </h1>
-  {{description|safe}}
 
-<hr/>
-</div>
-{% endif %}
-{% if content %}
-<div class="panel-group col-md-12" id="accordion">
-  <h1> Synthèses </h1>
-	{% for s, e, ids, bought in content %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <form id="form_ajout_{{ids}}" method="POST" >{% csrf_token %}
-        <input type="hidden" name="synthese" value="{{ids}}">
-      </form>
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{forloop.counter0}}">
-        	{{s.user.username}}
-        </a>
-      </h4>
-           	{{s.date}}
-            <div class="starRating">
-              {% if s.note_moyenne < 0.5 %}
-              <span class="aag_hdrStars fbr-stars-00" title="Note moyenne de {{s.note_moyenne}}" >
-              {% elif s.note_moyenne < 1 %}
-              <span class="aag_hdrStars fbr-stars-05" title="Note moyenne de {{s.note_moyenne}}" >
-              {% elif s.note_moyenne < 1.5 %}
-              <span class="aag_hdrStars fbr-stars-10" title="Note moyenne de {{s.note_moyenne}}" >
-              {% elif s.note_moyenne < 2 %}
-              <span class="aag_hdrStars fbr-stars-15" title="Note moyenne de {{s.note_moyenne}}" >
-              {% elif s.note_moyenne < 2.5 %}
-              <span class="aag_hdrStars fbr-stars-20" title="Note moyenne de {{s.note_moyenne}}" >
-              {% elif s.note_moyenne < 3 %}
-              <span class="aag_hdrStars fbr-stars-25" title="Note moyenne de {{s.note_moyenne}}" >
-              {% elif s.note_moyenne < 3.5 %}
-              <span class="aag_hdrStars fbr-stars-30" title="Note moyenne de {{s.note_moyenne}}" >
-              {% elif s.note_moyenne < 4 %}
-              <span class="aag_hdrStars fbr-stars-35" title="Note moyenne de {{s.note_moyenne}}" >
-              {% elif s.note_moyenne < 4.5 %}
-              <span class="aag_hdrStars fbr-stars-40" title="Note moyenne de {{s.note_moyenne}}" >
-              {% elif s.note_moyenne < 5 %}
-              <span class="aag_hdrStars fbr-stars-45" title="Note moyenne de {{s.note_moyenne}}" >
-              {% endif %}
-           	  <!-- {{s.note_moyenne}} -->
-              </span>
+  <div class="col-sm-offset-1 col-sm-9 col-xs-12">
+  {% if content %}
+
+    {% if content|length > 4 %}
+      <div class="row">
+        <div class="col-xs-offset-11 col-xs-1">
+          <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
+        </div> <!-- Bouton PLUS -->
+      </div>
+    {% endif %}
+
+    <div class="row list_extract">
+      {% for s, e, ids, bought in content %}
+        <div class="repre_image col-sm-3 col-xs-6" {% if forloop.counter0 >= 4  %}style="display:none"{% endif %}>
+          <!-- <img src="{{img_url}}" /> -->
+          <div class="image_extract">
+            <img src="{% static "img/logo/owl_only_2.png" %}" alt="Logo Kooblit" />
+            <p>Kooblit de</p>
+            <p class="title_extract">{{title|title}}</p>
+            <p>Par <span class="author_name">{{s.user.username|title}}<span></p>
+          </div>
+
+          <div class="result_info">
+            <div class="row">
+              <div class="stars col-xs-12">
+                <span class="star-icon {% if s.note_moyenne >= 1 %}full{% elif s.note_moyenne > 0.5 %}half{% endif %}">☆</span>
+                <span class="star-icon {% if s.note_moyenne >= 2 %}full{% elif s.note_moyenne > 1.5 %}half{% endif %}">☆</span>
+                <span class="star-icon {% if s.note_moyenne >= 3 %}full{% elif s.note_moyenne > 2.5 %}half{% endif %}">☆</span>
+                <span class="star-icon {% if s.note_moyenne >= 4 %}full{% elif s.note_moyenne > 3.5 %}half{% endif %}">☆</span>
+                <span class="star-icon {% if s.note_moyenne >= 5 %}full{% elif s.note_moyenne > 4.5 %}half{% endif %}">☆</span>
+              </div>
             </div>
-            Note moyenne de {{s.note_moyenne}} sur {{s.nbre_notes}} votes <br>
-    		    {{s.prix}}€
 
-    </div>
-    <div id="collapse_{{forloop.counter0}}" class="panel-collapse collapse">
-      <div class="panel-body">
-         <div class="sub_extrait">
-          {% if not bought %}
-          <button class="btn btn-primary" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
-            Voir un extrait
-          </button>
-          <button class="btn btn-primary" form="form_ajout_{{ids}}">
-            Ajouter au panier
-          </button>
-          {% else %}
-          <a href="{% url 'usr_management:lire_synthese' s.id %}">
-            <button class="btn btn-primary">
-              Lire la synthèse
-            </button>
-          </a>
-          {% endif %}
-        </div>
-          <!-- Modal -->
-        <div class="modal fade" id="myModal_{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel"><img src="{% static 'img/logo/owl_only.png' %}" width="50px" alt="logo kooblit" > {{s.title}}</h4>
-              </div>
-              <div class="modal-body">
-                {{e|safe}}
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-              </div>
+            <div class="row">
+              <p class="misc_info col-xs-6">{{s.nbre_notes}} notes</p>
+              <p class="misc_info col-xs-6">{{s.nbre_mots}} mots</p>
+              <p class="misc_info col-xs-12">Publié le {{s.date|date:"d/m/Y"}}</p>
+              <p class="col-xs-12"><a href="#" class="abtn see_extract">Voir l'extrait</a></p>
+              <p class="misc_info price col-xs-3">{{s.prix}}€</p>
+              <p class="col-xs-8 col-xs-offset-1"><a href="#" class="abtn buy_resume">Acheter</a></p>
             </div>
           </div>
-        </div> <!-- Modal -->
-      </div>
+        </div>
+      {% endfor %}
     </div>
+
+  {% else %}
+    <h1 class="no_synthese">Désolé, il n'y a aucune synthèse disponible pour ce livre</h1>
+  {% endif %}
   </div>
-  	{% endfor %}
-</div> <!-- panel-group accordion -->
-{% endif %}
+
+</div>
 {% endblock %}
+
 {% block script_block %}
 <script type="text/javascript">
 $('.bs-component [data-toggle="tooltip"]').tooltip();
+
+function afficher_plus(){
+  $('.repre_image').each(function(){
+    var res = $(this);
+    res.css('display','inline-block');
+  });
+}
 
 </script>
 {% endblock %}
