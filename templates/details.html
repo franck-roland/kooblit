@@ -76,7 +76,7 @@
 
     <div class="row list_extract">
       {% for s, e, ids, bought in content %}
-        <div class="repre_image col-sm-3 col-xs-6" {% if forloop.counter0 >= 4  %}style="display:none"{% endif %}>
+        <div class="repre_image col-md-3 col-xs-6" {% if forloop.counter0 >= 4  %}style="display:none"{% endif %}>
           <!-- <img src="{{img_url}}" /> -->
           <div class="image_extract">
             <img src="{% static "img/logo/owl_only_2.png" %}" alt="Logo Kooblit" />
@@ -100,12 +100,65 @@
               <p class="misc_info col-xs-6">{{s.nbre_notes}} notes</p>
               <p class="misc_info col-xs-6">{{s.nbre_mots}} mots</p>
               <p class="misc_info col-xs-12">Publié le {{s.date|date:"d/m/Y"}}</p>
-              <p class="col-xs-12"><a href="#" class="abtn see_extract">Voir l'extrait</a></p>
+
+              {% if bought %}
+                <p class="col-xs-12">
+                  <a href="{% url 'usr_management:lire_synthese' s.id %}" class="abtn see_extract">
+                    Lire la synthèse
+                  </a>
+                </p>
+              {% else %}
+                <p class="col-xs-12">
+                  <a href="javascript:void(0)" class="abtn see_extract" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
+                    Voir un extrait
+                  </a>
+                </p>
+              {% endif %}
+
               <p class="misc_info price col-xs-3">{{s.prix}}€</p>
-              <p class="col-xs-8 col-xs-offset-1"><a href="#" class="abtn buy_resume">Acheter</a></p>
+
+              {% if not bought %}
+                <p class="col-xs-8 col-xs-offset-1">
+                  <button href="javascript:void(0)" class="abtn buy_resume" form="form_ajout_{{ids}}">
+                    Ajouter au panier
+                  </button>
+                </p>
+                <form id="form_ajout_{{ids}}" method="POST" >{% csrf_token %}
+                  <input type="hidden" name="synthese" value="{{ids}}">
+                </form>
+              {% endif %}
+
             </div>
           </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal_{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+
+                <h4 class="modal-title" id="myModalLabel">
+                  <img src="{% static 'img/logo/owl_only.png' %}" width="50px" alt="logo kooblit" />
+                  {{s.title}}
+                </h4>
+              </div>
+
+              <div class="modal-body">
+                {{e|safe}}
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       {% endfor %}
     </div>
 
