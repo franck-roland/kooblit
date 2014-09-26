@@ -91,12 +91,21 @@ def cart_details(request):
     cart = request.session.get('cart', [])
     if request.user.is_authenticated():
         cart = clean_cart(cart, request.user.username)
-    cart = [("".join(("Kooblit de ", Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title, " par ",
-                      Syntheses.objects.get(id=i).user.username)), Syntheses.objects.get(id=i).prix) for i in cart]
-    cart_ids = request.session.get('cart', [])
-    results = zip(cart, cart_ids)
-    total = sum((i[1] for i in cart))
-    return render_to_response('cart.html', RequestContext(request, {'results': results, 'total': total}))
+
+    cart = [
+        {
+            "id": i,
+            "book_title": Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title,
+            "author": Syntheses.objects.get(id=i).user.username,
+            "prix": Syntheses.objects.get(id=i).prix,
+        } for i in cart
+    ]
+
+    return render_to_response(
+        'cart.html',
+        RequestContext(request, {
+            'results': cart,
+            'total': sum(synth['prix'] for synth in cart)}))
 
 
 def ajouter_et_payer(buyer, synthese):
@@ -117,63 +126,72 @@ def ajouter_et_payer(buyer, synthese):
 def clean_cart(cart, username):
     """ Enlève les synthèses qui ont déjà été achetées par l'utilisateur ou qui ont été publiées par lui """
     buyer = UserKooblit.objects.get(username=username)
-    # TODO: clean:
-    # buyer_syntheses_ids = [synth.id for synth in buyer.syntheses] (more simplifiable I think)
-    # return Syntheses.objects.filter(id__in=cart).exclude(user__username=username, id__in=buyer_syntheses_ids)
-    cart_final = []
-    for id_synthese in cart:
-        synthese = Syntheses.objects.get(id=id_synthese)
-        if synthese.user.username != username and synthese not in buyer.syntheses.all():
-            cart_final.append(id_synthese)
-    return cart_final
+    buyer_syntheses_ids = [synth.id for synth in buyer.syntheses.all()]
+    return [
+        synth
+        for synth in cart
+        if Syntheses.objects.filter(id__in=cart).exclude(
+            user__username=username,
+            id__in=buyer_syntheses_ids)]
 
 
 @login_required
 def paiement(request):
     cart = request.session.get('cart', [])
-    if cart:
-        if cart != clean_cart(cart, request.user.username):
-            messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
-            request.session['cart'] = clean_cart(cart, request.user.username)
-            cart = request.session.get('cart', [])
-            cart = [("".join(("Kooblit de ", Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title, " par ",
-                              Syntheses.objects.get(id=i).user.username)), Syntheses.objects.get(id=i).prix) for i in cart]
-            cart_ids = request.session.get('cart', [])
-            results = zip(cart, cart_ids)
-            total = sum((i[1] for i in cart))
-            return render_to_response('cart.html', RequestContext(request, {'results': results, 'total': total}))
-        if request.method == 'POST':
-            p = pymill.Pymill(settings.PAYMILL_PRIVATE_KEY)
 
-            payment = p.new_card(token=request.POST['paymillToken'])
+    if not cart:
+        raise Http404()
 
-            payement_id = payment.id
-            transaction = p.transact(
-                amount=sum([int(float(Syntheses.objects.get(id=i).prix) * 100) for i in cart]),
-                currency='EUR',
-                description='Test Transaction',
-                payment=payement_id
-            )
-            buyer = UserKooblit.objects.get(username=request.user.username)
-            trans = Transaction(user_from=buyer, remote_id=transaction.id)
-            trans.save()
-            for i in cart:
-                e = Entree(user_dest=Syntheses.objects.get(id=i).user, montant=float(Syntheses.objects.get(id=i).prix),
-                           transaction=trans)
-                e.save()
-                print type(transaction.response_code)
-                if transaction.status == 'closed' and transaction.response_code == 20000:
-                    # Ajouter la synthese aux syntheses achetées
-                    synthese = Syntheses.objects.get(id=i)
-                    ajouter_et_payer(buyer, synthese)
-            if transaction.status == 'closed':
-                request.session['cart'] = []
-                messages.success(request, u'Votre commande a bien été enregistrée. Une facture vous sera envoyée à votre adresse email.')
+    if cart != clean_cart(cart, request.user.username):
+        messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
+        request.session['cart'] = clean_cart(cart, request.user.username)
+        cart = request.session.get('cart', [])
+        cart = [
+            {
+                "id": i,
+                "book_title": Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title,
+                "author": Syntheses.objects.get(id=i).user.username,
+                "prix": Syntheses.objects.get(id=i).prix,
+            } for i in cart
+        ]
 
-                return HttpResponseRedirect('/')
-        total = sum((Syntheses.objects.get(id=i).prix for i in cart))
-        return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))
-    raise Http404()
+        return render_to_response(
+            'cart.html',
+            RequestContext(request, {
+                'results': cart,
+                'total': sum(synth['prix'] for synth in cart)}))
+
+    if request.method == 'POST':
+        p = pymill.Pymill(settings.PAYMILL_PRIVATE_KEY)
+
+        payment = p.new_card(token=request.POST['paymillToken'])
+
+        payement_id = payment.id
+        transaction = p.transact(
+            amount=sum([int(float(Syntheses.objects.get(id=i).prix) * 100) for i in cart]),
+            currency='EUR',
+            description='Test Transaction',
+            payment=payement_id
+        )
+        buyer = UserKooblit.objects.get(username=request.user.username)
+        trans = Transaction(user_from=buyer, remote_id=transaction.id)
+        trans.save()
+        for i in cart:
+            e = Entree(user_dest=Syntheses.objects.get(id=i).user, montant=float(Syntheses.objects.get(id=i).prix),
+                       transaction=trans)
+            e.save()
+            print type(transaction.response_code)
+            if transaction.status == 'closed' and transaction.response_code == 20000:
+                # Ajouter la synthese aux syntheses achetées
+                synthese = Syntheses.objects.get(id=i)
+                ajouter_et_payer(buyer, synthese)
+        if transaction.status == 'closed':
+            request.session['cart'] = []
+            messages.success(request, u'Votre commande a bien été enregistrée. Une facture vous sera envoyée à votre adresse email.')
+
+            return HttpResponseRedirect('/')
+    total = sum((Syntheses.objects.get(id=i).prix for i in cart))
+    return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))
 
 
 def crediter(user, montant):
