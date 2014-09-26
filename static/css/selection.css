@@ -1,0 +1,76 @@
+.selection_header {
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+
+.selection_header h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.selection_header h3 {
+    color: rgb(180,180,180);
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.repre_image img{
+    width: 100%;
+    box-shadow: 3px 3px 8px #555;
+}
+
+.result_info {
+  font-family: 'Helvetica Neue Thin';
+}
+
+.result_title{
+  overflow-y: hidden;
+}
+
+.result_title {
+  overflow: hidden;
+  white-space: nowrap;
+  margin-top: 2%;
+  font-size: 1.5em;
+}
+
+.result_author {
+  color: rgb(180,180,180);
+  font-size: 1.3em;
+}
+
+.infos {
+    font-size: 1.1em;
+    margin-bottom: 5%;
+}
+
+.infos h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: rgb(127, 127, 127);
+}
+
+.infos .misc_info {
+    float: left;
+}
+
+.bs-component {
+    font-family: 'Helvetica Neue Bold';
+    margin-bottom: 10%;
+}
+
+.bs-component a {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    color: rgb(127, 127, 127);
+}
+
+.bs-component a:hover {
+    color: #18bc9c;
+    text-decoration: none;
+}
+
+.bs-component a img {
+    width: 80px;
+}
