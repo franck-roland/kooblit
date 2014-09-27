@@ -28,6 +28,17 @@ class UserCreationFormKooblit(UserCreationForm):
             pass
         return username
 
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if not email:
+            raise forms.ValidationError(u'Email obligatoire')
+        try:
+            user = UserKooblit.objects.filter(email=email)
+            raise forms.ValidationError(u'Cette adresse mail existe déjà')
+        except UserKooblit.DoesNotExist:
+            pass
+        return email
+
     def clean_first_name(self):
         first_name = self.cleaned_data.get("first_name")
         if not first_name:
@@ -51,7 +62,7 @@ class UserCreationFormKooblit(UserCreationForm):
         return password2
 
     def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
+        user = super(UserCreationFormKooblit, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
