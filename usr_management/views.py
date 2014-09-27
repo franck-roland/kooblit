@@ -36,7 +36,7 @@ def computeEmail(username, email, validation_id):
     html_content = htmly.render(d)
     msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
     msg.content_subtype = "html"
-    msg.send()
+    #msg.send()
 
 
 def computeEmail_reinitialisation(username, email, validation_id):
