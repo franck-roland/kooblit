@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "css/selection.css"%}">
+{% endblock %}
+
 {% block content %}
 {% if messages %}
     <div class="container">
@@ -12,86 +16,91 @@
       {% endfor %}
     </div>
 {% endif %}
-<div class=" container col-md-12" style="padding-top:10px;">
-  <h1 style="margin-top:0px;font-family:'Helvetica Neue Thin';color:rgb(74,74,74);">Vous avez sélectionné</h1>
-  <h3 style="font-family:'Helvetica Neue Thin';color:rgb(180,180,180);">{{title}}</h3>
-</div>
-<div class=" container col-md-12" style="padding-top:10px;padding-bottom:20px;">
-  <div class="col-md-2">
-    <!-- <img src="{{img_url}}" class="" width="100%"> -->
-    <div class="repre_image col-xs-12 col-sm-12 col-md-12" style="text-align:center;" >
-      <img src="{{img_url}}" width=100%; style="box-shadow: 3px 3px 8px #555;">
+
+<div class="container">
+
+  <div class="row">
+    <div class="selection_header">
+      <h2>Vous avez sélectionné</h1>
+      <h3>{{title|title}}</h3>
     </div>
-    <div class="result_title col-xs-12 col-sm-12 col-md-12" style="overflow:hidden;white-space: nowrap ;line-height:15px;margin-top:15px;font-size:14px;font-family:'Helvetica Neue Thin';color:rgb(74,74,74);">
-      {{title}}
-      <span class="paragraph_end" ></span>
-      </div>
-    <div class="col-xs-12 col-sm-12 col-md-12" style="margin-bottom:10px;font-family:'Helvetica Neue Thin';color:rgb(180,180,180);">
-      {{author}}
-    </div>
-<!--     <div class="img_container2 col-12 col-sm-12 col-lg-12 col-xs-12" style='text-align:center;padding:0;' >
-      <a href="{{buy_url}}" target="_blank">
-          <button type="button" class="btn btn-primary" style="font-size:0.7em;width:100%"> Acheter<br/> le livre</button>
-        </a>
-    </div> -->
   </div>
-  <div class="col-md-10">
-    <dl>
+
+  <div class="row">
+
+    <div class="col-sm-3 col-sm-offset-0 col-xs-10 col-xs-offset-1">
+      <div class="repre_image">
+        <img src="{{img_url}}">
+      </div>
+
+      <div class="result_info">
+        <div class="result_title">
+          {{title|title}}
+        </div>
+
+        <div class="result_author">
+          {{author}}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-9">
       {% if description %}
-      <dt><h1> Description </h1></dt>
-      <dd>{{description|safe}}</dd>
-      {% endif %}
-      <dt><h1> Informations </h1></dt>
-      <dd><dl>
-      {% if genre %}
-
-        <dt>GENRE</dt>
-        <dd>{{genre}}</dd>
-      </dl></dd>
-      {% endif %}
-      {% if langue %}
-
-        <dt>LANGUE</dt>
-        <dd>{{langue}}</dd>
-      </dl></dd>
-      {% endif %}
-      {% if editeur %}
-
-        <dt>EDITEUR</dt>
-        <dd>{{editeur}}</dd>
-      </dl></dd>
+        <div class="row">
+          <div class="infos col-xs-12">
+            <h3>Description</h3>
+            <p>{{description|safe}}</p>
+          </div>
+        </div>
       {% endif %}
 
-      <dt>Nombre de syntheses disponibles</dt>
-      <dd>{{nb_syntheses}}</dd>
-    </dl>
+      <div class="row">
+        <div class="infos col-xs-12">
+          <h3>Informations</h3>
+            <div class="row">
+            {% if langue %}
+              <p class="misc_info col-xs-6">Langue: {{langue}}</p>
+            {% endif %}
+            {% if genre %}
+              <p class="misc_info col-xs-6">Genre: {{genre}}</p>
+            {% endif %}
+            {% if publication_date %}
+              <p class="misc_info col-xs-6">Publié: {{publication_date}}</p>
+            {% endif %}
+            {% if nb_of_pages %}
+              <p class="misc_info col-xs-6">Pages: {{nb_of_pages}}</p>
+            {% endif %}
 
-    <div class="col-xs-12 col-sm-12 col-md-12" >
-      <div class="bs-component col-xs-4 col-sm-4 col-md-4" style="">
-        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Acheter le livre" href="{{buy_url}}" target="_blank">
-          <img src="{% static "img/pictos/Credit_card.png" %}" width=80px; />
-        </a>
-        <span style="font-family:Helvetica Neue Thin"><b>Acheter le livre</b></span>
+            <p class="misc_info col-xs-6">Syntheses disponibles: {{nb_syntheses}}</p>
+          </div>
+        </div>
       </div>
-      <div class="bs-component col-xs-4 col-sm-4 col-md-4" style="">
-        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je cherche une synthèse" href="{% url 'book_management:details' title %}">
-          <img src="{% static "img/pictos/Search.png" %}" width=80px; />
-        </a>
-        <span style="font-family:Helvetica Neue Thin"><b>Voir les synthèses</b></span>
+
+      <div class="row">
+        <div class="bs-component col-xs-4">
+          <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Acheter le livre" href="{{buy_url}}" target="_blank">
+            <img src="{% static "img/pictos/Credit_card.png" %}" />
+            <br />
+            Acheter le livre
+          </a>
+        </div>
+        <div class="bs-component col-xs-4">
+          <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Je cherche une synthèse" href="{% url 'book_management:details' title %}">
+            <img src="{% static "img/pictos/Search.png" %}" />
+            <br />
+            Voir les synthèses
+          </a>
+        </div>
+        <div class="bs-component col-xs-4">
+          <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' title %}">
+            <img src="{% static "img/pictos/Sell.png" %}" />
+            <br />
+            Vendre une synthèse
+          </a>
+        </div>
       </div>
-      <div class="bs-component col-xs-4 col-sm-4 col-md-4" style="">
-        <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Je vends une synthèse" href="{% url 'book_management:post_medium' title %}">
-          <img src="{% static "img/pictos/Sell.png" %}" width=80px; />
-        </a>
-        <span style="font-family:Helvetica Neue Thin"><b>Vendre une synthèse</b></span>
-      </div>
+
     </div>
   </div>
 </div>
-{% endblock %}
-{% block script_block %}
-<script type="text/javascript">
-// $('.bs-component [data-toggle="tooltip"]').tooltip();
-
-</script>
 {% endblock %}
