@@ -83,7 +83,7 @@
     <fieldset>
     <legend id="connection">Se connecter</legend>
     {{ form.non_field_errors }}
-
+    <ul class="errorlist"><li>{{ login_error }}</li></ul>
     <div class="form-group">
         <label for="id_username_log" class="col-lg-4 control-label ">Pseudo</label>
         <div class="col-lg-8 input-container" >
