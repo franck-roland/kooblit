@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from random import randrange
 import hashlib
+import re
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
@@ -27,6 +28,8 @@ import json
 
 from django.template import RequestContext
 
+email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+email_match = re.compile(email_adresse_regex)
 
 def computeEmail(username, email, validation_id):
     htmly = get_template('email.html')
@@ -58,14 +61,24 @@ def computeNewValidation(username):
 
 
 def try_login(request, username, password, next_url, form):
-    username = username.lower()
     login_error = "Mauvais mot de passe ou identifiant"
-    try:
-        user_kooblit = UserKooblit.objects.get(username__iexact=username)
-    except UserKooblit.DoesNotExist:
-        return render(request, 'contact.html', {
-            'form': form, 'next_url': next_url, 'login_error': login_error
-            })
+    is_email = email_match.match(username) != None
+    if is_email:
+        try:
+            user_kooblit = UserKooblit.objects.get(email=username)
+        except UserKooblit.DoesNotExist:
+            return render(request, 'contact.html', {
+                'form': form, 'next_url': next_url, 'login_error': login_error
+                })
+    else:
+        username = username.lower()
+        try:
+            user_kooblit = UserKooblit.objects.get(username__iexact=username)
+        except UserKooblit.DoesNotExist:
+            return render(request, 'contact.html', {
+                'form': form, 'next_url': next_url, 'login_error': login_error
+                })
+
     username = user_kooblit.username
     user = authenticate(username=username, password=password)
     if user is not None:
