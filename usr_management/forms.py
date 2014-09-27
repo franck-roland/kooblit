@@ -8,10 +8,6 @@ import datetime
 
 
 class UserCreationFormKooblit(UserCreationForm):
-    birthday = forms.DateField(label="Birthday",
-        widget=SelectDateWidget(years=range(datetime.date.today().year, 1930, -1))
-        , localize=True)
-    email2 = forms.EmailField()
 
     class Meta:
         model = UserKooblit
@@ -19,13 +15,18 @@ class UserCreationFormKooblit(UserCreationForm):
         #     'birthday': forms.PasswordInput(),
         # }
         fields = ('username', 'first_name', 'last_name', 'email', 'password1',
-                  'password2', 'birthday', 'email2')
+                  'password2',)
 
-    def clean_birthday(self):
-        birthday = self.cleaned_data.get("birthday")
-        if not birthday:
-             raise forms.ValidationError(u'Champ obligatoire')
-        return birthday
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if not username:
+            raise forms.ValidationError(u'Pseudo obligatoire')
+        try:
+            user = UserKooblit.objects.get(username__iexact=username)
+            raise forms.ValidationError(u'Ce pseudo existe déjà')
+        except UserKooblit.DoesNotExist:
+            pass
+        return username
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get("first_name")
@@ -48,18 +49,6 @@ class UserCreationFormKooblit(UserCreationForm):
             msg = "Passwords don't match"
             raise forms.ValidationError("Password mismatch")
         return password2
-
-    def clean_email2(self):
-        email = self.cleaned_data.get('email')
-        email2 = self.cleaned_data.get('email2')
-        if email and email2 and email2 != email:
-            raise forms.ValidationError(u'Email addresses mismatch.')
-
-        # TODO: clean: unused username
-        username = self.cleaned_data.get('username')
-        if email and User.objects.filter(email=email).count():
-            raise forms.ValidationError(u'Cette adresse est deja utilisee')
-        return email
 
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
