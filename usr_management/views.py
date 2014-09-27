@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from random import randrange
 import hashlib
+import re
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
@@ -27,6 +28,8 @@ import json
 
 from django.template import RequestContext
 
+email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+email_match = re.compile(email_adresse_regex)
 
 def computeEmail(username, email, validation_id):
     htmly = get_template('email.html')
@@ -36,7 +39,7 @@ def computeEmail(username, email, validation_id):
     html_content = htmly.render(d)
     msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
     msg.content_subtype = "html"
-    #msg.send()
+    msg.send()
 
 
 def computeEmail_reinitialisation(username, email, validation_id):
@@ -58,14 +61,24 @@ def computeNewValidation(username):
 
 
 def try_login(request, username, password, next_url, form):
-    username = username.lower()
     login_error = "Mauvais mot de passe ou identifiant"
-    try:
-        user_kooblit = UserKooblit.objects.get(username__iexact=username)
-    except UserKooblit.DoesNotExist:
-        return render(request, 'contact.html', {
-            'form': form, 'next_url': next_url, 'login_error': login_error
-            })
+    is_email = email_match.match(username) != None
+    if is_email:
+        try:
+            user_kooblit = UserKooblit.objects.get(email=username)
+        except UserKooblit.DoesNotExist:
+            return render(request, 'contact.html', {
+                'form': form, 'next_url': next_url, 'login_error': login_error
+                })
+    else:
+        username = username.lower()
+        try:
+            user_kooblit = UserKooblit.objects.get(username__iexact=username)
+        except UserKooblit.DoesNotExist:
+            return render(request, 'contact.html', {
+                'form': form, 'next_url': next_url, 'login_error': login_error
+                })
+
     username = user_kooblit.username
     user = authenticate(username=username, password=password)
     if user is not None:
@@ -75,7 +88,7 @@ def try_login(request, username, password, next_url, form):
         elif not user.is_active:
             messages.error(request, "Votre compte est désactivé.")
         else:
-            messages.warning(request, "Vous devez activer votre compte.")
+            messages.warning(request, "Vous devez activer votre compte. <a href='/accounts/renvoi'> Renvoi </a>")
         return HttpResponseRedirect('/', RequestContext(request))
     else:
         return render(request, 'contact.html', {
@@ -215,6 +228,29 @@ def check_exist(request):
             pass
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
+def resend_verification(request):
+    if request.method == 'POST':
+        form = ReinitialisationForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+            try:
+                user = UserKooblit.objects.get(email=email)
+            # TODO: Message d'erreur email does not exist
+            except UserKooblit.DoesNotExist:
+                return HttpResponseRedirect('/', RequestContext(request))
+            # Recherche de la verification
+            val = Verification.objects.get(user=user)
+            username = user.username
+            computeEmail(username, email, val.verification_id)
+            messages.success(request, "Félicitation. Un email de confirmation vous a été envoyé.\
+                    Vous ne pourrez vous connecter qu'après y avoir jeté un coup d'oeil")
+            return HttpResponseRedirect('/', RequestContext(request))
+        else:
+            return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))
+
+    else:
+        form = ReinitialisationForm()
+        return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))
 
 def ask_reinitialisation(request):
     if request.method == 'POST':
