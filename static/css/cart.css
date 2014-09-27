@@ -1,0 +1,91 @@
+.header {
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+
+.header i.fa-shopping-cart {
+    font-size: 50px;
+}
+
+.no_synthese {
+    margin-top: 15%;
+    color: rgb(180,180,180);
+    text-align: center;
+}
+
+.image_extract {
+    box-shadow: 3px 3px 8px #555;
+    background: rgb(223, 210, 144);
+    text-align: left;
+    padding: 20px;
+    margin: 10px 0;
+}
+
+.image_extract {
+  font-size: 17px;
+}
+
+.title_extract, .author_name {
+  font-family: 'Helvetica Neue Bold';
+}
+
+.image_extract img{
+    display: inline-block;
+    box-shadow: 0px 0px;
+    width: 30px;
+    margin: 0 5px;
+}
+
+.price {
+    font-family: 'Helvetica Neue Bold';
+    text-align: center;
+    font-size: 24px;
+    padding: 20px;
+    color: rgb(187, 69, 69);
+}
+
+.delete_btn {
+  font-family: 'Helvetica Neue Bold';
+  font-size: 25px;
+  padding: 20px;
+  border: 0;
+  background-color: transparent;
+}
+
+.total h2 {
+  float: right;
+}
+
+.valider_achat {
+  padding: 20px;
+}
+
+.valider_achat a {
+    font-size: 20px;
+    background-color: rgb(61, 61, 61);
+    text-align: center;
+    padding: 3px 5px;
+}
+
+.valider_achat a:hover {
+    background-color: rgb(75, 75, 75);
+}
+
+.abtn {
+    display: inline-block;
+    text-align: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: white;
+}
+
+@media (max-width: 767px) {
+  .abtn {
+    width: 100%;
+  }
+}
+
+.abtn:hover {
+    color: white;
+    text-decoration: none;
+}

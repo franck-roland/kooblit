@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% block extra_css %}
+<link href="{% static "css/cart.css" %}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
+
 {% if messages %}
     <div class="container">
       {% for message in messages %}
@@ -12,29 +17,55 @@
       {% endfor %}
     </div>
 {% endif %}
-<div class=" container col-md-12" style="padding-top:10px;background-color: rgba(0, 0, 0, 0.05);padding-bottom:20px;border-bottom:2px solid rgb(214, 214, 214);">
-{% if results %}
-<div class="container col-md-12">
-  <h1> Cart </h1>
-  {% for synth, index  in results %}
-  <div>
-    <form method="POST">{% csrf_token %}
-     <input type="hidden" name="synthese_id" value="{{index}}">
-     <h4>{{synth.0}}</h4> {{synth.1}}€ <button type="submit">x</button>
-     </form>
-  </div>
-  {% endfor %}
-  <div>
-     <h4>Total</h4> {{total}}€
+
+
+<div class="container">
+  <div class="row">
+    <div class="header">
+      <h2><i class="fa fa-shopping-cart"></i> Mon Panier </h2>
+    </div>
   </div>
 
-<hr/>
-</div>
-<a href="{% url 'achats:paiement' %}" class="btn"> Valider le panier </button>
-{% else %}
-<div class="container col-md-12">
-  <h1> Votre panier est vide </h1>
-</div>
-{% endif %}
+  {% if results %}
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1">
 
+          {% for synth  in results %}
+            <form method="POST" class="row">
+              {% csrf_token %}
+              <input type="hidden" name="synthese_id" value="{{synth.id}}">
+
+              <div class="image_extract col-sm-9 col-xs-7">
+                <img src="{% static "img/logo/owl_only_2.png" %}" alt="Logo Kooblit" />
+                Kooblit de <span class="title_extract">{{synth.book_title|title}}</span> par <span class="author_name">{{synth.author|title}}<span>
+              </div>
+
+              <p class="col-sm-2 col-xs-3 price">{{synth.prix}}€</p>
+
+              <div class="col-sm-1 col-xs-2">
+                <button type="submit" class="delete_btn"><i class="fa fa-close"></i></button>
+              </div>
+
+            </form>
+          {% endfor %}
+
+          <div class="row total">
+            <div class="col-sm-9 col-xs-7">
+              <h2>Total</h2>
+            </div>
+
+            <p class="col-sm-2 col-xs-3 price">{{total}}€</p>
+
+            <div class="col-sm-1 col-sm-offset-0 col-xs-6 col-xs-offset-3 valider_achat">
+              <a href="{% url 'achats:paiement' %}" class="abtn"> Achat </a>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  {% else %}
+    <h1 class="no_synthese">Vous n'avez rien dans votre Panier</h1>
+  {% endif %}
+
+</div>
 {% endblock %}
