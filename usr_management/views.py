@@ -57,14 +57,16 @@ def computeNewValidation(username):
     return val
 
 
-def try_login(request, username, password, next_url):
+def try_login(request, username, password, next_url, form):
     username = username.lower()
+    login_error = "Mauvais mot de passe ou identifiant"
     try:
         user_kooblit = UserKooblit.objects.get(username__iexact=username)
     except UserKooblit.DoesNotExist:
-        return HttpResponse("Mauvais mot de passe ou identifiant")
+        return render(request, 'contact.html', {
+            'form': form, 'next_url': next_url, 'login_error': login_error
+            })
     username = user_kooblit.username
-    
     user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active and user_kooblit.is_confirmed:
@@ -76,7 +78,9 @@ def try_login(request, username, password, next_url):
             messages.warning(request, "Vous devez activer votre compte.")
         return HttpResponseRedirect('/', RequestContext(request))
     else:
-        return HttpResponse("Mauvais mot de passe ou identifiant")
+        return render(request, 'contact.html', {
+            'form': form, 'next_url': next_url, 'login_error': login_error
+            })
 
 def contact(request):
     try:
@@ -86,17 +90,17 @@ def contact(request):
 
     if not request.user.is_authenticated():
         if request.method == 'POST':  # If the form has been submitted...
+            form = UserCreationFormKooblit(request.POST)  # A form bound to the POST data
 
             # Check if it's a login
             try:
                 username = request.POST['username_log']
                 password = request.POST['password_log']
-                return try_login(request, username, password, next_url)
+                return try_login(request, username, password, next_url, form)
             except MultiValueDictKeyError:
                 pass
 
             # New user
-            form = UserCreationFormKooblit(request.POST)  # A form bound to the POST data
             if form.is_valid():  # All validation rules pass
                 username = form.cleaned_data.get("username")
                 password = form.cleaned_data.get("password1")
