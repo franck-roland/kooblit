@@ -1,0 +1,131 @@
+.result_title {
+  font-size: 1.3em;
+}
+
+.result_author {
+  font-size: 1.1em;
+}
+
+.bs-component a {
+    text-align: left;
+}
+
+.bs-component a img {
+    width: 50px;
+}
+
+.no_synthese {
+    margin-top: 15%;
+    color: rgb(180,180,180);
+    text-align: center;
+}
+
+
+.star-icon {
+    color: #ddd;
+    font-size: 1.5em;
+    position: relative;
+}
+.star-icon.full:before {
+    text-shadow: 0 0 2px rgba(0,0,0,0.7);
+    color: #FDE16D;
+    content: '\2605'; /* Full star in UTF-8 */
+    position: absolute;
+    left: 0;
+}
+.star-icon.half:before {
+    text-shadow: 0 0 2px rgba(0,0,0,0.7);
+    color: #FDE16D;
+    content: '\2605'; /* Full star in UTF-8 */
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+}
+@-moz-document url-prefix() { /* Firefox Hack :( */
+  .star-icon {
+    font-size: 50px;
+    line-height: 34px;
+  }
+}
+
+.stars {
+    margin-top: 10px;
+}
+
+.abtn {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: white;
+}
+
+.abtn:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.see_extract {
+    color: black;
+    background-color: rgb(208, 208, 208);
+}
+
+.see_extract:hover {
+    color: black;
+    background-color: rgb(220, 220, 220);
+}
+
+.buy_resume {
+    font-size: 15px;
+    background-color: rgb(61, 61, 61);
+    border: 0;
+}
+
+.buy_resume:hover {
+    background-color: rgb(75, 75, 75);
+}
+
+.misc_info.price {
+    font-family: 'Helvetica Neue Bold';
+    font-size: 20px;
+    color: rgb(187, 69, 69);
+}
+
+.misc_info {
+    font-family: 'Helvetica Neue';
+}
+
+.list_extract {
+    margin-top: 50px;
+}
+
+.repre_image {
+    margin-bottom: 30px;
+}
+
+.plus_button {
+  padding: 5px 10px;
+  font-family: 'Helvetica Neue';
+  font-weight: bold;
+  float: right;
+}
+
+.repre_image .image_extract{
+    width: 100%;
+    box-shadow: 3px 3px 8px #555;
+    background: rgb(223, 210, 144);
+    text-align: center;
+    padding: 20px;
+}
+
+.image_extract img{
+    box-shadow: 0px 0px;
+    width: 50%;
+    margin: 10% 25%;
+}
+
+.author_name, .title_extract {
+    font-family: 'Helvetica Neue Bold';
+}

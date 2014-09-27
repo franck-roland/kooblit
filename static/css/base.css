@@ -187,16 +187,3 @@ font-size: 80%;
 	/*background-color: #006A80;*/
 
 }
-
-.aag_hdrStars {display: inline-block; width: 90px; height: 17px; background-image: url("/static/img/largeStars-sprite.png"); background-repeat: no-repeat; background-color: transparent; background-position: 0 0; position: relative; top: 3px;}
-.aag_hdrStars span {  left: -9999px; position: absolute; }
-.aag_hdrStars.fbr-stars-45 {background-position: 0 -23px;}
-.aag_hdrStars.fbr-stars-40 {background-position: -18px 0;}
-.aag_hdrStars.fbr-stars-35 {background-position: -18px -23px;}
-.aag_hdrStars.fbr-stars-30 {background-position: -36px 0;}
-.aag_hdrStars.fbr-stars-25 {background-position: -36px -23px;}
-.aag_hdrStars.fbr-stars-20 {background-position: -54px 0;}
-.aag_hdrStars.fbr-stars-15 {background-position: -54px -23px;}
-.aag_hdrStars.fbr-stars-10 {background-position: -72px 0;}
-.aag_hdrStars.fbr-stars-05 {background-position: -72px -23px;}
-.aag_hdrStars.fbr-stars-00 {background-position: -90px 0;}

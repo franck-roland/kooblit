@@ -635,8 +635,16 @@ def book_detail(request, book_title):
         else:
             bought.append(0)
     content = zip(syntheses, resumes, syntheses_ids, bought)
-    return render_to_response('details.html', RequestContext(request, {'title': book.title, 'img_url': u_b.image,
-                              'nb_syntheses': nb_syntheses, 'content': content, 'description': book.description, 'buy_url': u_b.buy_url}))
+    return render_to_response(
+        'details.html',
+        RequestContext(request, {
+            'title': book.title,
+            'author': book.author[0],
+            'img_url': u_b.image,
+            'nb_syntheses': nb_syntheses,
+            'content': content,
+            'description': book.description,
+            'buy_url': u_b.buy_url}))
 
 
 def check_exist(request, book_title):

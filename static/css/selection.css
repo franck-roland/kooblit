@@ -56,7 +56,8 @@
 
 .bs-component {
     font-family: 'Helvetica Neue Bold';
-    margin-bottom: 10%;
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .bs-component a {
