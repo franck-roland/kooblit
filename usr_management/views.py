@@ -58,25 +58,25 @@ def computeNewValidation(username):
 
 
 def try_login(request, username, password, next_url):
+    username = username.lower()
     try:
-        user = authenticate(username=username.lower(), password=password)
-        if user is not None:
-            user_kooblit = UserKooblit.objects.get(username__iexact=user.username)
-            if user.is_active and user_kooblit.is_confirmed:
-                login(request, user)
-                return HttpResponseRedirect(next_url)
-            elif not user.is_active:
-                messages.error(request, "Votre compte est désactivé.")
-            else:
-                messages.warning(request, "Vous devez activer votre compte.")
-            return HttpResponseRedirect('/', RequestContext(request))
-        else:
-            return HttpResponse("Mauvais mot de passe ou identifiant")
-    except MultiValueDictKeyError:
-        raise
+        user_kooblit = UserKooblit.objects.get(username__iexact=username)
     except UserKooblit.DoesNotExist:
         return HttpResponse("Mauvais mot de passe ou identifiant")
-
+    username = user_kooblit.username
+    
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active and user_kooblit.is_confirmed:
+            login(request, user)
+            return HttpResponseRedirect(next_url)
+        elif not user.is_active:
+            messages.error(request, "Votre compte est désactivé.")
+        else:
+            messages.warning(request, "Vous devez activer votre compte.")
+        return HttpResponseRedirect('/', RequestContext(request))
+    else:
+        return HttpResponse("Mauvais mot de passe ou identifiant")
 
 def contact(request):
     try:
