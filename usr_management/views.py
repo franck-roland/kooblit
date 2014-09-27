@@ -32,7 +32,7 @@ def computeEmail(username, email, validation_id):
     htmly = get_template('email.html')
     d = Context({'username': username, 'validation_id': validation_id})
     subject, from_email, to = ('Welcome to Kooblit!!',
-                               'no_reply@mail.kooblit.com', email)
+                               'no-reply@mail.kooblit.com', email)
     html_content = htmly.render(d)
     msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
     msg.content_subtype = "html"
@@ -97,7 +97,6 @@ def contact(request):
 
             # New user
             form = UserCreationFormKooblit(request.POST)  # A form bound to the POST data
-            import pdb;pdb.set_trace()
             if form.is_valid():  # All validation rules pass
                 username = form.cleaned_data.get("username")
                 password = form.cleaned_data.get("password1")
