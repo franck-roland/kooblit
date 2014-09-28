@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block extra_css %}
+<link href="{% static "css/cart.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    <div class="container">
+      {% for message in messages %}
+        <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          {{ message|safe }}
+        </div>
+      {% endfor %}
+    </div>
+{% endif %}
+
+
+<div class="container">
+  <div class="row">
+    <div class="header">
+      <h2><i class="fa fa-shopping-cart"></i> Mon Profil </h2>
+    </div>
+  </div>
+
+  {% if syntheses_ecrites %}
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+        <div class="col-sm-12 col-12">
+          <div class="col-sm-4 col-xs-4">
+              Titre
+          </div>
+          <div class="col-sm-2 col-xs-2">
+              Prix
+          </div>
+          <div class="col-sm-2 col-xs-2">
+              Note moyenne
+          </div>
+          <div class="col-sm-2 col-xs-2">
+              Nombre de ventes
+          </div>
+          <div class="col-sm-2 col-xs-2">
+              Gain
+          </div>
+          </div>
+          {% for synth  in syntheses_ecrites %}
+            <div class="col-sm-12 col-12">
+              <div class="image_extract col-sm-4 col-xs-4">
+                <img src="{% static "img/logo/owl_only_2.png" %}" alt="Logo Kooblit" />
+                Kooblit de <span class="title_extract">{{synth.book_title|title}}</span> par <span class="author_name">{{synth.author|title}}</span>
+              </div>
+
+              <p class="col-sm-2 col-xs-2 price">{{synth.prix|title}}€</p>
+              <p class="col-sm-2 col-xs-2 price">{{synth.note_moy|title}}</p>
+              <p class="col-sm-2 col-xs-2 price">{{synth.nb_achat|title}}</p>
+              <p class="col-sm-2 col-xs-2 price">{{synth.gain|title}}€</p>
+            </div>
+          {% endfor %}
+
+          <div class="row total">
+            <div class="col-sm-9 col-xs-7">
+              <h2>Total</h2>
+            </div>
+
+            <p class="col-sm-2 col-xs-3 price">{{total}}€</p>
+
+            <div class="col-sm-1 col-sm-offset-0 col-xs-6 col-xs-offset-3 valider_achat">
+              <a href="{% url 'achats:paiement' %}" class="abtn"> Vider la cagnotte </a>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  {% else %}
+    <h1 class="no_synthese">Vous n'avez pas écrit de synthèse pour le moment</h1>
+  {% endif %}
+  {% if syntheses_ecrites %}
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+        <div class="col-sm-12 col-12">
+          <div class="col-sm-4 col-xs-4">
+              Titre
+          </div>
+          <div class="col-sm-2 col-xs-2">
+              Prix
+          </div>
+          <div class="col-sm-2 col-xs-2">
+              Note moyenne
+          </div>
+          <div class="col-sm-2 col-xs-2">
+              Nombre de ventes
+          </div>
+          <div class="col-sm-2 col-xs-2">
+              Gain
+          </div>
+          </div>
+          {% for synth  in syntheses_ecrites %}
+            <div class="col-sm-12 col-12">
+              <div class="image_extract col-sm-4 col-xs-4">
+                <img src="{% static "img/logo/owl_only_2.png" %}" alt="Logo Kooblit" />
+                Kooblit de <span class="title_extract">{{synth.book_title|title}}</span> par <span class="author_name">{{synth.author|title}}</span>
+              </div>
+
+              <p class="col-sm-2 col-xs-2 price">{{synth.prix|title}}€</p>
+              <p class="col-sm-2 col-xs-2 price">{{synth.note_moy|title}}</p>
+              <p class="col-sm-2 col-xs-2 price">{{synth.nb_achat|title}}</p>
+              <p class="col-sm-2 col-xs-2 price">{{synth.gain|title}}€</p>
+            </div>
+          {% endfor %}
+
+          <div class="row total">
+            <div class="col-sm-9 col-xs-7">
+              <h2>Total</h2>
+            </div>
+
+            <p class="col-sm-2 col-xs-3 price">{{total}}€</p>
+
+            <div class="col-sm-1 col-sm-offset-0 col-xs-6 col-xs-offset-3 valider_achat">
+              <a href="{% url 'achats:paiement' %}" class="abtn"> Vider la cagnotte </a>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  {% else %}
+    <h1 class="no_synthese">Vous n'avez pas écrit de synthèse pour le moment</h1>
+  {% endif %}
+  {% if syntheses_achetees %}
+      <div class="row">
+        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+
+            {% for synth  in results %}
+              <form method="POST" class="row">
+                {% csrf_token %}
+                <input type="hidden" name="synthese_id" value="{{synth.id}}">
+
+                <div class="image_extract col-sm-9 col-xs-7">
+                  <img src="{% static "img/logo/owl_only_2.png" %}" alt="Logo Kooblit" />
+                  Kooblit de <span class="title_extract">{{synth.book_title|title}}</span> par <span class="author_name">{{synth.author|title}}</span>
+                </div>
+
+                <p class="col-sm-2 col-xs-3 price">{{synth.prix}}€</p>
+
+                <div class="col-sm-1 col-xs-2">
+                  <button type="submit" class="delete_btn"><i class="fa fa-close"></i></button>
+                </div>
+
+              </form>
+            {% endfor %}
+
+            <div class="row total">
+              <div class="col-sm-9 col-xs-7">
+                <h2>Total</h2>
+              </div>
+
+              <p class="col-sm-2 col-xs-3 price">{{total}}€</p>
+
+              <div class="col-sm-1 col-sm-offset-0 col-xs-6 col-xs-offset-3 valider_achat">
+                <a href="{% url 'achats:paiement' %}" class="abtn"> Achat </a>
+              </div>
+            </div>
+
+        </div>
+      </div>
+    {% else %}
+      <h1 class="no_synthese">Vous n'avez rien dans votre Panier</h1>
+    {% endif %}
+</div>
+{% endblock %}
