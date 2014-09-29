@@ -198,11 +198,23 @@ def user_suppression(request):
     return HttpResponseRedirect('/')  # Redirect after POST
 
 
+def get_syntheses_properties(syntheses):
+    return [{
+                "id": synth.id,
+                "book_title": Book.objects.get(id=synth.livre_id).title,
+                "author": user_kooblit.username,
+                "prix": synth.prix,
+                "nb_achat": synth.nb_achat,
+                "note_moy": synth.note_moyenne,
+                "gain": synth.nb_achat * synth.prix / 2,
+            } for synth in syntheses]
+
+
 @login_required
 def user_profil(request, username):
     user_kooblit = UserKooblit.objects.get(username__iexact=username)
     if user_kooblit.is_active and user_kooblit.is_confirmed:
-        syntheses_achetees = user_kooblit.syntheses
+        syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
         syntheses_ecrites = [
                     {
                         "id": synth.id,
