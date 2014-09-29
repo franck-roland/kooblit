@@ -3,26 +3,22 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import UserKooblit
-from django.forms.extras.widgets import SelectDateWidget
-import datetime
 
 
 class UserCreationFormKooblit(UserCreationForm):
 
     class Meta:
         model = UserKooblit
-        # widgets = {
-        #     'birthday': forms.PasswordInput(),
-        # }
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1',
-                  'password2',)
+        fields = (
+            'username', 'first_name', 'last_name',
+            'email', 'password1', 'password2')
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
         if not username:
             raise forms.ValidationError(u'Pseudo obligatoire')
         try:
-            user = UserKooblit.objects.get(username__iexact=username)
+            UserKooblit.objects.get(username__iexact=username)
             raise forms.ValidationError(u'Ce pseudo existe déjà')
         except UserKooblit.DoesNotExist:
             pass
@@ -33,7 +29,7 @@ class UserCreationFormKooblit(UserCreationForm):
         if not email:
             raise forms.ValidationError(u'Email obligatoire')
         try:
-            user = UserKooblit.objects.filter(email=email)
+            UserKooblit.objects.get(email=email)
             raise forms.ValidationError(u'Cette adresse mail existe déjà')
         except UserKooblit.DoesNotExist:
             pass
@@ -56,8 +52,6 @@ class UserCreationFormKooblit(UserCreationForm):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            # TODO: clean: unused message
-            msg = "Passwords don't match"
             raise forms.ValidationError("Password mismatch")
         return password2
 
