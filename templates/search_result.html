@@ -108,8 +108,11 @@
         $(this).carousel('next');
         $(".carousel-control").remove();
       });
+
     }
-  });
+
+    resizeImageRepr();
+  }());
 
   $('.bs-component [data-toggle="tooltip"]').tooltip();
 
@@ -126,7 +129,6 @@
     });
   }
 
-  resizeImageRepr();
   $(window).resize(function(){
     resizeImageRepr();
   });
