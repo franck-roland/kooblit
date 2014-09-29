@@ -1,190 +1,60 @@
-/*
- * Style tweaks
- * --------------------------------------------------
- */
-html,
-body {
-  overflow-x: hidden; /* Prevent scroll on narrow devices */
-  height: 100%;
-}
-body {
-  padding-top: 50px;
-}
-footer {
-  padding: 30px 0;
-}
+/*html, body {
 
-/*
- * Off Canvas
- * --------------------------------------------------
- */
-@media screen and (max-width: 767px) {
-  .row-offcanvas {
-    position: relative;
-    -webkit-transition: all .25s ease-out;
-       -moz-transition: all .25s ease-out;
-            transition: all .25s ease-out;
-  }
-
-  .row-offcanvas-right {
-    right: 0;
-  }
-
-  .row-offcanvas-left {
-    left: 0;
-  }
-
-  .row-offcanvas-right
-  .sidebar-offcanvas {
-    right: -50%; /* 6 columns */
-  }
-
-  .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -50%; /* 6 columns */
-  }
-
-  .row-offcanvas-right.active {
-    right: 50%; /* 6 columns */
-  }
-
-  .row-offcanvas-left.active {
-    left: 50%; /* 6 columns */
-  }
-
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
-    width: 50%; /* 6 columns */
-  }
-}
-
-.hover_portfolio {
-	background:rgba(255,255,255,.6);
-	position: absolute;
-	width:100%;
 	height:100%;
-	top:-50px;
-	text-align:center;
-	visibility:hidden;
-	opacity:0;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-ms-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
+}*/
+#block_content{
+	height: 100%;
 
 }
-.thumb:hover .hover_portfolio{
-	opacity:1;
-	top:0;
-	visibility:visible;
+.homepage_content {
+    background-color: white;
+    background: url("../img/moon.jpg");
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: cover;
 }
 
-.point_kooblit {
-    vertical-align: center;
-
+.homepage_quote {
+  padding: 40px 0;
+  color: white;
+  text-shadow: 1px 1px black;
 }
 
-.jumbotron:before {
-  content: '';
-
-  /*background: url(/static/img/background.jpg) no-repeat center center fixed;*/
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  filter: blur(1px); -webkit-filter: blur(1px); -moz-filter: blur(1px);
--o-filter: blur(1px); -ms-filter: blur(1px);
-filter: url(blur.svg#blur);
-filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='1');
-    position: absolute;
-    top: 0;
-    bottom:0;
-    left: 0;
-    right: 0;
-    z-index: -1;
+.homepage_quote h2, .homepage_quote h4{
+  font-family: 'Helvetica Neue Thin';
+  color: rgb(251, 251, 251);
 }
 
-.jumbotron {
-  width:  100%;
-  /*min-height: 800px;*/
-  height: 100%;
-  background-color: rgba(0,0,0,0);
-  color: #b5b5b5;
+.homepage_quote h2 {
+  font-size: 50px;
+}
+
+.homepage_quote h4 {
+  padding: 40px 0;
+  font-size: 21px;
+}
+
+.homepage_quote em {
+  color: rgb(198, 198, 198);
+  font-style: normal;
+}
+
+.homepage_icon {
+  top: -30px;
+  font-family: 'Helvetica Neue Medium'
+}
+
+.homepage_icon a {
+  display: block;
+  height: 100px;
+  width: 100px;
   margin: auto;
-  position: relative;
-  vertical-align: bottom;
-  font-family:'Abadi MT Condensed Extra Bold';
-  background-color:rgba(0, 0, 0, 0.05);
-  color:#F0F0F0;
 }
 
-
-
-.btn-xlarge {
-    /*padding: 58px 25%;*/
-    width: 100%;
-    height: 100%;
-    font-size: 22px; //change this to your desired size
-    line-height: normal;
-/*    -webkit-border-radius: 8px;
-       -moz-border-radius: 8px;
-            border-radius: 8px;*/
-    /*background-color: #FF5900;*/
-    /*color: white;*/
-    white-space: normal;
+.homepage_icon img {
+  width: 100px;
 }
 
-.btn-group-perso{
-  /*width: 31%;*/
-
+.homepage_icon div {
+  text-align: center;
 }
-
-
-
-
-.div_res{
-    padding: 0 0 0 0;
-    height: 75%;
-}
-.img_res{
-    position:relative;
-    width:100px; /* you can use % */
-    height: auto;
-    padding: 0 0 0 0;
-}
-
-#footer_jumbotron{
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    height: 100px;
-    text-align: center;
-
-}
-
-@media screen and (max-height: 700px) {
-  html,
-  body {
-    overflow-x: hidden; /* Prevent scroll on narrow devices */
-    height: auto;
-    /*display:block;*/
-
-  }
-  #footer_jumbotron{
-    position: relative;
-    margin-top: 90px;
-
-  }
-  /*.jumbotron {
-    min-height: 800px;
-  }*/
-}
-
-@media screen and (max-width: 640px) {
-  .div_res {
-    height: 100%;
-  }
-}
-
