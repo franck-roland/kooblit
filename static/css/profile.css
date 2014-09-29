@@ -1,0 +1,26 @@
+.labels h4{
+  text-align: center;
+  margin-top: 21px;
+}
+
+.no_synthese {
+    margin-top: 50px;
+}
+
+.cagnotte_info {
+  text-align: right;
+}
+
+@media (max-width: @screen-xs-max) {
+  .cagnotte_info {
+    text-align: center;
+  }
+}
+
+.valider_achat {
+  padding-top: 0;
+}
+
+.achats {
+  margin-bottom: 40px;
+}
