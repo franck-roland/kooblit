@@ -1,9 +1,11 @@
 import datetime
+import re
 import string
 from bs4 import BeautifulSoup
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import UserManager
+from django.utils.functional import cached_property
 
 # Model utilisateur
 
@@ -46,13 +48,37 @@ class Syntheses(models.Model):
     prix = models.DecimalField(max_digits=6, decimal_places=2)
     gain = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
+    EXTRACT_LIMIT = 200
+
+    @cached_property
+    def contenu(self):
+        self._file_html.seek(0)  # We need to be at the beginning of the file
+        resume = self._file_html.read()
+        if not resume.startswith('<html>'):
+            resume = "".join(("<html>", resume, "</html>"))
+        return resume
+
     @property
     def nbre_mots(self):
-        self._file_html.seek(0)  # We need to be at the beginning of the file
-        text = BeautifulSoup(self._file_html.read()).get_text()
+        text = BeautifulSoup(self.contenu).get_text()
         exclude = set(string.punctuation)
         filtered_text = ''.join(ch for ch in text if ch not in exclude)
         return len(filtered_text.split(" "))
+
+
+    @property
+    def extrait(self):
+        ''' Return the first paragraph of the Synthese
+        '''
+        soup = BeautifulSoup(self.contenu)
+        first_words = soup.getText().split(' ')[:self.EXTRACT_LIMIT]
+        regex =  re.compile('.*?'.join(re.escape(word) for word in first_words[-3:]))
+        first_match = soup.find(text=regex)
+
+        for parent in first_match.parentGenerator():
+            while parent.next_sibling:
+                parent.next_sibling.extract()
+        return str(soup)
 
 
 class Comments(models.Model):
