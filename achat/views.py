@@ -120,7 +120,6 @@ def ajouter_et_payer(buyer, synthese):
     PRIX_TVA = Decimal('0.055') * price
     gain = price - PRIX_TVA - PRIX_TRANSACTION
     assert(gain > 0)
-    print gain
     author.cagnotte += gain / Decimal('2')
     author.save()
     synthese.gain += gain / Decimal('2')
