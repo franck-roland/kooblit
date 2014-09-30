@@ -11,20 +11,12 @@ import os
 import time
 import shutil
 
-from django.conf import settings
 from django.core.files import File
 from manage_books_synth.models import Theme
-# from mongoengine import *
-# connect('docs_db')
 
-# head = """GET
-# ecs.amazonaws.co.uk
-# /onca/xml
-# """
-# head = """GET
-# ecs.amazonaws.fr
-# /onca/xml
-# """
+from kooblit_lib.utils import book_slug
+
+
 head = """GET
 {0}
 /onca/xml
@@ -65,9 +57,9 @@ def unsanitize(s, to_lower=0):
 def sanitize(s, to_lower=0, slugify=0):
     s = s.replace("'","321645e321ezf")
     if slugify:
-        s = settings.BOOKS_SLUG(s)
+        s = book_slug(s)
     s = s.replace("321645e321ezf","'")
-    
+
     l = []
     if to_lower:
         s = s.lower()
@@ -113,7 +105,7 @@ def check_in_tmp(title, page_nb, server_name):
                 try:
                     root.find("{http://ecs.amazonaws.com/doc/2009-01-06/}Error").text
                     ret = ""
-                except AttributeError, e:
+                except AttributeError:
                     pass
     return ret
 

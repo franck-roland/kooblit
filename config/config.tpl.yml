@@ -1,14 +1,26 @@
-AMAZON_KEY: ""
+amazon_key: ""
 
-MONGO_PWD: ""
-MONGO_USER: ""
-DB_PASSWORD: ""
+email:
+  host: ""
+  user: ""
+  passwd: ""
 
-PAYMILL_PRIV: ""
-PAYMILL_PUB: ""
+db:
+  mongo:
+    user: ""
+    passwd: ""
 
-SECRET_KEY: ""
+  psql:
+    name: ""
+    user: ""
+    passwd: ""
 
-EMAIL_HOST: ""
-EMAIL_HOST_PASSWORD: ""
-EMAIL_HOST_USER: ""
+path:
+  static_root: ""
+  media_root: ""
+
+paymill:
+  priv: ""
+  pub: ""
+
+secret_key: ""
