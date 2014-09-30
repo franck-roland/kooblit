@@ -34,10 +34,14 @@
       {% if resultat %}
         {% for item in resultat %}
 
+          {% if forloop.counter0|divisibleby:nb_result and forloop.counter0 %}
+            </div><div class="row">
+          {% endif %}
+
           <div class="element img_container2 col-md-2 col-sm-4 col-xs-6" {% if forloop.counter0 >= nb_result  %}style="display:none"{% endif %}>
             <div class="sub_img_container">
 
-              <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Je cherche une synthèse" href="{% url 'book_management:search' item.title %}">
+              <a data-toggle="tooltip" data-placement="top" title="{{ item.title }}" data-original-title="Je cherche une synthèse" href="{% url 'book_management:search' item.title %}">
                 {% if item.image %}
                   <div class="repre_image">
                     <img src="{{ item.image }}" />

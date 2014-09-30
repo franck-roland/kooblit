@@ -73,6 +73,7 @@
 
 .repre_image {
   position: relative;
+  height: 200px;
 }
 
 .repre_image img{
