@@ -223,7 +223,7 @@ def user_profil(request, username):
                         "prix": synth.prix,
                         "nb_achat": synth.nb_achat,
                         "note_moy": synth.note_moyenne,
-                        "gain": synth.nb_achat * synth.prix / 2,
+                        "gain": synth.gain,
                     } for synth in Syntheses.objects.filter(user=user_kooblit)
                 ]
         total = user_kooblit.cagnotte

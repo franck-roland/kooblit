@@ -44,6 +44,7 @@ class Syntheses(models.Model):
     nbre_notes = models.BigIntegerField(default=0)
     date = models.DateField(null=True, default=datetime.datetime.now)
     prix = models.DecimalField(max_digits=6, decimal_places=2)
+    gain = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     @property
     def nbre_mots(self):
