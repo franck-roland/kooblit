@@ -572,20 +572,21 @@ def book_detail(request, book_title):
         if not request.POST.get('synthese', []):
             raise Http404()
 
+        synthese_id = int(request.POST['synthese'])
         if not request.session.get('cart', ''):
             request.session.set_expiry(60 * 60)
-            if request.user.is_authenticated() and not valid_synthese_for_add(request.POST['synthese'], request.user.username):
+            if request.user.is_authenticated() and not valid_synthese_for_add(synthese_id, request.user.username):
                 messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
             else:
-                request.session['cart'] = [request.POST['synthese'], ]
+                request.session['cart'] = [synthese_id, ]
                 messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
                 request.nbre_achats += 1
         else:
-            if request.user.is_authenticated() and not valid_synthese_for_add(request.POST['synthese'], request.user.username):
+            if request.user.is_authenticated() and not valid_synthese_for_add(synthese_id, request.user.username):
                 messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
 
-            elif request.POST['synthese'] not in request.session['cart']:
-                request.session['cart'].append(request.POST['synthese'])
+            elif synthese_id not in request.session['cart']:
+                request.session['cart'].append(synthese_id)
                 request.session.modified = True
                 messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
                 request.nbre_achats += 1

@@ -81,8 +81,9 @@ paymill_response_code = {
 def cart_details(request):
     if request.method == 'POST':
         if request.POST.get('synthese_id', ''):
-            if request.POST['synthese_id'] in request.session.get('cart', ''):
-                request.session['cart'].remove(request.POST['synthese_id'])
+            synthese_id = int(request.POST['synthese_id'])
+            if synthese_id in request.session.get('cart', ''):
+                request.session['cart'].remove(synthese_id)
                 request.session.modified = True
                 request.nbre_achats -= 1
         else:
@@ -121,6 +122,9 @@ def ajouter_et_payer(buyer, synthese):
     assert(gain > 0)
     author.cagnotte += gain / Decimal('2')
     author.save()
+    synthese.gain += gain / Decimal('2')
+    synthese.nb_achat +=1
+    synthese.save()
 
 
 def clean_cart(cart, username):
@@ -145,6 +149,8 @@ def paiement(request):
         raise Http404()
 
     if cart != clean_cart(cart, request.user.username):
+        print cart
+        print clean_cart(cart, request.user.username)
         messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
         request.session['cart'] = clean_cart(cart, request.user.username)
         cart = request.session.get('cart', [])
