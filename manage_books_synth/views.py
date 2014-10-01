@@ -377,56 +377,6 @@ def computeEmail(username, book_title, alert=0):
     msg.content_subtype = "html"
     msg.send()
 
-# def book_detail(request, book_title):
-#     b = Book.objects(title=book_title)
-#     if not b:
-#         return render_to_response('doesnotexist.html', RequestContext(request))
-#     else:
-#         return render_to_response('details.html', RequestContext(request))
-
-    # small_title = StringField(max_length=32, required=True, unique=True)
-    # title = StringField(max_length=100, required=True, unique=True)
-    # author = ListField(StringField(max_length=100, required=True))
-    # description = StringField(max_length=4096, required=False)
-    # genres = ListField(ReferenceField(Genre, reverse_delete_rule=NULLIFY))
-    # nb_searches = ListField(LongField())
-# class UniqueBook(Document):
-#     """docstring for UniqueBook"""
-#     book = ReferenceField(Book)
-#     isbn = StringField(max_length=100, required=True, unique=True)
-#     image = URLField()
-#     last_update = DateTimeField(default=datetime.datetime.now)
-# import pdb;pdb.set_trace()
-
-
-# def create_book(book_title):
-#     s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
-#     if not s:
-#         return 1
-#     first = s[0]
-#     book = Book(small_title=first['title'][:32], title=first['title'][:256],
-#                 author=[first['author']], description=first['summary'])
-#     book.save()
-#     r = Recherche(book=book, nb_searches=1)
-#     r.save()
-#     for book_dsc in s:
-#         u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
-#         u_b.save()
-#     return 0
-
-
-def book_refresh(book_title):
-    s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
-    if not s:
-        return 1
-    first = s[0]
-    book = Book.objects.get(title=book_title)
-    u_bs = UniqueBook.objects.filter(book=book)
-    for u_b, book_dsc in zip(u_bs, s):
-        u_b.buy_url = book_dsc['DetailPageURL']
-        u_b.save()
-    return 0
-
 
 # @login_required
 def book_search(request, book_title):
@@ -467,25 +417,6 @@ def book_search(request, book_title):
             return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
 
     raise Http404()
-
-    # elif request.method == 'POST':
-    #     import pdb;pdb.set_trace()
-    #     try:
-    #         b = Book.objects.get(title=book_title)
-    #     except Book.DoesNotExist, e:
-    #         if not create_book(book_title):
-    #             b = Book.objects.get(title=book_title)
-    #         else:
-    #             raise Http400()
-    #     if request.user.is_authenticated():
-    #         user = UserKooblit.objects.get(username=request.user.username)
-    #         computeEmail(user.username, book_title)
-    #         demande = Demande(user=user, book=b.id)
-    #     else:
-    #         return HttpResponseRedirect('/accounts/login/?next=/book/'+book_title+'/ask')
-    #     return HttpResponseRedirect('../')
-    # else:
-    #     raise Http404()
 
 
 @login_required
@@ -531,18 +462,6 @@ def selection(request, book_title):
     syntheses = Syntheses.objects.filter(livre_id=book.id)
     nb_syntheses = len(syntheses)
 
-    # resumes = []
-    # extraits = []
-    # syntheses_ids = []
-    # for synt in syntheses:
-    #     resume = synt._file_html.read()
-    #     extrait = ""
-    #     if not resume.startswith('<html>'):
-    #         resume = "".join(("<html>", resume, "</html>"))
-    #     resumes.append(resume)
-    #     extraits.append(extrait)
-    #     syntheses_ids.append(synt.id)
-    # content = zip(syntheses, resumes, syntheses_ids)
     if book.themes:
         genre = book.themes[0].theme
     else:
@@ -578,7 +497,7 @@ def book_detail(request, book_title):
             if request.user.is_authenticated() and not valid_synthese_for_add(synthese_id, request.user.username):
                 messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
             else:
-                request.session['cart'] = [synthese_id, ]
+                request.session['cart'] = [synthese_id]
                 messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
                 request.nbre_achats += 1
         else:
@@ -599,9 +518,6 @@ def book_detail(request, book_title):
     except Book.DoesNotExist:
         raise Http404()
 
-    resu = [(res.nb_searches, res.day.strftime('%d, %b %Y')) for res in Recherche.objects(book=book)]
-    if not book:
-        return HttpResponseRedirect('/')
     try:
         u_b = UniqueBook.objects(book=book)[0]
     except IndexError:
@@ -615,27 +531,14 @@ def book_detail(request, book_title):
     syntheses = Syntheses.objects.filter(livre_id=book.id)
     nb_syntheses = len(syntheses)
 
-    resumes = []
-    extraits = []
-    syntheses_ids = []
     bought = []
     for synt in syntheses:
-        resume = synt._file_html.read()
-        extrait = ""
-        # taille_resume = resume.count(' ')
-        # taille = max(50, 0.1 * taille_resume)
-        # taille = min(taille_resume, taille)
-        # resume = ' '.join(resume.split(' ')[:taille])
-        if not resume.startswith('<html>'):
-            resume = "".join(("<html>", resume, "</html>"))
-        resumes.append(resume)
-        extraits.append(extrait)
-        syntheses_ids.append(synt.id)
         if request.user.is_authenticated() and not valid_synthese_for_add(synt.id, request.user.username):
-            bought.append(1)
+            bought.append(True)
         else:
-            bought.append(0)
-    content = zip(syntheses, resumes, syntheses_ids, bought)
+            bought.append(False)
+    content = zip(syntheses, bought)
+
     return render_to_response(
         'details.html',
         RequestContext(request, {
