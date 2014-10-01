@@ -698,7 +698,8 @@
             top: "0",
             left: "0",
             borderColor: "transparent",
-            boxShadow: "none"
+            boxShadow: "none",
+            backgroundColor: "transparent"
         },
         input: {
             position: "relative",
@@ -1588,7 +1589,7 @@
             $input = $(input);
             $wrapper = $(html.wrapper).css(css.wrapper);
             $dropdown = $(html.dropdown).css(css.dropdown);
-            $hint = $input.clone().css(css.hint).css(getBackgroundStyles($input));
+            $hint = $input.clone().css(css.hint);
             $hint.val("").removeData().addClass("tt-hint").removeAttr("id name placeholder").prop("disabled", true).attr({
                 autocomplete: "off",
                 spellcheck: "false"
