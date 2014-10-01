@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block wrapped_content %}
-<nav class="navbar navbar-fixed-top navbar-default " role="navigation">
+<nav class="nav-bar-kooblit navbar navbar-fixed-top navbar-default " role="navigation">
   <div class="container">
 
     <div class="navbar-header">
@@ -16,7 +16,7 @@
       <ul class="navbar-nav">
         <li>
           <a class="navbar-brand" href="{% url 'homepage'%}">
-           <img class="point_kooblit" src="{% static "img/logo/owl_only.png" %}"alt="Logo Kooblit" />&nbsp;Kooblit
+           <img class="point_kooblit" src="{% static "img/logo/owl_grey.png" %}"alt="Logo Kooblit" />&nbsp;Kooblit
           </a>
         </li>
       </ul>
@@ -34,31 +34,23 @@
       </form>
 
       <ul class="nav navbar-nav navbar-right">
-
-        <li class="dropdown" style="height:60px;margin:auto;">
-          <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-            <i class="fa fa-shopping-cart"></i>
-            <!-- <img src="{% static 'img/shopping43.png'%}" class="navbar_img" /> -->
-            <i class="fa fa-angle-down"></i>
+      {% if request.nbre_achats %}
+        <li class="icon_navbar">
+          <a href="{% url 'achats:cart_details' %}" class="dropdown-toggle">
+            <!-- <i class="fa fa-shopping-cart"></i> -->
+            <img class="icon_navbar" src="{% static 'img/ico/Cart.png'%}" class="navbar_img" />
+            <span class="badge">{{ request.nbre_achats }}</span>
+            <!-- <i class="fa fa-angle-down"></i> -->
           </a>
-
-          <ul class="dropdown-menu list-group">
-            <li id="achats" class="list-group-item">
-              <a href="{% url 'achats:cart_details' %}" >
-                Mon panier <span class="badge">{{ request.nbre_achats }}</span>
-              </a>
-            </li>
-          </ul>
         </li>
-
+      {% endif %}
          {% if user.is_authenticated %}
-           <li class="dropdown user">
+           <li class="icon_navbar dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-              <!-- <img alt="" src="assets/img/avatar3_small.jpg"> -->
-              <span class="username">
-                 {{ user.username }}
-              </span>
-              <i class="fa fa-angle-down"></i>
+                <img class="icon_navbar" alt="" src="{% static "img/ico/Home.png" %}">
+              <!-- <span class="username">
+              </span> -->
+              <!-- <i class="fa fa-angle-down"></i> -->
               </a>
               <ul class="dropdown-menu">
                 <li>

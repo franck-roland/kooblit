@@ -78,10 +78,23 @@ footer {
   }
 }
 
-nav.navbar {
+.nav-bar-kooblit {
+  background-color: #EFEFEF;
+  border : none;
+  color: rgb(127, 127, 127);
+}
+
+/*nav.navbar {
   background-color: white;
   border-bottom: 1px solid rgb(220,220,220);
-  color: rgb(127, 127, 127);
+}*/
+.icon_navbar {
+  max-height: 40px;
+}
+
+li.icon_navbar > a {
+  max-height: 60px;
+  padding: 10px; 
 }
 
 .navbar-header a.navbar-brand {
@@ -101,6 +114,10 @@ nav.navbar {
 
 .navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a{
   color: rgb(44, 62, 80);
+}
+
+.twitter-typeahead input {
+  background-color: #EFEFEF;
 }
 
 #search_bar {
