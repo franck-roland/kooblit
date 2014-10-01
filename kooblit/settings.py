@@ -8,30 +8,20 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import yaml
-from slugify import Slugify
 from mongoengine import connect
+from kooblit_lib.config import appConfig
 
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-config = yaml.load(open(os.path.join(PROJECT_ROOT, "config", "config.yml"), "r").read())
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-AMAZON_KEY = config["AMAZON_KEY"]
-MONGO_PWD = config["MONGO_PWD"]
-MONGO_USER = config["MONGO_USER"]
-PAYMILL_PRIVATE_KEY = config["PAYMILL_PRIV"]
-PAYMILL_PUBLIC_KEY = config["PAYMILL_PUB"]
+AMAZON_KEY = appConfig.get("amazon_key")
+MONGO_PWD = appConfig.get("db__mongo__passwd")
+MONGO_USER = appConfig.get("db__mongo__user")
+PAYMILL_PRIVATE_KEY = appConfig.get("paymill__private")
+PAYMILL_PUBLIC_KEY = appConfig.get("paymill__public")
 
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SLUGIFY BOOKS TITLE
-BOOKS_SLUG = Slugify(to_lower=True)
-BOOKS_SLUG.separator = ' '
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,7 +30,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SECRET_KEY = config["SECRET_KEY"]
+SECRET_KEY = appConfig.get("secret_key")
 
 # Application definition
 
@@ -81,9 +71,9 @@ WSGI_APPLICATION = 'kooblit.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'kooblit_db',
-        'USER': 'endoderconic',
-        'PASSWORD': config['DB_PASSWORD'],
+        'NAME': appConfig.get("db__psql__name"),
+        'USER': appConfig.get("db__psql__user"),
+        'PASSWORD': appConfig.get("db__psql__passwd"),
     }
 }
 
@@ -108,10 +98,10 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 STATIC_URL = '/static/'
-STATIC_ROOT = '/tmp/static/'
+STATIC_ROOT = appConfig.get("path__static_root")
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates/'),
+    os.path.join(PROJECT_ROOT, 'templates/'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -124,13 +114,13 @@ AUTHENTICATION_BACKENDS = (
     'usr_management.backends.EmailOrUsernameModelBackend',
     'django.contrib.auth.backends.ModelBackend'
 )
-EMAIL_HOST = config['EMAIL_HOST']
-EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
-EMAIL_HOST_USER = config['EMAIL_HOST_USER']
+EMAIL_HOST = appConfig.get("email__host")
+EMAIL_HOST_PASSWORD = appConfig.get("email__passwd")
+EMAIL_HOST_USER = appConfig.get("email__user")
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
 # INTERNE
 MAX_BOOK_TITLE_LEN = 1024
 
-MEDIA_ROOT = '/var/www/media'
+MEDIA_ROOT = appConfig.get("path__media_root")
