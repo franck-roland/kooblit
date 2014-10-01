@@ -204,3 +204,8 @@ font-size: 80%;
 	/*background-color: #006A80;*/
 
 }
+.nb_achats {
+  font-weight: bold;
+  color: rgb(74,74,74);
+  font-family:'Helvetica Neue';
+}
