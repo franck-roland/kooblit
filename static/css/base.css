@@ -84,27 +84,47 @@ footer {
   color: rgb(127, 127, 127);
 }
 
-/*nav.navbar {
-  background-color: white;
-  border-bottom: 1px solid rgb(220,220,220);
-}*/
+.nav-bar-kooblit > .container {
+  display: table;
+}
+
+.navbar-cell {
+  display: table-cell;
+  vertical-align: middle;
+  width: auto;
+}
+
+.navbar-logo {
+  padding: 0;
+  width: 170px;
+}
+
+.navbar-logo a.navbar-brand {
+  color: black;
+  font-size: 24px;
+  /*margin-top: -4px;*/
+}
+
+.icon_navbar_group {
+  margin: 0;
+}
+
 .icon_navbar {
+  float: right;
   max-height: 40px;
 }
 
 li.icon_navbar > a {
+  display: block;
   max-height: 60px;
-  padding: 10px; 
 }
 
-.navbar-header a.navbar-brand {
-  color: black;
-  font-size: 24px;
-  margin-top: -4px;
+#search_form {
+  width: 100%;
 }
 
-.navbar-header .navbar-nav {
-  padding: 0;
+#search_form .form-group {
+  margin: 0;
 }
 
 .navbar-brand img {
@@ -114,6 +134,13 @@ li.icon_navbar > a {
 
 .navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a{
   color: rgb(44, 62, 80);
+}
+
+.twitter-typeahead {
+  width: -webkit-calc(100% - 40px);
+  width: -moz-calc(100% - 40px);
+  width: -o-calc(100% - 40px);
+  width: calc(100% - 40px);
 }
 
 .twitter-typeahead input {
@@ -141,14 +168,18 @@ li.icon_navbar > a {
   font-size: 24px;
 }
 
-.navbar-nav > li {
-  /* Useful when collapsed (mobile) */
-  text-align: center;
-}
-
-.navbar-nav > li > a.navbar_login {
+.icon_navbar_group > li > a.navbar_login {
   color: rgb(127, 127, 127);
   font-size: 18px;
+}
+
+.icon_navbar_group > li > a.navbar_login:hover {
+  color: #18bc9c;
+}
+
+a.navbar_login {
+  text-decoration: none;
+  padding: 0 10px;
 }
 
 #achats a:hover {
