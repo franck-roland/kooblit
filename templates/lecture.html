@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
 {% block extra_css %}
-<link href="{% static "css/homepage.css" %}" rel="stylesheet">
+  <link href="{% static "css/lecture.css" %}" rel="stylesheet">
 {% endblock %}
+
+{% block navigation %}
+  {% include 'navigation/titled.html' with title=synth.titre|title author=synth.user.username|title %}
+{% endblock %}
+
 {% block content %}
-<div class="jumbotron">
-{% if messages %}
+  {% if messages %}
     <div class="container">
       {% for message in messages %}
         <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
@@ -14,9 +19,19 @@
         </div>
       {% endfor %}
     </div>
-{% endif %}
-{{ resume|safe }}
-{% endblock %}
-{% block script_block %}
-  <script src="{% static "js/homepage.js" %}" type="text/javascript"></script>
+  {% endif %}
+
+  <div class="container resume">
+    <div class="row">
+      <div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1">
+      {{ synth.contenu|safe }}
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <a href="#">Télécharger pdf <i class="fa fa-arrow-circle-o-down"></i></a>
+    </div>
+  </footer>
 {% endblock %}
