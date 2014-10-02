@@ -3,7 +3,7 @@ from random import randrange
 import hashlib
 import re
 
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 # from django.contrib.auth.forms import UserCreationForm
@@ -210,24 +210,41 @@ def get_syntheses_properties(syntheses):
             } for synth in syntheses]
 
 
+def syntheses_from_user(request, username):
+    try:
+        user = UserKooblit.objects.get(username__iexact=username)
+    except UserKooblit.DoesNotExist:
+        raise Http404()
+    syntheses = Syntheses.objects.filter(user=user)
+    bought = []
+    for synth in syntheses:
+        bought.append(request.user.is_authenticated() and not synth.can_be_added_by(request.user.username))
+    content = zip(syntheses, bought)
+    return render_to_response(
+        'synth_list_user.html',
+        RequestContext(request, {'content': content}))
+
 @login_required
 def user_profil(request, username):
     user_kooblit = UserKooblit.objects.get(username__iexact=username)
     if user_kooblit.is_active and user_kooblit.is_confirmed:
-        syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
-        syntheses_ecrites = [
-                    {
-                        "id": synth.id,
-                        "book_title": Book.objects.get(id=synth.livre_id).title,
-                        "author": user_kooblit.username,
-                        "prix": synth.prix,
-                        "nb_achat": synth.nb_achat,
-                        "note_moy": synth.note_moyenne,
-                        "gain": synth.gain,
-                    } for synth in Syntheses.objects.filter(user=user_kooblit)
-                ]
-        total = user_kooblit.cagnotte
-        return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'syntheses_achetees': syntheses_achetees, 'syntheses_ecrites': syntheses_ecrites, 'total': total}))
+        if request.user.username == username:
+            syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
+            syntheses_ecrites = [
+                        {
+                            "id": synth.id,
+                            "book_title": Book.objects.get(id=synth.livre_id).title,
+                            "author": user_kooblit.username,
+                            "prix": synth.prix,
+                            "nb_achat": synth.nb_achat,
+                            "note_moy": synth.note_moyenne,
+                            "gain": synth.gain,
+                        } for synth in Syntheses.objects.filter(user=user_kooblit)
+                    ]
+            total = user_kooblit.cagnotte
+            return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'syntheses_achetees': syntheses_achetees, 'syntheses_ecrites': syntheses_ecrites, 'total': total}))
+        else:
+            return syntheses_from_user(request, username)
     else:
         raise Http404()
 
@@ -327,3 +344,4 @@ def do_reinitialisation(request, r_id):
             messages.success(request, 'Votre mot de passe a bien été changé')
             return HttpResponseRedirect('/', RequestContext(request))
         return render(request, 'do_reinitialisation.html', RequestContext(request, {'form': form}))
+

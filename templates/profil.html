@@ -84,8 +84,10 @@
         {% for synth in syntheses_achetees %}
           <div class="image_extract">
             <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
-            Kooblit de <span class="title_extract">{{synth.book_title|title}}</span> par <span class="author_name">{{synth.author|title}}</span>
+            <a style="color: rgb(74,74,74);" href="{% url 'usr_management:lire_synthese' synth.id %}">
+            Kooblit de <span class="title_extract">{{synth.book_title|title}}</span></a> par <a style="color: rgb(74,74,74);" href="{% url 'users' synth.author %}"><span class="author_name">{{synth.author|title}}</span></a>
           </div>
+        
         {% endfor %}
       </div>
     {% else %}

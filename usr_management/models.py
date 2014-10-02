@@ -81,6 +81,11 @@ class Syntheses(models.Model):
         return str(soup)
 
 
+    def can_be_added_by(self, username):
+        buyer = UserKooblit.objects.get(username=username)
+        return self.user.username != username and self not in buyer.syntheses.all()
+
+
 class Comments(models.Model):
     user = models.ForeignKey('UserKooblit')
     synthese = models.ForeignKey('Syntheses')
