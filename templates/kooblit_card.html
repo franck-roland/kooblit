@@ -1,0 +1,19 @@
+{% load staticfiles %}
+
+<div class="image_extract{% if classes %} {{classes}}{% endif %}">
+  <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
+
+  {% if synth_id %}
+    <a style="color: rgb(74,74,74);" href="{% url 'usr_management:lire_synthese' synth_id %}">
+      Kooblit de
+      <span class="title_extract">{{title|title}}</span></a>
+  {% else %}
+    Kooblit de <span class="title_extract">{{title|title}}</span>
+  {% endif %}
+
+  par
+
+  <a style="color: rgb(74,74,74);" href="{% url 'users' author %}">
+    <span class="author_name">{{author|title}}</span>
+  </a>
+</div>
