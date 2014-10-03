@@ -27,7 +27,7 @@ def search_view(request):
         t = urllib.unquote(d['title'])
 
         if ":" in t:
-            t = t.replace(":", ":<span class='book_sub'>")
+            t = t.replace(":", ":<span class='book_sub'>", 1)
             t += "</span>"
 
         d['little_title'] = t + "..."
