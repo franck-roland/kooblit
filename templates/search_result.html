@@ -84,6 +84,7 @@
       res.css('display','inline-block');
       // }, 20);
     });
+    resizeResults();
   }
 
   function isTouchSupported() {
@@ -115,26 +116,37 @@
 
     }
 
-    resizeImageRepr();
+    resizeResults();
   }());
 
   $('.bs-component [data-toggle="tooltip"]').tooltip();
 
 
-  function resizeImageRepr() {
-    var maxHeight = Math.max.apply(
+  function resizeResults() {
+    var imgMaxHeight = Math.max.apply(
       Math, $('.repre_image img').map(function(){
         return $(this).height();
       }).get()
     );
 
+    var resultInfoMaxHeight = Math.max.apply(
+      Math, $('.result_info').map(function(){
+        return $(this).height();
+      }).get()
+    );
+
     $('.repre_image').each(function(){
-        $(this).height(maxHeight);
+        $(this).height(imgMaxHeight);
     });
+
+    $('.result_info').each(function(){
+        $(this).height(resultInfoMaxHeight);
+    });
+
   }
 
   $(window).resize(function(){
-    resizeImageRepr();
+    resizeResults();
   });
 
 </script>
