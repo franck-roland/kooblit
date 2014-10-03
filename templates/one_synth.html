@@ -4,7 +4,7 @@
   <div class="image_extract">
     <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
     <p>Kooblit de</p>
-    <p class="title_extract">{{title|title}}</p>
+    <p class="title_extract">{{synth.titre|title}}</p>
     <p>Par <a style="color: rgb(74,74,74);" href="{% url 'users' synth.user.username %}"><span class="author_name">{{synth.user.username|title}}</span> </a> </p>
   </div>
 
@@ -66,7 +66,7 @@
         </button>
 
         <h4 class="modal-title" id="myModalLabel">
-          <img src="{% static 'img/logo/owl_only.png' %}" width="50px" alt="logo kooblit" />
+          <img src="{% static 'img/logo/owl_grey.png' %}" width="50px" alt="logo kooblit" />
           {{synth.title}}
         </h4>
       </div>
