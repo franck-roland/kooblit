@@ -43,6 +43,9 @@ from HTMLParser import HTMLParser
 # fichier docx
 from docx import opendocx, getdocumentHtml
 
+# Gestion du panier
+from achat.utils import add_to_cart
+
 re_get_summary = re.compile('.*<div class="summary">(.+)</div>.*')
 re_get_extrait = re.compile('(.*)')
 
@@ -378,7 +381,6 @@ def computeEmail(username, book_title, alert=0):
     msg.send()
 
 
-# @login_required
 def book_search(request, book_title):
     book_title_save = book_title
     book_title = urllib.unquote(book_title)
@@ -485,33 +487,9 @@ def valid_synthese_for_add(id_synthese, username):
     return synthese.user.username != username and synthese not in buyer.syntheses.all()
 
 
-# @login_required
+
+@add_to_cart
 def book_detail(request, book_title):
-    if request.method == 'POST':
-        if not request.POST.get('synthese', []):
-            raise Http404()
-
-        synthese_id = int(request.POST['synthese'])
-        if not request.session.get('cart', ''):
-            request.session.set_expiry(60 * 60)
-            if request.user.is_authenticated() and not valid_synthese_for_add(synthese_id, request.user.username):
-                messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
-            else:
-                request.session['cart'] = [synthese_id]
-                messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
-                request.nbre_achats += 1
-        else:
-            if request.user.is_authenticated() and not valid_synthese_for_add(synthese_id, request.user.username):
-                messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
-
-            elif synthese_id not in request.session['cart']:
-                request.session['cart'].append(synthese_id)
-                request.session.modified = True
-                messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
-                request.nbre_achats += 1
-            else:
-                messages.warning(request, "Cette synthèse est déjà dans votre panier")
-
     book_title = urllib.unquote(book_title)
     try:
         book = Book.objects.get(title=book_title)
