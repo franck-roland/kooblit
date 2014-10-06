@@ -29,6 +29,9 @@ import json
 
 from django.template import RequestContext
 
+# Gestion du panier
+from achat.utils import add_to_cart
+
 email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 email_match = re.compile(email_adresse_regex)
 
@@ -208,7 +211,7 @@ def get_syntheses_properties(syntheses):
                 "gain": synth.nb_achat * synth.prix / 2,
             } for synth in syntheses]
 
-
+@add_to_cart
 def syntheses_from_user(request, username):
     try:
         user = UserKooblit.objects.get(username__iexact=username)
