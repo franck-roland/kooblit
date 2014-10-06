@@ -35,10 +35,7 @@
               {% csrf_token %}
               <input type="hidden" name="synthese_id" value="{{synth.id}}">
 
-              <div class="image_extract col-sm-9 col-xs-7">
-                <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
-                Kooblit de <span class="title_extract">{{synth.book_title|title}}</span> par <span class="author_name">{{synth.author|title}}<span>
-              </div>
+              {% include "kooblit_card.html" with title=synth.book_title author=synth.author classes="col-sm-9 col-xs-7" %}
 
               <p class="col-sm-2 col-xs-3 price">{{synth.prix}}€</p>
 

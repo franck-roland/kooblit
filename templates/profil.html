@@ -42,10 +42,7 @@
     {% for synth  in syntheses_ecrites %}
       <div class="row">
         <div class="col-sm-4 col-xs-12">
-          <div class="image_extract">
-            <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
-            Kooblit de <span class="title_extract">{{synth.book_title|title}}</span> par <span class="author_name">{{synth.author|title}}</span>
-          </div>
+          {% include "kooblit_card.html" with title=synth.book_title author=synth.author %}
         </div>
 
         <p class="col-sm-2 col-xs-3 price">{{synth.prix|title}}€</p>
@@ -81,20 +78,18 @@
 
     {% if syntheses_achetees %}
       <div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1">
+
         {% for synth in syntheses_achetees %}
-          <div class="image_extract">
-            <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
-            <a style="color: rgb(74,74,74);" href="{% url 'usr_management:lire_synthese' synth.id %}">
-            Kooblit de <span class="title_extract">{{synth.book_title|title}}</span></a> par <a style="color: rgb(74,74,74);" href="{% url 'users' synth.author %}"><span class="author_name">{{synth.author|title}}</span></a>
-          </div>
-        
+          {% include "kooblit_card.html" with title=synth.book_title author=synth.author synth_id=synth.id %}
         {% endfor %}
+
       </div>
     {% else %}
       <div class="col-xs-12">
         <h1 class="no_synthese">Vous n'avez rien acheté</h1>
       </div>
     {% endif %}
+
   </div>
 </div>
 {% endblock %}
