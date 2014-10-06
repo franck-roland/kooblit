@@ -80,6 +80,10 @@ class Syntheses(models.Model):
                 parent.next_sibling.extract()
         return str(soup)
 
+    @property
+    def titre(self):
+        from manage_books_synth.models import Book
+        return Book.objects.get(id=self.livre_id).title
 
     def can_be_added_by(self, username):
         buyer = UserKooblit.objects.get(username=username)

@@ -94,7 +94,7 @@ footer {
 
 li.icon_navbar > a {
   max-height: 60px;
-  padding: 10px; 
+  padding: 10px;
 }
 
 .navbar-header a.navbar-brand {
@@ -149,6 +149,10 @@ li.icon_navbar > a {
 .navbar-nav > li > a.navbar_login {
   color: rgb(127, 127, 127);
   font-size: 18px;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  margin-top: 20px;
 }
 
 #achats a:hover {

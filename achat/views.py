@@ -6,7 +6,6 @@ import pymill
 from django.conf import settings
 # model
 from usr_management.models import Syntheses, Transaction, UserKooblit, Entree
-from manage_books_synth.models import Book
 # rendu
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -93,13 +92,14 @@ def cart_details(request):
     if request.user.is_authenticated():
         cart = clean_cart(cart, request.user.username)
 
+    syntheses = (Syntheses.objects.get(id=i) for i in cart)
     cart = [
         {
-            "id": i,
-            "book_title": Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title,
-            "author": Syntheses.objects.get(id=i).user.username,
-            "prix": Syntheses.objects.get(id=i).prix,
-        } for i in cart
+            "id": synth.id,
+            "book_title": synth.titre,
+            "author": synth.user.username,
+            "prix": synth.prix,
+        } for synth in syntheses
     ]
 
     return render_to_response(
@@ -154,13 +154,14 @@ def paiement(request):
         messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
         request.session['cart'] = clean_cart(cart, request.user.username)
         cart = request.session.get('cart', [])
+        syntheses = (Syntheses.objects.get(id=i) for i in cart)
         cart = [
             {
-                "id": i,
-                "book_title": Book.objects.get(id=Syntheses.objects.get(id=i).livre_id).title,
-                "author": Syntheses.objects.get(id=i).user.username,
-                "prix": Syntheses.objects.get(id=i).prix,
-            } for i in cart
+                "id": synth.id,
+                "book_title": synth.titre,
+                "author": synth.user.username,
+                "prix": synth.prix,
+            } for synth in syntheses
         ]
 
         return render_to_response(
