@@ -20,7 +20,7 @@ path:
   media_root: ""
 
 paymill:
-  priv: ""
-  pub: ""
+  private: ""
+  public: ""
 
 secret_key: ""

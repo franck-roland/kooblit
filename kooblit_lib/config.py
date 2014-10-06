@@ -25,7 +25,7 @@ class Config(object):
 
         Config.CONFIG_DICT = conf
 
-    def get(self, key, raise_if_absent=False, default=None, separator="__"):
+    def get(self, key, raise_if_absent=True, default=None, separator="__"):
         ''' Return the value according to the key
         The form of the key is key + separator + sub_key_1 + separator + ...
         ex:
