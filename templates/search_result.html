@@ -5,7 +5,43 @@
 {% block extra_css %}
 <link href="{% static "css/result_page.css" %}" rel="stylesheet">
 {% endblock %}
-
+{% block extra_head_script %}
+<script type="text/javascript">
+matchColumns=function(){ 
+     var divs,contDivs,maxHeight,divHeight,d; 
+     divs=document.getElementsByTagName('div'); 
+     contDivs=[]; 
+     maxHeight=0;  
+     for(var i=0;i<divs.length;i++){  
+          // make collection with <div> elements with class attribute "equal"
+          if(/\belement\b/.test(divs[i].className)){ 
+                d=divs[i]; 
+                contDivs[contDivs.length]=d;  
+                if(d.offsetHeight){ 
+                     divHeight=d.offsetHeight;          
+                } 
+                else if(d.style.pixelHeight){ 
+                     divHeight=d.style.pixelHeight;          
+                } 
+                maxHeight=Math.max(maxHeight,divHeight); 
+          } 
+     } 
+     for(var i=0;i<contDivs.length;i++){ 
+          contDivs[i].style.height=maxHeight + "px"; 
+     } 
+}  
+window.onload=function(){ 
+     if(document.getElementsByTagName){ 
+          matchColumns();      
+     } 
+}
+window.ready=function(){ 
+     if(document.getElementsByTagName){ 
+          matchColumns();      
+     } 
+}
+</script>
+{% endblock %}
 {% block content %}
 <div class="container">
   <div class="row results_header">
@@ -99,23 +135,10 @@
 
   $(".item:first").addClass("active");
 
-  $(function() {
-    $('.carousel').carousel({
-      interval: false
-    });
-    if(isTouchSupported()){
-
-      $("#carousel-example-generic").swiperight(function() {
-        $(this).carousel('prev');
-      });
-
-      $("#carousel-example-generic").swipeleft(function() {
-        $(this).carousel('next');
-        $(".carousel-control").remove();
-      });
-
-    }
-
+  $(".element").ready(function() {
+    resizeResults();
+  }());
+  $(document).load(function() {
     resizeResults();
   }());
 
