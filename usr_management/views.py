@@ -71,7 +71,7 @@ def try_login(request, username, password, next_url, form):
         try:
             user_kooblit = UserKooblit.objects.get(email=username)
         except UserKooblit.DoesNotExist:
-            return render(request, 'contact.html', {
+            return render(request, 'inscription.html', {
                 'form': form, 'next_url': next_url, 'login_error': login_error
                 })
     else:
@@ -79,7 +79,7 @@ def try_login(request, username, password, next_url, form):
         try:
             user_kooblit = UserKooblit.objects.get(username__iexact=username)
         except UserKooblit.DoesNotExist:
-            return render(request, 'contact.html', {
+            return render(request, 'inscription.html', {
                 'form': form, 'next_url': next_url, 'login_error': login_error
                 })
 
@@ -95,7 +95,7 @@ def try_login(request, username, password, next_url, form):
             messages.warning(request, "Vous devez activer votre compte. <a href='/accounts/renvoi'> Renvoi </a>")
         return HttpResponseRedirect('/', RequestContext(request))
     else:
-        return render(request, 'contact.html', {
+        return render(request, 'inscription.html', {
             'form': form, 'next_url': next_url, 'login_error': login_error
             })
 
@@ -132,7 +132,7 @@ def contact(request):
         else:
             form = UserCreationFormKooblit()  # An unbound form
 
-        return render(request, 'contact.html', {
+        return render(request, 'inscription.html', {
             'form': form, 'next_url': next_url,
             })
     else:

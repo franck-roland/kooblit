@@ -4,7 +4,7 @@
 
 {% block extra_css %}
 <link href="{% static "css/datepicker.css" %}" rel="stylesheet">
-<link href="{% static "css/contact.css" %}" rel="stylesheet">
+<link href="{% static "css/inscription.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -19,56 +19,53 @@
     </div> -->
     <!-- <div class="fieldWrapper"> -->
     <div class="form-group">
-        <label for="id_username" class="col-lg-4 control-label ">Pseudo</label>
-        <div class="col-lg-8 input-container" >
-            <input id="id_username" class="form-control" maxlength="30" name="username" type="text" placeholder="Pseudo" >
+        <div class="col-lg-12 input-container" >
+            <input id="id_username" class="form-control" maxlength="30" name="username" type="text" placeholder="Pseudo..." >
         <!-- {{ form.username }} -->
             {{ form.username.errors }}
         </div>
     </div>
     <div class="form-group">
-        <label for="id_last_name" class="col-lg-4 control-label ">Nom</label>
-        <div class="col-lg-8 input-container">
-            <input id="id_last_name" class="form-control" maxlength="30" name="last_name" type="text" placeholder="Nom" >
+        <div class="col-lg-12 input-container">
+            <input id="id_last_name" class="form-control" maxlength="30" name="last_name" type="text" placeholder="Nom..." >
         <!-- {{ form.name }} -->
             {{ form.last_name.errors }}
         </div>
     </div>
     <div class="form-group">
-        <label for="id_first_name" class="col-lg-4 control-label ">Prenom</label>
-        <div class="col-lg-8 input-container">
-            <input id="id_first_name" class="form-control" maxlength="30" name="first_name" type="text" placeholder="Prenom" >
+        <div class="col-lg-12 input-container">
+            <input id="id_first_name" class="form-control" maxlength="30" name="first_name" type="text" placeholder="Prenom..." >
         <!-- {{ form.first_name }} -->
             {{ form.first_name.errors }}
         </div>
     </div>
     <div class="form-group">
-        <label for="id_email" class="col-lg-4 control-label ">Email</label>
-        <div class="col-lg-8 input-container">
-            <input id="id_email" class="form-control" maxlength="30" name="email" type="email" placeholder="adresse@example.com" >
+        <div class="col-lg-12 input-container">
+            <input id="id_email" class="form-control" maxlength="30" name="email" type="email" placeholder="adresse@example.com..." >
         <!-- {{ form.email }} -->
             {{ form.email.errors }}
         </div>
     </div>
     <div class="form-group">
-        <label for="id_password1" class="col-lg-4 control-label ">Mot de passe</label>
-        <div class="col-lg-8 input-container">
-            <input id="id_password1" class="form-control" maxlength="30" name="password1" type="password" placeholder="mot de passe" >
+        <div class="col-lg-12 input-container">
+            <input id="id_password1" class="form-control" maxlength="30" name="password1" type="password" placeholder="mot de passe..." >
         <!-- {{ form.password1 }} -->
             {{ form.password1.errors }}
         </div>
     </div>
     <div class="form-group">
-        <label for="id_password2" class="col-lg-4 control-label ">Confirmation</label>
-        <div class="col-lg-8 input-container">
-            <input id="id_password2" class="form-control" maxlength="30" name="password2" type="password" placeholder="mot de passe" >
+        <div class="col-lg-12 input-container">
+            <input id="id_password2" class="form-control" maxlength="30" name="password2" type="password" style="display:none;" placeholder="mot de passe..." >
         <!-- {{ form.password2 }} -->
             {{ form.password2.errors }}
         </div>
     </div>
     <div class="form-group">
+        <div>
+            <p class="conditions_generales">En cliquant sur Inscription, vous acceptez nos <a href="/legal/terms" target="_blank" rel="nofollow">Conditions</a> et indiquez que vous avez lu notre <a href="/about/privacy" target="_blank" rel="nofollow">Politique d’utilisation des données</a>, y compris notre <a href="/help/cookies" target="_blank" rel="nofollow">Utilisation des cookies</a>.</p>
+        </div>
         <div class="col-lg-4 col-lg-offset-4">
-            <button type="submit" class="btn btn-primary">S'inscrire</button>
+            <button type="submit" class="btn">Inscription</button>
         </div>
     </div>
 
@@ -83,25 +80,25 @@
     {{ form.non_field_errors }}
     <ul class="errorlist"><li>{{ login_error }}</li></ul>
     <div class="form-group">
-        <label for="id_username_log" class="col-lg-4 control-label ">Pseudo</label>
-        <div class="col-lg-8 input-container" >
+        <div class="col-lg-12 input-container" >
             <input id="id_username_log" class="form-control" maxlength="30" name="username_log" type="text" placeholder="Pseudo" >
         <!-- {{ form.username }} -->
             {{ form.username_log.errors }}
         </div>
     </div>
     <div class="form-group">
-        <label for="id_password_log" class="col-lg-4 control-label ">Mot de passe</label>
-        <div class="col-lg-8 input-container">
+        <div class="col-lg-12 input-container">
             <input id="id_password_log" class="form-control" maxlength="30" name="password_log" type="password" placeholder="mot de passe" >
         <!-- {{ form.password1 }} -->
             {{ form.password_log.errors }}
         </div>
     </div>
-    <a href="{% url 'usr_management:ask_reinitialisation' %}" > mot de passe oublié </a>
+    <div id="forgotten_password">
+        <a href="{% url 'usr_management:ask_reinitialisation' %}" > mot de passe oublié </a>
+    </div>
     <div class="form-group" style="padding-top:10px;" >
         <div class="col-lg-4 col-lg-offset-4">
-            <button type="submit" class="btn btn-primary">Se connecter</button>
+            <button type="submit" class="btn">Connexion</button>
         </div>
     </div>
 
@@ -186,11 +183,11 @@ $( ".django_form input" ).focusout(function() {
                 checkAndWriteError($(this),'<ul class="errorlist"><li>'+message+'</li></ul>');
             }
         }
-        else if($(this).attr('id') == 'id_password2'){
-            if($("#id_password1").val() != x){
-                checkAndWriteError($(this),'<ul class="errorlist"><li>Mots de passe différents</li></ul>');
-            }
-        }
+        // else if($(this).attr('id') == 'id_password2'){
+        //     if($("#id_password1").val() != x){
+        //         checkAndWriteError($(this),'<ul class="errorlist"><li>Mots de passe différents</li></ul>');
+        //     }
+        // }
     }
 });
 
@@ -198,6 +195,8 @@ function validateForm() {
     var elements = [ "username", "first_name", "last_name", "email", "password1",
     "password2"];
     var ok = true;
+    $('#id_password2').val($('#id_password1').val());
+    console.log($('#id_password2').value)
     for (var i = 0; i < elements.length; i++) {
         var x = $.trim(document.forms["signup_form"][elements[i]].value);
         if (x == null || x == "") {
