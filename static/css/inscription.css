@@ -27,7 +27,11 @@
     margin-bottom: 10px;
 }
 
-errorlist
+.errorlist {
+    text-align: left;
+    color: red;
+    padding: 0;
+}
 
 legend {
     text-align:center;
