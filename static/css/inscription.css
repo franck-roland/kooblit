@@ -14,6 +14,10 @@
     margin: auto;
 }
 
+.form-horizontal .form-group {
+    margin: auto;
+}
+
 .form-control {
     background-color: rgb(239, 239, 239);
     border: 1px solid rgb(225, 225, 225);
@@ -22,6 +26,8 @@
 .input-container {
     margin-bottom: 10px;
 }
+
+errorlist
 
 legend {
     text-align:center;
@@ -35,9 +41,7 @@ a:hover {
     color: rgb(74,74,74);
 
 }
-.form-horizontal .form-group {
-    margin: auto;
-}
+
 
 #forgotten_password {
     text-align: left;
@@ -45,9 +49,29 @@ a:hover {
     padding-right: 15px;
     margin: auto;
     font-size: 13px;
-
 }
 
+#forgotten_password > a{
+    color: rgb(200, 200, 200);
+}
 .conditions_generales {
     font-size: 11px;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+   color:rgb(200, 200, 200) !important;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: rgb(200, 200, 200);
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: rgb(200, 200, 200);
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: rgb(200, 200, 200);
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color: rgb(200, 200, 200);
 }

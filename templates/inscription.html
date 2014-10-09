@@ -48,14 +48,14 @@
     </div>
     <div class="form-group">
         <div class="col-lg-12 input-container">
-            <input id="id_password1" class="form-control" maxlength="30" name="password1" type="password" placeholder="mot de passe..." >
+            <input id="id_password1" class="form-control" maxlength="30" name="password1" type="password" placeholder="Mot de passe..." >
         <!-- {{ form.password1 }} -->
             {{ form.password1.errors }}
         </div>
     </div>
     <div class="form-group">
         <div class="col-lg-12 input-container">
-            <input id="id_password2" class="form-control" maxlength="30" name="password2" type="password" style="display:none;" placeholder="mot de passe..." >
+            <input id="id_password2" class="form-control" maxlength="30" name="password2" type="password" style="display:none;">
         <!-- {{ form.password2 }} -->
             {{ form.password2.errors }}
         </div>
@@ -81,20 +81,20 @@
     <ul class="errorlist"><li>{{ login_error }}</li></ul>
     <div class="form-group">
         <div class="col-lg-12 input-container" >
-            <input id="id_username_log" class="form-control" maxlength="30" name="username_log" type="text" placeholder="Pseudo" >
+            <input id="id_username_log" class="form-control" maxlength="30" name="username_log" type="text" placeholder="Pseudo ou email..." >
         <!-- {{ form.username }} -->
             {{ form.username_log.errors }}
         </div>
     </div>
     <div class="form-group">
         <div class="col-lg-12 input-container">
-            <input id="id_password_log" class="form-control" maxlength="30" name="password_log" type="password" placeholder="mot de passe" >
+            <input id="id_password_log" class="form-control" maxlength="30" name="password_log" type="password" placeholder="Mot de passe..." >
         <!-- {{ form.password1 }} -->
             {{ form.password_log.errors }}
         </div>
     </div>
     <div id="forgotten_password">
-        <a href="{% url 'usr_management:ask_reinitialisation' %}" > mot de passe oublié </a>
+        <a href="{% url 'usr_management:ask_reinitialisation' %}" > Mot de passe oublié? </a>
     </div>
     <div class="form-group" style="padding-top:10px;" >
         <div class="col-lg-4 col-lg-offset-4">
