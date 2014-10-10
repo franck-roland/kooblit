@@ -1,0 +1,28 @@
+{% extends "navigation/base.html" %}
+{% load staticfiles %}
+
+{% block nav_search %}
+  <form id="search_form" class="collapse navbar-collapse navbar-form navbar-left" action="{% url 'search_engine:search' %}" role="search" method="get" onsubmit="return display_loader('#ajax_loader')" >
+    <div class="form-group">
+      <div class="dropdown">
+        <input id="search_bar" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title'>
+        <img src="{% static "img/ajax-loader.gif"%}" id="ajax_loader" />
+      </div>
+    </div>
+    <button type="submit" style="position:absolute;top:-9999px;width:1px;" ></button>
+  </form>
+{% endblock %}
+
+{% block nav_header %}
+  <ul class="navbar-nav">
+    <li>
+      <a class="navbar-brand" href="{% url 'homepage'%}">
+       <img class="point_kooblit" src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />&nbsp;Kooblit
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+
+
+{% block nav_profile %}
+{% endblock %}

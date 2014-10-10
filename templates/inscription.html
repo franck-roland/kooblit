@@ -1,10 +1,14 @@
 {% extends "base.html" %}
-{% load static %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block extra_css %}
 <link href="{% static "css/datepicker.css" %}" rel="stylesheet">
 <link href="{% static "css/inscription.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block navigation %}
+  {% include 'navigation/inscription.html' %}
 {% endblock %}
 
 {% block content %}
