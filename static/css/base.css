@@ -29,6 +29,7 @@ body {
   font-family:'Helvetica Neue';
 }
 
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Helvetica Neue Thin';
 }
@@ -115,7 +116,9 @@ li.icon_navbar > a {
 .navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a{
   color: rgb(44, 62, 80);
 }
-
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav > li > a:hover{
+  color: rgb(44, 62, 80);
+}
 .twitter-typeahead input {
   background-color: #EFEFEF;
 }
