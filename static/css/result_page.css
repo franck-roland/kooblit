@@ -33,7 +33,13 @@
     right: 0;
     width: 100%;
 }
-
+img {
+  display: block;
+  /*max-width:300px;*/
+  max-height:200px;
+  width: auto;
+  height: auto;
+}
 .carousel-control{
     background: none;
     background-image: none;
@@ -72,14 +78,14 @@
 }
 
 .repre_image {
-  position: relative;
-  height: 200px;
+  /*position: relative;*/
+  /*height: 200px;*/
 }
 
 .repre_image img{
   width: 100%;
   box-shadow: 3px 3px 8px #555;
-  position: absolute;
+  position: relative;
   bottom: 0;
 }
 
