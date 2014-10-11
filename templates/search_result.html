@@ -7,39 +7,6 @@
 {% endblock %}
 {% block extra_head_script %}
 <script type="text/javascript">
-// matchColumns=function(){ 
-//      var divs,contDivs,maxHeight,divHeight,d; 
-//      divs=document.getElementsByTagName('div'); 
-//      contDivs=[]; 
-//      maxHeight=0;  
-//      for(var i=0;i<divs.length;i++){  
-//           // make collection with <div> elements with class attribute "equal"
-//           if(/\belement\b/.test(divs[i].className)){ 
-//                 d=divs[i]; 
-//                 contDivs[contDivs.length]=d;  
-//                 if(d.offsetHeight){ 
-//                      divHeight=d.offsetHeight;          
-//                 } 
-//                 else if(d.style.pixelHeight){ 
-//                      divHeight=d.style.pixelHeight;          
-//                 } 
-//                 maxHeight=Math.max(maxHeight,divHeight); 
-//           } 
-//      } 
-//      for(var i=0;i<contDivs.length;i++){ 
-//           contDivs[i].style.height=maxHeight + "px"; 
-//      } 
-// }  
-// window.onload=function(){ 
-//      if(document.getElementsByTagName){ 
-//           matchColumns();      
-//      } 
-// }
-// window.ready=function(){ 
-//      if(document.getElementsByTagName){ 
-//           matchColumns();      
-//      } 
-// }
 </script>
 {% endblock %}
 {% block content %}
@@ -75,17 +42,16 @@
           {% endif %}
 
           <div class="element img_container2 col-md-2 col-sm-4 col-xs-6" {% if forloop.counter0 >= nb_result  %}style="display:none"{% endif %}>
-            <div class="sub_img_container">
 
               <div class="repre_image col-xs-12 col-sm-12 col-md-12">
                 <a data-toggle="tooltip" data-placement="top" title="{{ item.title }}" data-original-title="Je cherche une synthèse" href="{% url 'book_management:search' item.title %}">
                   {% if item.image %}
-                      <img src="{{ item.image }}" />
+                      <img src="{{ item.image }}" alt="image-{{item.little_title}}"/>
                   {% else %}
-                      <img src='{% static 'img/empty_gallery.png' %}' />
+                      <img src='{% static 'img/empty_gallery.png' %}' alt="no image" />
                   {% endif %}
                 </a>
-              </div>
+              </div> <!-- repre_image -->
 
               <div class="result_info col-xs-12 col-sm-12 col-md-12">
                 <div class="result_title">
@@ -95,16 +61,14 @@
                 <div class="result_author">
                   {{item.author}}
                 </div>
-              </div>
-
-            </div> <!-- sub_img_container -->
-          </div>
+              </div> <!-- result_info -->
+          </div> <!-- element -->
 
         {% endfor %}
 
       {% endif %}
-  </div>
-</div>
+  </div> <!-- result_line -->
+</div> <!-- container -->
 {% endblock %}
 
 {% block script_block %}
@@ -115,28 +79,15 @@
   function afficher_plus(){
     $('.img_container2').each(function(){
       var res = $(this);
-      // setTimeout(function () {
       res.css('display','inline-block');
-      // }, 20);
     });
     resizeResults();
   }
-
-
-  // $(".item:first").addClass("active");
-
-  // $(".result_line").ready(function() {
-  //   resizeResults();
-  // }());
-  $(window).load(function() {
-    resizeResults();
-  }());
 
   $('.bs-component [data-toggle="tooltip"]').tooltip();
 
 
   function resizeResults() {
-    // $('.result_line').equalHeights();
     var imgMaxHeight = Math.max.apply(
       Math, $('.repre_image img').map(function(){
         return $(this).height();
