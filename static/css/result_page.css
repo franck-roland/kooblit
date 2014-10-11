@@ -23,6 +23,9 @@
   margin: 3px 0;
 }
 
+.plus_line {
+  margin-bottom: 40px;
+}
 .plus_button {
   padding: 5px 10px;
   font-family: 'Helvetica Neue';

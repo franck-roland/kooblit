@@ -27,9 +27,11 @@
 
   {% if resultat|length > 6 %}
     <div class="row">
-      <div class="col-xs-offset-11 col-xs-1">
-        <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
-      </div> <!-- Bouton PLUS -->
+      <div class=" plus_line col-md-offset-10 col-sm-offset-8 col-xs-offset-6 col-md-2 col-sm-4 col-xs-6">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+          <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
+        </div>
+      </div> <!-- .plus_line -->
     </div>
   {% endif %}
 
