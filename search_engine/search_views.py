@@ -21,7 +21,7 @@ def search_view(request):
         else:
             tmp.append(i)
     title = ''.join(tmp)
-    amazon_request = AmazonRequest(title, settings.AMAZON_KEY, escape=True, nb_results_max=12)
+    amazon_request = AmazonRequest(title, settings.AMAZON_KEY, escape=True, nb_results_max=6)
     s = amazon_request.compute_args()
     for d in s:
         t = urllib.unquote(d['title'])

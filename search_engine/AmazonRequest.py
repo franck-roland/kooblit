@@ -99,14 +99,9 @@ class AmazonRequest(object):
 
         result = json_manager.check_json_file_exist(end)
         if not result:
-            results = self.creer_uniques_resultats_jusque_i(end, json_manager)[begin:]
+            results = self.creer_uniques_resultats_jusque_i(end, json_manager)[begin-1:]
             print len(results)
-            # if end >= MAX_SEARCH_ON_A_PAGE:
-            #     if not json_manager.check_json_file_exist(begin + 12):
-            #         results = self.creer_uniques_resultats_jusque_i(begin + 12, json_manager)
-            #     else:
-            #         results = [json_manager.check_json_file_exist(i) for i in range(begin,begin + 13)]
-            # else:
+
 
 
         else:
