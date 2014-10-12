@@ -10,12 +10,14 @@ import re
 import os
 import time
 import shutil
+import json
 
 from django.core.files import File
 from manage_books_synth.models import Theme
 
 from kooblit_lib.utils import book_slug
 
+from .file_manipulation import *
 
 head = """GET
 {0}
@@ -37,6 +39,7 @@ AssociateTag=kooblit-21"""
 reserved = set([":", "/", "?", "#", "[", "]", "@", "!", "$", "&", "'", "(", ")", "*", "+", ",", ";", "=", ' '])
 can_be = set([' '])
 
+MAX_SEARCH_ON_A_PAGE = 2000
 
 def unsanitize(s, to_lower=0):
     s = s.split("%")
@@ -76,50 +79,6 @@ def sanitizer(func):
     def do(title, *args, **kwargs):
         return func(sanitize(title, slugify=1), *args, **kwargs)
     return do
-
-
-def create_dir_if_not_exists(path_name):
-    if not os.path.isdir(path_name):
-        if os.path.exists(path_name):
-            os.remove(path_name)
-        os.mkdir(path_name)
-
-
-# Check if this request has been done the last week and read the corresponding page_nb
-def check_in_tmp(title, page_nb, server_name):
-    dir_name = sha1(title).hexdigest()
-    dir_path = "/tmp/" + dir_name + "/" + server_name + "/"
-    print dir_path
-    ret = ''
-    if os.path.isdir(dir_path):
-        if int(time.time() - os.stat(dir_path).st_ctime) / 86400 > 7:
-            shutil.rmtree(dir_path)
-            return ''
-        nber = len([name for name in os.listdir(dir_path) if os.path.isfile(dir_path + name)])
-        if page_nb <= nber and page_nb > 0:
-            with open(dir_path + "f_" + str(page_nb) + '.xml', 'r') as f:
-                _file = File(f)
-                ret = _file.read()
-                root = ET.fromstring(ret)
-                # Check if there was an error in the buffered page
-                try:
-                    root.find("{http://ecs.amazonaws.com/doc/2009-01-06/}Error").text
-                    ret = ""
-                except AttributeError:
-                    pass
-    return ret
-
-
-def create_tmp(title, page_nb, server_name, result):
-    dir_name = sha1(title).hexdigest()
-    dir_path = "/tmp/" + dir_name + "/"
-    create_dir_if_not_exists(dir_path)
-    dir_path += server_name + "/"
-    create_dir_if_not_exists(dir_path)
-    file_name = dir_path + "f_" + str(page_nb) + '.xml'
-    with open(file_name, 'w') as f:
-        _file = File(f)
-        _file.write(result)
 
 
 def backward(m):
@@ -236,15 +195,14 @@ def compute_json_one_result(result):
             'language': language, 'theme': theme, 'editeur': editeur}
 
 
-@sanitizer
-def compute_args(title, k, exact_match=0, delete_duplicate=1, escape=0):
-    print title
+def creer_uniques_resultats_jusque_i(title, key, index, json_manager):
+    """ Fonction appelée quand le ieme resulat de recherche n'est pas disponible """
     global template
     global head
+    assert(index>0)
     url = "http://{0}/onca/xml?"
     result = []
-    # for i in xrange(1, 11):(title)
-    # "ecs.amazonaws.co.uk"
+    duplication = []
     for link_url in ("ecs.amazonaws.fr", "ecs.amazonaws.com"):
         max_pages = 0
         for page_nb in xrange(1, 11):
@@ -257,12 +215,7 @@ def compute_args(title, k, exact_match=0, delete_duplicate=1, escape=0):
                 u = urllib.urlopen(''.join((url.format(link_url),
                                             m,
                                             "&Signature=",
-                                            calculate_signature_amazon(k, head.format(link_url) + m))))
-
-                # deb = ''.join((url.format(link_url),
-                #     m,
-                #     "&Signature=",
-                #     calculate_signature_amazon(k, head.format(link_url)+m)))
+                                            calculate_signature_amazon(key, head.format(link_url) + m))))
                 s = u.read()
                 create_tmp(title, page_nb, link_url, s)
             s = re.sub(' xmlns="[^"]+"', '', s, count=1)
@@ -276,17 +229,56 @@ def compute_args(title, k, exact_match=0, delete_duplicate=1, escape=0):
 
             for t in root.iter('Item'):
                 tmp = compute_json_one_result(t)
-                if exact_match and sanitize(tmp['title'], slugify=1) == title or not exact_match:
-                    # import pdb;pdb.set_trace()
-                    if escape:
-                        tmp['title'] = sanitize(tmp['title'])
-                    if not (tmp['title'], tmp['author']) in ((i['title'], i['author']) for i in result) or not delete_duplicate:
-                        result.append(tmp)
+                # Ajouter si l'élément titre+auteur n'est pas deja dans les resultats
+                if not (tmp['title'], tmp['author']) in duplication or not json_manager.delete_duplicate:
+                    if tmp['book_format'] in (u'Broché', 'Hardcover'):
+                        if tmp['language'] in (u'Français', 'Anglais', 'English', 'French'):
+                            result.append(tmp)
+                            duplication.append((tmp['title'], tmp['author']))
+                            if not json_manager.check_json_file_exist(len(result)):
+                                json_manager.create_json_result(len(result), tmp)
+
+                if len(result) >= index:
+                    return result
 
             if page_nb == max_pages:
                 break
 
     return result
+
+def recherche_between_i_and_j(title, key, begin, end, exact_match=0, delete_duplicate=True, escape=False):
+    assert(begin > 0)
+    assert(end >= begin)
+    
+    json_manager = JsonManager(title, delete_duplicate)
+
+    result = json_manager.check_json_file_exist(end)
+    if not result:
+        if end >= MAX_SEARCH_ON_A_PAGE:
+            if not json_manager.check_json_file_exist(begin + 12):
+                results = creer_uniques_resultats_jusque_i(title, key, begin + 12, json_manager)
+            else:
+                results = [json_manager.check_json_file_exist(i) for i in range(begin,begin + 13)]
+        else:
+            results = creer_uniques_resultats_jusque_i(title, key, end, json_manager)
+
+    else:
+        results = [json_manager.check_json_file_exist(i) for i in range(begin,end+1)]
+
+    results_final = []
+    for res in results:
+        if sanitize(res['title'], slugify=1) == title or not exact_match:
+            if escape: # echaper les caracteres speciaux
+                res['title'] = sanitize(res['title'])
+            results_final.append(res)
+    return results_final
+
+@sanitizer
+def compute_args(title, key, exact_match=0, delete_duplicate=True, escape=False, nb_results_max=0):
+    if not nb_results_max:
+        nb_results_max = MAX_SEARCH_ON_A_PAGE
+    return recherche_between_i_and_j(title, key, 1, nb_results_max, exact_match=exact_match, delete_duplicate=delete_duplicate, escape=escape)
+
 
 
 def create_book(title, k):

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import urllib
-from aws_req import compute_args, unsanitize
+from aws_req import compute_args, unsanitize, recherche_between_i_and_j
+from AmazonRequest import AmazonRequest
 from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 def search_view(request):
     title = request.GET.get('title', '')
@@ -20,9 +21,8 @@ def search_view(request):
         else:
             tmp.append(i)
     title = ''.join(tmp)
-    s = compute_args(title, settings.AMAZON_KEY, escape=1)
-    s = [d for d in s if d['book_format'] == u'Broché' or d['book_format'] == 'Hardcover']
-    s = [d for d in s if d['language'] == u'Français' or d['language'] == 'Anglais' or d['language'] == 'English']
+    amazon_request = AmazonRequest(title, settings.AMAZON_KEY, escape=True, nb_results_max=12)
+    s = amazon_request.compute_args()
     for d in s:
         t = urllib.unquote(d['title'])
 
@@ -38,4 +38,23 @@ def search_view(request):
         RequestContext(request, {
             'titre': title.title(),
             'resultat': s,
-            'nb_result': 6}))
+            'nb_result': 6,
+            'nb_result_total': len(s)}))
+
+
+def search_between(request):
+    if request.method == "GET":
+        begin = int(request.GET["i"])
+        end = int(request.GET["j"])
+        title = request.GET["title"]
+        ch1 = u"àâçéèêëîïôùûüÿ"
+        ch2 = u"aaceeeeiiouuuy"
+        tmp = []
+        for i in title:
+            if i in ch1:
+                tmp.append(ch2[ch1.index(i)])
+            else:
+                tmp.append(i)
+        title = ''.join(tmp)
+        amazon_request = AmazonRequest(title, settings.AMAZON_KEY, escape=True)
+        return HttpResponse(str(amazon_request.recherche_between_i_and_j(begin, end)))
