@@ -9,7 +9,6 @@
 <div class="container">
   <div class="row results_header">
     <div class="col-xs-12 col-sm-12 col-md-12">
-      <div class="col-xs-10 col-sm-10 col-md-10">
         <h1>Résultats de recherche</h1>
         <h2>{{titre}}</h2>
         {% if resultat %}
@@ -17,10 +16,8 @@
         {% else %}
           Aucun resultat
         {% endif %}
-      </div>
     </div>
   </div>
-
   <div class="row result_line">
       {% if resultat %}
         {% for item in resultat %}
@@ -29,18 +26,18 @@
             </div><div class="row result_line">
           {% endif %}
 
-          <div class="element img_container2 col-md-2 col-sm-4 col-xs-6" {% if forloop.counter0 >= nb_result  %}style=""{% endif %}>
-            <div class="sub_img_container">
+
+          <div class="{% if forloop.counter0|divisibleby:nb_result %}element_0 {% endif %}element img_container2 col-md-2 col-sm-4 col-xs-6" {% if forloop.counter0 >= nb_result  %}style="display:none"{% endif %}>
 
               <div class="repre_image col-xs-12 col-sm-12 col-md-12">
                 <a data-toggle="tooltip" data-placement="top" title="{{ item.title }}" data-original-title="Je cherche une synthèse" href="{% url 'book_management:search' item.title %}">
                   {% if item.image %}
-                      <img src="{{ item.image }}" />
+                      <img src="{{ item.image }}" alt="image-{{item.little_title}}"/>
                   {% else %}
-                      <img src='{% static 'img/empty_gallery.png' %}' />
+                      <img src='{% static 'img/empty_gallery.png' %}' alt="no image" />
                   {% endif %}
                 </a>
-              </div>
+              </div> <!-- repre_image -->
 
               <div class="result_info col-xs-12 col-sm-12 col-md-12">
                 <div class="result_title">
@@ -50,10 +47,8 @@
                 <div class="result_author">
                   {{item.author}}
                 </div>
-              </div>
-
-            </div> <!-- sub_img_container -->
-          </div>
+              </div> <!-- result_info -->
+          </div> <!-- element -->
 
         {% endfor %}
 
@@ -67,7 +62,8 @@
       </div> <!-- Bouton PLUS -->
     </div>
   {% endif %}
-</div>
+</div> <!-- container -->
+
 {% endblock %}
 
 {% block script_block %}
@@ -105,15 +101,10 @@
     resizeResults();
   }
 
-  $(window).load(function() {
-    resizeResults();
-  }());
-
   $('.bs-component [data-toggle="tooltip"]').tooltip();
 
 
   function resizeResults() {
-    // $('.result_line').equalHeights();
     var imgMaxHeight = Math.max.apply(
       Math, $('.repre_image img').map(function(){
         return $(this).height();
