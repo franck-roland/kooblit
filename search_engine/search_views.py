@@ -57,4 +57,21 @@ def search_between(request):
                 tmp.append(i)
         title = ''.join(tmp)
         amazon_request = AmazonRequest(title, settings.AMAZON_KEY, escape=True)
-        return HttpResponse(str(amazon_request.recherche_between_i_and_j(begin, end)))
+        s = amazon_request.recherche_between_i_and_j(begin, end)
+        for d in s:
+            t = urllib.unquote(d['title'])
+
+            if ":" in t:
+                t = t.replace(":", ":<span class='book_sub'>", 1)
+                t += "</span>"
+
+            d['little_title'] = t + "..."
+            d['title'] = unsanitize(d['title'])
+
+        return render_to_response(
+            "row_result.html",
+            RequestContext(request, {
+                'titre': title.title(),
+                'resultat': s,
+                'nb_result': 6,
+                'nb_result_total': len(s)}))

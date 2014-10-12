@@ -5,43 +5,6 @@
 {% block extra_css %}
 <link href="{% static "css/result_page.css" %}" rel="stylesheet">
 {% endblock %}
-{% block extra_head_script %}
-<script type="text/javascript">
-// matchColumns=function(){ 
-//      var divs,contDivs,maxHeight,divHeight,d; 
-//      divs=document.getElementsByTagName('div'); 
-//      contDivs=[]; 
-//      maxHeight=0;  
-//      for(var i=0;i<divs.length;i++){  
-//           // make collection with <div> elements with class attribute "equal"
-//           if(/\belement\b/.test(divs[i].className)){ 
-//                 d=divs[i]; 
-//                 contDivs[contDivs.length]=d;  
-//                 if(d.offsetHeight){ 
-//                      divHeight=d.offsetHeight;          
-//                 } 
-//                 else if(d.style.pixelHeight){ 
-//                      divHeight=d.style.pixelHeight;          
-//                 } 
-//                 maxHeight=Math.max(maxHeight,divHeight); 
-//           } 
-//      } 
-//      for(var i=0;i<contDivs.length;i++){ 
-//           contDivs[i].style.height=maxHeight + "px"; 
-//      } 
-// }  
-// window.onload=function(){ 
-//      if(document.getElementsByTagName){ 
-//           matchColumns();      
-//      } 
-// }
-// window.ready=function(){ 
-//      if(document.getElementsByTagName){ 
-//           matchColumns();      
-//      } 
-// }
-</script>
-{% endblock %}
 {% block content %}
 <div class="container">
   <div class="row results_header">
@@ -50,21 +13,13 @@
         <h1>Résultats de recherche</h1>
         <h2>{{titre}}</h2>
         {% if resultat %}
-          {{ resultat|length }} résultats
+          <span id="nb_results">{{ resultat|length }}</span> résultats
         {% else %}
           Aucun resultat
         {% endif %}
       </div>
     </div>
   </div>
-
-  {% if resultat|length > 6 %}
-    <div class="row">
-      <div class="col-xs-offset-11 col-xs-1">
-        <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
-      </div> <!-- Bouton PLUS -->
-    </div>
-  {% endif %}
 
   <div class="row result_line">
       {% if resultat %}
@@ -74,7 +29,7 @@
             </div><div class="row result_line">
           {% endif %}
 
-          <div class="element img_container2 col-md-2 col-sm-4 col-xs-6" {% if forloop.counter0 >= nb_result  %}style="display:none"{% endif %}>
+          <div class="element img_container2 col-md-2 col-sm-4 col-xs-6" {% if forloop.counter0 >= nb_result  %}style=""{% endif %}>
             <div class="sub_img_container">
 
               <div class="repre_image col-xs-12 col-sm-12 col-md-12">
@@ -103,7 +58,15 @@
         {% endfor %}
 
       {% endif %}
-  </div>
+  </div> <!-- row result_line -->
+
+  {% if resultat|length > 6 %}
+    <div class="row row_plus">
+      <div class="col-xs-offset-11 col-xs-1">
+        <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
+      </div> <!-- Bouton PLUS -->
+    </div>
+  {% endif %}
 </div>
 {% endblock %}
 
@@ -113,21 +76,35 @@
 <script type="text/javascript">
 
   function afficher_plus(){
-    $('.img_container2').each(function(){
-      var res = $(this);
-      // setTimeout(function () {
-      res.css('display','inline-block');
-      // }, 20);
+    var i = $(".result_line").length * 6 + 1;
+    var j = i + 11;
+    $.ajax({
+        url: "/search/complete/",
+        type: "GET",
+        cache: false,
+        // dataType: "jsonp",
+        success: function (data) {
+          if(data.length == 1){
+            $(".row_plus").css("display","none");
+          }
+          else{
+            $(".result_line").last().after(data);
+            $("#nb_results").html($(".repre_image").length);
+          }
+        },
+        error: function(data) {
+          console.log(data);
+        },
+        data: {
+            i: i,
+            j: j,
+            title: "{{titre}}",
+            callback: '?'
+        }
     });
     resizeResults();
   }
 
-
-  // $(".item:first").addClass("active");
-
-  // $(".result_line").ready(function() {
-  //   resizeResults();
-  // }());
   $(window).load(function() {
     resizeResults();
   }());

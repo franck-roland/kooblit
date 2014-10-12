@@ -11,7 +11,6 @@ import time
 import shutil
 import json
 
-
 class JsonManager(object):
     """docstring for JsonManager"""
     def __init__(self, title, delete_duplicate=False):
