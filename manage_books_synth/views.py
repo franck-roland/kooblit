@@ -29,7 +29,7 @@ from django.template.loader import get_template
 from django.contrib import messages
 
 # search for creation
-from search_engine.aws_req import compute_args
+from search_engine.AmazonRequest import AmazonRequest
 from .models import Book, UniqueBook, Recherche, Theme
 # Usr_management models
 from usr_management.models import UserKooblit, Syntheses, Demande
@@ -193,7 +193,8 @@ def delete_tmp_file(book_title, title, username):
 
 
 def clean_create_book(request, book_title):
-    s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+    amazon_request = AmazonRequest(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+    s = amazon_request.compute_args()
     s = [d for d in s if d['book_format'] == u'Broché' or d['book_format'] == 'Hardcover']
     s = [d for d in s if d['language'] == u'Français' or d['language'] == 'Anglais' or d['language'] == 'English']
     if not s:
@@ -238,7 +239,8 @@ def clean_create_book(request, book_title):
 
 
 def create_book(book_title):
-    s = compute_args(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+    amazon_request = AmazonRequest(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+    s = amazon_request.compute_args()
     s = [d for d in s if d['book_format'] == u'Broché' or d['book_format'] == 'Hardcover']
     s = [d for d in s if d['language'] == u'Français' or d['language'] == 'Anglais' or d['language'] == 'English']
     if not s:
