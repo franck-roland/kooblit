@@ -3,6 +3,7 @@
 import xml.etree.ElementTree as ET
 import urllib
 import re
+from json import JSONEncoder
 
 from .aws_req import compute_json_one_result, sanitize, calculate_signature_amazon
 from .file_manipulation import JsonManager, AmazonResultsCache
@@ -27,6 +28,22 @@ AssociateTag=kooblit-21"""
 
 servers = ("ecs.amazonaws.fr", "ecs.amazonaws.com")
 
+class ResponseEncoder(JSONEncoder):
+    def default(self, o):
+        return o.__dict__
+
+class Response(object):
+    """docstring for Response"""
+    def __init__(self, results, server_index, last_page):
+        super(Response, self).__init__()
+        self.results = results
+        self.last_page = last_page
+        self.server_index = server_index
+    
+    def __len__(self):
+        return len(self.results)
+
+
 class AmazonRequest(object):
     """docstring for AmazonRequest"""
     def __init__(self, title, key, exact_match=0, delete_duplicate=True, escape=False, nb_results_max=0):
@@ -39,20 +56,26 @@ class AmazonRequest(object):
         self.nb_results_max = nb_results_max
 
 
-    def creer_uniques_resultats_jusque_i(self, index, json_manager, 
-        urls=servers, first_page=1):
+    def creer_uniques_resultats_jusque_i(self, index, json_manager, response,
+        server_index=0, first_page=1, duplication=None):
         """ Fonction appelée quand le ieme resulat de recherche n'est pas disponible """
         global template
         global head
-        assert(index>0)
+        assert(index > 0)
+        assert(server_index < len(servers))
+        assert(first_page > 0 and first_page <= 10)
+
         url = "http://{0}/onca/xml?"
         result = []
-        duplication = []
-        for link_url in urls:
+        if duplication == None:
+            duplication = []
+        for s_index in xrange(server_index,len(servers)):
+            link_url = servers[s_index]
             max_pages = 0
             amazon_cache = AmazonResultsCache(self.title, link_url)
-            for page_nb in xrange(1, 11):
-
+            for page_nb in xrange(first_page, 11):
+                response.last_page = page_nb
+                response.server_index = s_index
                 m = template.format(self.title, str(page_nb))
                 m = m.split("\n")
                 m.sort()
@@ -95,21 +118,47 @@ class AmazonRequest(object):
         return result
 
 
-    def recherche_between_i_and_j(self, begin, end):
+    def recherche_between_i_and_j(self, begin, end, server_index=0, page_nb=1):
         assert(begin > 0)
         assert(end >= begin)
-        
+        assert(page_nb > 0 and page_nb <= 10)
+        assert(server_index < len(servers))
+
+        response = Response([],server_index, page_nb)
+
         json_manager = JsonManager(self.title, self.delete_duplicate)
-        results = []
-        for index in xrange(begin, end + 1):
+        allready_displayed = [] # All the results allready displayed (from 1 to begin-1)
+        for index in xrange(1, begin):
             result = json_manager.get_json_file(index)
             if result:
-                results.append(result)
+                allready_displayed.append(result)
             else:
                 break
 
-        if len(results) < end - begin:
-            results = self.creer_uniques_resultats_jusque_i(end, json_manager)[begin-1:]
+        # Check if we have at least allready found begin - 1 results
+        if len(allready_displayed) < begin - 1:
+            results = self.creer_uniques_resultats_jusque_i(end, json_manager, response)[begin-1:]
+        else:
+            # Remove all the results allready found
+            duplication = [(tmp['title'], tmp['author']) for tmp in allready_displayed]
+            results = []
+
+            # Find which results have been allready found
+            for index in xrange(begin, end + 1):
+                result = json_manager.get_json_file(index)
+                if result:
+                    results.append(result)
+                else:
+                    break
+
+            # if we didn't have done all the searches
+            if len(results) < end - begin:
+                # Remove all the results allready found
+                duplication.extend([(tmp['title'], tmp['author']) for tmp in results])
+                results_tmp = self.creer_uniques_resultats_jusque_i(end - begin + 1 - len(results),
+                                                                    json_manager, response, server_index=server_index,
+                                                                    first_page=page_nb, duplication=duplication)
+                results.extend(results_tmp)
 
         results_final = []
         for res in results:
@@ -117,12 +166,15 @@ class AmazonRequest(object):
                 if self.escape: # echaper les caracteres speciaux
                     res['title'] = sanitize(res['title'])
                 results_final.append(res)
-        return results_final
+        response.results = results_final
+        return response
 
 
-    def compute_args(self):
+    def compute_args(self, server_index=0, page_nb=1):
+        assert(page_nb <= 10)
+        assert(server_index < len(servers))
         if not self.nb_results_max:
             self.nb_results_max = MAX_SEARCH_ON_A_PAGE
-        return self.recherche_between_i_and_j(1, self.nb_results_max)
+        return self.recherche_between_i_and_j(1, self.nb_results_max, server_index=server_index, page_nb=page_nb)
 
 

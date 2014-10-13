@@ -1,0 +1,19 @@
+<div class='element img_container2 col-md-2 col-sm-4 col-xs-6'>
+
+  <div class='repre_image col-xs-12 col-sm-12 col-md-12'>
+    <a data-toggle='tooltip' data-placement='top' title='{{title}}' data-original-title='Je cherche une synthèse' href='/book/{{title}}/details'>
+        <img src='{{image}}' />
+    </a>
+  </div>
+
+  <div class='result_info col-xs-12 col-sm-12 col-md-12'>
+    <div class='result_title'>
+      {{little_title}}
+    </div>
+
+    <div class='result_author'>
+      {{author}}
+    </div>
+  </div>
+
+</div>
