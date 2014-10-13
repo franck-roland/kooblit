@@ -21,31 +21,39 @@ class JsonManager(object):
             self.dir_name = "/results_json/"
         else:
             self.dir_name = "/unique_results_json/"
-    
-    def check_json_file_exist(self, index):
+        root_name = sha1(self.title).hexdigest()
+        create_dir_if_not_exists("/tmp/" + root_name)
+        self.dir_path = "/tmp/" + root_name + self.dir_name
+        create_dir_if_not_exists(self.dir_path)
+
+    def get_json_file(self, index):
         """ Check if a json file corresponding to the answer nber 'index' 
         of the search 'title' exists"""
-        root_name = sha1(self.title).hexdigest()
-        dir_path = "/tmp/" + root_name + self.dir_name
-        ret = ''
-        if os.path.isdir(dir_path):
-            if int(time.time() - os.stat(dir_path).st_ctime) / 86400 > 7:
-                shutil.rmtree(dir_path)
-                return ''
-            nber_files = len([name for name in os.listdir(dir_path) if os.path.isfile(dir_path + name)])
-            if index <= nber_files and index > 0:
-                with open(dir_path + "res_" + str(index) + '.json', 'r') as f:
+        ret = {}
+        print self.dir_path
+        if self.check_json_file_exist(index):
+            with open(self.dir_path + "res_" + str(index) + '.json', 'r') as f:
                     ret = json.load(f)
-
         return ret
+        
+    def check_json_file_exist(self, index):
+        if index <= 0:
+            return False
+
+        if os.path.isdir(self.dir_path):
+            if int(time.time() - os.stat(self.dir_path).st_ctime) / 86400 > 7:
+                shutil.rmtree(self.dir_path)
+                return False
+            nber_files = len([name for name in os.listdir(self.dir_path) if os.path.isfile(self.dir_path + name)])
+            if index <= nber_files:
+                return os.path.isfile(self.dir_path + "res_" + str(index) + '.json')
+            else:
+                return False
+
 
     def create_json_result(self, index, result):
-        dir_name = sha1(self.title).hexdigest()
-        dir_path = "/tmp/" + dir_name + "/"
-        create_dir_if_not_exists(dir_path)
-        dir_path += self.dir_name
-        create_dir_if_not_exists(dir_path)
-        file_name = dir_path + "res_" + str(index) + '.json'
+        create_dir_if_not_exists(self.dir_path)
+        file_name = self.dir_path + "res_" + str(index) + '.json'
         with open(file_name, 'w') as f:
             f.write(json.dumps(result))
         
@@ -57,26 +65,37 @@ def create_dir_if_not_exists(path_name):
             os.remove(path_name)
         os.mkdir(path_name)
 
+
 class AmazonResultsCache(object):
     """Gestion des création de fichiers Contenant les resultats d'amazon dans le dossier tmp"""
-    def __init__(self, title, page_nb, server_name):
+    def __init__(self, title, server_name):
         super(AmazonResultsCache, self).__init__()
         self.title = title
-        self.page_nb = page_nb
         self.server_name = server_name
-        
-
-    def check_in_tmp(self):
         dir_name = sha1(self.title).hexdigest()
-        dir_path = "/tmp/" + dir_name + "/" + self.server_name + "/"
+        create_dir_if_not_exists("/tmp/" + dir_name)
+        self.dir_path = "/tmp/" + dir_name + "/" + self.server_name + "/"
+
+
+    def get_last_page_recorded(self):
+        if os.path.isdir(self.dir_path):
+            if int(time.time() - os.stat(self.dir_path).st_ctime) / 86400 > 7:
+                shutil.rmtree(self.dir_path)
+                return 0
+            else:
+                return len([name for name in os.listdir(self.dir_path) if os.path.isfile(self.dir_path + name)])
+        return 0
+
+
+    def check_in_tmp(self, page_nb):
         ret = ''
-        if os.path.isdir(dir_path):
-            if int(time.time() - os.stat(dir_path).st_ctime) / 86400 > 7:
-                shutil.rmtree(dir_path)
+        if os.path.isdir(self.dir_path):
+            if int(time.time() - os.stat(self.dir_path).st_ctime) / 86400 > 7:
+                shutil.rmtree(self.dir_path)
                 return ''
-            nber = len([name for name in os.listdir(dir_path) if os.path.isfile(dir_path + name)])
-            if self.page_nb <= nber and self.page_nb > 0:
-                with open(dir_path + "f_" + str(self.page_nb) + '.xml', 'r') as f:
+            nber = len([name for name in os.listdir(self.dir_path) if os.path.isfile(self.dir_path + name)])
+            if page_nb <= nber and page_nb > 0:
+                with open(self.dir_path + "f_" + str(page_nb) + '.xml', 'r') as f:
                     ret = f.read()
                     root = ET.fromstring(ret)
                     # Check if there was an error in the buffered page
@@ -88,12 +107,8 @@ class AmazonResultsCache(object):
         return ret
 
 
-    def create_tmp(self, result):
-        dir_name = sha1(self.title).hexdigest()
-        dir_path = "/tmp/" + dir_name + "/"
-        create_dir_if_not_exists(dir_path)
-        dir_path += self.server_name + "/"
-        create_dir_if_not_exists(dir_path)
-        file_name = dir_path + "f_" + str(self.page_nb) + '.xml'
+    def create_tmp(self, page_nb, result):
+        create_dir_if_not_exists(self.dir_path)
+        file_name = self.dir_path + "f_" + str(page_nb) + '.xml'
         with open(file_name, 'w') as f:
             f.write(result)

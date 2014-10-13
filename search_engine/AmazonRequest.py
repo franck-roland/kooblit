@@ -102,18 +102,14 @@ class AmazonRequest(object):
         json_manager = JsonManager(self.title, self.delete_duplicate)
         results = []
         for index in xrange(begin, end + 1):
-            result = json_manager.check_json_file_exist(index)
+            result = json_manager.get_json_file(index)
             if result:
                 results.append(result)
             else:
                 break
 
-        if not result:
+        if len(results) < end - begin:
             results = self.creer_uniques_resultats_jusque_i(end, json_manager)[begin-1:]
-            print len(results)
-
-        else:
-            results = [json_manager.get_json_file(i) for i in range(begin,end+1)]
 
         results_final = []
         for res in results:

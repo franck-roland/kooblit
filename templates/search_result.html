@@ -88,6 +88,7 @@
             $(".result_line").last().after(data);
             $("#nb_results").html($(".repre_image").length);
             $(".plus_button").removeClass("disabled");
+            resizeResults();
           }
         },
         error: function(data) {
