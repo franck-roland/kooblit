@@ -55,7 +55,7 @@
       {% endif %}
   </div> <!-- row result_line -->
 
-  {% if resultat|length > 6 %}
+  {% if resultat|length >= 6 %}
     <div class="row row_plus">
       <div class="col-xs-offset-11 col-xs-1">
         <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
@@ -74,6 +74,7 @@
   function afficher_plus(){
     var i = $(".result_line").length * 6 + 1;
     var j = i + 11;
+    $(".plus_button").addClass("disabled");
     $.ajax({
         url: "/search/complete/",
         type: "GET",
@@ -86,6 +87,7 @@
           else{
             $(".result_line").last().after(data);
             $("#nb_results").html($(".repre_image").length);
+            $(".plus_button").removeClass("disabled");
           }
         },
         error: function(data) {
