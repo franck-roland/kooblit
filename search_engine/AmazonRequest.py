@@ -43,6 +43,10 @@ class Response(object):
     def __len__(self):
         return len(self.results)
 
+    def __iter__(self):
+        for attr in self.results:
+            yield attr
+
 
 class AmazonRequest(object):
     """docstring for AmazonRequest"""
@@ -67,6 +71,7 @@ class AmazonRequest(object):
 
         url = "http://{0}/onca/xml?"
         result = []
+        print first_page, server_index
         if duplication == None:
             duplication = []
         for s_index in xrange(server_index,len(servers)):
@@ -106,8 +111,8 @@ class AmazonRequest(object):
                             if tmp['language'] in (u'Français', 'Anglais', 'English', 'French'):
                                 result.append(tmp)
                                 duplication.append((tmp['title'], tmp['author']))
-                                if not json_manager.check_json_file_exist(len(result)):
-                                    json_manager.create_json_result(len(result), tmp)
+                                if not json_manager.check_json_file_exist(len(result), is_offseted=True):
+                                    json_manager.create_json_result(len(result), tmp, is_offseted=True)
 
                     if len(result) >= index:
                         return result
@@ -123,7 +128,6 @@ class AmazonRequest(object):
         assert(end >= begin)
         assert(page_nb > 0 and page_nb <= 10)
         assert(server_index < len(servers))
-
         response = Response([],server_index, page_nb)
 
         json_manager = JsonManager(self.title, self.delete_duplicate)
@@ -132,6 +136,7 @@ class AmazonRequest(object):
             result = json_manager.get_json_file(index)
             if result:
                 allready_displayed.append(result)
+                json_manager.set_offset(index)
             else:
                 break
 
@@ -148,6 +153,7 @@ class AmazonRequest(object):
                 result = json_manager.get_json_file(index)
                 if result:
                     results.append(result)
+                    json_manager.set_offset(index)
                 else:
                     break
 
@@ -167,6 +173,7 @@ class AmazonRequest(object):
                     res['title'] = sanitize(res['title'])
                 results_final.append(res)
         response.results = results_final
+        print response.last_page, response.server_index
         return response
 
 
