@@ -90,7 +90,7 @@
         dataType: "json",
         success: function (data) {
           console.log(data);
-          if(data.last_page == 10 && data.server_index == 1){
+          if(data.last_page == 10 && data.server_index == 1 || data.results.length < 12){
             $(".row_plus").css("display","none");
           }
           $("#server_index").val(data.server_index);
