@@ -25,18 +25,26 @@ class JsonManager(object):
         create_dir_if_not_exists("/tmp/" + root_name)
         self.dir_path = "/tmp/" + root_name + self.dir_name
         create_dir_if_not_exists(self.dir_path)
+        self.offset = 0
 
-    def get_json_file(self, index):
+    def set_offset(self, offset):
+        self.offset = offset
+
+    def get_filename(self, index, is_offseted=False):
+        if is_offseted:
+            index += self.offset
+        return "".join(("res_", str(index), '.json'))
+
+    def get_json_file(self, index, is_offseted=False):
         """ Check if a json file corresponding to the answer nber 'index' 
         of the search 'title' exists"""
         ret = {}
-        print self.dir_path
         if self.check_json_file_exist(index):
-            with open(self.dir_path + "res_" + str(index) + '.json', 'r') as f:
+            with open(self.dir_path + self.get_filename(index, is_offseted), 'r') as f:
                     ret = json.load(f)
         return ret
         
-    def check_json_file_exist(self, index):
+    def check_json_file_exist(self, index, is_offseted=False):
         if index <= 0:
             return False
 
@@ -46,14 +54,14 @@ class JsonManager(object):
                 return False
             nber_files = len([name for name in os.listdir(self.dir_path) if os.path.isfile(self.dir_path + name)])
             if index <= nber_files:
-                return os.path.isfile(self.dir_path + "res_" + str(index) + '.json')
+                return os.path.isfile(self.dir_path + self.get_filename(index, is_offseted))
             else:
                 return False
 
 
-    def create_json_result(self, index, result):
+    def create_json_result(self, index, result, is_offseted=False):
         create_dir_if_not_exists(self.dir_path)
-        file_name = self.dir_path + "res_" + str(index) + '.json'
+        file_name = self.dir_path + self.get_filename(index, is_offseted)
         with open(file_name, 'w') as f:
             f.write(json.dumps(result))
         
@@ -95,15 +103,16 @@ class AmazonResultsCache(object):
                 return ''
             nber = len([name for name in os.listdir(self.dir_path) if os.path.isfile(self.dir_path + name)])
             if page_nb <= nber and page_nb > 0:
-                with open(self.dir_path + "f_" + str(page_nb) + '.xml', 'r') as f:
-                    ret = f.read()
-                    root = ET.fromstring(ret)
-                    # Check if there was an error in the buffered page
-                    try:
-                        root.find("{http://ecs.amazonaws.com/doc/2009-01-06/}Error").text
-                        ret = ""
-                    except AttributeError:
-                        pass
+                if os.path.isfile(self.dir_path + "f_" + str(page_nb) + '.xml'):
+                    with open(self.dir_path + "f_" + str(page_nb) + '.xml', 'r') as f:
+                        ret = f.read()
+                        root = ET.fromstring(ret)
+                        # Check if there was an error in the buffered page
+                        try:
+                            root.find("{http://ecs.amazonaws.com/doc/2009-01-06/}Error").text
+                            ret = ""
+                        except AttributeError:
+                            pass
         return ret
 
 
