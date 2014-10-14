@@ -61,7 +61,7 @@ class AmazonRequest(object):
 
 
     def creer_uniques_resultats_jusque_i(self, index, json_manager, response,
-        server_index=0, first_page=1, duplication=None):
+        server_index=0, first_page=1, duplication=None, is_offseted=False):
         """ Fonction appelée quand le ieme resulat de recherche n'est pas disponible """
         global template
         global head
@@ -111,8 +111,8 @@ class AmazonRequest(object):
                             if tmp['language'] in (u'Français', 'Anglais', 'English', 'French'):
                                 result.append(tmp)
                                 duplication.append((tmp['title'], tmp['author']))
-                                if not json_manager.check_json_file_exist(len(result), is_offseted=True):
-                                    json_manager.create_json_result(len(result), tmp, is_offseted=True)
+                                if not json_manager.check_json_file_exist(len(result), is_offseted=is_offseted):
+                                    json_manager.create_json_result(len(result), tmp, is_offseted=is_offseted)
 
                     if len(result) >= index:
                         return result
@@ -163,7 +163,7 @@ class AmazonRequest(object):
                 duplication.extend([(tmp['title'], tmp['author']) for tmp in results])
                 results_tmp = self.creer_uniques_resultats_jusque_i(end - begin + 1 - len(results),
                                                                     json_manager, response, server_index=server_index,
-                                                                    first_page=page_nb, duplication=duplication)
+                                                                    first_page=page_nb, duplication=duplication, is_offseted=True)
                 results.extend(results_tmp)
 
         results_final = []
