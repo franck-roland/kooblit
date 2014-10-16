@@ -181,6 +181,9 @@ def compute_json_one_result(result):
 
     obj = result.find("LargeImage")
     image = get_text(obj, "URL")
+    obj = result.find("MediumImage")
+    medium_image = get_text(obj, "URL")
+
     try:
         obj = result.find('EditorialReviews').find('EditorialReview')
         # summary = BeautifulSoup(get_text(obj, 'Content')).get_text()
@@ -190,7 +193,7 @@ def compute_json_one_result(result):
 
     title = title.lower()
 
-    return {'title': title, 'author': author, 'isbn': isbn, 'image': image,
+    return {'title': title, 'author': author, 'isbn': isbn, 'image': image, 'medium_image': medium_image,
             'summary': summary, 'details': details, 'DetailPageURL': DetailPageURL, 'book_format': book_format,
             'language': language, 'theme': theme, 'editeur': editeur}
 

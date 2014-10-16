@@ -8,7 +8,7 @@
 
   <div class='result_info col-xs-12 col-sm-12 col-md-12'>
     <div class='result_title'>
-      {{little_title}}
+      {{&little_title}}
     </div>
 
     <div class='result_author'>

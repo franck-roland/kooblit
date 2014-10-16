@@ -37,6 +37,7 @@ class UniqueBook(mongoengine.Document):
     book = mongoengine.ReferenceField(Book)
     isbn = mongoengine.StringField(max_length=100, required=True, unique=False)
     image = mongoengine.URLField()
+    medium_image = mongoengine.URLField()
     last_update = mongoengine.DateTimeField(default=datetime.datetime.now)
     buy_url = mongoengine.URLField()
     editeur = mongoengine.StringField(max_length=100)
