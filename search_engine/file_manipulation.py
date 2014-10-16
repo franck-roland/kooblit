@@ -11,6 +11,8 @@ import time
 import shutil
 import json
 
+from django.conf import settings
+
 class JsonManager(object):
     """docstring for JsonManager"""
     def __init__(self, title, delete_duplicate=False):
@@ -22,8 +24,8 @@ class JsonManager(object):
         else:
             self.dir_name = "/unique_results_json/"
         root_name = sha1(self.title).hexdigest()
-        create_dir_if_not_exists("/tmp/" + root_name)
-        self.dir_path = "/tmp/" + root_name + self.dir_name
+        create_dir_if_not_exists(settings.TMP_DIR + root_name)
+        self.dir_path = settings.TMP_DIR + root_name + self.dir_name
         create_dir_if_not_exists(self.dir_path)
         self.offset = 0
 
@@ -71,7 +73,7 @@ def create_dir_if_not_exists(path_name):
     if not os.path.isdir(path_name):
         if os.path.exists(path_name):
             os.remove(path_name)
-        os.mkdir(path_name)
+        os.makedirs(path_name)
 
 
 class AmazonResultsCache(object):
@@ -81,8 +83,8 @@ class AmazonResultsCache(object):
         self.title = title
         self.server_name = server_name
         dir_name = sha1(self.title).hexdigest()
-        create_dir_if_not_exists("/tmp/" + dir_name)
-        self.dir_path = "/tmp/" + dir_name + "/" + self.server_name + "/"
+        create_dir_if_not_exists(settings.TMP_DIR + dir_name)
+        self.dir_path = settings.TMP_DIR + dir_name + "/" + self.server_name + "/"
 
 
     def get_last_page_recorded(self):

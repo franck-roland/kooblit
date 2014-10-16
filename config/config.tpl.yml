@@ -24,3 +24,6 @@ paymill:
   public: ""
 
 secret_key: ""
+
+tmp:
+  kooblit_tmp_root: ""
