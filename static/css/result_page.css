@@ -35,7 +35,7 @@
 }
 
 .repre_image {
-  height: 200px;
+  height: 160px;
 }
 
 .repre_image img{
@@ -43,7 +43,7 @@
   position: relative;
   bottom: 0;
   display: block;
-  max-height:200px;
+  max-height:160px;
   width: auto;
   max-width: 100%;
 }
@@ -62,6 +62,10 @@
 
 .result_author {
   color: rgb(180,180,180);
+}
+
+.book_sub, .Book_Sub {
+  font-size: 0.6em;
 }
 
 .element_0 {

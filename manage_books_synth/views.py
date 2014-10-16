@@ -221,11 +221,14 @@ def clean_create_book(request, book_title):
         r = Recherche(book=book, nb_searches=1)
     r.save()
     for book_dsc in s:
+        if not book_dsc['medium_image']:
+            book_dsc['medium_image'] = 'http://' + request.get_host() + static('img/empty_gallery.png')
+        if not book_dsc['image']:
+            book_dsc['image'] = 'http://' + request.get_host() + static('img/empty_gallery.png')
         try:
-            if book_dsc['image']:
-                u_b = UniqueBook.objects.get(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
-            else:
-                u_b = UniqueBook.objects.get(book=book, isbn=book_dsc['isbn'], image='http://' + request.get_host() + static('img/empty_gallery.png'), buy_url=book_dsc['DetailPageURL'])
+            u_b = UniqueBook.objects.get(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
+            if u_b.medium_image != book_dsc['medium_image']:
+                u_b.medium_image = book_dsc['medium_image']
         except UniqueBook.DoesNotExist:
             if book_dsc['image']:
                 u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
@@ -235,28 +238,6 @@ def clean_create_book(request, book_title):
         if book_dsc['editeur']:
             u_b.editeur = book_dsc['editeur']
             u_b.save()
-    return 0
-
-
-def create_book(book_title):
-    amazon_request = AmazonRequest(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
-    s = amazon_request.compute_args()
-    s = [d for d in s if d['book_format'] == u'Broché' or d['book_format'] == 'Hardcover']
-    s = [d for d in s if d['language'] == u'Français' or d['language'] == 'Anglais' or d['language'] == 'English']
-    if not s:
-        return 1
-    first = s[0]
-    book = Book(small_title=first['title'][:32], title=first['title'][:256],
-                author=[first['author']], description=first['summary'])
-    book.save()
-    r = Recherche(book=book, nb_searches=1)
-    r.save()
-    for book_dsc in s:
-        if book_dsc['image']:
-            u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=book_dsc['image'], buy_url=book_dsc['DetailPageURL'])
-        else:
-            u_b = UniqueBook(book=book, isbn=book_dsc['isbn'], image=static('img/largeStars-sprite.png'), buy_url=book_dsc['DetailPageURL'])
-        u_b.save()
     return 0
 
 
