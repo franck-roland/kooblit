@@ -8,13 +8,12 @@
 {% endblock %}
 
 {% block content %}
-    <div id="container">
     <form method="POST" id="form_synth">{% csrf_token %}
 
         <input id="container" name='q' type="hidden" value=""></input>
         <input id="container" name='e' type="hidden" value=""></input>
     </form>
-    <div class="container" style="height:50px;">
+    <div class="container" style="height:60px;">
         <div id="enregistrement-en-cours" class="alert alert-dismissable alert-success" style="display:none;">
           Enregistrement de votre fichier.
         </div>
@@ -23,14 +22,32 @@
           Votre fichier a bien été enregistré.
         </div>
     </div>
-    <h1>Editez votre synthèse</h1>
-    <div class="titre"></div>
-    <div class="editable">{{content|safe}}</div>
+
+    <div class="col-sm-3 col-sm-offset-0 col-xs-10 col-xs-offset-1">
+      <div class="repre_image">
+        <img src="{{u_b.image}}">
+      </div>
+
+      <div class="result_info">
+        <div class="result_title">
+          {{book.title|title}}
+        </div>
+
+        <div class="result_author">
+          {{book.author.0}}
+        </div>
+      </div>
     </div>
-    <div id="container">
-        <button class="btn btn-default" onclick="sauvegarder()"> Enregistrer </button>
-        <button type="submit" class="btn btn-default" onclick="envoyer()" form="form_synth"> Envoyer </button>
+    <div class="col-sm-9">
+        <h2 class="titre_synth">Koob de <b>{{book.title}}</b> par <b>{{username}}</b></h2>
+        <!-- <div class="titre"></div> -->
+        <div class="editable">{{content|safe}}</div>
+        <div id="container">
+            <button class="btn btn-default" onclick="sauvegarder()"> Enregistrer </button>
+            <button type="submit" class="btn btn-default" onclick="envoyer()" form="form_synth"> Envoyer </button>
+        </div>
     </div>
+
 {% endblock %}
 
 {% block script_block %}
@@ -54,13 +71,13 @@
         function sauvegarder () {
             var ser = editor.serialize();
             $.ajax({
-                    url: "{% url 'book_management:post_medium' book_title %}",
+                    url: "{% url 'book_management:post_medium' book.title %}",
                     type: "POST",
                     cache: false,
                     success: function (data) {
                         $("#enregistrement-en-cours").css('display','none');
                         $("#enregistrement-success").fadeIn();
-                        setInterval(function() {$("#enregistrement-success").fadeOut();},5000);
+                        setTimeout(function() {$("#enregistrement-success").fadeOut();},5000);
                     },
                     beforeSend: function(){
                         $("#enregistrement-en-cours").fadeIn();
@@ -85,14 +102,17 @@
             if(t_interval - t_editor >= 2000 && changed){
                 var ser = editor.serialize();
                 $.ajax({
-                        url: "{% url 'book_management:post_medium' book_title %}",
+                        url: "{% url 'book_management:post_medium' book.title %}",
                         type: "POST",
                         cache: false,
                         success: function (data) {
+                            $("#enregistrement-en-cours").css('display','none');
+                            $("#enregistrement-success").fadeIn();
+                            setTimeout(function() {$("#enregistrement-success").fadeOut();},5000);
                         },
                         data: {
-                        q:ser['element-0']['value'],
-                        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]')[0].value
+                            q:ser['element-0']['value'],
+                            csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]')[0].value
                         }
                 });
                 changed = 0;
