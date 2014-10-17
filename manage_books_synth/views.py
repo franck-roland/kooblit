@@ -275,10 +275,10 @@ def upload_medium(request, book_title):
             book = Book.objects.get(title=book_title)
             u_b = UniqueBook.objects.filter(book=book)[0]
             if not u_b:
-                messages.fail("Erreur lors de la création de la synthèse pour le live " + book_title)
+                messages.warning(request, "".join((u"Erreur lors de la création de la synthèse pour le live ", book_title)).encode("utf-8"))
                 return HttpResponseRedirect('/', RequestContext(request))
         except Book.DoesNotExist:
-            messages.fail("Erreur lors de la création de la synthèse pour le live " + book_title)
+            messages.warning(request, "".join((u"Erreur lors de la création de la synthèse pour le live ", book_title)).encode("utf-8"))
             return HttpResponseRedirect('/', RequestContext(request))
         s = get_tmp_medium_file(book_title, username)
         if not s:
