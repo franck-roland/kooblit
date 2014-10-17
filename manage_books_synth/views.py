@@ -256,73 +256,6 @@ def send_alert(book_title):
         computeEmail(user.username, book_title, alert=1)
         d.delete()
 
-
-@login_required
-def upload_file(request, book_title, author_username):
-    username = request.user.username
-    book_title = urllib.unquote(book_title)
-    if not author_username:
-        title = ''.join(("Kooblit de '", book_title, "' par ", username))
-    else:
-        title = ''.join(("Kooblit de '", book_title, "' par ", author_username))
-    ret = {'form': '', 'prev': '', 'error': '', 'replace': ''}
-    if username == author_username or not author_username:
-        if request.method == 'POST':
-            form = UploadFileForm(request.POST, request.FILES)
-            if request.POST.get('oui', ''):
-                try:
-                    create_file(book_title, username)
-                except IOError:
-                    raise
-                delete_tmp_file(book_title, title, username)
-                messages.success(request, u'Votre fichier <i>"%s"</i> a bien été enregistré.' % title)
-                send_alert(book_title)
-                return HttpResponseRedirect('/', RequestContext(request))
-
-            elif request.POST.get('oui_replace', ''):
-                return HttpResponseRedirect(username, RequestContext(request, ret))
-
-            elif request.POST.get('non_replace', ''):
-                delete_tmp_file(book_title, title, username)
-                form = UploadFileForm()
-                ret['form'] = form
-                return render_to_response('upload.html', RequestContext(request, {'form': form, 'prev': ''}))
-
-            else:
-                ret['form'] = form
-                if request.POST.get('non', ''):
-                    return render_to_response('upload.html',
-                                              RequestContext(request, ret))
-                else:
-                    ret['form'] = form
-                    if form.is_valid():
-                        if create_tmp_file(request, request.FILES['file'], book_title, title, username):
-                            ret['replace'] = 'oui'
-                            ret['title'] = urllib.quote(username)
-                            return render_to_response('upload.html', RequestContext(request, ret))
-                        return HttpResponseRedirect(urllib.quote(username), RequestContext(request, ret))
-        elif author_username:
-            # TODO: clean: why getting those
-            book = Book.objects.get(title=book_title)
-            user = UserKooblit.objects.get(username=username)
-            file_html = get_name(book_title, title, username) + '.html'
-            # TODO: clean: useless try catch
-            try:
-                with open(file_html, 'r') as f:
-                    s = f.read()
-                ret['prev'] = s
-            except IOError:
-                raise
-                # form = UploadFileForm()
-                # ret['form'] = form
-            return render_to_response('upload.html', RequestContext(request, ret))
-
-        else:
-            form = UploadFileForm()
-            ret['form'] = form
-            return render_to_response('upload.html', RequestContext(request, {'form': form, 'prev': ''}))
-
-
 @login_required
 def upload_medium(request, book_title):
     book_title = urllib.unquote(book_title)
@@ -338,15 +271,23 @@ def upload_medium(request, book_title):
             create_tmp_medium_file(request, request.POST['q'], book_title, username)
             return HttpResponse()
     else:
+        try:
+            book = Book.objects.get(title=book_title)
+            u_b = UniqueBook.objects.filter(book=book)[0]
+            if not u_b:
+                messages.fail("Erreur lors de la création de la synthèse pour le live " + book_title)
+                return HttpResponseRedirect('/', RequestContext(request))
+        except Book.DoesNotExist:
+            messages.fail("Erreur lors de la création de la synthèse pour le live " + book_title)
+            return HttpResponseRedirect('/', RequestContext(request))
         s = get_tmp_medium_file(book_title, username)
         if not s:
             try:
-                book = Book.objects.get(title=book_title)
                 synthese = Syntheses.objects.get(user=user, livre_id=book.id)
                 s = synthese._file_html.read()
-            except (Syntheses.DoesNotExist, Book.DoesNotExist):
+            except Syntheses.DoesNotExist:
                 pass
-        return render_to_response('upload_medium.html', RequestContext(request, {'book_title': book_title, 'content': s}))
+        return render_to_response('upload_medium.html', RequestContext(request, {'username': username, 'book': book, 'u_b': u_b, 'content': s}))
 
 
 def computeEmail(username, book_title, alert=0):
