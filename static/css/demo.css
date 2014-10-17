@@ -45,7 +45,7 @@ blockquote {
     outline: none;
     margin: 0 0 20px 0;
     padding: 0 0 20px 0;
-    border-bottom: 1px solid #dbdbdb;
+    /*border-bottom: 1px solid #dbdbdb;*/
 }
 
 pre {
@@ -83,3 +83,30 @@ blockquote {
     color: #555;
 }
 
+.repre_image img{
+    width: 100%;
+    box-shadow: 3px 3px 8px #555;
+}
+
+.result_info {
+  font-family: 'Helvetica Neue Thin';
+}
+
+.result_title{
+  overflow-y: hidden;
+}
+
+.result_title {
+  overflow: hidden;
+  white-space: nowrap;
+  margin-top: 2%;
+  font-size: 1.2em;
+}
+
+.result_author {
+  color: rgb(180,180,180);
+  font-size: 1.1em;
+}
+.titre_synth {
+    margin-top: 0;
+}
