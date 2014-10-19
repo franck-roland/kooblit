@@ -42,7 +42,7 @@
     {% for synth  in syntheses_ecrites %}
       <div class="row">
         <div class="col-sm-4 col-xs-12">
-          {% include "kooblit_card.html" with title=synth.book_title author=synth.author %}
+          {% include "kooblit_card.html" with title=synth.book_title author=synth.author synth_id=synth.id url="edition"%}
         </div>
 
         <p class="col-sm-2 col-xs-3 price">{{synth.prix|title}}€</p>
@@ -80,7 +80,7 @@
       <div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1">
 
         {% for synth in syntheses_achetees %}
-          {% include "kooblit_card.html" with title=synth.book_title author=synth.author synth_id=synth.id %}
+          {% include "kooblit_card.html" with title=synth.book_title author=synth.author synth_id=synth.id url="lecture" %}
         {% endfor %}
 
       </div>
@@ -89,8 +89,25 @@
         <h1 class="no_synthese">Vous n'avez rien acheté</h1>
       </div>
     {% endif %}
+  </div> <!-- row achats -->
+  <div class="row achats">
+    <div class="col-xs-12">
+      <h3> Mes projets en cours </h3>
+    </div>
+    {% if syntheses_en_cours %}
+      <div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1">
 
-  </div>
+        {% for synth in syntheses_en_cours %}
+          {% include "kooblit_card.html" with title=synth.book_title author=synth.author synth_id=synth.id url="edition" %}
+        {% endfor %}
+
+      </div>
+    {% else %}
+      <div class="col-xs-12">
+        <h1 class="no_synthese">Vous n'avez aucune synthèse en cours</h1>
+      </div>
+    {% endif %}
+  </div> <!-- row achats -->
 </div>
 {% endblock %}
 {% block script_block %}
