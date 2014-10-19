@@ -110,3 +110,16 @@ blockquote {
 .titre_synth {
     margin-top: 0;
 }
+
+.button {
+    background: none;
+    border: none;
+    font-weight: bold; 
+}
+.button-sauvegarder {
+    color: #0B610B;
+}
+
+.button-publier {
+    color: #FFBF00;
+}

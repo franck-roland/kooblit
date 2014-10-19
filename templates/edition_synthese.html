@@ -22,29 +22,30 @@
           Votre fichier a bien été enregistré.
         </div>
     </div>
+    <div class="container">
+        <div class="col-sm-3 col-sm-offset-0 col-xs-10 col-xs-offset-1">
+          <div class="repre_image">
+            <img src="{{u_b.image}}">
+          </div>
 
-    <div class="col-sm-3 col-sm-offset-0 col-xs-10 col-xs-offset-1">
-      <div class="repre_image">
-        <img src="{{u_b.image}}">
-      </div>
+          <div class="result_info">
+            <div class="result_title">
+              {{book.title|title}}
+            </div>
 
-      <div class="result_info">
-        <div class="result_title">
-          {{book.title|title}}
+            <div class="result_author">
+              {{book.author.0}}
+            </div>
+          </div>
         </div>
-
-        <div class="result_author">
-          {{book.author.0}}
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-9">
-        <h2 class="titre_synth">Koob de <b>{{book.title}}</b> par <b>{{username}}</b></h2>
-        <!-- <div class="titre"></div> -->
-        <div class="editable">{{content|safe}}</div>
-        <div id="container">
-            <button class="btn btn-default" onclick="sauvegarder()"> Enregistrer </button>
-            <button type="submit" class="btn btn-default" onclick="envoyer()" form="form_synth"> Envoyer </button>
+        <div class="col-sm-9">
+            <h2 class="titre_synth">Koob de <b>{{book.title}}</b> par <b>{{username}}</b></h2>
+            <!-- <div class="titre"></div> -->
+            <div class="editable">{{content|safe}}</div>
+            <div id="container">
+                <button class="button button-sauvegarder" onclick="sauvegarder()"> Sauvegarder </button>
+                <button type="submit" class="button button-publier" onclick="envoyer()" form="form_synth"> Publier </button>
+            </div>
         </div>
     </div>
 
