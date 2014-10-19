@@ -123,3 +123,7 @@ blockquote {
 .button-publier {
     color: #FFBF00;
 }
+
+.edition_bold{
+    font-family: "Helvetica Neue Bold";
+}
