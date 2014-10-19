@@ -241,10 +241,22 @@ def user_profil(request, username):
                             "nb_achat": synth.nb_achat,
                             "note_moy": synth.note_moyenne,
                             "gain": synth.gain,
-                        } for synth in Syntheses.objects.filter(user=user_kooblit)
+                        } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=True)
+                    ]
+            syntheses_en_cours = [
+                        {
+                            "id": synth.id,
+                            "book_title": Book.objects.get(id=synth.livre_id).title,
+                            "author": user_kooblit.username,
+                            "prix": synth.prix,
+                            "nb_achat": synth.nb_achat,
+                            "note_moy": synth.note_moyenne,
+                            "gain": synth.gain,
+                        } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
                     ]
             total = user_kooblit.cagnotte
-            return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'syntheses_achetees': syntheses_achetees, 'syntheses_ecrites': syntheses_ecrites, 'total': total}))
+            return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'syntheses_achetees': syntheses_achetees, 
+                'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 'total': total}))
         else:
             return syntheses_from_user(request, username)
     else:

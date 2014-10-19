@@ -4,8 +4,14 @@
   <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
 
   {% if synth_id %}
+    {% if url == "lecture" %}
     <a style="color: rgb(74,74,74);" href="{% url 'usr_management:lire_synthese' synth_id %}">
-      Kooblit de
+    {% elif url == "edition" %}
+    <a style="color: rgb(74,74,74);" href="{% url 'book_management:post_medium' title %}">
+    {% else %}
+    <a style="color: rgb(74,74,74);" href="">
+    {% endif %}
+      Koob de
       <span class="title_extract">{{title|title}}</span></a>
   {% else %}
     Kooblit de <span class="title_extract">{{title|title}}</span>

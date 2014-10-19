@@ -104,7 +104,8 @@ def create_tmp_medium_file(request, s, book_title, username):
         newfile.write(s)
 
 
-def create_file_medium(s, book_title, username):
+def create_file_medium(request, s, book_title, username, has_been_published=False):
+    create_book_if_doesnt_exist(request, book_title)
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
     filename = get_name(book_title, username)
@@ -112,15 +113,6 @@ def create_file_medium(s, book_title, username):
         s = s.replace('<br>', '<br/>')
     if '<script' in s:
         s = s.replace('<script', '\\<script')
-    # if '<style' in s:
-    #     x = s.split('<style')
-    #     tmp = []
-    #     for i in x:
-    #         if '/style>' in i:
-    #             tmp.append(i.split('/style>')[1])
-    #         else:
-    #             tmp.append(i)
-    #     s = ''.join(tmp)
 
     with codecs.open(filename, 'w', encoding='utf-8') as newfile:
         newfile.write(s)
@@ -130,12 +122,14 @@ def create_file_medium(s, book_title, username):
             synthese = Syntheses.objects.get(user=user, livre_id=book.id)
             synthese._file = File(destination)
             synthese._file_html = File(destination)
+            synthese.has_been_published = has_been_published
             synthese.save()
         except Syntheses.DoesNotExist:
             synthese = Syntheses(_file=File(destination), _file_html=File(destination),
-                                 user=user, livre_id=book.id, prix=2)
+                                 user=user, livre_id=book.id, prix=2, has_been_published=has_been_published)
             synthese.save()
-    os.remove(filename)
+    if has_been_published:
+        os.remove(filename)
 
 
 def create_tmp_file(request, f, book_title, username):
@@ -263,12 +257,12 @@ def upload_medium(request, book_title):
     user = UserKooblit.objects.get(username=username)
     if request.method == 'POST':
         if request.POST.get('e', ''):
-            create_file_medium(request.POST['q'], book_title, username)
+            create_file_medium(request, request.POST['q'], book_title, username, has_been_published=True)
             messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
             send_alert(book_title)
             return HttpResponseRedirect('/', RequestContext(request))
         else:
-            create_tmp_medium_file(request, request.POST['q'], book_title, username)
+            create_file_medium(request, request.POST['q'], book_title, username)
             return HttpResponse()
     else:
         try:
