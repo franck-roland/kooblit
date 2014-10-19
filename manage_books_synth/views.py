@@ -122,6 +122,7 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
             synthese = Syntheses.objects.get(user=user, livre_id=book.id)
             synthese._file = File(destination)
             synthese._file_html = File(destination)
+            # TODO: si deja publiée, est-ce possible de revenir en arriere
             synthese.has_been_published = has_been_published
             synthese.save()
         except Syntheses.DoesNotExist:
@@ -379,7 +380,7 @@ def selection(request, book_title):
         clean_create_book(request, book_title)
         u_b = UniqueBook.objects(book=book)[0]
 
-    syntheses = Syntheses.objects.filter(livre_id=book.id)
+    syntheses = Syntheses.objects.filter(livre_id=book.id, has_been_published=True)
     nb_syntheses = len(syntheses)
 
     if book.themes:
@@ -424,7 +425,7 @@ def book_detail(request, book_title):
         clean_create_book(request, book_title)
         u_b = UniqueBook.objects(book=book)[0]
 
-    syntheses = Syntheses.objects.filter(livre_id=book.id)
+    syntheses = Syntheses.objects.filter(livre_id=book.id, has_been_published=True)
     nb_syntheses = len(syntheses)
 
     bought = []
