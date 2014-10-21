@@ -3,23 +3,15 @@
   <!-- <img src="{{img_url}}" /> -->
   <div class="image_extract">
     <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
-    <p>Kooblit de</p>
-    <p class="title_extract">{{synth.titre|title}}</p>
+    <p>Koob de</p>
+    <p class="title_extract">{{synth.titre|title|slice:":11"}}{% if synth.titre|length > 11 %}...{% endif %}</p>
     <p>Par <a style="color: rgb(74,74,74);" href="{% url 'users' synth.user.username %}"><span class="author_name">{{synth.user.username|title}}</span> </a> </p>
   </div>
 
-  <div class="result_info">
-    <div class="row">
-      <div class="stars col-xs-12">
-        <span class="star-icon {% if synth.note_moyenne >= 1 %}full{% elif synth.note_moyenne > 0.5 %}half{% endif %}">☆</span>
-        <span class="star-icon {% if synth.note_moyenne >= 2 %}full{% elif synth.note_moyenne > 1.5 %}half{% endif %}">☆</span>
-        <span class="star-icon {% if synth.note_moyenne >= 3 %}full{% elif synth.note_moyenne > 2.5 %}half{% endif %}">☆</span>
-        <span class="star-icon {% if synth.note_moyenne >= 4 %}full{% elif synth.note_moyenne > 3.5 %}half{% endif %}">☆</span>
-        <span class="star-icon {% if synth.note_moyenne >= 5 %}full{% elif synth.note_moyenne > 4.5 %}half{% endif %}">☆</span>
-      </div>
-    </div>
+  <div class="result_info_etiquette">
+    <div class="stars"></div>
 
-    <div class="row">
+    <div class="result_description col-md-12">
       <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
       <p class="misc_info col-xs-6">{{synth.nbre_mots}} mots</p>
       <p class="misc_info col-xs-12">Publié le {{synth.date|date:"d/m/Y"}}</p>
