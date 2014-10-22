@@ -5,13 +5,17 @@
 .result_author {
   font-size: 1.1em;
 }
-
+.bs-component{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 .bs-component a {
     text-align: left;
+    /*font-size: 0.7em;*/
 }
 
 .bs-component a img {
-    width: 50px;
+    width: 45px;
 }
 
 .no_synthese {
@@ -19,7 +23,6 @@
     color: rgb(180,180,180);
     text-align: center;
 }
-
 
 .star-icon {
     color: #ddd;
@@ -48,9 +51,21 @@
     line-height: 34px;
   }
 }
-
 .stars {
+    margin: auto;
     margin-top: 10px;
+    /*margin-left: 15px;*/
+    background: url("../img/owl_stars_30.png") no-repeat;
+    height: 30px;
+    background-position: 0px 0px;  /*Multiple de 34px*/
+    width: 150px;
+}
+.stars_yellow {
+    /*margin-left: 15px;*/
+    background: url("../img/owl_stars_30.png") no-repeat;
+    height: 30px;
+    background-position: 0px -63px;  /*Multiple de 34px*/
+    width: 100%;
 }
 
 .abtn {
@@ -60,6 +75,7 @@
     padding-top: 2px;
     padding-bottom: 2px;
     color: white;
+    border-radius: 4px;
 }
 
 .abtn:hover {
@@ -103,6 +119,7 @@
 
 .repre_image {
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .plus_button {
@@ -113,19 +130,26 @@
 }
 
 .repre_image .image_extract{
-    width: 100%;
+    width: 75%;
+    height: 50%;
     box-shadow: 3px 3px 8px #555;
     background: rgb(223, 210, 144);
     text-align: center;
     padding: 20px;
+    margin-left:  12.5%
 }
-
+.result_description {
+    padding: 0;
+}
 .image_extract img{
     box-shadow: 0px 0px;
     width: 50%;
     margin: 10% 25%;
 }
-
+.result_info_etiquette {
+    /*box-shadow: 3px 3px 8px #555;*/
+    text-align: center;
+}
 .author_name, .title_extract {
     font-family: 'Helvetica Neue Bold';
 }
