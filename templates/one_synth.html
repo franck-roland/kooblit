@@ -9,7 +9,9 @@
   </div>
 
   <div class="result_info_etiquette">
-    <div class="stars"></div>
+    <div class="stars">
+      <div class="stars_yellow" style="width:30%;"></div>
+    </div>
 
     <div class="result_description col-md-12">
       <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
@@ -30,9 +32,9 @@
         </p>
       {% endif %}
 
-      <p class="misc_info price col-xs-3">{{synth.prix}}€</p>
 
       {% if not bought %}
+        <p class="misc_info price col-xs-3">{{synth.prix}}€</p>
         <p class="col-xs-8 col-xs-offset-1">
           <button href="javascript:void(0)" class="abtn buy_resume" form="form_ajout_{{synth.id}}">
             Ajouter au panier

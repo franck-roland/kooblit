@@ -185,10 +185,10 @@ margin: 20px 0;
 code {
 font-size: 80%;
 }
-/*.btn{
-  background-color: #FF5900;
-}*/
-
+.btn{
+  /*background-color: #FF5900;*/
+  background-color: rgb(221, 221, 221);
+}
 .search_button
 {
 	/*background-color: #32B232;*/
