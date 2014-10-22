@@ -1,5 +1,5 @@
 {% load staticfiles %}
-<div class="repre_image col-md-3 col-xs-6" {% if forloop.counter0 >= 4  %}style="display:none"{% endif %}>
+<div class="repre_image col-md-3  col-sm-6 col-xs-12" {% if forloop.counter0 >= 4  %}style="display:none"{% endif %}>
   <!-- <img src="{{img_url}}" /> -->
   <div class="image_extract">
     <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
@@ -13,14 +13,14 @@
       <div class="stars_yellow" style="width:30%;"></div>
     </div>
 
-    <div class="result_description col-md-12">
+    <div class="result_description">
       <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
       <p class="misc_info col-xs-6">{{synth.nbre_mots}} mots</p>
       <p class="misc_info col-xs-12">Publié le {{synth.date|date:"d/m/Y"}}</p>
 
       {% if bought %}
-        <p class="col-xs-12">
-          <a href="{% url 'usr_management:lire_synthese' synth.id %}" class="abtn see_extract">
+        <p class="col-xs-12" style="padding: 0px;">
+          <a href="{% url 'usr_management:lire_synthese' synth.id %}" class="abtn see_extract" >
             Lire la synthèse
           </a>
         </p>
