@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import UserManager
 from django.utils.functional import cached_property
 
+from utils import MyFileStorage
+mfs = MyFileStorage()
 # Model utilisateur
 
 
@@ -35,8 +37,8 @@ class Verification(models.Model):
 
 
 class Syntheses(models.Model):
-    _file = models.FileField(upload_to="syntheses", default=False)
-    _file_html = models.FileField(upload_to="syntheses", default=False)
+    _file = models.FileField(upload_to="syntheses", default=False, storage=mfs)
+    _file_html = models.FileField(upload_to="syntheses", default=False, storage=mfs)
     user = models.ForeignKey('UserKooblit', related_name='+')
     # livre = models.ForeignKey('Book')
     # title = models.CharField(max_length=240, default=False)
