@@ -3,10 +3,12 @@ import re
 import string
 from bs4 import BeautifulSoup
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.models import UserManager
 from django.utils.functional import cached_property
 
+from countries import data
 from utils import MyFileStorage
 mfs = MyFileStorage()
 # Model utilisateur
@@ -14,8 +16,9 @@ mfs = MyFileStorage()
 
 class UserKooblit(User):
     # username = models.CharField(max_length=30, unique=True)
-    birthday = models.DateField(null=True)
     is_confirmed = models.BooleanField(default=False)
+    civility = models.CharField(_('Status'), max_length = 20, blank = True)
+    birthday = models.DateField(null=True)
     # prenom = models.CharField(max_length=30, blank=True)
     # nom = models.CharField(max_length=30, blank=True)
     # norme RFC3696/5321 pour les adresses mail: longueur 254
@@ -27,6 +30,58 @@ class UserKooblit(User):
     objects = UserManager()
     cagnotte = models.DecimalField(max_digits=100, decimal_places=2, default=0, unique=False)
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
+
+    def get_user_infos(self):
+        return { "username": self.username,
+                 "first_name": self.first_name,
+                 "name": self.last_name,
+        }
+
+    def get_contact(self):
+        return { "email": self.email
+        }
+
+    def get_address(self):
+        try:
+            adresse = Address.objects.get(user=self)
+            return {
+                "number": adresse.number,
+                "street_line1": adresse.street_line1,
+                "street_line2": adresse.street_line2,
+                "zipcode": adresse.zipcode,
+                "city": adresse.city
+            }
+        except Address.DoesNotExist:
+            return {}
+
+
+class Address(models.Model):
+    TYPES_CHOICES = (
+        ('HOME', _('Home')),
+        ('WORK', _('Work')),
+        ('OTHER', _('Other'))
+    )
+
+    type = models.CharField(_('Type'), max_length=20, choices = TYPES_CHOICES)
+    user = models.ForeignKey('UserKooblit')
+
+    departement = models.CharField(_('Departement'), max_length = 50, blank = True)
+    corporation = models.CharField(_('Corporation'), max_length = 100, blank = True)
+    building = models.CharField(_('Building'), max_length = 20, blank = True)
+    floor = models.CharField(_('Floor'), max_length = 20, blank = True)
+    door = models.CharField(_('Door'), max_length = 20, blank = True)
+    number = models.CharField(_('Number'), max_length = 30, blank = True)
+    street_line1 = models.CharField(_('Address 1'), max_length = 100, blank = True)
+    street_line2 = models.CharField(_('Address 2'), max_length = 100, blank = True)
+    zipcode = models.CharField(_('ZIP code'), max_length = 5, blank = True)
+    city = models.CharField(_('City'), max_length = 100, blank = True)
+    state = models.CharField(_('State'), max_length = 100, blank = True)
+
+    # French specifics fields
+    cedex = models.CharField(_('CEDEX'), max_length = 100, blank = True)
+    
+    postal_box = models.CharField(_('Postal box'), max_length = 20, blank = True)
+    country = models.CharField(_('Country'), max_length = 100, blank = True, choices = data.COUNTRIES)
 
 
 class Verification(models.Model):

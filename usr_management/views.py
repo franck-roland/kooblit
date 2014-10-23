@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm
 from django.contrib.auth.models import User
-from .models import Verification, UserKooblit, Reinitialisation, Syntheses
+from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address
 from manage_books_synth.models import Book
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
@@ -230,33 +230,66 @@ def syntheses_from_user(request, username):
 def user_profil(request, username):
     user_kooblit = UserKooblit.objects.get(username__iexact=username)
     if user_kooblit.is_active and user_kooblit.is_confirmed:
+        if user_kooblit.username != username and user_kooblit.username.lower() == username.lower():
+            return HttpResponseRedirect('../'+request.user.username, request)
+            
         if request.user.username == username:
-            syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
-            syntheses_ecrites = [
-                        {
-                            "id": synth.id,
-                            "book_title": Book.objects.get(id=synth.livre_id).title,
-                            "author": user_kooblit.username,
-                            "prix": synth.prix,
-                            "nb_achat": synth.nb_achat,
-                            "note_moy": synth.note_moyenne,
-                            "gain": synth.gain,
-                        } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=True)
-                    ]
-            syntheses_en_cours = [
-                        {
-                            "id": synth.id,
-                            "book_title": Book.objects.get(id=synth.livre_id).title,
-                            "author": user_kooblit.username,
-                            "prix": synth.prix,
-                            "nb_achat": synth.nb_achat,
-                            "note_moy": synth.note_moyenne,
-                            "gain": synth.gain,
-                        } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
-                    ]
-            total = user_kooblit.cagnotte
-            return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'syntheses_achetees': syntheses_achetees, 
-                'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 'total': total}))
+            if request.method == "POST":
+                
+                if 'first_name' in request.POST and request.POST['first_name'] != user_kooblit.first_name:
+                    user_kooblit.first_name = request.POST['first_name']
+                    user_kooblit.save()
+                
+                if 'last_name' in request.POST and request.POST['last_name'] != user_kooblit.last_name:
+                    user_kooblit.last_name = request.POST['last_name']
+                    user_kooblit.save()
+
+                if 'username' in request.POST:
+                    username_post = request.POST['username']
+                    if username_post != username:
+                        try:
+                            user2 = UserKooblit.objects.get(username__iexact=username_post)
+                            if user2 == user_kooblit:
+                                user_kooblit.username = username_post
+                                user_kooblit.save()
+                            else:
+                                raise Http404()                
+                        except UserKooblit.DoesNotExist:
+                            user_kooblit.username = username_post
+                            user_kooblit.save()
+                        return HttpResponseRedirect('../'+username_post, request)
+                return HttpResponse(json.dumps(request.POST), content_type="application/json")
+            else:
+                syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
+                syntheses_ecrites = [
+                            {
+                                "id": synth.id,
+                                "book_title": Book.objects.get(id=synth.livre_id).title,
+                                "author": user_kooblit.username,
+                                "prix": synth.prix,
+                                "nb_achat": synth.nb_achat,
+                                "note_moy": synth.note_moyenne,
+                                "gain": synth.gain,
+                            } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=True)
+                        ]
+                syntheses_en_cours = [
+                            {
+                                "id": synth.id,
+                                "book_title": Book.objects.get(id=synth.livre_id).title,
+                                "author": user_kooblit.username,
+                                "prix": synth.prix,
+                                "nb_achat": synth.nb_achat,
+                                "note_moy": synth.note_moyenne,
+                                "gain": synth.gain,
+                            } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
+                        ]
+                total = user_kooblit.cagnotte
+                try:
+                    adresse = Address.objects.get(user=user_kooblit)
+                except Address.DoesNotExist:
+                    adresse = ''
+                return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
+                    'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 'total': total}))
         else:
             return syntheses_from_user(request, username)
     else:
