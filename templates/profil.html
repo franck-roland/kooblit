@@ -157,6 +157,14 @@
         type: "POST",
         cache: false,
         success: function(data){
+          if(!data["username"]){
+            // console.log($("#id_username").val());
+            window.location.replace('../'+$("#id_username").val());
+          }
+          $(".list_username").find(".elt_content").html(data["username"]);
+          $(".list_first_name").find(".elt_content").html(data["first_name"]);
+          $(".list_last_name").find(".elt_content").html(data["last_name"]);
+          console.log($(".list_username"));
           elt.find(".elt_content").toggleClass("hidden");
           elt.find(".form-group").toggleClass("hidden");
           elt.find("button").toggleClass("hidden");

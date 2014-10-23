@@ -230,10 +230,35 @@ def syntheses_from_user(request, username):
 def user_profil(request, username):
     user_kooblit = UserKooblit.objects.get(username__iexact=username)
     if user_kooblit.is_active and user_kooblit.is_confirmed:
+        if user_kooblit.username != username and user_kooblit.username.lower() == username.lower():
+            return HttpResponseRedirect('../'+request.user.username, request)
+            
         if request.user.username == username:
             if request.method == "POST":
-                print request.POST
-                return HttpResponse()
+                
+                if 'first_name' in request.POST and request.POST['first_name'] != user_kooblit.first_name:
+                    user_kooblit.first_name = request.POST['first_name']
+                    user_kooblit.save()
+                
+                if 'last_name' in request.POST and request.POST['last_name'] != user_kooblit.last_name:
+                    user_kooblit.last_name = request.POST['last_name']
+                    user_kooblit.save()
+
+                if 'username' in request.POST:
+                    username_post = request.POST['username']
+                    if username_post != username:
+                        try:
+                            user2 = UserKooblit.objects.get(username__iexact=username_post)
+                            if user2 == user_kooblit:
+                                user_kooblit.username = username_post
+                                user_kooblit.save()
+                            else:
+                                raise Http404()                
+                        except UserKooblit.DoesNotExist:
+                            user_kooblit.username = username_post
+                            user_kooblit.save()
+                        return HttpResponseRedirect('../'+username_post, request)
+                return HttpResponse(json.dumps(request.POST), content_type="application/json")
             else:
                 syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
                 syntheses_ecrites = [
