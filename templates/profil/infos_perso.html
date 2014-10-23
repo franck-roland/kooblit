@@ -9,11 +9,11 @@
             </a>
         </h3>
         <ul id="list_profil">
-        <form>{% csrf_token %}
+        <form class="change_form">{% csrf_token %}
             {% include 'profil/fiche.html' with label="Pseudo" value=user.username input_name="username" type="text" placeholder="Pseudo..." %}
             {% include 'profil/fiche.html' with label="Prénom" value=user.first_name input_name="first_name" type="text" placeholder="Prénom..." %}
             {% include 'profil/fiche.html' with label="Nom" value=user.last_name input_name="last_name" type="text" placeholder="Nom..." %}
-            <button class="hidden button button-sauvegarder button_profil" type="submit" name="sauvegarde_profil" > Sauvegarder </button>
+            <button class="hidden button button-sauvegarder button_profil" type="submit" name="sauvegarde_profil" disabled="disabled" > Sauvegarder </button>
         </form>
         </ul>
     </div>

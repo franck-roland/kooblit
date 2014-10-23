@@ -139,11 +139,18 @@
         elt.find(".elt_content").toggleClass("hidden");
         elt.find(".form-group").toggleClass("hidden");
         elt.find("button").toggleClass("hidden");
+        var attr = elt.find("button").attr('disabled');
+        if(typeof attr !== typeof undefined && attr !== false){
+          elt.find("button").removeAttr('disabled');
+        }
+        else{
+          elt.find("button").attr('disabled','disabled');
+        }
       });
     });
   });
 
-  $('form').on('submit', function(){
+  $('.change_form').on('submit', function(){
     var elt = $(this)
     $.ajax({
         url: $(this).attr('action'),
@@ -153,6 +160,7 @@
           elt.find(".elt_content").toggleClass("hidden");
           elt.find(".form-group").toggleClass("hidden");
           elt.find("button").toggleClass("hidden");
+          elt.find("button").attr('disabled','disabled');
         },
         data: $(this).serialize(),
       });
