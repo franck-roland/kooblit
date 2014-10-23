@@ -257,11 +257,15 @@ def upload_medium(request, book_title):
     username = request.user.username
     user = UserKooblit.objects.get(username=username)
     if request.method == 'POST':
-        if request.POST.get('e', ''):
+        if "_publish" in request.POST:
             create_file_medium(request, request.POST['q'], book_title, username, has_been_published=True)
-            messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
+            messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été publié.' % book_title)
             send_alert(book_title)
-            return HttpResponseRedirect('/', RequestContext(request))
+            return HttpResponseRedirect('/', request)
+        elif "_quit" in request.POST:
+            create_file_medium(request, request.POST['q'], book_title, username)
+            messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
+            return HttpResponseRedirect('/', request)
         else:
             create_file_medium(request, request.POST['q'], book_title, username)
             return HttpResponse()
@@ -271,10 +275,10 @@ def upload_medium(request, book_title):
             u_b = UniqueBook.objects.filter(book=book)[0]
             if not u_b:
                 messages.warning(request, "".join((u"Erreur lors de la création de la synthèse pour le live ", book_title)).encode("utf-8"))
-                return HttpResponseRedirect('/', RequestContext(request))
+                return HttpResponseRedirect('/', request)
         except Book.DoesNotExist:
             messages.warning(request, "".join((u"Erreur lors de la création de la synthèse pour le live ", book_title)).encode("utf-8"))
-            return HttpResponseRedirect('/', RequestContext(request))
+            return HttpResponseRedirect('/', request)
         s = get_tmp_medium_file(book_title, username)
         if not s:
             try:
