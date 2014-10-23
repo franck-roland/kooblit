@@ -32,7 +32,7 @@
       <h3> Mes infos </h3>
     </div>
     <div class="col-md-12">
-      {% include "infos_perso.html" with user=user_kooblit adresse=adresse %}
+      {% include "profil/infos_perso.html" with user=user_kooblit adresse=adresse %}
     </div>
 
   </div> <!-- row infos_perso -->
@@ -123,10 +123,41 @@
 {% block script_block %}
 <script src="{% static "js/colorize.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
+
+
   $(window).load(function(){
       $(".image_extract").each(function(index, element){
         colorize(index, element);
       })
   });
+
+  $(function(){
+    $(".category").each(function(){
+      $(this).find("h3").find(".edit_link").click(function(){
+        var elt = $("#"+$(this).attr("data-target"));
+        elt.find(".elt_content").toggleClass("hidden");
+        elt.find(".form-group").toggleClass("hidden");
+        elt.find("button").toggleClass("hidden");
+      });
+    });
+  });
+
+  $('form').on('submit', function(){
+    var elt = $(this)
+    $.ajax({
+        url: $(this).attr('action'),
+        type: "POST",
+        cache: false,
+        success: function(data){
+          elt.find(".elt_content").toggleClass("hidden");
+          elt.find(".form-group").toggleClass("hidden");
+          elt.find("button").toggleClass("hidden");
+        },
+        data: $(this).serialize(),
+      });
+      return false;
+   });
+
 </script>
+
 {% endblock %}

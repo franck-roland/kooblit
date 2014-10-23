@@ -24,3 +24,44 @@
 .achats {
   margin-bottom: 40px;
 }
+
+.fiche_profil {
+    background-color: rgba(255,255,255,0.3);
+}
+
+.fiche_profil a {
+    color: black;
+}
+
+.img_edit {
+    width: 25px;
+}
+
+.form-container{
+    padding-top: 10px; 
+    margin-top: 80px; 
+    background:none;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    text-align: center;
+}
+
+
+.form-group {
+    width: 100%;
+    margin: auto;
+}
+
+.form-horizontal .form-group {
+    margin: auto;
+}
+
+.form-control {
+    background-color: rgb(239, 239, 239);
+    border: 1px solid rgb(225, 225, 225);
+}
+
+.input-container {
+    margin-bottom: 10px;
+}

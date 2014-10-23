@@ -1,0 +1,39 @@
+{% load staticfiles %}
+
+<div class="panel fiche_profil">
+  <div class="panel-body">
+    <div class="category">
+        <h3>
+            Profil
+            <a class="edit_link" href="javascript:void(0)" data-target="list_profil"><img class="img_edit" src="{% static 'img/edit.png' %}" alt="editer profil" />
+            </a>
+        </h3>
+        <ul id="list_profil">
+        <form>{% csrf_token %}
+            {% include 'profil/fiche.html' with label="Pseudo" value=user.username input_name="username" type="text" placeholder="Pseudo..." %}
+            {% include 'profil/fiche.html' with label="Prénom" value=user.first_name input_name="first_name" type="text" placeholder="Prénom..." %}
+            {% include 'profil/fiche.html' with label="Nom" value=user.last_name input_name="last_name" type="text" placeholder="Nom..." %}
+            <button class="hidden" type="submit" name="sauvegarde_profil" class="button button-sauvegarder"> Sauvegarder </button>
+        </form>
+        </ul>
+    </div>
+    <h3>
+        Adresse
+        <img class="img_edit" src="{% static 'img/edit.png' %}" alt="editer profil" />
+    </h3>
+    {% if adresse %}
+    <ul>
+        <li>{{adresse.number}} {{adresse.street_line1}}</li>
+        <li>{{adresse.zipcode}} {{adresse.city}}</li>
+        <li>{{adresse.country}}</li>
+    </ul>
+    {% endif %}
+    <h3>
+        Contact
+        <img class="img_edit" src="{% static 'img/edit.png' %}" alt="editer profil" />
+    </h3>
+    <ul>
+        <li>{{user.email}} </li>
+    </ul>
+  </div>
+</div>

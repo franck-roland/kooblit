@@ -231,36 +231,40 @@ def user_profil(request, username):
     user_kooblit = UserKooblit.objects.get(username__iexact=username)
     if user_kooblit.is_active and user_kooblit.is_confirmed:
         if request.user.username == username:
-            syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
-            syntheses_ecrites = [
-                        {
-                            "id": synth.id,
-                            "book_title": Book.objects.get(id=synth.livre_id).title,
-                            "author": user_kooblit.username,
-                            "prix": synth.prix,
-                            "nb_achat": synth.nb_achat,
-                            "note_moy": synth.note_moyenne,
-                            "gain": synth.gain,
-                        } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=True)
-                    ]
-            syntheses_en_cours = [
-                        {
-                            "id": synth.id,
-                            "book_title": Book.objects.get(id=synth.livre_id).title,
-                            "author": user_kooblit.username,
-                            "prix": synth.prix,
-                            "nb_achat": synth.nb_achat,
-                            "note_moy": synth.note_moyenne,
-                            "gain": synth.gain,
-                        } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
-                    ]
-            total = user_kooblit.cagnotte
-            try:
-                adresse = Address.objects.get(user=user_kooblit)
-            except Address.DoesNotExist:
-                adresse = ''
-            return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
-                'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 'total': total}))
+            if request.method == "POST":
+                print request.POST
+                return HttpResponse()
+            else:
+                syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
+                syntheses_ecrites = [
+                            {
+                                "id": synth.id,
+                                "book_title": Book.objects.get(id=synth.livre_id).title,
+                                "author": user_kooblit.username,
+                                "prix": synth.prix,
+                                "nb_achat": synth.nb_achat,
+                                "note_moy": synth.note_moyenne,
+                                "gain": synth.gain,
+                            } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=True)
+                        ]
+                syntheses_en_cours = [
+                            {
+                                "id": synth.id,
+                                "book_title": Book.objects.get(id=synth.livre_id).title,
+                                "author": user_kooblit.username,
+                                "prix": synth.prix,
+                                "nb_achat": synth.nb_achat,
+                                "note_moy": synth.note_moyenne,
+                                "gain": synth.gain,
+                            } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
+                        ]
+                total = user_kooblit.cagnotte
+                try:
+                    adresse = Address.objects.get(user=user_kooblit)
+                except Address.DoesNotExist:
+                    adresse = ''
+                return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
+                    'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 'total': total}))
         else:
             return syntheses_from_user(request, username)
     else:

@@ -31,6 +31,29 @@ class UserKooblit(User):
     cagnotte = models.DecimalField(max_digits=100, decimal_places=2, default=0, unique=False)
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
 
+    def get_user_infos(self):
+        return { "username": self.username,
+                 "first_name": self.first_name,
+                 "name": self.last_name,
+        }
+
+    def get_contact(self):
+        return { "email": self.email
+        }
+
+    def get_address(self):
+        try:
+            adresse = Address.objects.get(user=self)
+            return {
+                "number": adresse.number,
+                "street_line1": adresse.street_line1,
+                "street_line2": adresse.street_line2,
+                "zipcode": adresse.zipcode,
+                "city": adresse.city
+            }
+        except Address.DoesNotExist:
+            return {}
+
 
 class Address(models.Model):
     TYPES_CHOICES = (
