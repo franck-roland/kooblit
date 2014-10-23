@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm
 from django.contrib.auth.models import User
-from .models import Verification, UserKooblit, Reinitialisation, Syntheses
+from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address
 from manage_books_synth.models import Book
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
@@ -255,7 +255,11 @@ def user_profil(request, username):
                         } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
                     ]
             total = user_kooblit.cagnotte
-            return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'syntheses_achetees': syntheses_achetees, 
+            try:
+                adresse = Address.objects.get(user=user_kooblit)
+            except Address.DoesNotExist:
+                adresse = ''
+            return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
                 'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 'total': total}))
         else:
             return syntheses_from_user(request, username)
