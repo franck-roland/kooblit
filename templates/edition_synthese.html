@@ -9,9 +9,7 @@
 
 {% block content %}
     <form method="POST" id="form_synth">{% csrf_token %}
-
         <input id="container" name='q' type="hidden" value=""></input>
-        <input id="container" name='e' type="hidden" value=""></input>
     </form>
     <div class="container" style="height:60px;">
         <div id="enregistrement-en-cours" class="alert alert-dismissable alert-success" style="display:none;">
@@ -44,7 +42,8 @@
             <div class="editable">{{content|safe}}</div>
             <div id="container">
                 <button class="button button-sauvegarder" onclick="sauvegarder()"> Sauvegarder </button>
-                <button type="submit" class="button button-publier" onclick="envoyer()" form="form_synth"> Publier </button>
+                <button type="submit" value="quit" name="_quit" class="button button-publier" onclick="envoyer()" form="form_synth"> Enregistrer et quitter </button>
+                <button type="submit" value="publish" name="_publish" class="button button-publier" onsubmit="envoyer()" form="form_synth"> Publier </button>
             </div>
         </div>
     </div>
@@ -95,7 +94,6 @@
         function envoyer () {
             var ser = editor.serialize();
             $('input[name="q"]')[0].value = ser['element-0']['value'];
-            $('input[name="e"]')[0].value = "1";
         }
         var timer = setInterval(function() {
             var d = new Date();
