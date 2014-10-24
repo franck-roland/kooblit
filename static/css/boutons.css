@@ -1,5 +1,12 @@
+
+
+.btn{
+  /*background-color: #FF5900;*/
+  background-color: rgb(221, 221, 221);
+}
+
 .button {
-    background: none;
+    /*background: none;*/
     border: none;
     font-weight: bold; 
 }
@@ -14,4 +21,12 @@
 
 .button_profil {
     font-size: 1.3em;
+}
+
+.plus_button {
+  padding: 5px 10px;
+  font-family: 'Helvetica Neue';
+  font-weight: bold;
+  float: right;
+  background-color: #E74C3C;
 }

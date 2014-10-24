@@ -54,7 +54,7 @@
 .stars {
     margin: auto;
     margin-top: 10px;
-    /*margin-left: 15px;*/
+    margin-bottom: 10.5px;
     background: url("../img/owl_stars_30.png") no-repeat;
     height: 30px;
     background-position: 0px 0px;  /*Multiple de 34px*/
@@ -97,6 +97,7 @@
     font-size: 15px;
     background-color: rgb(61, 61, 61);
     border: 0;
+    padding: 0;
 }
 
 .buy_resume:hover {
@@ -105,7 +106,7 @@
 
 .misc_info.price {
     font-family: 'Helvetica Neue Bold';
-    font-size: 20px;
+    font-size: 1.2em;
     color: rgb(187, 69, 69);
 }
 
