@@ -97,13 +97,6 @@ def get_tmp_medium_file(book_title, username):
         return ''
 
 
-def create_tmp_medium_file(request, s, book_title, username):
-    create_book_if_doesnt_exist(request, book_title)
-    filename = get_name(book_title, username)
-    with codecs.open(filename, 'w', encoding='utf-8') as newfile:
-        newfile.write(s)
-
-
 def create_file_medium(request, s, book_title, username, has_been_published=False):
     create_book_if_doesnt_exist(request, book_title)
     user = UserKooblit.objects.get(username=username)
@@ -116,7 +109,6 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
 
     with codecs.open(filename, 'w', encoding='utf-8') as newfile:
         newfile.write(s)
-
     with open(filename, 'r') as destination:
         try:
             synthese = Syntheses.objects.get(user=user, livre_id=book.id)
@@ -129,62 +121,9 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
             synthese = Syntheses(_file=File(destination), _file_html=File(destination),
                                  user=user, livre_id=book.id, prix=2, has_been_published=has_been_published)
             synthese.save()
+
     if has_been_published:
         os.remove(filename)
-
-
-def create_tmp_file(request, f, book_title, username):
-    create_book_if_doesnt_exist(request, book_title)
-    file_name = get_name(book_title, username)
-    with open(file_name, 'wb') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-    document = opendocx(file_name)
-    with open(file_name + '.html', 'w') as newfile:
-        paratextlist = getdocumentHtml(document)
-        # Make explicit utf-8 version
-        newparatextlist = []
-        for paratext in paratextlist:
-            newparatextlist.append(paratext.encode("utf-8"))
-        page_html = ''.join(('<html>', ''.join(newparatextlist), '</html>'))
-        # Join Paragraphs and print them
-        newfile.write(page_html)
-
-    user = UserKooblit.objects.get(username=username)
-    book = Book.objects.get(title=book_title)
-    # TODO: clean: title is not defined
-    synthese = Syntheses.objects.filter(user=user, title=title, livre_id=book.id)
-    return synthese
-
-
-def create_file(book_title, username):
-    user = UserKooblit.objects.get(username=username)
-    book = Book.objects.get(title=book_title)
-    filename = get_name(book_title, username)
-    with open(filename, 'rb') as destination:
-        with open(filename + '.html', 'r') as newfile:
-            try:
-                synthese = Syntheses.objects.get(user=user, livre_id=book.id)
-                synthese._file = File(destination)
-                synthese._file_html = File(newfile)
-                synthese.save()
-            except Syntheses.DoesNotExist:
-                # TODO: clean: title is not defined
-                synthese = Syntheses(_file=File(destination), _file_html=File(newfile),
-                                     title=title, user=user, livre_id=book.id, prix=2)
-                synthese.save()
-
-    os.remove(filename)
-    os.remove(filename + '.html')
-
-
-def delete_tmp_file(book_title, title, username):
-    filename = get_name(book_title, title, username)
-    if os.path.isfile(filename):
-        os.remove(filename)
-    if os.path.isfile(filename + '.html'):
-        os.remove(filename + '.html')
 
 
 def clean_create_book(request, book_title):
