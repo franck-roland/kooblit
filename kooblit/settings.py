@@ -74,6 +74,8 @@ DATABASES = {
         'NAME': appConfig.get("db__psql__name"),
         'USER': appConfig.get("db__psql__user"),
         'PASSWORD': appConfig.get("db__psql__passwd"),
+        'HOST': appConfig.get("db__psql__HOST"),
+        'PORT': appConfig.get("db__psql__PORT"),
     }
 }
 

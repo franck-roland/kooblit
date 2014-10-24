@@ -14,6 +14,8 @@ db:
     name: ""
     user: ""
     passwd: ""
+    HOST: ""
+    PORT: ""
 
 path:
   static_root: ""
