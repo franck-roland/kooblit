@@ -2,38 +2,36 @@
 
 <div class="panel fiche_profil">
   <div class="panel-body">
+    <form class="change_form">{% csrf_token %}
     <div class="category">
         <h3>
             Profil
-            <a class="edit_link" href="javascript:void(0)" data-target="list_profil"><img class="img_edit" src="{% static 'img/edit.png' %}" alt="editer profil" />
-            </a>
         </h3>
         <ul id="list_profil">
-        <form class="change_form">{% csrf_token %}
-            {% include 'profil/fiche.html' with label="Pseudo" value=user.username input_name="username" type="text" placeholder="Pseudo..." %}
-            {% include 'profil/fiche.html' with label="Prénom" value=user.first_name input_name="first_name" type="text" placeholder="Prénom..." %}
-            {% include 'profil/fiche.html' with label="Nom" value=user.last_name input_name="last_name" type="text" placeholder="Nom..." %}
-            <button class="hidden button button-sauvegarder button_profil" type="submit" name="sauvegarde_profil" disabled="disabled" > Sauvegarder </button>
-        </form>
+            {% include 'profil/fiche.html' with label="Pseudo" value=user.username input_name="username" type="text" placeholder="Pseudo..." required="required" %}
+            {% include 'profil/fiche.html' with label="Prénom" value=user.first_name input_name="first_name" type="text" placeholder="Prénom..." required="required" %}
+            {% include 'profil/fiche.html' with label="Nom" value=user.last_name input_name="last_name" type="text" placeholder="Nom..." required="required" %}
+        </ul>
+    </div>
+    <div class="category">
+        <h3>
+            Adresse
+        </h3>
+        <ul id="list_adresse">
+            {% include 'profil/fiche.html' with label="N°" value=adresse.number input_name="number" type="number" placeholder="Numéro..." required="" %}
+            {% include 'profil/fiche.html' with label="Rue, voie, ..." value=adresse.street_line1 input_name="street_line1" type="text" placeholder="Rue, voie, ..." required="" %}
+            {% include 'profil/fiche.html' with label="Complément" value=adresse.street_line2 input_name="street_line2" type="text" placeholder="..." required="" %}
+            {% include 'profil/fiche.html' with label="Code Postal" value=adresse.zipcode input_name="zipcode" type="text" placeholder="Code Postal..." required="" %}
+            {% include 'profil/fiche.html' with label="Ville" value=adresse.city input_name="city" type="text" placeholder="Ville..." required="" %}
         </ul>
     </div>
     <h3>
-        Adresse
-        <img class="img_edit" src="{% static 'img/edit.png' %}" alt="editer profil" />
-    </h3>
-    {% if adresse %}
-    <ul>
-        <li>{{adresse.number}} {{adresse.street_line1}}</li>
-        <li>{{adresse.zipcode}} {{adresse.city}}</li>
-        <li>{{adresse.country}}</li>
-    </ul>
-    {% endif %}
-    <h3>
         Contact
-        <img class="img_edit" src="{% static 'img/edit.png' %}" alt="editer profil" />
     </h3>
     <ul>
-        <li>{{user.email}} </li>
+        {% include 'profil/fiche.html' with label="email" value=user.email input_name="email" type="email" placeholder="Email..." %}
     </ul>
+    <button class="hidden button button-sauvegarder button_profil" type="submit" name="sauvegarde_profil"> Sauvegarder </button>
+    </form>
   </div>
 </div>
