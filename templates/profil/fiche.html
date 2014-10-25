@@ -6,7 +6,20 @@
         <div class="col-md-11" >
             <div class="form-group ">
                 <div class="col-lg-12 input-container" >
-                    <input id="id_{{input_name}}" class="form-control" maxlength="30" name="{{input_name}}" type="{{type}}" placeholder="{{placeholder}}" value="{{value}}" {{required}} onchange="display_button()" />
+                    {% if select_input %}
+                        <select id="id_{{input_name}}" name="{{input_name}}">
+                        {% for country in select_input %}
+                            <option 
+                               {% if current_country == '' and forloop.0 == 0 %}selected
+                               {% elif country.0 == current_country %}selected{% endif %} value="{{country.0}}">
+                               {{country.1|capfirst}}
+                           </option>
+                        {% endfor %}
+                        </select>
+                        {{perso_input}}
+                    {% else %}
+                        <input id="id_{{input_name}}" class="form-control" maxlength="30" name="{{input_name}}" type="{{type}}" placeholder="{{placeholder}}" value="{{value}}" {{required}} onchange="display_button()" />
+                    {% endif %}
                     <ul id="errors_field_{{input_name}}">
                         
                     </ul>

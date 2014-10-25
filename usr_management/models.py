@@ -19,17 +19,17 @@ class UserKooblit(User):
     is_confirmed = models.BooleanField(default=False)
     civility = models.CharField(_('Status'), max_length = 20, blank = True)
     birthday = models.DateField(null=True)
-    # prenom = models.CharField(max_length=30, blank=True)
-    # nom = models.CharField(max_length=30, blank=True)
-    # norme RFC3696/5321 pour les adresses mail: longueur 254
-    # email = models.EmailField(max_length=254, unique=True)
-    # User._meta.get_field('email').unique = True
-    # password = models.CharField(max_length=64)
-    # USERNAME_FIELD = 'username'
-    # REQUIRED_FIELDS = ['email']
     objects = UserManager()
     cagnotte = models.DecimalField(max_digits=100, decimal_places=2, default=0, unique=False)
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
+
+    def is_author(self):
+        try:
+            address = Address.objects.get(user=self)
+            return all((address.number, address.street_line1, address.zipcode, address.city, address.country))
+        except Address.DoesNotExist:
+            print "nok"
+            return False
 
     def get_user_infos(self):
         return { "username": self.username,

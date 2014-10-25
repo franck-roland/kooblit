@@ -72,7 +72,7 @@ class AddressChangeForm(ModelForm):
                     'street_line1',
                     'street_line2',
                     'zipcode',
-                    'city',)
+                    'city','country')
     
     def clean_number(self):
         number=self.cleaned_data.get("number")

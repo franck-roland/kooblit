@@ -126,14 +126,14 @@
 <script type="text/javascript">
 
   function display_button(){
-    var button = $('.change_form').find("button");
-    button.removeAttr('disabled');
-    button.removeClass("hidden");
+    // var button = $('.change_form').find("button");
+    // button.removeAttr('disabled');
+    // button.removeClass("hidden");
   }
   function hide_button(){
-    var button = $('.change_form').find("button");
-    button.attr('disabled','disabled');
-    button.addClass("hidden");
+    // var button = $('.change_form').find("button");
+    // button.attr('disabled','disabled');
+    // button.addClass("hidden");
   }
   $(window).load(function(){
       $(".image_extract").each(function(index, element){
@@ -166,10 +166,10 @@
         type: "POST",
         cache: false,
         success: function(data){
-          if(!data["username"]){
-            // console.log($("#id_username").val());
-            window.location.replace('../'+$("#id_username").val());
-          }
+          // if(!data["username"]){
+          //   // console.log($("#id_username").val());
+          //   window.location.replace('../'+$("#id_username").val());
+          // }
           hide_button();
           for (var i in data) {
             if(i !== "csrfmiddlewaretoken"){

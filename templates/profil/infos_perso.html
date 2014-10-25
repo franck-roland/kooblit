@@ -23,6 +23,8 @@
             {% include 'profil/fiche.html' with label="Complément" value=adresse.street_line2 input_name="street_line2" type="text" placeholder="..." required="" %}
             {% include 'profil/fiche.html' with label="Code Postal" value=adresse.zipcode input_name="zipcode" type="text" placeholder="Code Postal..." required="" %}
             {% include 'profil/fiche.html' with label="Ville" value=adresse.city input_name="city" type="text" placeholder="Ville..." required="" %}
+            {% include 'profil/fiche.html' with label="Pays" select_input=COUNTRIES current_country=adresse.country input_name="country"%}
+
         </ul>
     </div>
     <h3>
@@ -31,7 +33,7 @@
     <ul>
         {% include 'profil/fiche.html' with label="email" value=user.email input_name="email" type="email" placeholder="Email..." %}
     </ul>
-    <button class="hidden button button-sauvegarder button_profil" type="submit" name="sauvegarde_profil"> Sauvegarder </button>
+    <button class="button button-sauvegarder button_profil" type="submit" name="sauvegarde_profil"> Sauvegarder </button>
     </form>
   </div>
 </div>

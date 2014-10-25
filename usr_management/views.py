@@ -32,6 +32,8 @@ from django.template import RequestContext
 # Gestion du panier
 from achat.utils import add_to_cart
 
+from countries.data import COUNTRIES_DIC, COUNTRIES
+
 email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 email_match = re.compile(email_adresse_regex)
 
@@ -240,6 +242,7 @@ def user_profil(request, username):
                     form = AddressChangeForm(instance=address, data=request.POST)
                     if form.is_valid():
                         address = form.save()
+                        address.save()
 
                 except Address.DoesNotExist:
                     form = AddressChangeForm(data=request.POST)
@@ -301,9 +304,10 @@ def user_profil(request, username):
                 try:
                     adresse = Address.objects.get(user=user_kooblit)
                 except Address.DoesNotExist:
-                    adresse = ''
+                    adresse = {'current_country':''}
                 return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
-                    'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 'total': total, 'form': form}))
+                    'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 
+                    'total': total, 'form': form, 'COUNTRIES': ((i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items())}))
         else:
             return syntheses_from_user(request, username)
     else:
