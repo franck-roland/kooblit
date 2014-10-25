@@ -1,9 +1,10 @@
 #--* coding: utf-8 *--
 from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserKooblit
-
+from .models import UserKooblit, Address
+from django.utils.translation import ugettext_lazy as _
 
 class UserCreationFormKooblit(UserCreationForm):
 
@@ -61,6 +62,26 @@ class UserCreationFormKooblit(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class AddressChangeForm(ModelForm):
+
+    class Meta:
+        model = Address
+        fields = (
+                    'number',
+                    'street_line1',
+                    'street_line2',
+                    'zipcode',
+                    'city',)
+    
+    def clean_number(self):
+        number=self.cleaned_data.get("number")
+        try:
+            number = int(number)
+        except Exception, e:
+            raise forms.ValidationError(_("Le numéro doit être un nombre"))
+        return number
+
 
 
 class ReinitialisationForm(forms.Form):

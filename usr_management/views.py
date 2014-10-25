@@ -7,7 +7,7 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 # from django.contrib.auth.forms import UserCreationForm
-from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm
+from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm, AddressChangeForm
 from django.contrib.auth.models import User
 from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address
 from manage_books_synth.models import Book
@@ -235,7 +235,20 @@ def user_profil(request, username):
             
         if request.user.username == username:
             if request.method == "POST":
-                
+                try:
+                    address = Address.objects.get(user=user_kooblit)
+                    form = AddressChangeForm(instance=address, data=request.POST)
+                    if form.is_valid():
+                        address = form.save()
+
+                except Address.DoesNotExist:
+                    form = AddressChangeForm(data=request.POST)
+                    if form.is_valid():
+                        address = form.save(commit=False)
+                        address.user = user_kooblit
+                        address.save()
+                    
+                response_errors = {}
                 if 'first_name' in request.POST and request.POST['first_name'] != user_kooblit.first_name:
                     user_kooblit.first_name = request.POST['first_name']
                     user_kooblit.save()
@@ -253,13 +266,14 @@ def user_profil(request, username):
                                 user_kooblit.username = username_post
                                 user_kooblit.save()
                             else:
-                                raise Http404()                
+                                response_errors['username'] = 'Cet utilisateur existe déjà'
                         except UserKooblit.DoesNotExist:
                             user_kooblit.username = username_post
                             user_kooblit.save()
-                        return HttpResponseRedirect('../'+username_post, request)
-                return HttpResponse(json.dumps(request.POST), content_type="application/json")
+                            return HttpResponseRedirect('../'+username_post, request)
+                return HttpResponse(json.dumps(response_errors), content_type="application/json")
             else:
+                form = AddressChangeForm()
                 syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
                 syntheses_ecrites = [
                             {
@@ -289,7 +303,7 @@ def user_profil(request, username):
                 except Address.DoesNotExist:
                     adresse = ''
                 return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
-                    'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 'total': total}))
+                    'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 'total': total, 'form': form}))
         else:
             return syntheses_from_user(request, username)
     else:

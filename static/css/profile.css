@@ -65,3 +65,8 @@
 .input-container {
     margin-bottom: 10px;
 }
+.errorlist {
+    text-align: left;
+    color: red;
+    padding: 0;
+}
