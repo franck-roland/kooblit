@@ -31,6 +31,9 @@
 
 .repre_image {
   height: 160px;
+  display: table-cell;
+  float:none;
+  vertical-align: bottom;
 }
 
 .repre_image img{
@@ -40,7 +43,7 @@
   display: block;
   max-height:160px;
   width: auto;
-  max-width: 100%;
+  max-width: 107px;
 }
 
 .result_info {

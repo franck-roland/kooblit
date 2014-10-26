@@ -45,6 +45,9 @@
     function display_loader(loader_name){
         $(loader_name).css('display', 'inline-block');
     }
+    function hide_loader(loader_name){
+        $(loader_name).css('display', 'none');   
+    }
     </script>
 
     {% block script_block %}{% endblock %}
