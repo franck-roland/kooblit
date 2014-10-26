@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from decimal import Decimal
 import json
 import pymill
 
@@ -22,6 +21,8 @@ from django.contrib import messages
 
 import logging
 
+TVA = 0.05
+TAXE_TRANSACTION = 0.03
 
 logger = logging.getLogger(__name__)
 paymill_response_code = {
@@ -136,21 +137,18 @@ def cart_details(request):
 
 
 def ajouter_et_payer(buyer, synthese):
-    buyer.syntheses.add(synthese)
-    buyer.save()
     author = synthese.user
-    price = synthese.prix
-    # TODO: clean: remove those magic number (put them in a CONSTANT)
-    # and why use decimal?
-    PRIX_TRANSACTION = Decimal('0.0295') * price + Decimal('0.28')
-    PRIX_TVA = Decimal('0.055') * price
-    gain = price - PRIX_TVA - PRIX_TRANSACTION
+    price = float(synthese.prix)
+    prix_HT = (price * (1 - TVA)) / 2
+    gain = prix_HT - (price * TAXE_TRANSACTION)
     assert(gain > 0)
-    author.cagnotte += gain / Decimal('2')
+    author.cagnotte += gain
     author.save()
-    synthese.gain += gain / Decimal('2')
+    synthese.gain += gain
     synthese.nb_achat +=1
     synthese.save()
+    buyer.syntheses.add(synthese)
+    buyer.save()
 
 
 def clean_cart(cart, username):
@@ -159,12 +157,6 @@ def clean_cart(cart, username):
     # TODO: clean:
     buyer_syntheses_ids = [synth.id for synth in buyer.syntheses.all()]
     return [synth.id for synth in Syntheses.objects.filter(id__in=cart).exclude(user__username=username).exclude(id__in=buyer_syntheses_ids)]
-    # cart_final = []
-    # for id_synthese in cart:
-    #     synthese = Syntheses.objects.get(id=id_synthese)
-    #     if synthese.user.username != username and synthese not in buyer.syntheses.all():
-    #         cart_final.append(id_synthese)
-    # return cart_final
 
 
 @login_required
