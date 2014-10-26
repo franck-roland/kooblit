@@ -33,6 +33,7 @@ from search_engine.AmazonRequest import AmazonRequest
 from .models import Book, UniqueBook, Recherche, Theme
 # Usr_management models
 from usr_management.models import UserKooblit, Syntheses, Demande
+from usr_management.utils import author_required
 
 from .forms import UploadFileForm
 
@@ -190,7 +191,9 @@ def send_alert(book_title):
         computeEmail(user.username, book_title, alert=1)
         d.delete()
 
+
 @login_required
+@author_required
 def upload_medium(request, book_title):
     book_title = urllib.unquote(book_title)
     username = request.user.username
