@@ -228,93 +228,96 @@ def syntheses_from_user(request, username):
         'synth_list_user.html',
         RequestContext(request, {'content': content}))
 
+
+@login_required
+def user_dashboard(request):
+    user_kooblit = UserKooblit.objects.get(username__iexact=request.user.username)
+    username = user_kooblit.username
+    if request.method == "POST":
+        try:
+            address = Address.objects.get(user=user_kooblit)
+            form = AddressChangeForm(instance=address, data=request.POST)
+            if form.is_valid():
+                address = form.save()
+                address.save()
+
+        except Address.DoesNotExist:
+            form = AddressChangeForm(data=request.POST)
+            if form.is_valid():
+                address = form.save(commit=False)
+                address.user = user_kooblit
+                address.save()
+            
+        response_errors = form.errors
+        if 'first_name' in request.POST and request.POST['first_name'] != user_kooblit.first_name:
+            user_kooblit.first_name = request.POST['first_name']
+            user_kooblit.save()
+        
+        if 'last_name' in request.POST and request.POST['last_name'] != user_kooblit.last_name:
+            user_kooblit.last_name = request.POST['last_name']
+            user_kooblit.save()
+
+        if 'username' in request.POST:
+            username_post = request.POST['username']
+            if username_post != username:
+                try:
+                    user2 = UserKooblit.objects.get(username__iexact=username_post)
+                    if user2 == user_kooblit:
+                        user_kooblit.username = username_post
+                        user_kooblit.save()
+                    else:
+                        response_errors['username'] = 'Cet utilisateur existe déjà'
+                except UserKooblit.DoesNotExist:
+                    user_kooblit.username = username_post
+                    user_kooblit.save()
+        return HttpResponse(json.dumps(response_errors), content_type="application/json")
+    else:
+        loc_required = request.GET.get('loc','')
+        next_url = request.GET.get('next','')
+        form = AddressChangeForm()
+        syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
+        syntheses_ecrites = [
+                    {
+                        "id": synth.id,
+                        "book_title": Book.objects.get(id=synth.livre_id).title,
+                        "author": user_kooblit.username,
+                        "prix": synth.prix,
+                        "nb_achat": synth.nb_achat,
+                        "note_moy": synth.note_moyenne,
+                        "gain": synth.gain,
+                    } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=True)
+                ]
+        syntheses_en_cours = [
+                    {
+                        "id": synth.id,
+                        "book_title": Book.objects.get(id=synth.livre_id).title,
+                        "author": user_kooblit.username,
+                        "prix": synth.prix,
+                        "nb_achat": synth.nb_achat,
+                        "note_moy": synth.note_moyenne,
+                        "gain": synth.gain,
+                    } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
+                ]
+        total = user_kooblit.cagnotte
+        try:
+            adresse = Address.objects.get(user=user_kooblit)
+        except Address.DoesNotExist:
+            adresse = {'current_country':''}
+
+        return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
+            'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 
+            'total': total, 'form': form, 'loc_required': loc_required, 'next_url': next_url,
+             'COUNTRIES': ((i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items())}))
+
 @login_required
 def user_profil(request, username):
-    user_kooblit = UserKooblit.objects.get(username__iexact=username)
-    if user_kooblit.is_active and user_kooblit.is_confirmed:
-        if user_kooblit.username != username and user_kooblit.username.lower() == username.lower():
-            return HttpResponseRedirect('../'+request.user.username, request)
-            
-        if request.user.username == username:
-            if request.method == "POST":
-                try:
-                    address = Address.objects.get(user=user_kooblit)
-                    form = AddressChangeForm(instance=address, data=request.POST)
-                    if form.is_valid():
-                        address = form.save()
-                        address.save()
-
-                except Address.DoesNotExist:
-                    form = AddressChangeForm(data=request.POST)
-                    if form.is_valid():
-                        address = form.save(commit=False)
-                        address.user = user_kooblit
-                        address.save()
-                    
-                response_errors = form.errors
-                if 'first_name' in request.POST and request.POST['first_name'] != user_kooblit.first_name:
-                    user_kooblit.first_name = request.POST['first_name']
-                    user_kooblit.save()
-                
-                if 'last_name' in request.POST and request.POST['last_name'] != user_kooblit.last_name:
-                    user_kooblit.last_name = request.POST['last_name']
-                    user_kooblit.save()
-
-                if 'username' in request.POST:
-                    username_post = request.POST['username']
-                    if username_post != username:
-                        try:
-                            user2 = UserKooblit.objects.get(username__iexact=username_post)
-                            if user2 == user_kooblit:
-                                user_kooblit.username = username_post
-                                user_kooblit.save()
-                            else:
-                                response_errors['username'] = 'Cet utilisateur existe déjà'
-                        except UserKooblit.DoesNotExist:
-                            user_kooblit.username = username_post
-                            user_kooblit.save()
-                            return HttpResponseRedirect('../'+username_post, request)
-                return HttpResponse(json.dumps(response_errors), content_type="application/json")
-            else:
-                loc_required = request.GET.get('loc','')
-                next_url = request.GET.get('next','')
-                form = AddressChangeForm()
-                syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
-                syntheses_ecrites = [
-                            {
-                                "id": synth.id,
-                                "book_title": Book.objects.get(id=synth.livre_id).title,
-                                "author": user_kooblit.username,
-                                "prix": synth.prix,
-                                "nb_achat": synth.nb_achat,
-                                "note_moy": synth.note_moyenne,
-                                "gain": synth.gain,
-                            } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=True)
-                        ]
-                syntheses_en_cours = [
-                            {
-                                "id": synth.id,
-                                "book_title": Book.objects.get(id=synth.livre_id).title,
-                                "author": user_kooblit.username,
-                                "prix": synth.prix,
-                                "nb_achat": synth.nb_achat,
-                                "note_moy": synth.note_moyenne,
-                                "gain": synth.gain,
-                            } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
-                        ]
-                total = user_kooblit.cagnotte
-                try:
-                    adresse = Address.objects.get(user=user_kooblit)
-                except Address.DoesNotExist:
-                    adresse = {'current_country':''}
-
-                return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
-                    'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 
-                    'total': total, 'form': form, 'loc_required': loc_required, 'next_url': next_url,
-                     'COUNTRIES': ((i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items())}))
-        else:
+    try:
+        user_kooblit = UserKooblit.objects.get(username__iexact=username)
+        if user_kooblit.is_active and user_kooblit.is_confirmed:
             return syntheses_from_user(request, username)
-    else:
+        else:
+            raise Http404()
+    except UserKooblit.DoesNotExist:
         raise Http404()
 
 
