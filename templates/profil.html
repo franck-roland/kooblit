@@ -166,30 +166,21 @@
         type: "POST",
         cache: false,
         success: function(data){
-          // if(!data["username"]){
-          //   // console.log($("#id_username").val());
-          //   window.location.replace('../'+$("#id_username").val());
-          // }
-          {% if next_url %}
-            if ($.isEmptyObject(data)){
-              window.location.replace("{{next_url}}");
-            }
-          {% endif %}
           hide_button();
-          for (var i in data) {
-            if(i !== "csrfmiddlewaretoken"){
-              $("#errors_field_"+i).append("<li class='errorlist'>"+data[i]+"</li>");
-            }
-          };
-
-          // $(".list_username").find(".elt_content").html(data["username"]);
-          // $(".list_first_name").find(".elt_content").html(data["first_name"]);
-          // $(".list_last_name").find(".elt_content").html(data["last_name"]);
-          // console.log($(".list_username"));
-          // elt.find(".elt_content").toggleClass("hidden");
-          // elt.find(".form-group").toggleClass("hidden");
-          // elt.find("button").toggleClass("hidden");
-          // elt.find("button").attr('disabled','disabled');
+          if ($.isEmptyObject(data)){
+            {% if next_url %}
+              location.replace("{{next_url}}");
+            {% else %}
+              location.reload(true);
+            {% endif %}
+          }
+          else{
+            for (var i in data) {
+              if(i !== "csrfmiddlewaretoken"){
+                $("#errors_field_"+i).append("<li class='errorlist'>"+data[i]+"</li>");
+              }
+            };
+          }
         },
         data: $(this).serialize(),
       });

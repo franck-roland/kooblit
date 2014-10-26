@@ -3,6 +3,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+                       url(r'^dashboard/$', 'usr_management.views.user_dashboard', name='dashboard'),
                        url(r'^login/$', 'usr_management.views.contact', name='login'),
                        url(r'^logout$', 'usr_management.views.user_logout', name='logout'),
                        url(r'^delete$', 'usr_management.views.user_suppression', name='delete'),

@@ -25,7 +25,7 @@ def author_required(function):
             return function(request, *args, **kwargs)
         else:
             messages.warning(request, "Vous devez compléter vos coordonnées avant de pouvoir écrire une synthèse")
-            new_path=reverse('users',kwargs={'username': user.username})
+            new_path=reverse('usr_management:dashboard')
             new_path += '?loc=required&next='+request.path
             response = HttpResponseRedirect(new_path, request)
             response['location']+='?loc=required&next='+request.path
