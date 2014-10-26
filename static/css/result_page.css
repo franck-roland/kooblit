@@ -23,6 +23,10 @@
   margin: 3px 0;
 }
 
+.result_line {
+  margin-bottom: 35px;
+}
+
 .row_plus {
   margin-top: 40px;
   margin-bottom: 40px;
@@ -31,16 +35,23 @@
 
 .repre_image {
   height: 160px;
+  display: table-cell;
+  float:none;
+  vertical-align: bottom;
 }
 
 .repre_image img{
-  box-shadow: 3px 3px 8px #555;
+  /*box-shadow: 3px 3px 8px #555;*/
   position: relative;
   bottom: 0;
   display: block;
   max-height:160px;
   width: auto;
-  max-width: 100%;
+  max-width: 107px;
+}
+
+.repre_image img:hover{
+  box-shadow: 3px 3px 8px #555, 0px 0px 10px #005 ;
 }
 
 .result_info {
@@ -53,6 +64,7 @@
   margin-top: 15px;
   font-size: 15px;
   color: rgb(74,74,74);
+  font-family: 'Helvetica Neue Bold';
 }
 
 .result_author {

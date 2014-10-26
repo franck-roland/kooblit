@@ -12,7 +12,6 @@
         <h1>Résultats de recherche</h1>
         <h2>{{titre}}</h2>
         {% if resultat %}
-          <span id="nb_results">{{ resultat|length }}</span> résultats
         {% else %}
           Aucun resultat
         {% endif %}
@@ -57,8 +56,8 @@
 
   {% if resultat|length >= 6 %}
     <div class="row row_plus">
-      <div class="col-xs-offset-11 col-xs-1">
-        <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
+      <div class="col-md-offset-10 col-md-2 col-xs-offset-7 col-xs-5">
+        <img style="display: none;float: right; margin-left:5px;" src="/static/img/ajax-loader.gif" id="ajax_loader_plus"><button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
       </div> <!-- Bouton PLUS -->
     </div>
   {% endif %}
@@ -81,13 +80,14 @@
     var i = $(".result_line").length * 6 + 1;
     var j = i + 11;
     $(".plus_button").addClass("disabled");
+    display_loader('#ajax_loader_plus');
     $.ajax({
         url: "/search/complete/",
         type: "GET",
         cache: false,
         dataType: "json",
         success: function (data) {
-          console.log(data);
+          hide_loader('#ajax_loader_plus');
           if(data.last_page == 10 && data.server_index == 1 || data.results.length < 12){
             $(".row_plus").css("display","none");
           }
@@ -114,7 +114,6 @@
           tmp += end_row;
           rows += tmp;
           $(".result_line").last().after(rows);
-          $("#nb_results").html($(".repre_image").length);
           $(".plus_button").removeClass("disabled");
           resizeResults();
 
