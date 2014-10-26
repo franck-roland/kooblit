@@ -12,7 +12,6 @@
         <h1>Résultats de recherche</h1>
         <h2>{{titre}}</h2>
         {% if resultat %}
-          <span id="nb_results">{{ resultat|length }}</span> résultats
         {% else %}
           Aucun resultat
         {% endif %}
@@ -115,7 +114,6 @@
           tmp += end_row;
           rows += tmp;
           $(".result_line").last().after(rows);
-          $("#nb_results").html($(".repre_image").length);
           $(".plus_button").removeClass("disabled");
           resizeResults();
 
