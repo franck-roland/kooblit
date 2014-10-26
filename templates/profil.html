@@ -170,12 +170,18 @@
           //   // console.log($("#id_username").val());
           //   window.location.replace('../'+$("#id_username").val());
           // }
+          {% if next_url %}
+            if ($.isEmptyObject(data)){
+              window.location.replace("{{next_url}}");
+            }
+          {% endif %}
           hide_button();
           for (var i in data) {
             if(i !== "csrfmiddlewaretoken"){
               $("#errors_field_"+i).append("<li class='errorlist'>"+data[i]+"</li>");
             }
           };
+
           // $(".list_username").find(".elt_content").html(data["username"]);
           // $(".list_first_name").find(".elt_content").html(data["first_name"]);
           // $(".list_last_name").find(".elt_content").html(data["last_name"]);

@@ -7,10 +7,10 @@
             <div class="form-group ">
                 <div class="col-lg-12 input-container" >
                     {% if select_input %}
-                        <select id="id_{{input_name}}" name="{{input_name}}">
+                        <select id="id_{{input_name}}" name="{{input_name}}" {{required}}>
                         {% for country in select_input %}
                             <option 
-                               {% if current_country == '' and forloop.0 == 0 %}selected
+                               {% if current_country == '' and country.0 == 'FR' %}selected
                                {% elif country.0 == current_country %}selected{% endif %} value="{{country.0}}">
                                {{country.1|capfirst}}
                            </option>

@@ -2,9 +2,10 @@
 import os
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 import models
+from django.core.urlresolvers import reverse
 
 # Messages
 from django.contrib import messages
@@ -24,6 +25,10 @@ def author_required(function):
             return function(request, *args, **kwargs)
         else:
             messages.warning(request, "Vous devez compléter vos coordonnées avant de pouvoir écrire une synthèse")
-            return HttpResponseRedirect('/users/'+user.username, request)
+            new_path=reverse('users',kwargs={'username': user.username})
+            new_path += '?loc=required&next='+request.path
+            response = HttpResponseRedirect(new_path, request)
+            response['location']+='?loc=required&next='+request.path
+            return HttpResponseRedirect(new_path, request)
 
     return wrap

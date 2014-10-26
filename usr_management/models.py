@@ -26,6 +26,8 @@ class UserKooblit(User):
     def is_author(self):
         try:
             address = Address.objects.get(user=self)
+            print ((address.number, address.street_line1, address.zipcode, address.city, address.country))
+            print all((address.number, address.street_line1, address.zipcode, address.city, address.country))
             return all((address.number, address.street_line1, address.zipcode, address.city, address.country))
         except Address.DoesNotExist:
             print "nok"

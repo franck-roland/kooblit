@@ -76,10 +76,12 @@ class AddressChangeForm(ModelForm):
     
     def clean_number(self):
         number=self.cleaned_data.get("number")
+        if not number:
+            return number
         try:
             number = int(number)
         except Exception, e:
-            raise forms.ValidationError(_("Le numéro doit être un nombre"))
+            raise forms.ValidationError(_(u"Le numéro doit être un nombre"))
         return number
 
 

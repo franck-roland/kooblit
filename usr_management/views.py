@@ -251,7 +251,7 @@ def user_profil(request, username):
                         address.user = user_kooblit
                         address.save()
                     
-                response_errors = {}
+                response_errors = form.errors
                 if 'first_name' in request.POST and request.POST['first_name'] != user_kooblit.first_name:
                     user_kooblit.first_name = request.POST['first_name']
                     user_kooblit.save()
@@ -276,6 +276,8 @@ def user_profil(request, username):
                             return HttpResponseRedirect('../'+username_post, request)
                 return HttpResponse(json.dumps(response_errors), content_type="application/json")
             else:
+                loc_required = request.GET.get('loc','')
+                next_url = request.GET.get('next','')
                 form = AddressChangeForm()
                 syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
                 syntheses_ecrites = [
@@ -305,9 +307,11 @@ def user_profil(request, username):
                     adresse = Address.objects.get(user=user_kooblit)
                 except Address.DoesNotExist:
                     adresse = {'current_country':''}
+
                 return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
                     'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 
-                    'total': total, 'form': form, 'COUNTRIES': ((i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items())}))
+                    'total': total, 'form': form, 'loc_required': loc_required, 'next_url': next_url,
+                     'COUNTRIES': ((i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items())}))
         else:
             return syntheses_from_user(request, username)
     else:
