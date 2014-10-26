@@ -20,7 +20,8 @@ class UserKooblit(User):
     civility = models.CharField(_('Status'), max_length = 20, blank = True)
     birthday = models.DateField(null=True)
     objects = UserManager()
-    cagnotte = models.DecimalField(max_digits=100, decimal_places=2, default=0, unique=False)
+    cagnotte = models.FloatField(default=0, unique=False)
+    cagnotte_HT = models.FloatField(default=0, unique=False)
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
 
     def is_author(self):
@@ -104,8 +105,8 @@ class Syntheses(models.Model):
     note_moyenne = models.BigIntegerField(default=0)
     nbre_notes = models.BigIntegerField(default=0)
     date = models.DateField(null=True, default=datetime.datetime.now)
-    prix = models.DecimalField(max_digits=6, decimal_places=2)
-    gain = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    prix = models.FloatField(default=0)
+    gain = models.FloatField(default=0)
     has_been_published = models.BooleanField(default=True)
     EXTRACT_LIMIT = 200
 
