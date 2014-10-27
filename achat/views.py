@@ -4,7 +4,7 @@ import pymill
 
 from django.conf import settings
 # model
-from usr_management.models import Syntheses, Transaction, UserKooblit, Entree
+from usr_management.models import Syntheses, Transaction, UserKooblit, Entree, Version_Synthese
 # rendu
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -144,18 +144,23 @@ def ajouter_et_payer(buyer, synthese):
     assert(gain > 0)
     author.cagnotte += gain
     author.save()
+    version_synthese = Version_Synthese.objects.get(synthese=synthese, version=synthese.version)
     synthese.gain += gain
     synthese.nb_achat +=1
     synthese.save()
-    buyer.syntheses.add(synthese)
+    version_synthese.gain += gain
+    version_synthese.nb_achat += 1
+    version_synthese.save()
+    # buyer.syntheses.add(synthese)
+    buyer.syntheses_achetees.add(version_synthese)
     buyer.save()
 
 
 def clean_cart(cart, username):
     """ Enlève les synthèses qui ont déjà été achetées par l'utilisateur ou qui ont été publiées par lui """
     buyer = UserKooblit.objects.get(username=username)
-    # TODO: clean:
-    buyer_syntheses_ids = [synth.id for synth in buyer.syntheses.all()]
+    # TODO: refaire si acces a une seule version:
+    buyer_syntheses_ids = [version_synth.synthese.id for version_synth in buyer.syntheses_achetees.all()]
     return [synth.id for synth in Syntheses.objects.filter(id__in=cart).exclude(user__username=username).exclude(id__in=buyer_syntheses_ids)]
 
 

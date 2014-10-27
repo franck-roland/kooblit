@@ -348,8 +348,7 @@ def selection(request, book_title):
 
 def valid_synthese_for_add(id_synthese, username):
     synthese = Syntheses.objects.get(id=id_synthese)
-    buyer = UserKooblit.objects.get(username=username)
-    return synthese.user.username != username and synthese not in buyer.syntheses.all()
+    return synthese.user.username != username and not UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=synthese)
 
 
 
