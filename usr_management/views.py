@@ -34,6 +34,12 @@ from achat.utils import add_to_cart
 
 from countries.data import COUNTRIES_DIC, COUNTRIES
 
+# Fichiers
+from django.core.files import File
+
+from django.core.servers.basehttp import FileWrapper
+from weasyprint import HTML, CSS
+
 email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 email_match = re.compile(email_adresse_regex)
 
@@ -143,9 +149,26 @@ def contact(request):
 
 # Lecture des syntheses
 def can_read(id_synthese, username):
-    synthese = Syntheses.objects.get(id=id_synthese)
+    try:
+        synthese = Syntheses.objects.get(id=id_synthese)
+    except Syntheses.DoesNotExist:
+        return False
     buyer = UserKooblit.objects.get(username=username)
     return synthese.user.username == username or synthese in buyer.syntheses.all()
+
+
+@login_required
+def download_pdf(request, synthese_id):
+    username = request.user.username
+    if can_read(synthese_id, username):
+        synt = Syntheses.objects.get(id=synthese_id)
+        contenu = synt.contenu
+        html = HTML(string=contenu, encoding='utf8')
+        html.write_pdf('/tmp/synth_'+str(synthese_id))
+        f = FileWrapper(file('/tmp/synth_'+str(synthese_id)))
+        response = HttpResponse(f, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
+        return response
 
 
 @login_required

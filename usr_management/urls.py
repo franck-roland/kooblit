@@ -13,4 +13,5 @@ urlpatterns = patterns('',
                        url(r'^reinitialisation/$', 'usr_management.views.ask_reinitialisation', name='ask_reinitialisation'),
                        url(r'^reinit/(?P<r_id>[0-9a-f]{40})$', 'usr_management.views.do_reinitialisation', name='do_reinitialisation'),
                        url(r'^lire/(?P<synthese_id>[0-9a-f]{,64})$', 'usr_management.views.lire_synthese', name='lire_synthese'),
+                       url(r'^telecharger/(?P<synthese_id>[0-9a-f]{1,64})$', 'usr_management.views.download_pdf', name='download_pdf'),
                        )
