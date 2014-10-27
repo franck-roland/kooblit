@@ -31,7 +31,7 @@
 
   <footer>
     <div class="container">
-      <a href="#">Télécharger pdf <i class="fa fa-arrow-circle-o-down"></i></a>
+      <a href="{% url 'usr_management:download_pdf' synth.id %}">Télécharger pdf <i class="fa fa-arrow-circle-o-down"></i></a>
     </div>
   </footer>
 {% endblock %}
