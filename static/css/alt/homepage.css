@@ -2,18 +2,31 @@
 
     height:100%;
 }*/
+
+.first_row a {
+  color: rgb(198, 198, 198);
+  text-decoration: underline;
+}
+
+.first_row a:hover {
+  color: rgb(235, 235, 241);
+  text-decoration: underline;
+  /*color: blue;*/
+}
 #block_content{
     height: 100%;
 
 }
 .homepage_content {
+    height: 100%;
+}
+.first_row {
     background-color: white;
     background: url("../../img/moon.jpg");
     background-repeat: no-repeat;
     background-position: left;
     background-size: cover;
 }
-
 .homepage_quote {
   padding: 40px 0 0 0;
   color: white;
@@ -45,6 +58,16 @@
 .homepage_quote em {
   color: rgb(198, 198, 198);
   font-style: normal;
+  text-decoration: underline;
+}
+.homepage_quote em {
+  color: rgb(198, 198, 198);
+  font-style: normal;
+  
+}
+.homepage_quote em:hover {
+  text-shadow: 0px 0px 10px black, 5px 5px 10px  black;
+  
 }
 
 .homepage_icon {
