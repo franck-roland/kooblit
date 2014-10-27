@@ -24,7 +24,7 @@ html,
 body {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
   height: 100%;
-  background-color: rgb(239, 239, 239);
+  background-color: #FAFAFA;;
   color: rgb(74,74,74);
   font-family:'Helvetica Neue';
 }
@@ -80,7 +80,8 @@ footer {
 }
 
 .nav-bar-kooblit {
-  background-color: #EFEFEF;
+  /*background-color: #EFEFEF;*/
+  background-color:#FAFAFA;
   border : none;
   color: rgb(127, 127, 127);
   height: 70px;

@@ -42,6 +42,9 @@
     $('#search_bar').bind("typeahead:selected", function () {
         $("#search_form").submit();
     });
+    $('#search_bar_homepage').bind("typeahead:selected", function () {
+        $("#search_form").submit();
+    });
     function display_loader(loader_name){
         $(loader_name).css('display', 'inline-block');
     }
