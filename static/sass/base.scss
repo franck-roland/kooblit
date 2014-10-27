@@ -23,7 +23,11 @@
 $nav_bar_len: 70px;
 $html_background_color: #FAFAFA;
 $nav_link_color: rgb(44, 62, 80);
+$nav_link_background_color: $html_background_color;
 
+nav {
+  background: $html_background_color;
+}
 html, body 
 {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
@@ -83,11 +87,11 @@ footer {
   color: rgb(127, 127, 127);
   height: $nav_bar_len;
 }
+.navbar-collapse {
+  background: $html_background_color;
+}
 
-/*nav.navbar {
-  background-color: white;
-  border-bottom: 1px solid rgb(220,220,220);
-}*/
+
 .icon_navbar {
   max-height: ($nav_bar_len - 20);
 
@@ -95,32 +99,36 @@ footer {
 
 li.icon_navbar > a {
   max-height: $nav_bar_len;
-  padding: 10px;
+  padding: (20px/2);
+}
+
+.navbar-header{
+  background: $html_background_color;
+  a.navbar-brand {
+    color: black;
+    font-size: 24px;
+    margin-top: -4px;
+    img {
+      width: 40px;
+      margin-top: -6px;
+    }
+  }
+  .navbar-nav {
+    padding: 0;
+  }
 }
 
 
-.navbar-header a.navbar-brand {
-  color: black;
-  font-size: 24px;
-  margin-top: -4px;
-}
-
-.navbar-header .navbar-nav {
-  padding: 0;
-}
-
-.navbar-brand img {
-  width: 40px;
-  margin-top: -6px;
-}
-
-.navbar-default .navbar-nav > li > a{
-  color: $nav_link_color;
-}
-
-.navbar-default .navbar-nav > li > a:hover{
-  color: blue;
-  background: none;
+.navbar-default .navbar-nav{
+  li {
+    a{
+      color: $nav_link_color;
+    }
+    a:hover{
+      color: blue;
+      background: none;
+    }
+  }
 }
 .dropdown-menu > li > a:hover{
   color: blue;
@@ -128,7 +136,7 @@ li.icon_navbar > a {
 }
 
 #home_profil{
-  background: none;
+  background: $nav_link_background_color;
   color: #FFF;
 }
 
