@@ -1,0 +1,242 @@
+/*
+ * Style tweaks
+ * --------------------------------------------------
+ */
+
+@font-face{
+  font-family: "Helvetica Neue";
+  src: url('../fonts/Helvetica_Neue/HelveticaNeue.otf') format('opentype');
+}
+@font-face{
+  font-family: "Helvetica Neue Thin";
+  src: url('../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf') format('opentype');
+}
+@font-face{
+  font-family: "Helvetica Neue Medium";
+  src: url('../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf') format('opentype');
+}
+@font-face{
+  font-family: "Helvetica Neue Bold";
+  src: url('../fonts/Helvetica_Neue/HelveticaNeue-Bold.otf') format('opentype');
+}
+
+$nav_bar_len: 70px;
+$html_background_color: #FAFAFA;
+$nav_link_color: rgb(44, 62, 80);
+$nav_link_background_color: $html_background_color;
+
+nav {
+  background: $html_background_color;
+}
+html, body 
+{
+  /*overflow-x: hidden;  Prevent scroll on narrow devices */
+  height: 100%;
+  background-color: $html_background_color;
+  color: rgb(74,74,74);
+  font-family:'Helvetica Neue';
+}
+
+
+h1, h2, h3, h4, h5, h6 
+{
+  font-family: 'Helvetica Neue Thin';
+}
+
+li {
+  list-style: none;
+}
+
+footer {
+  padding: 30px 0;
+}
+
+#block_content {
+  padding-top: $nav_bar_len;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  height: 100%;
+  margin: 0 auto 0;
+}
+
+/* Set the fixed height of the footer here */
+#push, #footer {
+  height: 60px;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 1105px) {
+  #wrap {
+    min-height: 100%;
+    margin: 0 auto 0;
+  }
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.nav-bar-kooblit {
+  /*background-color: #EFEFEF;*/
+  background-color:$html_background_color;
+  border : none;
+  color: rgb(127, 127, 127);
+  height: $nav_bar_len;
+}
+.navbar-collapse {
+  background: $html_background_color;
+}
+
+
+.icon_navbar {
+  max-height: ($nav_bar_len - 20);
+
+}
+
+li.icon_navbar > a {
+  max-height: $nav_bar_len;
+  padding: (20px/2);
+}
+
+.navbar-header{
+  background: $html_background_color;
+  a.navbar-brand {
+    color: black;
+    font-size: 24px;
+    margin-top: -4px;
+    img {
+      width: 40px;
+      margin-top: -6px;
+    }
+  }
+  .navbar-nav {
+    padding: 0;
+  }
+}
+
+
+.navbar-default .navbar-nav{
+  li {
+    a{
+      color: $nav_link_color;
+    }
+    a:hover{
+      color: blue;
+      background: none;
+    }
+  }
+}
+.dropdown-menu > li > a:hover{
+  color: blue;
+  background: none; 
+}
+
+#home_profil{
+  background: $nav_link_background_color;
+  color: #FFF;
+}
+
+.twitter-typeahead input {
+  background-color: $html_background_color;
+  width: 100%;
+}
+.twitter-typeahead {
+  width: 500px;
+  max-width: 100%;
+}
+#search_bar {
+  height: 34px;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  width: 100%;
+}
+
+#ajax_loader {
+  display: none;
+  float: none;
+  vertical-align: bottom;
+}
+
+.navbar_img {
+  width: 35px
+}
+
+.fa.fa-shopping-cart {
+  font-size: 24px;
+}
+
+.navbar-nav > li {
+  /* Useful when collapsed (mobile) */
+  text-align: center;
+}
+
+.navbar-nav > li > a.navbar_login {
+  color: rgb(127, 127, 127);
+  font-size: 18px;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  margin-top: 20px;
+}
+
+
+#achats a:hover {
+  background-color: white;
+  color: #18bc9c;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+#wrap > .container {
+padding-top: $nav_bar_len;
+}
+.container .credit {
+margin: 20px 0;
+}
+
+code {
+font-size: 80%;
+}
+
+.search_button
+{
+    /*background-color: #32B232;*/
+  background: url(/static/img/search_back.png) no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.gold_button
+{
+    /*background-color: #32B232;*/
+  background: url(/static/img/gold_back.png) no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+    /*background-color: #EBEB00;*/
+}
+.subscribe_button
+{
+    background: url(/static/img/sub_back.png) no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+    /*background-color: #006A80;*/
+
+}
+.nb_achats {
+  font-weight: bold;
+  color: rgb(74,74,74);
+  font-family:'Helvetica Neue';
+}

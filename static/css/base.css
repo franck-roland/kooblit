@@ -2,75 +2,78 @@
  * Style tweaks
  * --------------------------------------------------
  */
-
-@font-face{
+@font-face {
   font-family: "Helvetica Neue";
-  src: url('../fonts/Helvetica_Neue/HelveticaNeue.otf') format('opentype');
+  src: url("../fonts/Helvetica_Neue/HelveticaNeue.otf") format("opentype");
 }
-@font-face{
+@font-face {
   font-family: "Helvetica Neue Thin";
-  src: url('../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf') format('opentype');
+  src: url("../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf") format("opentype");
 }
-@font-face{
+@font-face {
   font-family: "Helvetica Neue Medium";
-  src: url('../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf') format('opentype');
+  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf") format("opentype");
 }
-@font-face{
+@font-face {
   font-family: "Helvetica Neue Bold";
-  src: url('../fonts/Helvetica_Neue/HelveticaNeue-Bold.otf') format('opentype');
+  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Bold.otf") format("opentype");
+}
+/* line 28, ../sass/base.scss */
+nav {
+  background: #FAFAFA;
 }
 
-html,
-body {
+/* line 31, ../sass/base.scss */
+html, body {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
   height: 100%;
-  background-color: #FAFAFA;;
-  color: rgb(74,74,74);
-  font-family:'Helvetica Neue';
+  background-color: #FAFAFA;
+  color: #4a4a4a;
+  font-family: 'Helvetica Neue';
 }
 
-
+/* line 41, ../sass/base.scss */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Helvetica Neue Thin';
 }
 
+/* line 46, ../sass/base.scss */
 li {
   list-style: none;
 }
 
+/* line 50, ../sass/base.scss */
 footer {
   padding: 30px 0;
 }
 
+/* line 54, ../sass/base.scss */
 #block_content {
   padding-top: 70px;
 }
 
 /* Wrapper for page content to push down footer */
+/* line 59, ../sass/base.scss */
 #wrap {
-  /*min-height: 100%;*/
   height: 100%;
-  /* Negative indent footer by it's height */
   margin: 0 auto 0;
 }
 
 /* Set the fixed height of the footer here */
+/* line 65, ../sass/base.scss */
 #push, #footer {
   height: 60px;
-}
-#footer {
-/*background-color: #f5f5f5;*/
-/*border-top: 1px solid #f5f5f5;*/
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 1105px) {
+  /* line 71, ../sass/base.scss */
   #wrap {
     min-height: 100%;
-    /*height: auto !important;*/
     margin: 0 auto 0;
-    /* Negative indent footer by it's height */
   }
+
+  /* line 75, ../sass/base.scss */
   #footer {
     margin-left: -20px;
     margin-right: -20px;
@@ -78,57 +81,86 @@ footer {
     padding-right: 20px;
   }
 }
-
+/* line 83, ../sass/base.scss */
 .nav-bar-kooblit {
   /*background-color: #EFEFEF;*/
-  background-color:#FAFAFA;
-  border : none;
-  color: rgb(127, 127, 127);
+  background-color: #FAFAFA;
+  border: none;
+  color: #7f7f7f;
   height: 70px;
 }
 
-/*nav.navbar {
-  background-color: white;
-  border-bottom: 1px solid rgb(220,220,220);
-}*/
-.icon_navbar {
-  max-height: 40px;
+/* line 90, ../sass/base.scss */
+.navbar-collapse {
+  background: #FAFAFA;
 }
 
+/* line 95, ../sass/base.scss */
+.icon_navbar {
+  max-height: 50px;
+}
+
+/* line 100, ../sass/base.scss */
 li.icon_navbar > a {
-  max-height: 60px;
+  max-height: 70px;
   padding: 10px;
 }
 
+/* line 105, ../sass/base.scss */
+.navbar-header {
+  background: #FAFAFA;
+}
+/* line 107, ../sass/base.scss */
 .navbar-header a.navbar-brand {
   color: black;
   font-size: 24px;
   margin-top: -4px;
 }
-
+/* line 111, ../sass/base.scss */
+.navbar-header a.navbar-brand img {
+  width: 40px;
+  margin-top: -6px;
+}
+/* line 116, ../sass/base.scss */
 .navbar-header .navbar-nav {
   padding: 0;
 }
 
-.navbar-brand img {
-  width: 40px;
-  margin-top: -6px;
+/* line 124, ../sass/base.scss */
+.navbar-default .navbar-nav li a {
+  color: #2c3e50;
+}
+/* line 127, ../sass/base.scss */
+.navbar-default .navbar-nav li a:hover {
+  color: blue;
+  background: none;
 }
 
-.navbar-default .navbar-nav .open .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a{
-  color: rgb(44, 62, 80);
+/* line 133, ../sass/base.scss */
+.dropdown-menu > li > a:hover {
+  color: blue;
+  background: none;
 }
-.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav > li > a:hover{
-  color: rgb(44, 62, 80);
+
+/* line 138, ../sass/base.scss */
+#home_profil {
+  background: #FAFAFA;
+  color: #FFF;
 }
+
+/* line 143, ../sass/base.scss */
 .twitter-typeahead input {
-  background-color: #EFEFEF;
+  background-color: #FAFAFA;
   width: 100%;
 }
+
+/* line 147, ../sass/base.scss */
 .twitter-typeahead {
   width: 500px;
   max-width: 100%;
 }
+
+/* line 151, ../sass/base.scss */
 #search_bar {
   height: 34px;
   margin-top: 5px;
@@ -137,87 +169,98 @@ li.icon_navbar > a {
   width: 100%;
 }
 
+/* line 159, ../sass/base.scss */
 #ajax_loader {
   display: none;
   float: none;
   vertical-align: bottom;
 }
 
+/* line 165, ../sass/base.scss */
 .navbar_img {
-  width: 35px
+  width: 35px;
 }
 
+/* line 169, ../sass/base.scss */
 .fa.fa-shopping-cart {
   font-size: 24px;
 }
 
+/* line 173, ../sass/base.scss */
 .navbar-nav > li {
   /* Useful when collapsed (mobile) */
   text-align: center;
 }
 
+/* line 178, ../sass/base.scss */
 .navbar-nav > li > a.navbar_login {
-  color: rgb(127, 127, 127);
+  color: #7f7f7f;
   font-size: 18px;
 }
 
+/* line 183, ../sass/base.scss */
 .navbar-nav > li > .dropdown-menu {
   margin-top: 20px;
 }
 
-
+/* line 188, ../sass/base.scss */
 #achats a:hover {
   background-color: white;
   color: #18bc9c;
 }
 
-
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
-
+/* line 198, ../sass/base.scss */
 #wrap > .container {
-padding-top: 60px;
+  padding-top: 70px;
 }
+
+/* line 201, ../sass/base.scss */
 .container .credit {
-margin: 20px 0;
+  margin: 20px 0;
 }
 
+/* line 205, ../sass/base.scss */
 code {
-font-size: 80%;
+  font-size: 80%;
 }
 
-.search_button
-{
-	/*background-color: #32B232;*/
+/* line 209, ../sass/base.scss */
+.search_button {
+  /*background-color: #32B232;*/
   background: url(/static/img/search_back.png) no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
-.gold_button
-{
-    /*background-color: #32B232;*/
+
+/* line 218, ../sass/base.scss */
+.gold_button {
+  /*background-color: #32B232;*/
   background: url(/static/img/gold_back.png) no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-	/*background-color: #EBEB00;*/
+  /*background-color: #EBEB00;*/
 }
-.subscribe_button
-{
-    background: url(/static/img/sub_back.png) no-repeat center center;
+
+/* line 228, ../sass/base.scss */
+.subscribe_button {
+  background: url(/static/img/sub_back.png) no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-	/*background-color: #006A80;*/
-
+  /*background-color: #006A80;*/
 }
+
+/* line 238, ../sass/base.scss */
 .nb_achats {
   font-weight: bold;
-  color: rgb(74,74,74);
-  font-family:'Helvetica Neue';
+  color: #4a4a4a;
+  font-family: 'Helvetica Neue';
 }
