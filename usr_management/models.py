@@ -128,9 +128,10 @@ class Syntheses(models.Model):
     @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
+        _title = "".join(("<h1>Kooblit de <span class='book_title'>", self.book_title,
+            "</span> par ", self.user.username, "</h1>"))
         resume = self._file_html.read()
-        if not resume.startswith('<html>'):
-            resume = "".join(("<html>", resume, "</html>"))
+        resume = "".join((_title, resume))
         return resume
 
 
