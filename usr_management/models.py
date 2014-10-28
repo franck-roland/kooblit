@@ -125,7 +125,7 @@ class Syntheses(models.Model):
     def __unicode__(self):
         return u"".join((self.user.username," ",self.book_title))
 
-    @cached_property
+    # @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
         _title = "".join(("<h1>Kooblit de <span class='book_title'>", self.book_title,
@@ -153,7 +153,7 @@ class Syntheses(models.Model):
 
     @property
     def nbre_mots(self):
-        text = BeautifulSoup(self.contenu).get_text()
+        text = BeautifulSoup(self.contenu()).get_text()
         exclude = set(string.punctuation)
         filtered_text = ''.join(ch for ch in text if ch not in exclude)
         return len(filtered_text.split(" "))
@@ -163,7 +163,7 @@ class Syntheses(models.Model):
     def extrait(self):
         ''' Return the first paragraph of the Synthese
         '''
-        soup = BeautifulSoup(self.contenu)
+        soup = BeautifulSoup(self.contenu())
         first_words = soup.getText().split(' ')[:self.EXTRACT_LIMIT]
         regex =  re.compile('.*?'.join(re.escape(word) for word in first_words[-3:]))
         first_match = soup.find(text=regex)
