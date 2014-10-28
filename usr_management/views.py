@@ -16,6 +16,9 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
+#URLS
+from django.core.urlresolvers import reverse
+
 # Emails
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
@@ -121,6 +124,8 @@ def contact(request):
             try:
                 username = request.POST['username_log']
                 password = request.POST['password_log']
+                next_url = reverse('usr_management:dashboard')
+                print next_url
                 return try_login(request, username, password, next_url, form)
             except MultiValueDictKeyError:
                 pass
