@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript">
+            function subst() {
+                var vars={};
+                var x=window.location.search.substring(1).split('&');
+                for (var i in x) {
+                    var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);
+                }
+                var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                for (var i in x) {
+                    var y = document.getElementsByClassName(x[i]);
+                    for (var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+                }
+            }
+        </script>
+        <style type="text/css">
+            @font-face{
+              font-family: "Helvetica Neue";
+              src: url("../static/fonts/Helvetica_Neue/HelveticaNeue.otf") format("opentype");
+            }
+            @font-face{
+              font-family: "Helvetica Neue";
+              font-style: italic;
+              src: url("../static/fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf") format("opentype");
+            }
+            @font-face{
+              font-family: "Helvetica Neue Medium";
+              src: url("../static/fonts/Helvetica_Neue/HelveticaNeue-Medium.otf") format("opentype");
+            }
+            @font-face{
+              font-family: "Helvetica Neue";
+              font-weight: bold;
+              src: url("../static/fonts/Helvetica_Neue/HelveticaNeue-Bold.otf") format("opentype");
+            }
+        </style>
+    </head>
+    <body id="body" style="border:0; margin: 0;" onload="subst()">
+          <table style="width: 100%;height:90px;">
+           <tr>
+             <td style="text-align:right;font-family: 'Helvetica Neue';color:grey;">
+                 <i><span class="page"></span>/<span class="topage"></span></i>
+             </td>
+           </tr>
+         </table>
+    </body>
+</html>

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block navigation %}
-  {% include 'navigation/titled.html' with title=synth.titre|title author=synth.user.username|title %}
+  
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@
     </div>
   {% endif %}
 
-  <div class="container resume">
+  <div class="container resume" style="margin:0;">
     <div class="row">
       <div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1">
       {{ synth.contenu|safe }}

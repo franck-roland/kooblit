@@ -2,6 +2,7 @@
 from random import randrange
 import hashlib
 import re
+import subprocess
 
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
@@ -41,7 +42,8 @@ from countries.data import COUNTRIES_DIC, COUNTRIES
 from django.core.files import File
 
 from django.core.servers.basehttp import FileWrapper
-from weasyprint import HTML, CSS
+
+from django.templatetags.static import static
 
 email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 email_match = re.compile(email_adresse_regex)
@@ -168,9 +170,18 @@ def download_pdf(request, synthese_id):
     if can_read(synthese_id, username):
         synt = Syntheses.objects.get(id=synthese_id)
         contenu = synt.contenu
-        html = HTML(string=contenu, encoding='utf8')
-        html.write_pdf('/tmp/synth_'+str(synthese_id))
-        f = FileWrapper(file('/tmp/synth_'+str(synthese_id)))
+
+        pdf_name = '/tmp/synth_'+str(synthese_id)
+        html_name = pdf_name+'.html'
+
+        open(html_name,'w').write(contenu)
+
+        subprocess.call(["wkhtmltopdf",  
+            "--encoding", "utf-8", 
+            "--header-html", "templates/pdf_header.html ", 
+            "--footer-html", "templates/pdf_footer.html", 
+            html_name, pdf_name,])
+        f = FileWrapper(file(pdf_name))
         response = HttpResponse(f, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
         return response

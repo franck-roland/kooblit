@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript">
+            function subst() {
+                var vars={};
+                var x=window.location.search.substring(1).split('&');
+                for (var i in x) {
+                    var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);
+                }
+                var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                for (var i in x) {
+                    var y = document.getElementsByClassName(x[i]);
+                    for (var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+                    // var height = document.getElementById("table_head").offsetHeight;
+                    //     document.getElementById("hauteur").innerHTML = height;
+                    if(vars['page'] != 1){ // If page is 1, set FakeHeaders display to none
+                        document.getElementById("FirstHeader").style.display = 'none';
+                        document.getElementById("line").style.display = 'none';
+                        // document.getElementById("body").style.height = '100px';
+                        // document.getElementById("table_head").offsetHeight = height;
+                    }
+                    else{
+                        document.getElementById("NextHeader").style.display = 'none';
+                        // document.getElementById("body").style.height = '100px';
+                        // document.getElementById("table_head").style.height = '400px';
+                    }
+                }
+            }
+        </script>
+        <style type="text/css">
+            @font-face{
+              font-family: "Helvetica Neue";
+              src: url("../static/fonts/Helvetica_Neue/HelveticaNeue.otf") format("opentype");
+            }
+            @font-face{
+              font-family: "Helvetica Neue";
+              font-style: italic;
+              src: url("../static/fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf") format("opentype");
+            }
+            @font-face{
+              font-family: "Helvetica Neue Medium";
+              src: url("../static/fonts/Helvetica_Neue/HelveticaNeue-Medium.otf") format("opentype");
+            }
+            @font-face{
+              font-family: "Helvetica Neue";
+              font-weight: bold;
+              src: url("../static/fonts/Helvetica_Neue/HelveticaNeue-Bold.otf") format("opentype");
+            }
+            #line:before {
+                content: " ";
+            }
+            #line {
+                height: 2px;
+                width: 80%;
+                margin-left: 10%;
+                border-bottom: 1px solid grey;
+            }
+        </style>
+    </head>
+    <body id="body" style="border:0; margin: 0;height:205px;" onload="subst()">
+         <table id="FirstHeader" style=" width: 100%;">
+           <tr>
+             <td style="text-align:center;font-family: 'Helvetica Neue';">
+                 <img src="../static/img/baniere_kooblit.png" height="50px" />
+                 <h2 style="margin-top:0;font-size:1.3em;color:grey;">Accélérateur de savoir</h2>
+                 <p style="color:grey;"><i><b>Des milliers de synthèses de livres, pour seulement quelques euros.</b></i> <br/>
+                <i>Découvrez le catalogue de synthèses écrites par les utilisateurs et gagnez de l’argent en 
+                partageant les votres. <span style="color:orange;"><b>Kooblit.com</b></span></i></p>
+             </td>
+           </tr>
+         </table>
+         <div id="line"></div>
+          <table id="NextHeader" style="width: 100%;height:100%;">
+           <tr>
+             <td style="text-align:center;font-family: 'Helvetica Neue';">
+                 <img src="../static/img/baniere_kooblit.png" height="50px" />
+                 <h2 style="margin-top:0;font-size:1.3em;color:grey;">Accélérateur de savoir</h2>
+                 <h2 style="margin-top:0;font-size:1.3em;color:orange;"><i>Kooblit.com</i></h2>
+             </td>
+           </tr>
+         </table>
+    </body>
+</html>
