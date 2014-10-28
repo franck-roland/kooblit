@@ -133,11 +133,14 @@ class Syntheses(models.Model):
             resume = "".join(("<html>", resume, "</html>"))
         return resume
 
-    def get_filename_0(book_title, username):
+
+    @classmethod
+    def get_filename_0(cls, book_title, username):
         book_title = utils.book_slug(book_title)
         inpart = ''.join((book_title, username))
         part = hashlib.sha1(inpart).hexdigest()
         return ''.join(('/tmp/', part, '_0'))
+
 
     @property
     def filename(self):

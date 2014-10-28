@@ -124,8 +124,9 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
             # TODO: si deja publiée, est-ce possible de revenir en arriere
             synthese.has_been_published = has_been_published
         except Syntheses.DoesNotExist:
-            synthese = Syntheses(_file=File(destination), _file_html=File(destination),
-                                 user=user, livre_id=book.id, prix=2, has_been_published=has_been_published)
+            synthese = Syntheses(_file_html=File(destination),
+                                 user=user, livre_id=book.id, book_title=book.title,
+                                 prix=2, has_been_published=has_been_published)
         synthese.save()
         synthese.publish()
 
