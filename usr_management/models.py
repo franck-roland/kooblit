@@ -103,7 +103,6 @@ class Verification(models.Model):
 
 class Syntheses(models.Model):
     version = models.IntegerField(default=0)
-    _file = models.FileField(upload_to="syntheses", storage=mfs)
     _file_html = models.FileField(upload_to="syntheses", storage=mfs)
     user = models.ForeignKey('UserKooblit', related_name='+')
     # livre = models.ForeignKey('Book')
@@ -223,8 +222,7 @@ class Version_Synthese(models.Model):
         if self.synthese.version == self.version:
             self.publication_date = datetime.datetime.now()
             self.prix = self.synthese.prix
-            self._file = self.synthese._file
-            self._file_html = self.synthese._file_html
+            self._file = self.synthese._file_html
             self.save()
 
 

@@ -120,7 +120,6 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
     with open(filename, 'r') as destination:
         try:
             synthese = Syntheses.objects.get(user=user, livre_id=book.id)
-            synthese._file = File(destination)
             synthese._file_html = File(destination)
             # TODO: si deja publiée, est-ce possible de revenir en arriere
             synthese.has_been_published = has_been_published

@@ -59,7 +59,17 @@ def ajout_userkooblit_syntheses_achetees():
                     gain=synth.gain, nb_achat=synth.nb_achat)
             version_synth.save()
 
-def migrate_file():
+
+def migrate_synth_file():
+    import models
+    from django.core.files import File
+    for synth in models.Syntheses.objects.filter():
+        with open(os.path.join(settings.MEDIA_ROOT, synth.filename.replace('/tmp/','syntheses/')), 'r') as f:
+            synth._file_html = File(f)
+            synth.save()
+
+def migrate_file_version():
+    import models
     from django.core.files import File
     for version_synth in models.Version_Synthese.objects.filter():
         filename = version_synth.synthese.filename.replace('_' + str(version_synth.synthese.version), '_' + str(version_synth.version)).replace('/tmp/','syntheses/')
@@ -101,5 +111,5 @@ def migrate():
     ajout_userkooblit_syntheses_achetees()
     add_title_to_syntheses()
     migrate_synth_tmp_file()
-    migrate_file()
-
+    migrate_file_version()
+    migrate_synth_file()
