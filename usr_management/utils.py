@@ -75,6 +75,7 @@ def migrate_file_version():
         filename = version_synth.synthese.filename.replace('_' + str(version_synth.synthese.version), '_' + str(version_synth.version)).replace('/tmp/','syntheses/')
         filename = os.path.join(settings.MEDIA_ROOT, filename)
         print version_synth.synthese
+        print filename
         with open(filename, 'r') as f:
             version_synth._file = File(f)
             version_synth.save()
@@ -91,13 +92,14 @@ def add_title_to_syntheses():
 
 def migrate_synth_tmp_file():
     import models
-    from manage_books_synth.views import get_name
     for synth in models.Syntheses.objects.filter():
-        old_filename = get_name(synth.book_title, synth.user.username)
+        #old_filename = get_name(book_title, synth.user.username)
+        old_filename = '/tmp/'+synth._file_html.name
+        print old_filename
         new_filename = synth.filename
         if os.path.isfile(old_filename):
             shutil.copy2(old_filename, new_filename)
-            os.remove(old_filename)
+            #os.remove(old_filename)
 
         old_filename = os.path.join(settings.MEDIA_ROOT, old_filename.replace("/tmp/",'syntheses/'))
         print old_filename
@@ -105,7 +107,7 @@ def migrate_synth_tmp_file():
         if os.path.isfile(old_filename):
             print new_filename
             shutil.copy2(old_filename, new_filename)
-            os.remove(old_filename)
+            #os.remove(old_filename)
 
 def migrate():
     ajout_userkooblit_syntheses_achetees()
