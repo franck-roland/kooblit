@@ -103,8 +103,8 @@ class Verification(models.Model):
 
 class Syntheses(models.Model):
     version = models.IntegerField(default=0)
-    _file = models.FileField(upload_to="syntheses", default=False, storage=mfs)
-    _file_html = models.FileField(upload_to="syntheses", default=False, storage=mfs)
+    _file = models.FileField(upload_to="syntheses", storage=mfs)
+    _file_html = models.FileField(upload_to="syntheses", storage=mfs)
     user = models.ForeignKey('UserKooblit', related_name='+')
     # livre = models.ForeignKey('Book')
     # title = models.CharField(max_length=240, default=False)
@@ -119,8 +119,12 @@ class Syntheses(models.Model):
     has_been_published = models.BooleanField(default=True)
     EXTRACT_LIMIT = 200
 
+    class Meta:
+        unique_together = (("user","livre_id"),)
+
+
     def __unicode__(self):
-        return u"".join((self.user.username," ",self.livre_id))
+        return u"".join((self.user.username," ",self.book_title))
 
     @cached_property
     def contenu(self):
@@ -130,9 +134,14 @@ class Syntheses(models.Model):
             resume = "".join(("<html>", resume, "</html>"))
         return resume
 
+    def get_filename_0(book_title, username):
+        book_title = utils.book_slug(book_title)
+        inpart = ''.join((book_title, username))
+        part = hashlib.sha1(inpart).hexdigest()
+        return ''.join(('/tmp/', part, '_0'))
 
     @property
-    def get_filename(self):
+    def filename(self):
         book_title = utils.book_slug(self.book_title)
         inpart = ''.join((book_title, self.user.username))
         part = hashlib.sha1(inpart).hexdigest()
@@ -200,6 +209,7 @@ class Version_Synthese(models.Model):
     publication_date = models.DateField(null=True, default=datetime.datetime.now)
     gain = models.FloatField(default=0)
     nb_achat = models.BigIntegerField(default=0)
+    _file = models.FileField(upload_to="syntheses", storage=mfs)
 
     class Meta:
         unique_together = (("version","synthese"),)
@@ -211,8 +221,10 @@ class Version_Synthese(models.Model):
 
     def update(self):
         if self.synthese.version == self.version:
-            self.publication_date=datetime.time.now()
-            self.prix = synthese.prix
+            self.publication_date = datetime.datetime.now()
+            self.prix = self.synthese.prix
+            self._file = self.synthese._file
+            self._file_html = self.synthese._file_html
             self.save()
 
 

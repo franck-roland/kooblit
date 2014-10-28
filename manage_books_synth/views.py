@@ -103,7 +103,13 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
     create_book_if_doesnt_exist(request, book_title)
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
-    filename = get_name(book_title, username)
+    try:
+        synthese = Syntheses.objects.get(user=user, livre_id=book.id)
+        synthese.publish()
+        filename = synthese.filename
+    except Syntheses.DoesNotExist:
+        filename = Syntheses.get_filename_0(book_title, username)
+
     if '<br>' in s:
         s = s.replace('<br>', '<br/>')
     if '<script' in s:
@@ -118,11 +124,11 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
             synthese._file_html = File(destination)
             # TODO: si deja publiée, est-ce possible de revenir en arriere
             synthese.has_been_published = has_been_published
-            synthese.save()
         except Syntheses.DoesNotExist:
             synthese = Syntheses(_file=File(destination), _file_html=File(destination),
                                  user=user, livre_id=book.id, prix=2, has_been_published=has_been_published)
-            synthese.save()
+        synthese.save()
+        synthese.publish()
 
     if has_been_published:
         os.remove(filename)
