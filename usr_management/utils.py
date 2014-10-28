@@ -32,3 +32,18 @@ def author_required(function):
             return HttpResponseRedirect(new_path, request)
 
     return wrap
+
+
+def ajout_userkooblit_syntheses_achetees():
+    us = models.UserKooblit.objects.filter()
+    for usr in us:
+        for synth in usr.syntheses.all():
+            try:
+                version_synth = models.Version_Synthese.objects.get(synthese=synth, version=synth.version)
+            except models.Version_Synthese.DoesNotExist:
+                version_synth = models.Version_Synthese(synthese=synth, version=synth.version, prix=synth.prix)
+                version_synth.save()
+            if version_synth not in usr.syntheses_achetees.all():
+                usr.syntheses_achetees.add(version_synth)
+                usr.save()
+                

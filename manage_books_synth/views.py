@@ -99,6 +99,7 @@ def get_tmp_medium_file(book_title, username):
 
 
 def create_file_medium(request, s, book_title, username, has_been_published=False):
+    # TODO: Utiliser la méthode publish de Syntheses
     create_book_if_doesnt_exist(request, book_title)
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)

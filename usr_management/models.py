@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import datetime
 import re
 import string
@@ -120,7 +121,7 @@ class Syntheses(models.Model):
 
     def __unicode__(self):
         return u"".join((self.user.username," ",self.livre_id))
-        
+
     @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
@@ -131,7 +132,7 @@ class Syntheses(models.Model):
 
 
     @property
-    def filename(self):
+    def get_filename(self):
         book_title = utils.book_slug(self.book_title)
         inpart = ''.join((book_title, self.user.username))
         part = hashlib.sha1(inpart).hexdigest()
@@ -174,27 +175,34 @@ class Syntheses(models.Model):
         return self.user.username != username and not UserKooblit.objects.filter(username=username,syntheses_achetees__synthese=self)
 
     def publish(self):
+        self.date = datetime.datetime.now()
         try:
             version_synthese = Version_Synthese.objects.get(version=self.version, synthese=self)
             if UserKooblit.objects.filter(syntheses_achetees=version_synthese):
+                # Quelqu'un a deja achete la version actuelle: il faut incrementer le numero de version
                 self.version += 1
                 self.save()
-                new_version = Version_Synthese(version=self.version, synthese=self)
+                new_version = Version_Synthese(version=self.version, synthese=self, prix=self.prix)
                 new_version.save()
             else:
+                # Pas d'incrémentation de version
                 version_synthese.update()
         except Version_Synthese.DoesNotExist:
-            new_version = Version_Synthese(version=self.version, synthese=self)
+            # Création version 0
+            new_version = Version_Synthese(version=self.version, synthese=self, prix=self.prix)
             new_version.save()
 
 
 class Version_Synthese(models.Model):
-    version = models.IntegerField(default=0)
+    version = models.IntegerField()
     synthese = models.ForeignKey('Syntheses')
+    prix = models.FloatField()
     publication_date = models.DateField(null=True, default=datetime.datetime.now)
-    prix = models.FloatField(default=0)
     gain = models.FloatField(default=0)
     nb_achat = models.BigIntegerField(default=0)
+
+    class Meta:
+        unique_together = (("version","synthese"),)
 
     def can_be_added_by(self, username):
         buyer = UserKooblit.objects.get(username=username)
