@@ -12,6 +12,8 @@ from django.utils.functional import cached_property
 from kooblit_lib import  utils
 from countries import data
 from utils import MyFileStorage
+from django.utils.encoding import smart_text
+
 mfs = MyFileStorage()
 # Model utilisateur
 
@@ -38,7 +40,6 @@ class UserKooblit(User):
             print all((address.number, address.street_line1, address.zipcode, address.city, address.country))
             return all((address.number, address.street_line1, address.zipcode, address.city, address.country))
         except Address.DoesNotExist:
-            print "nok"
             return False
 
     def get_user_infos(self):
@@ -128,11 +129,11 @@ class Syntheses(models.Model):
     # @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
-        _title = "".join(("<h1>Kooblit de <span class='book_title'>", self.book_title,
+        _title = u"".join(("<h1>Kooblit de <span class='book_title'>", self.book_title,
             "</span> par ", self.user.username, "</h1>"))
-        resume = self._file_html.read()
+        resume = smart_text(self._file_html.read())
         resume = "".join((_title, resume))
-        return resume
+        return resume.encode("utf-8")
 
 
     @classmethod
