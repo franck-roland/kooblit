@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm, AddressChangeForm
 from django.contrib.auth.models import User
-from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address
+from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address, Version_Synthese
 from manage_books_synth.models import Book
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
@@ -154,7 +154,7 @@ def can_read(id_synthese, username):
     except Syntheses.DoesNotExist:
         return False
     buyer = UserKooblit.objects.get(username=username)
-    return synthese.user.username == username or synthese in buyer.syntheses.all()
+    return synthese.user.username == username or UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=synthese)
 
 
 @login_required
@@ -242,7 +242,7 @@ def syntheses_from_user(request, username):
         user = UserKooblit.objects.get(username__iexact=username)
     except UserKooblit.DoesNotExist:
         raise Http404()
-    syntheses = Syntheses.objects.filter(user=user)
+    syntheses = Syntheses.objects.filter(user=user,has_been_published=True)
     bought = []
     for synth in syntheses:
         bought.append(request.user.is_authenticated() and not synth.can_be_added_by(request.user.username))
@@ -298,7 +298,7 @@ def user_dashboard(request):
         loc_required = request.GET.get('loc','')
         next_url = request.GET.get('next','')
         form = AddressChangeForm()
-        syntheses_achetees = get_syntheses_properties(user_kooblit.syntheses.all())
+        syntheses_achetees = get_syntheses_properties(set([version_synt.synthese for version_synt in Version_Synthese.objects.filter(userkooblit=user_kooblit)]))
         syntheses_ecrites = [
                     {
                         "id": synth.id,

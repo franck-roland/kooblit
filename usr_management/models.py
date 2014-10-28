@@ -1,17 +1,23 @@
+#-*- coding: utf-8 -*-
 import datetime
 import re
 import string
+import hashlib
 from bs4 import BeautifulSoup
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.models import UserManager
 from django.utils.functional import cached_property
-
+from kooblit_lib import  utils
 from countries import data
 from utils import MyFileStorage
 mfs = MyFileStorage()
 # Model utilisateur
+
+# Settings
+from django.conf import settings
+
 
 
 class UserKooblit(User):
@@ -23,6 +29,7 @@ class UserKooblit(User):
     cagnotte = models.FloatField(default=0, unique=False)
     cagnotte_HT = models.FloatField(default=0, unique=False)
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
+    syntheses_achetees = models.ManyToManyField('Version_Synthese', blank=True, null=True)
 
     def is_author(self):
         try:
@@ -95,12 +102,13 @@ class Verification(models.Model):
 
 
 class Syntheses(models.Model):
-    _file = models.FileField(upload_to="syntheses", default=False, storage=mfs)
-    _file_html = models.FileField(upload_to="syntheses", default=False, storage=mfs)
+    version = models.IntegerField(default=0)
+    _file_html = models.FileField(upload_to="syntheses", storage=mfs)
     user = models.ForeignKey('UserKooblit', related_name='+')
     # livre = models.ForeignKey('Book')
     # title = models.CharField(max_length=240, default=False)
-    livre_id = models.CharField(max_length=240, default=False)
+    livre_id = models.CharField(max_length=240, blank=False)
+    book_title = models.CharField(max_length=settings.MAX_BOOK_TITLE_LEN, default="", blank=False)
     nb_achat = models.BigIntegerField(default=0)
     note_moyenne = models.BigIntegerField(default=0)
     nbre_notes = models.BigIntegerField(default=0)
@@ -110,6 +118,13 @@ class Syntheses(models.Model):
     has_been_published = models.BooleanField(default=True)
     EXTRACT_LIMIT = 200
 
+    class Meta:
+        unique_together = (("user","livre_id"),)
+
+
+    def __unicode__(self):
+        return u"".join((self.user.username," ",self.book_title))
+
     @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
@@ -117,6 +132,23 @@ class Syntheses(models.Model):
         if not resume.startswith('<html>'):
             resume = "".join(("<html>", resume, "</html>"))
         return resume
+
+
+    @classmethod
+    def get_filename_0(cls, book_title, username):
+        book_title = utils.book_slug(book_title)
+        inpart = ''.join((book_title, username))
+        part = hashlib.sha1(inpart).hexdigest()
+        return ''.join(('/tmp/', part, '_0'))
+
+
+    @property
+    def filename(self):
+        book_title = utils.book_slug(self.book_title)
+        inpart = ''.join((book_title, self.user.username))
+        part = hashlib.sha1(inpart).hexdigest()
+        return ''.join(('/tmp/', part, '_', str(self.version)))
+
 
     @property
     def nbre_mots(self):
@@ -140,14 +172,62 @@ class Syntheses(models.Model):
                 parent.next_sibling.extract()
         return str(soup)
 
+
     @property
     def titre(self):
         from manage_books_synth.models import Book
         return Book.objects.get(id=self.livre_id).title
 
     def can_be_added_by(self, username):
+        if not self.has_been_published:
+            raise Exception("Should not be ask for adding in")
         buyer = UserKooblit.objects.get(username=username)
-        return self.user.username != username and self not in buyer.syntheses.all()
+        # A changer si changement de regle sur les versions
+        return self.user.username != username and not UserKooblit.objects.filter(username=username,syntheses_achetees__synthese=self)
+
+    def publish(self):
+        self.date = datetime.datetime.now()
+        try:
+            version_synthese = Version_Synthese.objects.get(version=self.version, synthese=self)
+            if UserKooblit.objects.filter(syntheses_achetees=version_synthese):
+                # Quelqu'un a deja achete la version actuelle: il faut incrementer le numero de version
+                self.version += 1
+                self.save()
+                new_version = Version_Synthese(version=self.version, synthese=self, prix=self.prix)
+                new_version.save()
+            else:
+                # Pas d'incrémentation de version
+                version_synthese.update()
+        except Version_Synthese.DoesNotExist:
+            # Création version 0
+            new_version = Version_Synthese(version=self.version, synthese=self, prix=self.prix)
+            new_version.save()
+
+
+class Version_Synthese(models.Model):
+    version = models.IntegerField()
+    synthese = models.ForeignKey('Syntheses')
+    prix = models.FloatField()
+    publication_date = models.DateField(null=True, default=datetime.datetime.now)
+    gain = models.FloatField(default=0)
+    nb_achat = models.BigIntegerField(default=0)
+    _file = models.FileField(upload_to="syntheses", storage=mfs)
+
+    class Meta:
+        unique_together = (("version","synthese"),)
+
+    def can_be_added_by(self, username):
+        buyer = UserKooblit.objects.get(username=username)
+        # todo: a changer si changement de regle sur les versions
+        return self.synthese.user.username != username and not UserKooblit.objects.filter(username=username,syntheses_achetees=self)
+
+    def update(self):
+        if self.synthese.version == self.version:
+            self.publication_date = datetime.datetime.now()
+            self.prix = self.synthese.prix
+            self._file = self.synthese._file_html
+            self.save()
+
 
 
 class Comments(models.Model):

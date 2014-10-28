@@ -99,10 +99,17 @@ def get_tmp_medium_file(book_title, username):
 
 
 def create_file_medium(request, s, book_title, username, has_been_published=False):
+    # TODO: Utiliser la méthode publish de Syntheses
     create_book_if_doesnt_exist(request, book_title)
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
-    filename = get_name(book_title, username)
+    try:
+        synthese = Syntheses.objects.get(user=user, livre_id=book.id)
+        synthese.publish()
+        filename = synthese.filename
+    except Syntheses.DoesNotExist:
+        filename = Syntheses.get_filename_0(book_title, username)
+
     if '<br>' in s:
         s = s.replace('<br>', '<br/>')
     if '<script' in s:
@@ -113,15 +120,15 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
     with open(filename, 'r') as destination:
         try:
             synthese = Syntheses.objects.get(user=user, livre_id=book.id)
-            synthese._file = File(destination)
             synthese._file_html = File(destination)
             # TODO: si deja publiée, est-ce possible de revenir en arriere
             synthese.has_been_published = has_been_published
-            synthese.save()
         except Syntheses.DoesNotExist:
-            synthese = Syntheses(_file=File(destination), _file_html=File(destination),
-                                 user=user, livre_id=book.id, prix=2, has_been_published=has_been_published)
-            synthese.save()
+            synthese = Syntheses(_file_html=File(destination),
+                                 user=user, livre_id=book.id, book_title=book.title,
+                                 prix=2, has_been_published=has_been_published)
+        synthese.save()
+        synthese.publish()
 
     if has_been_published:
         os.remove(filename)
@@ -348,8 +355,7 @@ def selection(request, book_title):
 
 def valid_synthese_for_add(id_synthese, username):
     synthese = Syntheses.objects.get(id=id_synthese)
-    buyer = UserKooblit.objects.get(username=username)
-    return synthese.user.username != username and synthese not in buyer.syntheses.all()
+    return synthese.user.username != username and not UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=synthese)
 
 
 
