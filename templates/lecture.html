@@ -6,7 +6,12 @@
 {% endblock %}
 
 {% block navigation %}
-  
+<a name="top"></a>
+<div class="container">
+  <div class="header">
+    <h2><i class="fa fa-home"></i></h2>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
@@ -29,9 +34,65 @@
     </div>
   </div>
 
+{% endblock %}
+{% block footer %}
+  <a class="to_top" href="#top" style="position:fixed;bottom:10px;right:10px;display:none;">
+  <button class="btn" >
+    To Top <i class="fa fa-arrow-circle-o-up"></i>
+  </button>
+  </a>
   <footer>
-    <div class="container">
-      <a href="{% url 'usr_management:download_pdf' synth.id %}">Télécharger pdf <i class="fa fa-arrow-circle-o-down"></i></a>
+    <div class="container ">
+      <a class="dowload_pdf" href="{% url 'usr_management:download_pdf' synth.id %}">Télécharger pdf <i class="fa fa-arrow-circle-o-down"></i></a>
     </div>
   </footer>
+{% endblock %}
+{% block script_block %}
+<script type="text/javascript">
+$(function () {
+  var lastScrollTop = $(window).scrollTop();
+  if ($("#block_content").height() > $(window).height()) {
+    $(window).scroll(function (data_event){
+      var st = $(this).scrollTop();
+      if (st > lastScrollTop){
+          if($(".to_top").css('display') === "none"){
+            $("footer").fadeOut("fast", function(){
+              $(".to_top").fadeIn("fast");
+            });
+          }
+      } else if (st < lastScrollTop){
+          if($("footer").css('display') === "none"){
+            console.log("in2");
+            $(".to_top").fadeOut("fast", function(){
+              $("footer").fadeIn("fast");
+            });
+          }
+          // if(st < lastScrollTop){
+          // }
+          // else {
+          //   $(".to_top").style('bottom', $("footer").height()); 
+          // }
+      }
+      lastScrollTop = st;
+    });
+  }
+});
+  $(function() {
+    $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+            || location.hostname == this.hostname) {
+
+            var target = $(this.hash);
+            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+               if (target.length) {
+                 $('html,body').animate({
+                     scrollTop: target.offset().top
+                }, 1000);
+                return false;
+            }
+        }
+    });
+});
+
+</script>
 {% endblock %}
