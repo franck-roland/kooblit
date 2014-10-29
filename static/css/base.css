@@ -3,77 +3,98 @@
  * --------------------------------------------------
  */
 @font-face {
-  font-family: "Helvetica Neue";
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue.otf") format("opentype");
-}
-@font-face {
   font-family: "Helvetica Neue Thin";
   src: url("../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf") format("opentype");
 }
+
 @font-face {
-  font-family: "Helvetica Neue Medium";
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf") format("opentype");
-}
-@font-face {
-  font-family: "Helvetica Neue Bold";
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Bold.otf") format("opentype");
-}
-/* line 28, ../sass/base.scss */
-nav {
-  background: #FAFAFA;
+  font-family: 'Helvetica Neue';
+  src: url("../fonts/Helvetica_Neue/HelveticaNeue.otf") format("OpenType");
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
 }
 
-/* line 31, ../sass/base.scss */
+@font-face {
+  font-family: 'Helvetica Neue';
+  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Italic.otf") format("OpenType");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue Medium';
+  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf") format("OpenType");
+}
+
+@font-face {
+  font-family: 'Helvetica Neue';
+  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Bold.otf") format("OpenType");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue';
+  src: url("../fonts/Helvetica_Neue/HelveticaNeue-BoldItalic.otf") format("OpenType");
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* line 44, ../sass/base.scss */
+nav {
+  background: #fafafa;
+}
+
+/* line 48, ../sass/base.scss */
 html, body {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
   height: 100%;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   color: #4a4a4a;
   font-family: 'Helvetica Neue';
 }
 
-/* line 41, ../sass/base.scss */
+/* line 58, ../sass/base.scss */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Helvetica Neue Thin';
 }
 
-/* line 46, ../sass/base.scss */
+/* line 62, ../sass/base.scss */
 li {
   list-style: none;
 }
 
-/* line 50, ../sass/base.scss */
+/* line 66, ../sass/base.scss */
 footer {
   padding: 30px 0;
 }
 
-/* line 54, ../sass/base.scss */
+/* line 70, ../sass/base.scss */
 #block_content {
   padding-top: 70px;
 }
 
 /* Wrapper for page content to push down footer */
-/* line 59, ../sass/base.scss */
+/* line 75, ../sass/base.scss */
 #wrap {
   height: 100%;
   margin: 0 auto 0;
 }
 
 /* Set the fixed height of the footer here */
-/* line 65, ../sass/base.scss */
+/* line 81, ../sass/base.scss */
 #push, #footer {
   height: 60px;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 1105px) {
-  /* line 71, ../sass/base.scss */
+  /* line 87, ../sass/base.scss */
   #wrap {
     min-height: 100%;
     margin: 0 auto 0;
   }
 
-  /* line 75, ../sass/base.scss */
+  /* line 91, ../sass/base.scss */
   #footer {
     margin-left: -20px;
     margin-right: -20px;
@@ -81,86 +102,86 @@ footer {
     padding-right: 20px;
   }
 }
-/* line 83, ../sass/base.scss */
+/* line 99, ../sass/base.scss */
 .nav-bar-kooblit {
   /*background-color: #EFEFEF;*/
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   border: none;
   color: #7f7f7f;
   height: 70px;
 }
 
-/* line 90, ../sass/base.scss */
+/* line 106, ../sass/base.scss */
 .navbar-collapse {
-  background: #FAFAFA;
+  background: #fafafa;
 }
 
-/* line 95, ../sass/base.scss */
+/* line 111, ../sass/base.scss */
 .icon_navbar {
   max-height: 50px;
 }
 
-/* line 100, ../sass/base.scss */
+/* line 116, ../sass/base.scss */
 li.icon_navbar > a {
   max-height: 70px;
   padding: 10px;
 }
 
-/* line 105, ../sass/base.scss */
+/* line 121, ../sass/base.scss */
 .navbar-header {
-  background: #FAFAFA;
+  background: #fafafa;
 }
-/* line 107, ../sass/base.scss */
+/* line 123, ../sass/base.scss */
 .navbar-header a.navbar-brand {
   color: black;
   font-size: 24px;
   margin-top: -4px;
 }
-/* line 111, ../sass/base.scss */
+/* line 127, ../sass/base.scss */
 .navbar-header a.navbar-brand img {
   width: 40px;
   margin-top: -6px;
 }
-/* line 116, ../sass/base.scss */
+/* line 132, ../sass/base.scss */
 .navbar-header .navbar-nav {
   padding: 0;
 }
 
-/* line 124, ../sass/base.scss */
+/* line 140, ../sass/base.scss */
 .navbar-default .navbar-nav li a {
   color: #2c3e50;
 }
-/* line 127, ../sass/base.scss */
+/* line 143, ../sass/base.scss */
 .navbar-default .navbar-nav li a:hover {
   color: blue;
   background: none;
 }
 
-/* line 133, ../sass/base.scss */
+/* line 149, ../sass/base.scss */
 .dropdown-menu > li > a:hover {
   color: blue;
   background: none;
 }
 
-/* line 138, ../sass/base.scss */
+/* line 154, ../sass/base.scss */
 #home_profil {
-  background: #FAFAFA;
+  background: #fafafa;
   color: #FFF;
 }
 
-/* line 143, ../sass/base.scss */
+/* line 159, ../sass/base.scss */
 .twitter-typeahead input {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   width: 100%;
 }
 
-/* line 147, ../sass/base.scss */
+/* line 163, ../sass/base.scss */
 .twitter-typeahead {
   width: 500px;
   max-width: 100%;
 }
 
-/* line 151, ../sass/base.scss */
+/* line 167, ../sass/base.scss */
 #search_bar {
   height: 34px;
   margin-top: 5px;
@@ -169,41 +190,41 @@ li.icon_navbar > a {
   width: 100%;
 }
 
-/* line 159, ../sass/base.scss */
+/* line 175, ../sass/base.scss */
 #ajax_loader {
   display: none;
   float: none;
   vertical-align: bottom;
 }
 
-/* line 165, ../sass/base.scss */
+/* line 181, ../sass/base.scss */
 .navbar_img {
   width: 35px;
 }
 
-/* line 169, ../sass/base.scss */
+/* line 185, ../sass/base.scss */
 .fa.fa-shopping-cart {
   font-size: 24px;
 }
 
-/* line 173, ../sass/base.scss */
+/* line 189, ../sass/base.scss */
 .navbar-nav > li {
   /* Useful when collapsed (mobile) */
   text-align: center;
 }
 
-/* line 178, ../sass/base.scss */
+/* line 194, ../sass/base.scss */
 .navbar-nav > li > a.navbar_login {
   color: #7f7f7f;
   font-size: 18px;
 }
 
-/* line 183, ../sass/base.scss */
+/* line 199, ../sass/base.scss */
 .navbar-nav > li > .dropdown-menu {
   margin-top: 20px;
 }
 
-/* line 188, ../sass/base.scss */
+/* line 204, ../sass/base.scss */
 #achats a:hover {
   background-color: white;
   color: #18bc9c;
@@ -212,22 +233,22 @@ li.icon_navbar > a {
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
-/* line 198, ../sass/base.scss */
+/* line 214, ../sass/base.scss */
 #wrap > .container {
   padding-top: 70px;
 }
 
-/* line 201, ../sass/base.scss */
+/* line 217, ../sass/base.scss */
 .container .credit {
   margin: 20px 0;
 }
 
-/* line 205, ../sass/base.scss */
+/* line 221, ../sass/base.scss */
 code {
   font-size: 80%;
 }
 
-/* line 209, ../sass/base.scss */
+/* line 226, ../sass/base.scss */
 .search_button {
   /*background-color: #32B232;*/
   background: url(/static/img/search_back.png) no-repeat center center;
@@ -237,7 +258,7 @@ code {
   background-size: cover;
 }
 
-/* line 218, ../sass/base.scss */
+/* line 235, ../sass/base.scss */
 .gold_button {
   /*background-color: #32B232;*/
   background: url(/static/img/gold_back.png) no-repeat center center;
@@ -248,7 +269,7 @@ code {
   /*background-color: #EBEB00;*/
 }
 
-/* line 228, ../sass/base.scss */
+/* line 245, ../sass/base.scss */
 .subscribe_button {
   background: url(/static/img/sub_back.png) no-repeat center center;
   -webkit-background-size: cover;
@@ -258,9 +279,8 @@ code {
   /*background-color: #006A80;*/
 }
 
-/* line 238, ../sass/base.scss */
+/* line 254, ../sass/base.scss */
 .nb_achats {
   font-weight: bold;
   color: #4a4a4a;
-  font-family: 'Helvetica Neue';
 }

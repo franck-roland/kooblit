@@ -125,5 +125,6 @@ blockquote {
 }
 
 .edition_bold{
-    font-family: "Helvetica Neue Bold";
+    /*font-family: "Helvetica Neue";*/
+    font-weight: bold;
 }

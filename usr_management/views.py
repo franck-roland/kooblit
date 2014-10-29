@@ -169,7 +169,7 @@ def download_pdf(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
         synt = Syntheses.objects.get(id=synthese_id)
-        contenu = synt.contenu()
+        contenu = synt.contenu_pdf()
 
         pdf_name = '/tmp/synth_'+str(synthese_id)
         html_name = pdf_name+'.html'
