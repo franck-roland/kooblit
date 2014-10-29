@@ -33,16 +33,18 @@
 }
 
 .homepage_quote h2{
-  font-family: 'Helvetica Neue Bold';
+  font-family: 'Helvetica Neue';
   color: rgb(251, 251, 251);
   text-shadow: 0px 0px 8px black;
+  font-weight: bold;
 }
 
 .homepage_quote h4{
   /*font-family: 'Helvetica Neue Thin';*/
-  font-family: 'Helvetica Neue Bold';
+  font-family: 'Helvetica Neue';
   color: rgb(251, 251, 251);
   text-shadow: 0px 0px 8px black;
+  font-weight: bold;
   /*text-shadow: 1px 1px black;*/
 }
 

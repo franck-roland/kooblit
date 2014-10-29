@@ -1,10 +1,12 @@
 #-*- coding: utf-8 -*-
 import datetime
 import re
+import os
 import string
 import hashlib
 from bs4 import BeautifulSoup
 from django.db import models
+# from django.shortcuts import render, render_to_response
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.models import UserManager
@@ -129,12 +131,18 @@ class Syntheses(models.Model):
     # @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
-        _title = u"".join(("<h1>Kooblit de <span class='book_title'>", self.book_title,
-            "</span> par ", self.user.username, "</h1>"))
+        _title = u"".join(("<h1 id='titre_synthese'>Koob de <span class='book_title'>", self.book_title,
+            "</span> par <span class='book_title'>", self.user.username, "</span></h1>"))
         resume = smart_text(self._file_html.read())
         resume = "".join((_title, resume))
         return resume.encode("utf-8")
 
+    def contenu_pdf(self):
+        cont = self.contenu()
+        template_name = os.path.join(settings.TEMPLATE_DIRS[0],'pdf/pdf_render.html')
+        with open(template_name,'r') as f:
+            head = f.read()
+        return "".join((head,cont))
 
     @classmethod
     def get_filename_0(cls, book_title, username):
