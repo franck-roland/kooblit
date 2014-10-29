@@ -175,12 +175,15 @@ def download_pdf(request, synthese_id):
         html_name = pdf_name+'.html'
 
         open(html_name,'w').write(contenu)
-
-        subprocess.call(["wkhtmltopdf",  
-            "--encoding", "utf-8", 
-            "--header-html", "templates/pdf_header.html ", 
-            "--footer-html", "templates/pdf_footer.html", 
-            html_name, pdf_name,])
+	args = ["wkhtmltopdf",
+            "--encoding", "utf-8",
+            "--header-html", "127.0.0.1/static/html/pdf_header.html ",
+            "--footer-html", "127.0.0.1/static/html/pdf_footer.html",
+            html_name, pdf_name,]
+        a = subprocess.call(args)
+        if a:
+            raise Exception("aaaa")
+       
         f = FileWrapper(file(pdf_name))
         response = HttpResponse(f, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
