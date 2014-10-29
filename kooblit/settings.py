@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'search_engine',
     'usr_management',
     'achat',
+    'manage_books_synth',
     'south',
     'crispy_forms',
 )

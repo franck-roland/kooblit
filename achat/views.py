@@ -3,8 +3,13 @@ import json
 import pymill
 
 from django.conf import settings
+
 # model
 from usr_management.models import Syntheses, Transaction, UserKooblit, Entree, Version_Synthese
+
+#URLS
+from django.core.urlresolvers import reverse
+
 # rendu
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -169,7 +174,7 @@ def paiement(request):
     cart = request.session.get('cart', [])
 
     if not cart:
-        raise Http404()
+        return HttpResponseRedirect('/')
 
     if cart != clean_cart(cart, request.user.username):
         print cart
@@ -218,10 +223,13 @@ def paiement(request):
                 synthese = Syntheses.objects.get(id=i)
                 ajouter_et_payer(buyer, synthese)
         if transaction.status == 'closed':
+            if len(cart) > 1:
+                next_url = reverse('usr_management:dashboard')
+            else:
+                next_url = reverse('usr_management:lire_synthese', args=[cart[0]])
             request.session['cart'] = []
             messages.success(request, u'Votre commande a bien été enregistrée. Une facture vous sera envoyée à votre adresse email.')
-
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(next_url)
     total = sum((Syntheses.objects.get(id=i).prix for i in cart))
     return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))
 

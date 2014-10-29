@@ -261,7 +261,7 @@ def syntheses_from_user(request, username):
         user = UserKooblit.objects.get(username__iexact=username)
     except UserKooblit.DoesNotExist:
         raise Http404()
-    syntheses = Syntheses.objects.filter(user=user,has_been_published=True)
+    syntheses = Syntheses.objects.filter(user=user, has_been_published=True)
     bought = []
     for synth in syntheses:
         bought.append(request.user.is_authenticated() and not synth.can_be_added_by(request.user.username))
