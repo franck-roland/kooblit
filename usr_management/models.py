@@ -4,7 +4,7 @@ import re
 import os
 import string
 import hashlib
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 from django.db import models
 # from django.shortcuts import render, render_to_response
 from django.utils.translation import ugettext_lazy as _
@@ -15,7 +15,6 @@ from kooblit_lib import  utils
 from countries import data
 from utils import MyFileStorage
 from django.utils.encoding import smart_text
-
 mfs = MyFileStorage()
 # Model utilisateur
 
@@ -38,8 +37,6 @@ class UserKooblit(User):
     def is_author(self):
         try:
             address = Address.objects.get(user=self)
-            print ((address.number, address.street_line1, address.zipcode, address.city, address.country))
-            print all((address.number, address.street_line1, address.zipcode, address.city, address.country))
             return all((address.number, address.street_line1, address.zipcode, address.city, address.country))
         except Address.DoesNotExist:
             return False
@@ -137,6 +134,13 @@ class Syntheses(models.Model):
         resume = "".join((_title, resume))
         return resume.encode("utf-8")
 
+
+    def contenu_sans_titre(self):
+        self._file_html.seek(0)  # We need to be at the beginning of the file
+        resume = self._file_html.read()
+        return resume.encode("utf-8")
+
+
     def contenu_pdf(self):
         cont = self.contenu()
         template_name = os.path.join(settings.TEMPLATE_DIRS[0],'pdf/pdf_render.html')
@@ -162,7 +166,7 @@ class Syntheses(models.Model):
 
     @property
     def nbre_mots(self):
-        text = BeautifulSoup(self.contenu()).get_text()
+        text = BeautifulSoup(self.contenu_sans_titre()).get_text()
         exclude = set(string.punctuation)
         filtered_text = ''.join(ch for ch in text if ch not in exclude)
         return len(filtered_text.split(" "))
@@ -172,15 +176,28 @@ class Syntheses(models.Model):
     def extrait(self):
         ''' Return the first paragraph of the Synthese
         '''
-        soup = BeautifulSoup(self.contenu())
-        first_words = soup.getText().split(' ')[:self.EXTRACT_LIMIT]
-        regex =  re.compile('.*?'.join(re.escape(word) for word in first_words[-3:]))
-        first_match = soup.find(text=regex)
+        if not self.book_title:
+            self.book_title = self.titre
+            self.save()
+        soup = BeautifulSoup(self.contenu_sans_titre())
+        body = soup.find("body")
+        current_length = 0
+        extrait = ["<html>","<body>"]
+        for child in body.contents:
+            if isinstance(child , NavigableString):
+                text = unicode(child)
+            else:
+                text = child.getText()
+            if ' ' in text:
+                current_length += len([ word for word in text.split(' ') if word])
+            else:
+                current_length += 1
 
-        for parent in first_match.parentGenerator():
-            while parent.next_sibling:
-                parent.next_sibling.extract()
-        return str(soup)
+            extrait.append(str(child))
+            if current_length >= self.EXTRACT_LIMIT:
+                break
+        extrait.extend(["</body>", "</html>"])
+        return "".join(extrait)
 
 
     @property
