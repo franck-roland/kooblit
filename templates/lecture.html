@@ -54,52 +54,71 @@
       {% endfor %}
       <li id="next_link"><a href="javascript:void(0)" onclick="change_page('next')">»</a></li>
     </ul>
-    <!-- <div class="container ">
+    <div class="container ">
       <a class="dowload_pdf" href="{% url 'usr_management:download_pdf' synth.id %}">Télécharger pdf <i class="fa fa-arrow-circle-o-down"></i></a>
-    </div> -->
+    </div>
   </footer>
 {% endblock %}
 {% block script_block %}
 <script type="text/javascript">
-window.var = {"current_page":1};
-
+window.data = {"current_page":1, "total_pages":{{synth.pages|length}}, "has_plus":false};
+$(function(){
+  if(window.data["total_pages"] >= 4){
+    for (var i = 4; i < window.data["total_pages"]; i++) {
+      $("#page_"+String(i+1)+"_link").addClass("hidden");
+    }
+    $("#next_link").find("a").html("+");
+    window["has_plus"] = true;
+    $(".pagination").hover(function () {
+      for (var i = 4; i < window.data["total_pages"]; i++) {
+        $("#page_"+String(i+1)+"_link").removeClass("hidden");
+      }
+      $("#next_link").find("a").html("»");
+    }, function(){
+      for (var i = 4; i < window.data["total_pages"]; i++) {
+        $("#page_"+String(i+1)+"_link").addClass("hidden");
+      }
+      $("#next_link").find("a").html("+");
+    });
+  }
+});
 function change_page(page_nber){
-  if(page_nber === 'back' && window.var["current_page"] > 1){
-    $("#page_"+ String(window.var["current_page"])).addClass('hidden');
-    $("#page_"+ String(window.var["current_page"]) + "_link").removeClass('active');
-    window.var["current_page"] --;
-    $("#page_"+ String(window.var["current_page"])).removeClass('hidden');
-    $("#page_"+ String(window.var["current_page"]) + "_link").addClass('active');
-    if( window.var["current_page"] === 1){
+  if(page_nber === 'back' && window.data["current_page"] > 1){
+    $("#page_"+ String(window.data["current_page"])).addClass('hidden');
+    $("#page_"+ String(window.data["current_page"]) + "_link").removeClass('active');
+    window.data["current_page"] --;
+    $("#page_"+ String(window.data["current_page"])).removeClass('hidden');
+    $("#page_"+ String(window.data["current_page"]) + "_link").addClass('active');
+    if( window.data["current_page"] === 1){
       $("#back_link").addClass("disabled");
       $("#next_link").removeClass("disabled");
     }
   }
-  else if(page_nber === 'next' && window.var["current_page"] < {{synth.pages|length}}){
-    $("#page_"+ String(window.var["current_page"])).addClass('hidden');
-    $("#page_"+ String(window.var["current_page"]) + "_link").removeClass('active');
-    window.var["current_page"] ++;
-    $("#page_"+ String(window.var["current_page"])).removeClass('hidden');
-    $("#page_"+ String(window.var["current_page"]) + "_link").addClass('active');
-    if( window.var["current_page"] === {{synth.pages|length}}){
+  else if(page_nber === 'next' && window.data["current_page"] < {{synth.pages|length}}){
+    $("#page_"+ String(window.data["current_page"])).addClass('hidden');
+    $("#page_"+ String(window.data["current_page"]) + "_link").removeClass('active');
+    window.data["current_page"] ++;
+    $("#page_"+ String(window.data["current_page"])).removeClass('hidden');
+    $("#page_"+ String(window.data["current_page"]) + "_link").addClass('active');
+    if( window.data["current_page"] === {{synth.pages|length}}){
       $("#next_link").addClass("disabled");
       $("#back_link").removeClass("disabled");
     }
   }
   else if(!isNaN(page_nber)) {
-    if(page_nber >= 1 && page_nber <= {{synth.pages|length}} && window.var["current_page"] !== page_nber){
-      $("#page_"+ String(window.var["current_page"])).addClass('hidden');
-      $("#page_"+ String(window.var["current_page"]) + "_link").removeClass('active');
-      window.var["current_page"] = page_nber;
-      $("#page_"+ String(window.var["current_page"])).removeClass('hidden');
-      $("#page_"+ String(window.var["current_page"]) + "_link").addClass('active');
-      if( window.var["current_page"] === {{synth.pages|length}}){
+    if(page_nber >= 1 && page_nber <= {{synth.pages|length}} && window.data["current_page"] !== page_nber){
+      $("#page_"+ String(window.data["current_page"])).addClass('hidden');
+      $("#page_"+ String(window.data["current_page"]) + "_link").removeClass('active');
+      window.data["current_page"] = page_nber;
+      $("#page_"+ String(window.data["current_page"])).removeClass('hidden');
+      $("#page_"+ String(window.data["current_page"]) + "_link").addClass('active');
+      if( window.data["current_page"] === {{synth.pages|length}}){
         $("#next_link").addClass("disabled");
       }
       else{
         $("#next_link").removeClass("disabled");
       }
-      if( window.var["current_page"] === 1){
+      if( window.data["current_page"] === 1){
         $("#back_link").addClass("disabled");
       }
       else{
@@ -107,6 +126,7 @@ function change_page(page_nber){
       }
     } 
   }
+  window.scrollTo(0,0);
 }
 
 // $(function () {
