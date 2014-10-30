@@ -20,11 +20,11 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 
 PUNC_EXCLUDE = set(string.punctuation + '\n\r')
+MAX_CHAR_PAGES = 200
 
 def count_words(text):
     count = 0
     if not text or text in PUNC_EXCLUDE:
-        print text
         return 0
     if isinstance(text, NavigableString):
         filtered_text = ''.join(ch for ch in text if ch not in PUNC_EXCLUDE)
@@ -33,6 +33,28 @@ def count_words(text):
         for child in text.contents:
             count += count_words(child)
         return count
+
+
+def read_pages(text, max_pages=0):
+    current_length = 0
+    pages = []
+    page = ["<div class='page'>"]
+    for child in text.contents:
+        current_length += count_words(child)
+        page.append(str(child))
+        if current_length >= MAX_CHAR_PAGES:
+            page.extend(["</div>"])
+            pages.append("".join(page))
+            if max_pages and len(pages) >= max_pages:
+                break
+            else:
+                current_length = 0
+                page = ["<div class='page'>"]
+    if current_length:
+        page.extend(["</div>"])
+        pages.append("".join(page))
+    return pages
+
 
 def author_required(function):
 
@@ -91,8 +113,6 @@ def migrate_file_version():
     for version_synth in models.Version_Synthese.objects.filter():
         filename = version_synth.synthese.filename.replace('_' + str(version_synth.synthese.version), '_' + str(version_synth.version)).replace('/tmp/','syntheses/')
         filename = os.path.join(settings.MEDIA_ROOT, filename)
-        print version_synth.synthese
-        print filename
         with open(filename, 'r') as f:
             version_synth._file = File(f)
             version_synth.save()
@@ -112,17 +132,14 @@ def migrate_synth_tmp_file():
     for synth in models.Syntheses.objects.filter():
         #old_filename = get_name(book_title, synth.user.username)
         old_filename = '/tmp/'+synth._file_html.name
-        print old_filename
         new_filename = synth.filename
         if os.path.isfile(old_filename):
             shutil.copy2(old_filename, new_filename)
             #os.remove(old_filename)
 
         old_filename = os.path.join(settings.MEDIA_ROOT, old_filename.replace("/tmp/",'syntheses/'))
-        print old_filename
         new_filename = os.path.join(settings.MEDIA_ROOT, new_filename.replace("/tmp/",'syntheses/').split('_')[0] + '_0')
         if os.path.isfile(old_filename):
-            print new_filename
             shutil.copy2(old_filename, new_filename)
             #os.remove(old_filename)
 

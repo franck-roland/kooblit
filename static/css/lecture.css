@@ -17,7 +17,8 @@ footer {
   bottom: 0;
   background-color: rgb(239, 239, 239);
   width: 100%;
-  text-align: center;
+  text-align: left;
+  background:none;
 }
 
 footer .container {
@@ -26,16 +27,34 @@ footer .container {
   border-top: 1px solid rgb(220, 220, 220);
 }
 
-footer a {
+footer .to_top {
+  float: right;
+  height: 44px;
+  margin: auto;
+  margin-right: 10px;
   font-size: 17px;
   color: rgb(127, 127, 127);
+  margin-bottom: 10px;
 }
 
-footer a .fa {
+footer .to_top .btn {
+  height: 44px;  
+}
+
+
+
+footer .to_top .fa {
   vertical-align: middle;
   font-size: 25px;
+
 }
 
-footer a:hover {
+footer .to_top:hover {
   text-decoration: none;
+}
+
+footer .pagination {
+  margin: auto;
+  margin-left:10px;
+  margin-bottom: 10px;
 }

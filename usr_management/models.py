@@ -13,7 +13,7 @@ from django.contrib.auth.models import UserManager
 from django.utils.functional import cached_property
 from kooblit_lib import  utils
 from countries import data
-from utils import MyFileStorage, count_words
+from utils import MyFileStorage, count_words, read_pages
 from django.utils.encoding import smart_text
 mfs = MyFileStorage()
 # Model utilisateur
@@ -137,7 +137,7 @@ class Syntheses(models.Model):
 
     def contenu_sans_titre(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
-        resume = self._file_html.read()
+        resume = unicode(self._file_html.read(),'utf-8')
         return resume.encode("utf-8")
 
 
@@ -168,6 +168,11 @@ class Syntheses(models.Model):
     def nbre_mots(self):
         return count_words(BeautifulSoup(self.contenu_sans_titre()).find("body"))
 
+    @property
+    def pages(self):
+        soup = BeautifulSoup(self.contenu_sans_titre())
+        body = soup.find("body")
+        return read_pages(body)
 
     @property
     def extrait(self):
