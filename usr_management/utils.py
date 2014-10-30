@@ -1,7 +1,9 @@
 #-*- coding: utf-8 -*-
 import os
+import string
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from bs4 import BeautifulSoup, NavigableString
 
 class MyFileStorage(FileSystemStorage):
     # This method is actually defined in Storage
@@ -16,6 +18,21 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 # Messages
 from django.contrib import messages
+
+PUNC_EXCLUDE = set(string.punctuation + '\n\r')
+
+def count_words(text):
+    count = 0
+    if not text or text in PUNC_EXCLUDE:
+        print text
+        return 0
+    if isinstance(text, NavigableString):
+        filtered_text = ''.join(ch for ch in text if ch not in PUNC_EXCLUDE)
+        return len([i for i in filtered_text.split(' ') if i])
+    else:
+        for child in text.contents:
+            count += count_words(child)
+        return count
 
 def author_required(function):
 
