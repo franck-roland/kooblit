@@ -1415,7 +1415,7 @@ if (typeof module === 'object') {
                 if (/^\s*$/.test()) {
                     el.parentNode.removeChild(el);
                 } else {
-                    el.parentNode.replaceChild(document.createTextNode(el.innerText), el);
+                    el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
                 }
 
             }
