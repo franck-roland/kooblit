@@ -35,12 +35,87 @@ def count_words(text):
         return count
 
 
-def read_pages(text, max_pages=0):
+def is_empty(t):
+
+    if not isinstance(t, NavigableString) and not isinstance(t, basestring)  and not isinstance(t, unicode):
+        if t.name in  ["img"]:
+            return False
+        text = t.get_text()
+    else:
+        text = t
+    filtered_text = ''.join(ch for ch in text if ch not in PUNC_EXCLUDE)
+    return not len([i for i in filtered_text.split(' ') if i])
+
+def pop(text):
+    while len(text.contents) == 1 and not isinstance(text.contents[0], NavigableString):
+        text = text.contents[0]
+    return text
+
+
+def clean_DOM(text, instance=0):
+    if isinstance(text, NavigableString):
+        return text
+
+        text2 = pop(text)
+        if text2 == text and len(text.contents) == 1:
+            return text
+
+        text = text2
+
+    while True:
+        for c in text.contents:
+            if is_empty(c):
+                c.extract()
+        for c in text.contents:
+            clean_DOM(c, instance+1)
+
+        text2 = pop(text)
+        if text2 == text:
+            return text
+        text = text2
+
+    return text
+
+
+def try_to_split(text):
+    # text = clean_DOM(text)
+    if len(text.contents) <= 1:
+        return text
+    else:
+        contents = text.contents
+        first = contents[0]
+        text.replace_with(first)
+        for c in contents[1:]:
+            first.insert_after(c)
+            first = c
+        return first
+
+
+
+def find_biggest_child(text):
+    n_biggest = 0
+    c_biggest = None
+    for c in text.contents:
+        n = count_words(c)
+        if n > n_biggest:
+            n_biggest = n
+            c_biggest = c
+
+    return c_biggest
+
+
+def read_pages(text, max_pages=0, clean_page=False):
     current_length = 0
     pages = []
     page = ["<div class='page'>"]
+
+
+    text = clean_DOM(text)
+    assert(len(text.contents) > 1)
+    
     for child in text.contents:
         current_length += count_words(child)
+        print current_length, child
         page.append(str(child))
         if current_length >= MAX_CHAR_PAGES:
             page.extend(["</div>"])
@@ -53,11 +128,11 @@ def read_pages(text, max_pages=0):
     if current_length:
         page.extend(["</div>"])
         pages.append("".join(page))
+
     return pages
 
 
 def author_required(function):
-
     def wrap(request, *args, **kwargs):
         from models import UserKooblit
         user = UserKooblit.objects.get(username=request.user.username)

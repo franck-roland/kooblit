@@ -168,9 +168,11 @@ class Syntheses(models.Model):
     def nbre_mots(self):
         return count_words(BeautifulSoup(self.contenu_sans_titre()).find("body"))
 
-    @property
+    # @property
     def pages(self):
-        soup = BeautifulSoup(self.contenu_sans_titre())
+        s = self.contenu_sans_titre()
+        s = s.replace("\n","")
+        soup = BeautifulSoup(s)
         body = soup.find("body")
         return read_pages(body)
 

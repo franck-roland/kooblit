@@ -42,7 +42,19 @@
 
   {% endif %}
   <footer >
-    <a class="to_top" href="#top" >
+  <nav class="navbar navbar-default" role="navigation" style="background:none;">
+  <div class="container-fluid" style="background:none;">
+    <div class="navbar-header" style="background:none;">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav_footer">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+  </div>
+  <div class="collapse navbar-collapse" id="nav_footer" style="background:none;">
+    <a class="footer_link" href="#top" >
       <button class="btn" >
         To Top <i class="fa fa-arrow-circle-o-up"></i>
       </button>
@@ -54,9 +66,9 @@
       {% endfor %}
       <li id="next_link"><a href="javascript:void(0)" onclick="change_page('next')">»</a></li>
     </ul>
-    <div class="container ">
-      <a class="dowload_pdf" href="{% url 'usr_management:download_pdf' synth.id %}">Télécharger pdf <i class="fa fa-arrow-circle-o-down"></i></a>
+    <a class="footer_link" href="{% url 'usr_management:download_pdf' synth.id %}" ><button class="btn" ><i class="fa fa-file-pdf-o"> </i>&nbsp;Télécharger pdf </button></a>
     </div>
+  </nav>
   </footer>
 {% endblock %}
 {% block script_block %}
