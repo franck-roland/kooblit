@@ -30,9 +30,12 @@ def count_words(text):
         filtered_text = ''.join(ch for ch in text if ch not in PUNC_EXCLUDE)
         return len([i for i in filtered_text.split(' ') if i])
     else:
-        for child in text.contents:
-            count += count_words(child)
-        return count
+        t = text.get_text()
+        filtered_text = ''.join(ch for ch in t if ch not in PUNC_EXCLUDE)
+        return len([i for i in filtered_text.split(' ') if i])
+      #  for child in text.contents:
+       #     count += count_words(child)
+        #return count
 
 
 def is_empty(t):
@@ -110,12 +113,10 @@ def read_pages(text, max_pages=0, clean_page=False):
     page = ["<div class='page'>"]
 
 
-    text = clean_DOM(text)
-    assert(len(text.contents) > 1)
+#    text = clean_DOM(text)
     
     for child in text.contents:
         current_length += count_words(child)
-        print current_length, child
         page.append(str(child))
         if current_length >= MAX_CHAR_PAGES:
             page.extend(["</div>"])
