@@ -1,7 +1,9 @@
 #-*- coding: utf-8 -*-
 import os
+import string
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from bs4 import BeautifulSoup, NavigableString
 
 class MyFileStorage(FileSystemStorage):
     # This method is actually defined in Storage
@@ -17,8 +19,120 @@ from django.core.urlresolvers import reverse
 # Messages
 from django.contrib import messages
 
-def author_required(function):
+PUNC_EXCLUDE = set(string.punctuation + '\n\r')
+MAX_CHAR_PAGES = 200
 
+def count_words(text):
+    count = 0
+    if not text or text in PUNC_EXCLUDE:
+        return 0
+    if isinstance(text, NavigableString):
+        filtered_text = ''.join(ch for ch in text if ch not in PUNC_EXCLUDE)
+        return len([i for i in filtered_text.split(' ') if i])
+    else:
+        for child in text.contents:
+            count += count_words(child)
+        return count
+
+
+def is_empty(t):
+
+    if not isinstance(t, NavigableString) and not isinstance(t, basestring)  and not isinstance(t, unicode):
+        if t.name in  ["img"]:
+            return False
+        text = t.get_text()
+    else:
+        text = t
+    filtered_text = ''.join(ch for ch in text if ch not in PUNC_EXCLUDE)
+    return not len([i for i in filtered_text.split(' ') if i])
+
+def pop(text):
+    while len(text.contents) == 1 and not isinstance(text.contents[0], NavigableString):
+        text = text.contents[0]
+    return text
+
+
+def clean_DOM(text, instance=0):
+    if isinstance(text, NavigableString):
+        return text
+
+        text2 = pop(text)
+        if text2 == text and len(text.contents) == 1:
+            return text
+
+        text = text2
+
+    while True:
+        for c in text.contents:
+            if is_empty(c):
+                c.extract()
+        for c in text.contents:
+            clean_DOM(c, instance+1)
+
+        text2 = pop(text)
+        if text2 == text:
+            return text
+        text = text2
+
+    return text
+
+
+def try_to_split(text):
+    # text = clean_DOM(text)
+    if len(text.contents) <= 1:
+        return text
+    else:
+        contents = text.contents
+        first = contents[0]
+        text.replace_with(first)
+        for c in contents[1:]:
+            first.insert_after(c)
+            first = c
+        return first
+
+
+
+def find_biggest_child(text):
+    n_biggest = 0
+    c_biggest = None
+    for c in text.contents:
+        n = count_words(c)
+        if n > n_biggest:
+            n_biggest = n
+            c_biggest = c
+
+    return c_biggest
+
+
+def read_pages(text, max_pages=0, clean_page=False):
+    current_length = 0
+    pages = []
+    page = ["<div class='page'>"]
+
+
+    text = clean_DOM(text)
+    assert(len(text.contents) > 1)
+    
+    for child in text.contents:
+        current_length += count_words(child)
+        print current_length, child
+        page.append(str(child))
+        if current_length >= MAX_CHAR_PAGES:
+            page.extend(["</div>"])
+            pages.append("".join(page))
+            if max_pages and len(pages) >= max_pages:
+                break
+            else:
+                current_length = 0
+                page = ["<div class='page'>"]
+    if current_length:
+        page.extend(["</div>"])
+        pages.append("".join(page))
+
+    return pages
+
+
+def author_required(function):
     def wrap(request, *args, **kwargs):
         from models import UserKooblit
         user = UserKooblit.objects.get(username=request.user.username)
@@ -74,8 +188,6 @@ def migrate_file_version():
     for version_synth in models.Version_Synthese.objects.filter():
         filename = version_synth.synthese.filename.replace('_' + str(version_synth.synthese.version), '_' + str(version_synth.version)).replace('/tmp/','syntheses/')
         filename = os.path.join(settings.MEDIA_ROOT, filename)
-        print version_synth.synthese
-        print filename
         with open(filename, 'r') as f:
             version_synth._file = File(f)
             version_synth.save()
@@ -95,17 +207,14 @@ def migrate_synth_tmp_file():
     for synth in models.Syntheses.objects.filter():
         #old_filename = get_name(book_title, synth.user.username)
         old_filename = '/tmp/'+synth._file_html.name
-        print old_filename
         new_filename = synth.filename
         if os.path.isfile(old_filename):
             shutil.copy2(old_filename, new_filename)
             #os.remove(old_filename)
 
         old_filename = os.path.join(settings.MEDIA_ROOT, old_filename.replace("/tmp/",'syntheses/'))
-        print old_filename
         new_filename = os.path.join(settings.MEDIA_ROOT, new_filename.replace("/tmp/",'syntheses/').split('_')[0] + '_0')
         if os.path.isfile(old_filename):
-            print new_filename
             shutil.copy2(old_filename, new_filename)
             #os.remove(old_filename)
 

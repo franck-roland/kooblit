@@ -16,7 +16,7 @@
 
 {% block content %}
   {% if messages %}
-    <div class="container">
+    <div class="container" >
       {% for message in messages %}
         <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
           <button type="button" class="close" data-dismiss="alert">×</button>
@@ -26,57 +26,151 @@
     </div>
   {% endif %}
 
-  <div class="container resume" style="margin:0;">
+  {% for page in synth.pages %}
+  <div id="page_{{forloop.counter}}" class="container resume  {% if forloop.counter > 1 %} hidden {% endif %}" style="margin-bottom: 50px;">
     <div class="row">
       <div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1">
-      {{ synth.contenu|safe }}
+      {{ page|safe }}
       </div>
     </div>
   </div>
+  {% endfor %}
 
 {% endblock %}
 {% block footer %}
-  <a class="to_top" href="#top" style="position:fixed;bottom:10px;right:10px;display:none;">
-  <button class="btn" >
-    To Top <i class="fa fa-arrow-circle-o-up"></i>
-  </button>
-  </a>
-  <footer>
-    <div class="container ">
-      <a class="dowload_pdf" href="{% url 'usr_management:download_pdf' synth.id %}">Télécharger pdf <i class="fa fa-arrow-circle-o-down"></i></a>
+  {% if synth.pages|length > 1%}
+
+  {% endif %}
+  <footer >
+  <nav class="navbar navbar-default" role="navigation" style="background:none;">
+  <div class="container-fluid" style="background:none;">
+    <div class="navbar-header" style="background:none;">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav_footer">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
     </div>
+  </div>
+  <div class="collapse navbar-collapse" id="nav_footer" style="background:none;">
+    <a class="footer_link" href="#top" >
+      <button class="btn" >
+        To Top <i class="fa fa-arrow-circle-o-up"></i>
+      </button>
+    </a>
+    <ul class="pagination" >
+      <li id="back_link" class="disabled"><a href="javascript:void(0)" onclick="change_page('back')">«</a></li>
+      {% for page in synth.pages %}
+      <li id="page_{{forloop.counter}}_link" class=" {% if forloop.counter == 1 %} active {% endif %}"><a href="javascript:void(0)" onclick="change_page({{forloop.counter}})">{{forloop.counter}}</a></li>
+      {% endfor %}
+      <li id="next_link"><a href="javascript:void(0)" onclick="change_page('next')">»</a></li>
+    </ul>
+    <a class="footer_link" href="{% url 'usr_management:download_pdf' synth.id %}" ><button class="btn" ><i class="fa fa-file-pdf-o"> </i>&nbsp;Télécharger pdf </button></a>
+    </div>
+  </nav>
   </footer>
 {% endblock %}
 {% block script_block %}
 <script type="text/javascript">
-$(function () {
-  var lastScrollTop = $(window).scrollTop();
-  if ($("#block_content").height() > $(window).height()) {
-    $(window).scroll(function (data_event){
-      var st = $(this).scrollTop();
-      if (st > lastScrollTop){
-          if($(".to_top").css('display') === "none"){
-            $("footer").fadeOut("fast", function(){
-              $(".to_top").fadeIn("fast");
-            });
-          }
-      } else if (st < lastScrollTop){
-          if($("footer").css('display') === "none"){
-            console.log("in2");
-            $(".to_top").fadeOut("fast", function(){
-              $("footer").fadeIn("fast");
-            });
-          }
-          // if(st < lastScrollTop){
-          // }
-          // else {
-          //   $(".to_top").style('bottom', $("footer").height()); 
-          // }
+window.data = {"current_page":1, "total_pages":{{synth.pages|length}}, "has_plus":false};
+$(function(){
+  if(window.data["total_pages"] >= 4){
+    for (var i = 4; i < window.data["total_pages"]; i++) {
+      $("#page_"+String(i+1)+"_link").addClass("hidden");
+    }
+    $("#next_link").find("a").html("+");
+    window["has_plus"] = true;
+    $(".pagination").hover(function () {
+      for (var i = 4; i < window.data["total_pages"]; i++) {
+        $("#page_"+String(i+1)+"_link").removeClass("hidden");
       }
-      lastScrollTop = st;
+      $("#next_link").find("a").html("»");
+    }, function(){
+      for (var i = 4; i < window.data["total_pages"]; i++) {
+        $("#page_"+String(i+1)+"_link").addClass("hidden");
+      }
+      $("#next_link").find("a").html("+");
     });
   }
 });
+function change_page(page_nber){
+  if(page_nber === 'back' && window.data["current_page"] > 1){
+    $("#page_"+ String(window.data["current_page"])).addClass('hidden');
+    $("#page_"+ String(window.data["current_page"]) + "_link").removeClass('active');
+    window.data["current_page"] --;
+    $("#page_"+ String(window.data["current_page"])).removeClass('hidden');
+    $("#page_"+ String(window.data["current_page"]) + "_link").addClass('active');
+    if( window.data["current_page"] === 1){
+      $("#back_link").addClass("disabled");
+      $("#next_link").removeClass("disabled");
+    }
+  }
+  else if(page_nber === 'next' && window.data["current_page"] < {{synth.pages|length}}){
+    $("#page_"+ String(window.data["current_page"])).addClass('hidden');
+    $("#page_"+ String(window.data["current_page"]) + "_link").removeClass('active');
+    window.data["current_page"] ++;
+    $("#page_"+ String(window.data["current_page"])).removeClass('hidden');
+    $("#page_"+ String(window.data["current_page"]) + "_link").addClass('active');
+    if( window.data["current_page"] === {{synth.pages|length}}){
+      $("#next_link").addClass("disabled");
+      $("#back_link").removeClass("disabled");
+    }
+  }
+  else if(!isNaN(page_nber)) {
+    if(page_nber >= 1 && page_nber <= {{synth.pages|length}} && window.data["current_page"] !== page_nber){
+      $("#page_"+ String(window.data["current_page"])).addClass('hidden');
+      $("#page_"+ String(window.data["current_page"]) + "_link").removeClass('active');
+      window.data["current_page"] = page_nber;
+      $("#page_"+ String(window.data["current_page"])).removeClass('hidden');
+      $("#page_"+ String(window.data["current_page"]) + "_link").addClass('active');
+      if( window.data["current_page"] === {{synth.pages|length}}){
+        $("#next_link").addClass("disabled");
+      }
+      else{
+        $("#next_link").removeClass("disabled");
+      }
+      if( window.data["current_page"] === 1){
+        $("#back_link").addClass("disabled");
+      }
+      else{
+        $("#back_link").removeClass("disabled");
+      }
+    } 
+  }
+  window.scrollTo(0,0);
+}
+
+// $(function () {
+//   var lastScrollTop = $(window).scrollTop();
+//   if ($("#block_content").height() > $(window).height()) {
+//     $(window).scroll(function (data_event){
+//       var st = $(this).scrollTop();
+//       console.log(st)
+//       console.log(lastScrollTop)
+//       if (st > lastScrollTop){
+//           if($(".to_top").css('display') === "none"){
+//             $("footer").fadeOut("fast", function(){
+//               $(".to_top").fadeIn("fast");
+//             });
+//           }
+//       } else if (st < lastScrollTop){
+//           if($("footer").css('display') === "none"){
+//             console.log("in2");
+//             $(".to_top").fadeOut("fast", function(){
+//               $("footer").fadeIn("fast");
+//             });
+//           }
+//           // if(st < lastScrollTop){
+//           // }
+//           // else {
+//           //   $(".to_top").style('bottom', $("footer").height()); 
+//           // }
+//       }
+//       lastScrollTop = st;
+//     });
+//   }
+// });
   $(function() {
     $('a[href*=#]:not([href=#])').click(function() {
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 

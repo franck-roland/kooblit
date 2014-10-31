@@ -2,7 +2,7 @@
 import datetime
 import re
 import os
-import string
+
 import hashlib
 from bs4 import BeautifulSoup, NavigableString
 from django.db import models
@@ -13,7 +13,7 @@ from django.contrib.auth.models import UserManager
 from django.utils.functional import cached_property
 from kooblit_lib import  utils
 from countries import data
-from utils import MyFileStorage
+from utils import MyFileStorage, count_words, read_pages
 from django.utils.encoding import smart_text
 mfs = MyFileStorage()
 # Model utilisateur
@@ -137,7 +137,7 @@ class Syntheses(models.Model):
 
     def contenu_sans_titre(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
-        resume = self._file_html.read()
+        resume = unicode(self._file_html.read(),'utf-8')
         return resume.encode("utf-8")
 
 
@@ -166,11 +166,15 @@ class Syntheses(models.Model):
 
     @property
     def nbre_mots(self):
-        text = BeautifulSoup(self.contenu_sans_titre()).get_text()
-        exclude = set(string.punctuation)
-        filtered_text = ''.join(ch for ch in text if ch not in exclude)
-        return len(filtered_text.split(" "))
+        return count_words(BeautifulSoup(self.contenu_sans_titre()).find("body"))
 
+    # @property
+    def pages(self):
+        s = self.contenu_sans_titre()
+        s = s.replace("\n","")
+        soup = BeautifulSoup(s)
+        body = soup.find("body")
+        return read_pages(body)
 
     @property
     def extrait(self):
