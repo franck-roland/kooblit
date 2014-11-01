@@ -10,12 +10,14 @@
 
   <div class="result_info_etiquette">
     <div class="stars">
-      <div class="current_note stars_yellow" style="width:34%;"></div>
-      <a href="#"><div class="vote vote_note_5 stars_yellow" style="width:150px;" note=5></div></a>
-      <a href="#"><div class="vote vote_note_4 stars_yellow" style="width:120px;" note=4></div></a>
-      <a href="#"><div class="vote vote_note_3 stars_yellow" style="width:90px;" note=3></div></a>
-      <a href="#"><div class="vote vote_note_2 stars_yellow" style="width:60px;" note=2></div></a>
-      <a href="#"><div class="vote vote_note_1 stars_yellow" style="width:30px;" note=1></div></a>
+      <div class="current_note stars_yellow" style="width:{% widthratio synth.note_moyenne 5 100 %}%;"></div>
+      {% if can_note %}
+      <a class="note_link" href="javascript:void(0)" action="{% url 'usr_management:noter' synth.id %}" note=5><div class="vote vote_note_5 stars_yellow" style="width:150px;"></div></a>
+      <a class="note_link" href="javascript:void(0)" action="{% url 'usr_management:noter' synth.id %}" note=4><div class="vote vote_note_4 stars_yellow" style="width:120px;"></div></a>
+      <a class="note_link" href="javascript:void(0)" action="{% url 'usr_management:noter' synth.id %}" note=3><div class="vote vote_note_3 stars_yellow" style="width:90px;"></div></a>
+      <a class="note_link" href="javascript:void(0)" action="{% url 'usr_management:noter' synth.id %}" note=2><div class="vote vote_note_2 stars_yellow" style="width:60px;"></div></a>
+      <a class="note_link" href="javascript:void(0)" action="{% url 'usr_management:noter' synth.id %}" note=1><div class="vote vote_note_1 stars_yellow" style="width:30px;"></div></a>
+      {% endif %}
     </div>
 
     <div class="result_description">

@@ -200,6 +200,32 @@ def lire_synthese(request, synthese_id):
         raise Http404()
 
 
+@login_required
+def noter_synthese(request, synthese_id):
+    user = UserKooblit.objects.get(username=request.user.username)
+    if request.method == "GET":
+        note = float(int(request.GET["note"]))
+        try:
+            synth = Syntheses.objects.get(id=synthese_id)
+            if not user.can_note(synth):
+                raise Http404()
+            else:
+                note_total = synth.note_moyenne * synth.nbre_notes
+                nbre_notes  = synth.nbre_notes + 1
+                note_total += note
+                synth.note_moyenne = note_total / nbre_notes
+                synth.nbre_notes = nbre_notes
+                synth.save()
+                user.syntheses_notees.add(synth)
+                user.save()
+                print synth.nbre_notes, synth.note_moyenne
+            # synth.save()
+        except Syntheses.DoesNotExist:
+            raise Http404()
+        return HttpResponse()
+    raise Http404()
+
+
 # Use the login_required() decorator to ensure only those logged in can access the view.
 @login_required
 def user_logout(request):

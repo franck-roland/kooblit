@@ -218,8 +218,17 @@ def migrate_synth_tmp_file():
         if os.path.isfile(old_filename):
             shutil.copy2(old_filename, new_filename)
             #os.remove(old_filename)
+def clean_user_notes():
+    import models
+    for user in models.UserKooblit.objects.filter():
+        user.syntheses_notees.clear()
+        user.save()
+
 
 def migrate():
+    clean_user_notes()
+
+def migrate_1():
     ajout_userkooblit_syntheses_achetees()
     add_title_to_syntheses()
     migrate_synth_tmp_file()

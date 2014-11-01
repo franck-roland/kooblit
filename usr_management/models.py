@@ -33,6 +33,11 @@ class UserKooblit(User):
     cagnotte_HT = models.FloatField(default=0, unique=False)
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
     syntheses_achetees = models.ManyToManyField('Version_Synthese', blank=True, null=True)
+    syntheses_notees = models.ManyToManyField('Syntheses', related_name="syntheses_notees+", blank=True, null=True)
+
+    def can_note(self, synthese):
+        return not synthese.can_be_added_by(self.username) and synthese not in self.syntheses_notees.all() and not synthese.user == self
+
 
     def is_author(self):
         try:
@@ -110,7 +115,7 @@ class Syntheses(models.Model):
     livre_id = models.CharField(max_length=240, blank=False)
     book_title = models.CharField(max_length=settings.MAX_BOOK_TITLE_LEN, default="", blank=False)
     nb_achat = models.BigIntegerField(default=0)
-    note_moyenne = models.BigIntegerField(default=0)
+    note_moyenne = models.FloatField(default=0)
     nbre_notes = models.BigIntegerField(default=0)
     date = models.DateField(null=True, default=datetime.datetime.now)
     prix = models.FloatField(default=0)
@@ -214,7 +219,7 @@ class Syntheses(models.Model):
             raise Exception("Should not be ask for adding in")
         buyer = UserKooblit.objects.get(username=username)
         # A changer si changement de regle sur les versions
-        return self.user.username != username and not UserKooblit.objects.filter(username=username,syntheses_achetees__synthese=self)
+        return self.user.username != username and not UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=self)
 
     def publish(self):
         self.date = datetime.datetime.now()
