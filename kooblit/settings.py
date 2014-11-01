@@ -12,7 +12,6 @@ import os
 from mongoengine import connect
 from kooblit_lib.config import appConfig
 
-
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 AMAZON_KEY = appConfig.get("amazon_key")
@@ -20,6 +19,10 @@ MONGO_PWD = appConfig.get("db__mongo__passwd")
 MONGO_USER = appConfig.get("db__mongo__user")
 PAYMILL_PRIVATE_KEY = appConfig.get("paymill__private")
 PAYMILL_PUBLIC_KEY = appConfig.get("paymill__public")
+PAYPLUG_PRIVATE_KEY = open(appConfig.get("payplug__private"),'r').read()
+PAYPLUG_URL = appConfig.get("payplug__url")
+
+
 TMP_DIR = appConfig.get("tmp__kooblit_tmp_root")
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 

@@ -25,6 +25,13 @@ paymill:
   private: ""
   public: ""
 
+payplug:
+  private: ""
+  public: ""
+  url: ""
+  min_amount: 0
+  max_amount: 0
+
 secret_key: ""
 
 tmp:
