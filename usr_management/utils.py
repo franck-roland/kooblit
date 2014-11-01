@@ -220,8 +220,15 @@ def migrate_synth_tmp_file():
             #os.remove(old_filename)
 def clean_user_notes():
     import models
+    for synth in models.Syntheses.objects.filter():
+        synth.nbre_notes = 0
+        synth.note_moyenne = 0
+        synth.save()
+
     for user in models.UserKooblit.objects.filter():
-        user.syntheses_notees.clear()
+        user.syntheses_a_noter.clear()
+        for syntheses_achetee in user.syntheses_achetees.all():
+            user.syntheses_a_noter.add(syntheses_achetee.synthese)
         user.save()
 
 

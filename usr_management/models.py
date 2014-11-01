@@ -33,10 +33,10 @@ class UserKooblit(User):
     cagnotte_HT = models.FloatField(default=0, unique=False)
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
     syntheses_achetees = models.ManyToManyField('Version_Synthese', blank=True, null=True)
-    syntheses_notees = models.ManyToManyField('Syntheses', related_name="syntheses_notees+", blank=True, null=True)
+    syntheses_a_noter = models.ManyToManyField('Syntheses', related_name="syntheses_a_noter+", blank=True, null=True)
 
     def can_note(self, synthese):
-        return not synthese.can_be_added_by(self.username) and synthese not in self.syntheses_notees.all() and not synthese.user == self
+        return synthese in self.syntheses_a_noter.all()
 
 
     def is_author(self):

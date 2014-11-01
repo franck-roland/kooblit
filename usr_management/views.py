@@ -216,7 +216,7 @@ def noter_synthese(request, synthese_id):
                 synth.note_moyenne = note_total / nbre_notes
                 synth.nbre_notes = nbre_notes
                 synth.save()
-                user.syntheses_notees.add(synth)
+                user.syntheses_a_noter.remove(synth)
                 user.save()
                 print synth.nbre_notes, synth.note_moyenne
             # synth.save()

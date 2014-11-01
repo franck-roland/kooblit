@@ -158,6 +158,7 @@ def ajouter_et_payer(buyer, synthese):
     version_synthese.save()
     # buyer.syntheses.add(synthese)
     buyer.syntheses_achetees.add(version_synthese)
+    buyer.syntheses_a_noter.add(version_synthese)
     buyer.save()
 
 
