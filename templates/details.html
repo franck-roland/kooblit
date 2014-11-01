@@ -99,7 +99,14 @@
 <script type="text/javascript">
 
 $('.bs-component [data-toggle="tooltip"]').tooltip();
-
+$(function () {
+  $(".vote").hover(function(){
+    $(this).parent().parent().find(".current_note").addClass("current_note_hidden");
+  },
+  function () {
+    $(this).parent().parent().find(".current_note").removeClass("current_note_hidden");
+  });
+})
 function afficher_plus(){
   $('.repre_image').each(function(){
     var res = $(this);

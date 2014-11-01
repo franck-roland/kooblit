@@ -1,0 +1,186 @@
+$stars_height: 30px;
+$stars_img: "../img/rating_stars_30.png";
+$stars_offset_x: 20px;
+$stars_first_offset_y: 20px;
+$stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
+
+.result_title {
+  font-size: 1.3em;
+}
+
+.result_author {
+  font-size: 1.1em;
+}
+.bs-component{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.bs-component a {
+    text-align: left;
+    /*font-size: 0.7em;*/
+}
+
+.bs-component a img {
+    width: 45px;
+}
+
+.no_synthese {
+    margin-top: 15%;
+    color: rgb(180,180,180);
+    text-align: center;
+}
+
+.star-icon {
+    color: #ddd;
+    font-size: 1.5em;
+    position: relative;
+}
+.star-icon.full:before {
+    text-shadow: 0 0 2px rgba(0,0,0,0.7);
+    color: #FDE16D;
+    content: '\2605'; /* Full star in UTF-8 */
+    position: absolute;
+    left: 0;
+}
+.star-icon.half:before {
+    text-shadow: 0 0 2px rgba(0,0,0,0.7);
+    color: #FDE16D;
+    content: '\2605'; /* Full star in UTF-8 */
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+}
+@-moz-document url-prefix() { /* Firefox Hack :( */
+  .star-icon {
+    font-size: 50px;
+    line-height: 34px;
+  }
+}
+.stars {
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10.5px;
+    background: url($stars_img) no-repeat;
+    height: $stars_height;
+    background-position: -#{$stars_offset_x} -#{$stars_second_offset_y};  /*Multiple de 34px*/
+    width: 150px;
+}
+.stars_yellow {
+    /*margin-left: 15px;*/
+    background: url($stars_img) no-repeat;
+    height: $stars_height;
+    background-position: -#{$stars_offset_x} -#{$stars_first_offset_y};  /*Multiple de 34px*/
+    width: 100%;
+}
+.current_note_hidden {
+    background: none;
+}
+
+@for $i from 1 through 5{
+    .vote_note_#{$i}{
+        background: none;
+        position: relative;
+        left: 0px;
+        height: $stars_height;
+        top: -#{180 - 30*$i}px;
+    }
+    .vote_note_#{$i}:hover{
+        background: url($stars_img) no-repeat;
+        background-position: -#{$stars_offset_x} -#{$stars_first_offset_y};  /*Multiple de 34px*/
+    }
+
+}
+
+.abtn {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: white;
+    border-radius: 4px;
+}
+
+.abtn:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.see_extract {
+    color: black;
+    background-color: rgb(208, 208, 208);
+}
+
+.see_extract:hover {
+    color: black;
+    background-color: rgb(220, 220, 220);
+}
+
+.buy_resume {
+    font-size: 15px;
+    background-color: rgb(61, 61, 61);
+    border: 0;
+    padding: 0;
+}
+
+.buy_resume:hover {
+    background-color: rgb(75, 75, 75);
+}
+
+.misc_info.price {
+    font-family: 'Helvetica Neue';
+    font-weight: bold;
+    font-size: 1.2em;
+    color: rgb(187, 69, 69);
+}
+
+.misc_info {
+    font-family: 'Helvetica Neue';
+    font-size: 0.75em;
+    padding: 0;
+}
+
+.list_extract {
+    margin-top: 50px;
+}
+
+.repre_image {
+    margin-bottom: 30px;
+    /*text-align: center;*/
+}
+
+.plus_button {
+  padding: 5px 10px;
+  font-family: 'Helvetica Neue';
+  font-weight: bold;
+  float: right;
+}
+
+.repre_image .image_extract{
+    width: 150px;
+    height: 50%;
+    box-shadow: 3px 3px 8px #555;
+    background: rgb(223, 210, 144);
+    text-align: center;
+    padding: 15px;
+    margin:  auto;
+}
+.result_description {
+    padding: 0;
+    width: 150px;
+    margin: auto;
+}
+.image_extract img{
+    box-shadow: 0px 0px;
+    width: 50%;
+    margin: 10% 25%;
+}
+.result_info_etiquette {
+    /*box-shadow: 3px 3px 8px #555;*/
+    /*text-align: center;*/
+}
+.author_name, .title_extract {
+    font-family: 'Helvetica Neue';
+    font-weight: bold;
+}
