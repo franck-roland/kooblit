@@ -362,7 +362,10 @@ def valid_synthese_for_add(id_synthese, username):
 @add_to_cart
 def book_detail(request, book_title):
     book_title = urllib.unquote(book_title)
-    usr = UserKooblit.objects.get(username=request.user.username)
+    if request.user.is_authenticated():
+        usr = UserKooblit.objects.get(username=request.user.username)
+    else:
+        usr = None
     try:
         book = Book.objects.get(title=book_title)
     except Book.DoesNotExist:
@@ -388,7 +391,10 @@ def book_detail(request, book_title):
             bought.append(True)
         else:
             bought.append(False)
-        can_note.append(usr.can_note(synt))
+        if usr:
+            can_note.append(usr.can_note(synt))
+        else:
+            can_note.append(False)
 
     content = zip(syntheses, bought, can_note)
 

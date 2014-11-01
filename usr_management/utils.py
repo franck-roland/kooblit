@@ -225,11 +225,6 @@ def clean_user_notes():
         synth.note_moyenne = 0
         synth.save()
 
-    for user in models.UserKooblit.objects.filter():
-        user.syntheses_a_noter.clear()
-        for syntheses_achetee in user.syntheses_achetees.all():
-            user.syntheses_a_noter.add(syntheses_achetee.synthese)
-        user.save()
 
 
 def migrate():

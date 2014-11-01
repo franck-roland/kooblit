@@ -33,10 +33,10 @@ class UserKooblit(User):
     cagnotte_HT = models.FloatField(default=0, unique=False)
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
     syntheses_achetees = models.ManyToManyField('Version_Synthese', blank=True, null=True)
-    syntheses_a_noter = models.ManyToManyField('Syntheses', related_name="syntheses_a_noter+", blank=True, null=True)
+
 
     def can_note(self, synthese):
-        return synthese in self.syntheses_a_noter.all()
+        return not Note.objects.filter(user=self, synthese=synthese)
 
 
     def is_author(self):
@@ -265,6 +265,16 @@ class Version_Synthese(models.Model):
             self.save()
 
 
+class Note(models.Model):
+    user = models.ForeignKey("UserKooblit")
+    synthese = models.ForeignKey("Syntheses")
+    valeur = models.FloatField()
+
+    class Meta:
+        unique_together = (('user', 'synthese'),)
+
+    def __unicode__(self):
+        return ''.join((self.user.username, ' pour synthese: ', str(self.synthese)))
 
 class Comments(models.Model):
     user = models.ForeignKey('UserKooblit')

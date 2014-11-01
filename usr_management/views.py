@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpRespons
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm, AddressChangeForm
 from django.contrib.auth.models import User
-from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address, Version_Synthese
+from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address, Version_Synthese, Note
 from manage_books_synth.models import Book
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
@@ -216,10 +216,10 @@ def noter_synthese(request, synthese_id):
                 synth.note_moyenne = note_total / nbre_notes
                 synth.nbre_notes = nbre_notes
                 synth.save()
-                user.syntheses_a_noter.remove(synth)
-                user.save()
+                db_note = Note(user=user, synthese=synth, valeur=note)
+                db_note.save()
                 print synth.nbre_notes, synth.note_moyenne
-            # synth.save()
+
         except Syntheses.DoesNotExist:
             raise Http404()
         return HttpResponse()
@@ -291,7 +291,7 @@ def syntheses_from_user(request, username):
         current_user = UserKooblit.objects.get(username=request.user.username)
     else:
         current_user = user
-    syntheses = Syntheses.objects.filter(user=user, has_been_published=True)
+    syntheses = Syntheses.objects.filter(user=user, has_been_published=True).order_by('-date','-note_moyenne')
     bought = []
     can_note = []
     for synth in syntheses:
