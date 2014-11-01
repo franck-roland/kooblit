@@ -31,10 +31,8 @@
     {% endif %}
 
     <div class="row list_extract">
-      {% for synth, bought in content %}
+      {% for synth, bought, can_note in content %}
         {% include "one_synth.html" %}
-        
-
       {% endfor %}
     </div> 
 
@@ -47,9 +45,18 @@
 {% endblock %}
 
 {% block script_block %}
+<script src="{% static "js/handle_note.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
 $('.bs-component [data-toggle="tooltip"]').tooltip();
-
+$(function () {
+  $(".note_link").click(send_note);
+  $(".vote").hover(function(){
+    $(this).parent().parent().find(".current_note").addClass("current_note_hidden");
+  },
+  function () {
+    $(this).parent().parent().find(".current_note").removeClass("current_note_hidden");
+  });
+})
 function afficher_plus(){
   $('.repre_image').each(function(){
     var res = $(this);

@@ -287,11 +287,18 @@ def syntheses_from_user(request, username):
         user = UserKooblit.objects.get(username__iexact=username)
     except UserKooblit.DoesNotExist:
         raise Http404()
+    if request.user.is_authenticated():
+        current_user = UserKooblit.objects.get(username=request.user.username)
+    else:
+        current_user = user
     syntheses = Syntheses.objects.filter(user=user, has_been_published=True)
     bought = []
+    can_note = []
     for synth in syntheses:
         bought.append(request.user.is_authenticated() and not synth.can_be_added_by(request.user.username))
-    content = zip(syntheses, bought)
+        can_note.append(current_user.can_note(synth))
+    content = zip(syntheses, bought, can_note)
+    print can_note
     return render_to_response(
         'synth_list_user.html',
         RequestContext(request, {'content': content}))
