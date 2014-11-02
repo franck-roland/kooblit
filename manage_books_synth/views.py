@@ -84,7 +84,7 @@ def slugify(filename):
 
 def get_name(book_title, username):
     book_title = slugify(book_title)
-    inpart = ''.join((book_title, username))
+    inpart = ''.join((book_title, username)).encode("utf-8")
     part = hashlib.sha1(inpart).hexdigest()
     return ''.join(('/tmp/', part))
 

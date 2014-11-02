@@ -8,7 +8,7 @@ from kooblit_lib.utils import get_content_for_template
 def homepage(request, alt=""):
     u = {'kooblit_username': request.user.username}
     if alt:
-        syntheses = Syntheses.objects.order_by("-date")[:4]
+        syntheses = Syntheses.objects.order_by("-date")
         u['syntheses'] = syntheses
         return render_to_response("alt/homepage.html", RequestContext(request, u))
     else:

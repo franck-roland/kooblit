@@ -55,17 +55,8 @@
 <div  id="last" class="col-xs-12 homepage_content">
     <a href="/1/#top">Top</a>
     <h1>Les dernières synthèses publiées sur le site</h1>
-  {% if syntheses %}
+    {% include 'syntheses/syntheses_rows.html' with syntheses=syntheses do_plus=False message="Désolé, le site ne contient pas encore de synthèse" %}
 
-    <div class="row list_extract">
-      {% for synth in syntheses %}
-        {% include "one_synth.html" %}
-      {% endfor %}
-    </div> 
-
-  {% else %}
-    <h1 class="no_synthese">Désolé, le site ne contient pas encore de synthèse</h1>
-  {% endif %}
 </div>
 
 {% endblock %}
