@@ -56,10 +56,10 @@
           {% include "kooblit_card.html" with title=synth.book_title author=synth.author synth_id=synth.id url="edition"%}
         </div>
 
-        <p class="col-sm-1 col-xs-3 price">{{synth.prix|title}}€</p>
-        <p class="col-sm-1 col-xs-3 price">{{synth.note_moy|title}}</p>
-        <p class="col-sm-1 col-xs-3 price">{{synth.nb_achat|title}}</p>
-        <p class="col-sm-1 col-xs-3 price">{{synth.gain|title}}€</p>
+        <p class="col-sm-1 col-xs-3 price">{{synth.prix|floatformat:2}}€</p>
+        <p class="col-sm-1 col-xs-3 price">{{synth.note_moy|floatformat:2}}/5</p>
+        <p class="col-sm-1 col-xs-3 price">{{synth.nb_achat}}</p>
+        <p class="col-sm-1 col-xs-3 price">{{synth.gain|floatformat:2}}€</p>
       </div>
     {% endfor %}
 
