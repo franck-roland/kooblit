@@ -55,10 +55,10 @@
 <div  id="last" class="col-xs-12 homepage_content">
     <a href="/1/#top">Top</a>
     <h1>Les dernières synthèses publiées sur le site</h1>
-  {% if content %}
+  {% if syntheses %}
 
     <div class="row list_extract">
-      {% for synth, bought, can_note in content %}
+      {% for synth in syntheses %}
         {% include "one_synth.html" %}
       {% endfor %}
     </div> 

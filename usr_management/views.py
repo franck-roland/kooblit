@@ -17,6 +17,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
+
 #URLS
 from django.core.urlresolvers import reverse
 
@@ -191,6 +192,25 @@ def download_pdf(request, synthese_id):
 
 
 @login_required
+def ajouter_synthese_gratuite(request, synthese_id):
+    try:
+        synthese = Syntheses.objects.get(id=synthese_id)
+    except Syntheses.DoesNotExist:
+        messages.warning("La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
+        return HttpResponseRedirect("/")
+    if not synthese.has_been_published:
+        messages.warning("La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
+        return HttpResponseRedirect("/")
+
+    if synthese.is_free and synthese.can_be_added_by(request.user.username):
+        version_synthese = Version_Synthese.objects.get(synthese=synthese, version=synthese.version)
+        user = UserKooblit.objects.get(username=request.user.username)
+        user.syntheses_achetees.add(version_synthese)
+        user.save()
+    return HttpResponseRedirect(reverse('usr_management:lire_synthese', args=(synthese_id,)))
+
+
+@login_required
 def lire_synthese(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
@@ -287,21 +307,11 @@ def syntheses_from_user(request, username):
         user = UserKooblit.objects.get(username__iexact=username)
     except UserKooblit.DoesNotExist:
         raise Http404()
-    if request.user.is_authenticated():
-        current_user = UserKooblit.objects.get(username=request.user.username)
-    else:
-        current_user = user
+
     syntheses = Syntheses.objects.filter(user=user, has_been_published=True).order_by('-date','-note_moyenne')
-    bought = []
-    can_note = []
-    for synth in syntheses:
-        bought.append(request.user.is_authenticated() and not synth.can_be_added_by(request.user.username))
-        can_note.append(current_user.can_note(synth))
-    content = zip(syntheses, bought, can_note)
-    print can_note
     return render_to_response(
         'synth_list_user.html',
-        RequestContext(request, {'content': content}))
+        RequestContext(request, {'syntheses': syntheses}))
 
 
 @login_required

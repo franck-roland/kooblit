@@ -22,6 +22,10 @@ from django.contrib import messages
 PUNC_EXCLUDE = set(string.punctuation + '\n\r')
 MAX_CHAR_PAGES = 200
 
+
+
+
+
 def count_words(text):
     count = 0
     if not text or text in PUNC_EXCLUDE:

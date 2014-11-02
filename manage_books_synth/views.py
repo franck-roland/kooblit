@@ -384,20 +384,6 @@ def book_detail(request, book_title):
     syntheses = Syntheses.objects.filter(livre_id=book.id, has_been_published=True)
     nb_syntheses = len(syntheses)
 
-    bought = []
-    can_note = []
-    for synt in syntheses:
-        if request.user.is_authenticated() and not valid_synthese_for_add(synt.id, request.user.username):
-            bought.append(True)
-        else:
-            bought.append(False)
-        if usr:
-            can_note.append(usr.can_note(synt))
-        else:
-            can_note.append(False)
-
-    content = zip(syntheses, bought, can_note)
-
     return render_to_response(
         'details.html',
         RequestContext(request, {
@@ -405,7 +391,7 @@ def book_detail(request, book_title):
             'author': book.author[0],
             'img_url': u_b.image,
             'nb_syntheses': nb_syntheses,
-            'content': content,
+            'syntheses': syntheses,
             'description': book.description,
             'buy_url': u_b.buy_url}))
 

@@ -20,9 +20,9 @@
 
 <div class="row">
   <div class="col-sm-offset-1 col-sm-9 col-xs-12">
-  {% if content %}
+  {% if syntheses %}
 
-    {% if content|length > 4 %}
+    {% if syntheses|length > 4 %}
       <div class="row">
         <div class="col-xs-offset-11 col-xs-1">
           <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
@@ -31,7 +31,7 @@
     {% endif %}
 
     <div class="row list_extract">
-      {% for synth, bought, can_note in content %}
+      {% for synth in syntheses %}
         {% include "one_synth.html" %}
       {% endfor %}
     </div> 

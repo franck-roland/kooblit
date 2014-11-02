@@ -32,6 +32,10 @@ ALLOWED_HOSTS = []
 
 SECRET_KEY = appConfig.get("secret_key")
 
+# Synthese settings
+MIN_NOTE = 5
+MIN_MEAN = 3
+
 # Application definition
 
 INSTALLED_APPS = (

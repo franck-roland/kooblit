@@ -36,7 +36,7 @@ class UserKooblit(User):
 
 
     def can_note(self, synthese):
-        return not Note.objects.filter(user=self, synthese=synthese)
+        return not Note.objects.filter(user=self, synthese=synthese) and synthese.user != self
 
 
     def is_author(self):
@@ -130,6 +130,10 @@ class Syntheses(models.Model):
     def __unicode__(self):
         return u"".join((self.user.username," ",self.book_title))
 
+    @property
+    def is_free(self):
+        return self.nbre_notes < settings.MIN_NOTE or self.note_moyenne < settings.MIN_MEAN
+
     # @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
@@ -215,11 +219,9 @@ class Syntheses(models.Model):
         return Book.objects.get(id=self.livre_id).title
 
     def can_be_added_by(self, username):
-        if not self.has_been_published:
-            raise Exception("Should not be ask for adding in")
         buyer = UserKooblit.objects.get(username=username)
         # A changer si changement de regle sur les versions
-        return self.user.username != username and not UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=self)
+        return self.has_been_published and self.user.username != username and not UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=self)
 
     def publish(self):
         self.date = datetime.datetime.now()
