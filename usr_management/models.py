@@ -36,7 +36,8 @@ class UserKooblit(User):
 
 
     def can_note(self, synthese):
-        return not Note.objects.filter(user=self, synthese=synthese) and synthese.user != self
+        syntheses_achetees = (i.synthese for i in self.syntheses_achetees.all())
+        return synthese in syntheses_achetees and  not Note.objects.filter(user=self, synthese=synthese) and synthese.user != self
 
 
     def is_author(self):
