@@ -241,8 +241,9 @@ def upload_medium(request, book_title):
                 synthese = Syntheses.objects.get(user=user, livre_id=book.id)
                 s = synthese._file_html.read()
             except Syntheses.DoesNotExist:
-                pass
-        return render_to_response('edition_synthese.html', RequestContext(request, {'username': username, 'book': book, 'u_b': u_b, 'content': s}))
+                synthese = None
+
+        return render_to_response('edition_synthese.html', RequestContext(request, {'username': username, 'book': book, 'u_b': u_b, 'content': s, 'synthese': synthese}))
 
 
 def computeEmail(username, book_title, alert=0):
