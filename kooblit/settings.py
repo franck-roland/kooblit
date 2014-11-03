@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 from mongoengine import connect
 from kooblit_lib.config import appConfig
-import djcelery
+# import djcelery
 
-djcelery.setup_loader()
+# djcelery.setup_loader()
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 

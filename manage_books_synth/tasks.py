@@ -9,9 +9,9 @@ from django.core.files import File
 from usr_management.models import UserKooblit, Syntheses, Demande
 
 #Asynchrone
-from celery import task
+from celery import shared_task
 
-@task()
+@shared_task
 def create_pdf(username, synth):
     try:
         user = UserKooblit.objects.get(username=username)
