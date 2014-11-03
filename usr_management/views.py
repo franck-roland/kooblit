@@ -48,6 +48,7 @@ from django.core.servers.basehttp import FileWrapper
 
 from django.templatetags.static import static
 
+from manage_books_synth.tasks import create_pdf
 
 
 email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
@@ -176,12 +177,14 @@ def download_pdf(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
         synth = Syntheses.objects.get(id=synthese_id)
-        if synth.file_pdf.name != '0':
-            path_name = ''.join((settings.MEDIA_ROOT, '/', synth.file_pdf.name))
-            f = FileWrapper(file(path_name))
-            response = HttpResponse(f, content_type='application/pdf')
-            response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
-            return response
+        if synth.file_pdf.name == '0':
+            create_pdf(synth.user.username, synth)
+        
+        path_name = ''.join((settings.MEDIA_ROOT, '/', synth.file_pdf.name))
+        f = FileWrapper(file(path_name))
+        response = HttpResponse(f, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
+        return response
     raise Http404()
 
 
