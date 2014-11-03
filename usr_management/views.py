@@ -17,6 +17,8 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
+# Settings
+from django.conf import settings
 
 #URLS
 from django.core.urlresolvers import reverse
@@ -173,26 +175,14 @@ def can_read(id_synthese, username):
 def download_pdf(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
-        synt = Syntheses.objects.get(id=synthese_id)
-        contenu = synt.contenu_pdf()
-
-        pdf_name = '/tmp/synth_'+str(synthese_id)
-        html_name = pdf_name+'.html'
-
-        open(html_name,'w').write(contenu)
-        args = ["wkhtmltopdf",
-            "--encoding", "utf-8",
-            "--header-html", "127.0.0.1/static/html/pdf_header.html ",
-            "--footer-html", "127.0.0.1/static/html/pdf_footer.html",
-            html_name, pdf_name,]
-        a = subprocess.call(args)
-        if a:
-            return HttpResponseServerError()
-       
-        f = FileWrapper(file(pdf_name))
-        response = HttpResponse(f, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
-        return response
+        synth = Syntheses.objects.get(id=synthese_id)
+        if synth.file_pdf.name != '0':
+            path_name = ''.join((settings.MEDIA_ROOT, '/', synth.file_pdf.name))
+            f = FileWrapper(file(path_name))
+            response = HttpResponse(f, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
+            return response
+    raise Http404()
 
 
 @login_required
