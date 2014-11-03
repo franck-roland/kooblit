@@ -128,3 +128,12 @@ blockquote {
     /*font-family: "Helvetica Neue";*/
     font-weight: bold;
 }
+
+.price_selector{
+    display: inline-block;
+    margin-top: 15px;
+    height: 50px;
+    width: 75px;
+    border: none;
+    background: none;
+}
