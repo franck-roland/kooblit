@@ -110,6 +110,7 @@ class Verification(models.Model):
 class Syntheses(models.Model):
     version = models.IntegerField(default=0)
     _file_html = models.FileField(upload_to="syntheses", storage=mfs)
+    file_pdf = models.FileField(upload_to="syntheses", storage=mfs)
     user = models.ForeignKey('UserKooblit', related_name='+')
     # livre = models.ForeignKey('Book')
     # title = models.CharField(max_length=240, default=False)
@@ -135,7 +136,7 @@ class Syntheses(models.Model):
     def is_free(self):
         return self.nbre_notes < settings.MIN_NOTE or self.note_moyenne < settings.MIN_MEAN
 
-    # @cached_property
+    @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
         _title = u"".join(("<h1 id='titre_synthese'>Koob de <span class='book_title'>", self.book_title,
@@ -152,7 +153,7 @@ class Syntheses(models.Model):
 
 
     def contenu_pdf(self):
-        cont = self.contenu()
+        cont = self.contenu
         template_name = os.path.join(settings.TEMPLATE_DIRS[0],'pdf/pdf_render.html')
         with open(template_name,'r') as f:
             head = f.read()

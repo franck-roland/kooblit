@@ -46,6 +46,8 @@ from django.core.servers.basehttp import FileWrapper
 
 from django.templatetags.static import static
 
+
+
 email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 email_match = re.compile(email_adresse_regex)
 
@@ -163,6 +165,8 @@ def can_read(id_synthese, username):
         return False
     buyer = UserKooblit.objects.get(username=username)
     return synthese.user.username == username or UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=synthese)
+
+
 
 
 @login_required

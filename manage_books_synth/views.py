@@ -47,6 +47,10 @@ from docx import opendocx, getdocumentHtml
 # Gestion du panier
 from achat.utils import add_to_cart
 
+#Taches asynchrones
+from tasks import create_pdf
+
+
 re_get_summary = re.compile('.*<div class="summary">(.+)</div>.*')
 re_get_extrait = re.compile('(.*)')
 
@@ -98,8 +102,8 @@ def get_tmp_medium_file(book_title, username):
         return ''
 
 
+
 def create_file_medium(request, s, book_title, username, has_been_published=False):
-    # TODO: Utiliser la méthode publish de Syntheses
     create_book_if_doesnt_exist(request, book_title)
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
@@ -129,7 +133,7 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
                                  prix=2, has_been_published=has_been_published)
         synthese.save()
         synthese.publish()
-
+        create_pdf.delay(username, synthese)
     if has_been_published:
         os.remove(filename)
 
