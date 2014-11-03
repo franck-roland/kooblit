@@ -34,6 +34,12 @@ class UserKooblit(User):
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
     syntheses_achetees = models.ManyToManyField('Version_Synthese', blank=True, null=True)
 
+
+    def can_note(self, synthese):
+        syntheses_achetees = (i.synthese for i in self.syntheses_achetees.all())
+        return synthese in syntheses_achetees and  not Note.objects.filter(user=self, synthese=synthese) and synthese.user != self
+
+
     def is_author(self):
         try:
             address = Address.objects.get(user=self)
@@ -104,13 +110,14 @@ class Verification(models.Model):
 class Syntheses(models.Model):
     version = models.IntegerField(default=0)
     _file_html = models.FileField(upload_to="syntheses", storage=mfs)
+    file_pdf = models.FileField(upload_to="syntheses", storage=mfs)
     user = models.ForeignKey('UserKooblit', related_name='+')
     # livre = models.ForeignKey('Book')
     # title = models.CharField(max_length=240, default=False)
     livre_id = models.CharField(max_length=240, blank=False)
     book_title = models.CharField(max_length=settings.MAX_BOOK_TITLE_LEN, default="", blank=False)
     nb_achat = models.BigIntegerField(default=0)
-    note_moyenne = models.BigIntegerField(default=0)
+    note_moyenne = models.FloatField(default=0)
     nbre_notes = models.BigIntegerField(default=0)
     date = models.DateField(null=True, default=datetime.datetime.now)
     prix = models.FloatField(default=0)
@@ -125,7 +132,11 @@ class Syntheses(models.Model):
     def __unicode__(self):
         return u"".join((self.user.username," ",self.book_title))
 
-    # @cached_property
+    @property
+    def is_free(self):
+        return self.nbre_notes < settings.MIN_NOTE or self.note_moyenne < settings.MIN_MEAN
+
+    @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
         _title = u"".join(("<h1 id='titre_synthese'>Koob de <span class='book_title'>", self.book_title,
@@ -135,6 +146,7 @@ class Syntheses(models.Model):
         return resume.encode("utf-8")
 
 
+    @cached_property
     def contenu_sans_titre(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
         resume = unicode(self._file_html.read(),'utf-8')
@@ -142,7 +154,7 @@ class Syntheses(models.Model):
 
 
     def contenu_pdf(self):
-        cont = self.contenu()
+        cont = self.contenu
         template_name = os.path.join(settings.TEMPLATE_DIRS[0],'pdf/pdf_render.html')
         with open(template_name,'r') as f:
             head = f.read()
@@ -166,12 +178,13 @@ class Syntheses(models.Model):
 
     @property
     def nbre_mots(self):
-        return count_words(BeautifulSoup(self.contenu_sans_titre()).find("body"))
+        return count_words(BeautifulSoup(self.contenu_sans_titre).find("body"))
 
-    # @property
+    @cached_property
     def pages(self):
-        s = self.contenu_sans_titre()
+        s = self.contenu_sans_titre
         s = s.replace("\n","")
+        return [s,]
         soup = BeautifulSoup(s)
         body = soup.find("body")
         return read_pages(body)
@@ -183,7 +196,7 @@ class Syntheses(models.Model):
         if not self.book_title:
             self.book_title = self.titre
             self.save()
-        soup = BeautifulSoup(self.contenu_sans_titre())
+        soup = BeautifulSoup(self.contenu_sans_titre)
         body = soup.find("body")
         current_length = 0
         extrait = ["<html>","<body>"]
@@ -210,11 +223,9 @@ class Syntheses(models.Model):
         return Book.objects.get(id=self.livre_id).title
 
     def can_be_added_by(self, username):
-        if not self.has_been_published:
-            raise Exception("Should not be ask for adding in")
         buyer = UserKooblit.objects.get(username=username)
         # A changer si changement de regle sur les versions
-        return self.user.username != username and not UserKooblit.objects.filter(username=username,syntheses_achetees__synthese=self)
+        return self.has_been_published and self.user.username != username and not UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=self)
 
     def publish(self):
         self.date = datetime.datetime.now()
@@ -260,6 +271,16 @@ class Version_Synthese(models.Model):
             self.save()
 
 
+class Note(models.Model):
+    user = models.ForeignKey("UserKooblit")
+    synthese = models.ForeignKey("Syntheses")
+    valeur = models.FloatField()
+
+    class Meta:
+        unique_together = (('user', 'synthese'),)
+
+    def __unicode__(self):
+        return ''.join((self.user.username, ' pour synthese: ', str(self.synthese)))
 
 class Comments(models.Model):
     user = models.ForeignKey('UserKooblit')

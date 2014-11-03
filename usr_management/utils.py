@@ -22,6 +22,10 @@ from django.contrib import messages
 PUNC_EXCLUDE = set(string.punctuation + '\n\r')
 MAX_CHAR_PAGES = 200
 
+
+
+
+
 def count_words(text):
     count = 0
     if not text or text in PUNC_EXCLUDE:
@@ -218,8 +222,19 @@ def migrate_synth_tmp_file():
         if os.path.isfile(old_filename):
             shutil.copy2(old_filename, new_filename)
             #os.remove(old_filename)
+def clean_user_notes():
+    import models
+    for synth in models.Syntheses.objects.filter():
+        synth.nbre_notes = 0
+        synth.note_moyenne = 0
+        synth.save()
+
+
 
 def migrate():
+    clean_user_notes()
+
+def migrate_1():
     ajout_userkooblit_syntheses_achetees()
     add_title_to_syntheses()
     migrate_synth_tmp_file()

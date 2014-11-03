@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 from mongoengine import connect
 from kooblit_lib.config import appConfig
+# import djcelery
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -35,6 +36,10 @@ ALLOWED_HOSTS = []
 
 SECRET_KEY = appConfig.get("secret_key")
 
+# Synthese settings
+MIN_NOTE = 5
+MIN_MEAN = 3
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -45,6 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djcelery',
     'search_engine',
     'usr_management',
     'achat',

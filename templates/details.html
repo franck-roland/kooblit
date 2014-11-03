@@ -63,25 +63,7 @@
   </div>
 
   <div class="col-sm-offset-1 col-sm-9 col-xs-12">
-  {% if content %}
-
-    {% if content|length > 4 %}
-      <div class="row">
-        <div class="col-xs-offset-11 col-xs-1">
-          <button type="button" class="btn btn-danger plus_button" onclick='afficher_plus()'>Plus</button>
-        </div> <!-- Bouton PLUS -->
-      </div>
-    {% endif %}
-
-    <div class="row list_extract">
-      {% for synth, bought in content %}
-        {% include "one_synth.html" %}
-      {% endfor %}
-    </div>
-
-  {% else %}
-    <h1 class="no_synthese">Désolé, il n'y a aucune synthèse disponible pour ce livre</h1>
-  {% endif %}
+  {% include 'syntheses/syntheses_rows.html' with syntheses=syntheses do_plus=True message="Désolé, il n'y a aucune synthèse disponible pour ce livre" %}
   </div>
 
 </div>
@@ -89,6 +71,7 @@
 
 {% block script_block %}
 <script src="{% static "js/colorize.js" %}" type="text/javascript"></script>
+<script src="{% static "js/handle_note.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
   $(window).load(function(){
       $(".image_extract").each(function(index, element){
@@ -99,7 +82,15 @@
 <script type="text/javascript">
 
 $('.bs-component [data-toggle="tooltip"]').tooltip();
-
+$(function () {
+  $(".note_link").click(send_note);
+  $(".vote").hover(function(){
+    $(this).parent().parent().find(".current_note").addClass("current_note_hidden");
+  },
+  function () {
+    $(this).parent().parent().find(".current_note").removeClass("current_note_hidden");
+  });
+})
 function afficher_plus(){
   $('.repre_image').each(function(){
     var res = $(this);

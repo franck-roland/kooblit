@@ -10,12 +10,15 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpRespons
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm, AddressChangeForm
 from django.contrib.auth.models import User
-from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address, Version_Synthese
+from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address, Version_Synthese, Note
 from manage_books_synth.models import Book
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+
+# Settings
+from django.conf import settings
 
 #URLS
 from django.core.urlresolvers import reverse
@@ -44,6 +47,9 @@ from django.core.files import File
 from django.core.servers.basehttp import FileWrapper
 
 from django.templatetags.static import static
+
+from manage_books_synth.tasks import create_pdf
+
 
 email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 email_match = re.compile(email_adresse_regex)
@@ -164,30 +170,41 @@ def can_read(id_synthese, username):
     return synthese.user.username == username or UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=synthese)
 
 
+
+
 @login_required
 def download_pdf(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
-        synt = Syntheses.objects.get(id=synthese_id)
-        contenu = synt.contenu_pdf()
-
-        pdf_name = '/tmp/synth_'+str(synthese_id)
-        html_name = pdf_name+'.html'
-
-        open(html_name,'w').write(contenu)
-        args = ["wkhtmltopdf",
-            "--encoding", "utf-8",
-            "--header-html", "127.0.0.1/static/html/pdf_header.html ",
-            "--footer-html", "127.0.0.1/static/html/pdf_footer.html",
-            html_name, pdf_name,]
-        a = subprocess.call(args)
-        if a:
-            return HttpResponseServerError()
-       
-        f = FileWrapper(file(pdf_name))
+        synth = Syntheses.objects.get(id=synthese_id)
+        if synth.file_pdf.name == '0':
+            create_pdf(synth.user.username, synth)
+        
+        path_name = ''.join((settings.MEDIA_ROOT, '/', synth.file_pdf.name))
+        f = FileWrapper(file(path_name))
         response = HttpResponse(f, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
         return response
+    raise Http404()
+
+
+@login_required
+def ajouter_synthese_gratuite(request, synthese_id):
+    try:
+        synthese = Syntheses.objects.get(id=synthese_id)
+    except Syntheses.DoesNotExist:
+        messages.warning("La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
+        return HttpResponseRedirect("/")
+    if not synthese.has_been_published:
+        messages.warning("La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
+        return HttpResponseRedirect("/")
+
+    if synthese.is_free and synthese.can_be_added_by(request.user.username):
+        version_synthese = Version_Synthese.objects.get(synthese=synthese, version=synthese.version)
+        user = UserKooblit.objects.get(username=request.user.username)
+        user.syntheses_achetees.add(version_synthese)
+        user.save()
+    return HttpResponseRedirect(reverse('usr_management:lire_synthese', args=(synthese_id,)))
 
 
 @login_required
@@ -198,6 +215,32 @@ def lire_synthese(request, synthese_id):
         return render(request, 'lecture.html', RequestContext(request, {'synth': synt}))
     else:
         raise Http404()
+
+
+@login_required
+def noter_synthese(request, synthese_id):
+    user = UserKooblit.objects.get(username=request.user.username)
+    if request.method == "GET":
+        note = float(int(request.GET["note"]))
+        try:
+            synth = Syntheses.objects.get(id=synthese_id)
+            if not user.can_note(synth):
+                raise Http404()
+            else:
+                note_total = synth.note_moyenne * synth.nbre_notes
+                nbre_notes  = synth.nbre_notes + 1
+                note_total += note
+                synth.note_moyenne = note_total / nbre_notes
+                synth.nbre_notes = nbre_notes
+                synth.save()
+                db_note = Note(user=user, synthese=synth, valeur=note)
+                db_note.save()
+                print synth.nbre_notes, synth.note_moyenne
+
+        except Syntheses.DoesNotExist:
+            raise Http404()
+        return HttpResponse()
+    raise Http404()
 
 
 # Use the login_required() decorator to ensure only those logged in can access the view.
@@ -261,14 +304,11 @@ def syntheses_from_user(request, username):
         user = UserKooblit.objects.get(username__iexact=username)
     except UserKooblit.DoesNotExist:
         raise Http404()
-    syntheses = Syntheses.objects.filter(user=user, has_been_published=True)
-    bought = []
-    for synth in syntheses:
-        bought.append(request.user.is_authenticated() and not synth.can_be_added_by(request.user.username))
-    content = zip(syntheses, bought)
+
+    syntheses = Syntheses.objects.filter(user=user, has_been_published=True).order_by('-date','-note_moyenne')
     return render_to_response(
         'synth_list_user.html',
-        RequestContext(request, {'content': content}))
+        RequestContext(request, {'syntheses': syntheses}))
 
 
 @login_required
@@ -346,10 +386,10 @@ def user_dashboard(request):
         except Address.DoesNotExist:
             adresse = {'current_country':''}
 
-        return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
+        return render_to_response('profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
             'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 
             'total': total, 'form': form, 'loc_required': loc_required, 'next_url': next_url,
-             'COUNTRIES': ((i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items())}))
+             'COUNTRIES': [(i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items()]}))
 
 @login_required
 def user_profil(request, username):

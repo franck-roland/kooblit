@@ -47,6 +47,10 @@ from docx import opendocx, getdocumentHtml
 # Gestion du panier
 from achat.utils import add_to_cart
 
+#Taches asynchrones
+from tasks import create_pdf
+
+
 re_get_summary = re.compile('.*<div class="summary">(.+)</div>.*')
 re_get_extrait = re.compile('(.*)')
 
@@ -84,7 +88,7 @@ def slugify(filename):
 
 def get_name(book_title, username):
     book_title = slugify(book_title)
-    inpart = ''.join((book_title, username))
+    inpart = ''.join((book_title, username)).encode("utf-8")
     part = hashlib.sha1(inpart).hexdigest()
     return ''.join(('/tmp/', part))
 
@@ -98,8 +102,8 @@ def get_tmp_medium_file(book_title, username):
         return ''
 
 
+
 def create_file_medium(request, s, book_title, username, has_been_published=False):
-    # TODO: Utiliser la méthode publish de Syntheses
     create_book_if_doesnt_exist(request, book_title)
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
@@ -129,7 +133,7 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
                                  prix=2, has_been_published=has_been_published)
         synthese.save()
         synthese.publish()
-
+        create_pdf.delay(username, synthese)
     if has_been_published:
         os.remove(filename)
 
@@ -362,6 +366,10 @@ def valid_synthese_for_add(id_synthese, username):
 @add_to_cart
 def book_detail(request, book_title):
     book_title = urllib.unquote(book_title)
+    if request.user.is_authenticated():
+        usr = UserKooblit.objects.get(username=request.user.username)
+    else:
+        usr = None
     try:
         book = Book.objects.get(title=book_title)
     except Book.DoesNotExist:
@@ -380,14 +388,6 @@ def book_detail(request, book_title):
     syntheses = Syntheses.objects.filter(livre_id=book.id, has_been_published=True)
     nb_syntheses = len(syntheses)
 
-    bought = []
-    for synt in syntheses:
-        if request.user.is_authenticated() and not valid_synthese_for_add(synt.id, request.user.username):
-            bought.append(True)
-        else:
-            bought.append(False)
-    content = zip(syntheses, bought)
-
     return render_to_response(
         'details.html',
         RequestContext(request, {
@@ -395,7 +395,7 @@ def book_detail(request, book_title):
             'author': book.author[0],
             'img_url': u_b.image,
             'nb_syntheses': nb_syntheses,
-            'content': content,
+            'syntheses': syntheses,
             'description': book.description,
             'buy_url': u_b.buy_url}))
 
