@@ -131,7 +131,8 @@ def create_file_medium(request, s, book_title, username, prix=2, has_been_publis
             synthese = Syntheses(_file_html=File(destination),
                                  user=user, livre_id=book.id, book_title=book.title,
                                  prix=2, has_been_published=has_been_published)
-        synthese.prix = prix
+        if prix:
+            synthese.prix = prix
         synthese.save()
         synthese.publish()
         create_pdf.delay(username, synthese)
@@ -212,13 +213,19 @@ def upload_medium(request, book_title):
     user = UserKooblit.objects.get(username=username)
     if request.method == 'POST':
         if "_publish" in request.POST:
-            price = float(request.POST['prix'])
+            if not request.POST['prix']:
+                price = 0
+            else:
+                price = float(request.POST['prix'])
             create_file_medium(request, request.POST['q'], book_title, username, price,  has_been_published=True)
             messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été publié.' % book_title)
             send_alert(book_title)
             return HttpResponseRedirect('/', request)
         elif "_quit" in request.POST:
-            price = float(request.POST['prix'])
+            if not request.POST['prix']:
+                price = 0
+            else:
+                price = float(request.POST['prix'])
             create_file_medium(request, request.POST['q'], book_title, username, price)
             messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
             return HttpResponseRedirect('/', request)
