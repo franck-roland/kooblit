@@ -179,7 +179,7 @@ class Syntheses(models.Model):
     def nbre_mots(self):
         return count_words(BeautifulSoup(self.contenu_sans_titre()).find("body"))
 
-    # @property
+    @cached_property
     def pages(self):
         s = self.contenu_sans_titre()
         s = s.replace("\n","")
