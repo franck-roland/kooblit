@@ -20,7 +20,7 @@
           Votre fichier a bien été enregistré.
         </div>
     </div>
-    <div class="container">
+    <div class="container editeur">
         <div class="col-sm-3 col-sm-offset-0 col-xs-10 col-xs-offset-1">
           <div class="repre_image">
             <a title="Acheter le livre" target="_blank" href="{{u_b.buy_url}}">
@@ -44,12 +44,20 @@
             <div class="editable">{{content|safe}}</div>
             <div id="container">
                 <button class="button button-sauvegarder" onclick="sauvegarder()"> Sauvegarder </button>
-                <button type="submit" value="quit" name="_quit" class="button button-publier" onclick="envoyer()" form="form_synth"> Enregistrer et quitter </button>
-                <button type="submit" value="publish" name="_publish" class="button button-publier" onclick="envoyer()" form="form_synth"> Publier </button>
+                <button value="quit" name="_quit" class="button button-publier" onclick="choix_prix('_quit')" > Sauvegarder et quitter </button>
+                <button  value="publish" name="_publish" class="button button-publier" onclick="choix_prix('_publish')" > Publier </button>
             </div>
         </div>
-    </div>
+    </div> <!-- editeur -->
+    <div class="container choix_prix hidden">
+        <h2>A quel prix souhaitez-vous vendre votre synthèse?</h2>
+        Minimum 2€, pas de maximum, mais attention, un prix trop élevé limitera les téléchargements.
 
+        <p><input name="prix" class="price_selector" type="number" step=0.01 placeholder="00,00" value="2.00" form="form_synth" />€</p>
+        <a href="#"><button value="retour" name="retour" class="button button-prix" onclick="retour()" > <i class="fa fa-arrow-circle-o-left"></i> Retour </button></a>
+
+        <button type="submit" value="publish" name="_publish" class="button button-prix" onclick="envoyer()" form="form_synth"> Valider </button>
+    </div>
 {% endblock %}
 
 {% block script_block %}
@@ -69,7 +77,15 @@
             t_editor = d.getTime();
             changed = 1;
         });
-
+        function retour(){
+            $('.editeur').removeClass('hidden');
+            $('.choix_prix').addClass('hidden');
+        }
+        function choix_prix(nom) {
+            $('.button-prix').attr('name', nom);
+            $('.editeur').addClass('hidden');
+            $('.choix_prix').removeClass('hidden');
+        }
         function sauvegarder () {
             var ser = editor.serialize();
             $.ajax({
