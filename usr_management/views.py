@@ -389,10 +389,10 @@ def user_dashboard(request):
         except Address.DoesNotExist:
             adresse = {'current_country':''}
 
-        return render(request, 'profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
+        return render_to_response('profil.html', RequestContext(request, {'user_kooblit': user_kooblit, 'adresse': adresse, 'syntheses_achetees': syntheses_achetees, 
             'syntheses_ecrites': syntheses_ecrites, 'syntheses_en_cours': syntheses_en_cours, 
             'total': total, 'form': form, 'loc_required': loc_required, 'next_url': next_url,
-             'COUNTRIES': ((i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items())}))
+             'COUNTRIES': [(i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items()]}))
 
 @login_required
 def user_profil(request, username):
