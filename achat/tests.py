@@ -6,9 +6,10 @@ import urllib
 import hashlib
 import base64
 from django.http import HttpResponseRedirect
+from urllib import quote_plus
+from Crypto.Hash import SHA
 from Crypto.PublicKey import RSA
-import OpenSSL.crypto as ct 
-from M2Crypto import RSA as m2rsa
+from Crypto.Signature import PKCS1_v1_5
 
 def openssl_sign(data, priv_key):
     # priv_key.sign_init()
@@ -23,33 +24,43 @@ def openssl_sign2(data, priv_key):
 # Create your tests here.
 class PayplugTestCase(TestCase):
     def setUp(self):
-        self.ngrok = "http://1a24e0f2.ngrok.com"
-        self.amout = 2
-        self.currency = "EUR"
+
         self.params = {
-        "ipn_url": "http://1a24e0f2.ngrok.com",
-        "amout": 9,
+        "ipn_url": "http://1a24e0f2.ngrok.com/ipn",
+        "return_url": "http://1a24e0f2.ngrok.com",
+        "amount": "999",
         "currency": "EUR",
+        "first_name": "alain"
 
         }
         filename = "config/payplug_rsa_private_key.pem"
-        print settings.PAYPLUG_PRIVATE_KEY
-        self.priv1 = RSA.importKey(settings.PAYPLUG_PRIVATE_KEY)
-        self.priv2 = ct.load_privatekey(ct.FILETYPE_PEM, open(filename,"r").read())
-        print ct.PKey.check(self.priv2)
-        self.priv3 = m2rsa.load_key(filename)
-        self.base_url = settings.PAYPLUG_URL
+        self.rsa_key = RSA.importKey(settings.PAYPLUG_PRIVATE_KEY)
+        # self.base_url = settings.PAYPLUG_URL
+        self.base_url = "https://www.payplug.fr/p/test/w4OV"
 
     def test_commande(self):
-        url_params = urllib.urlencode(self.params, True)
+        url_params = urllib.urlencode(self.params)
+        url_params = quote_plus(url_params, '=&')
         print url_params
-        data = urllib.quote_plus(base64.standard_b64encode(url_params))
+        url_params = url_params.encode("utf­-8")
+        data = base64.b64encode(url_params).decode('utf­-8')
+        data = quote_plus(data, '=&')
+
+        # url_params = urllib.urlencode(self.params)
+        # url_params = quote_plus(url_params)
+        # url_params = url_params.encode("utf­8")
+
+        # data = base64.b64encode(url_params).decode('utf­-8')
+        # data = quote_plus(data, "")
+
+        rsa = PKCS1_v1_5.new(self.rsa_key)
+        _hash = SHA.new()
+        _hash.update(url_params)
+        sign = base64.b64encode(rsa.sign(_hash))
+        sign = quote_plus(sign.decode('utf­-8'), '=&')
+
         # signature = self.priv1.sign(hashlib.sha1(url_params).digest(),None)[0]
-        signature = urllib.quote_plus(base64.standard_b64encode(openssl_sign(url_params, self.priv3)))
-        url = "".join((self.base_url, "?data=", data, "&signature=", signature))
-        print url
-        signture = urllib.quote_plus(base64.standard_b64encode(ct.sign(self.priv2,url_params,'sha1')))
-        url = "".join((self.base_url, "?data=", data, "&signature=", signature))
+        url = "".join((self.base_url, "?data=", data, "&sign=", sign))
         print url
         # print hex(signature)[2:][:-1]
         # signature = urllib.quote_plus(hex(signature)[2:][:-1].encode('base64'))
