@@ -146,6 +146,7 @@ class Syntheses(models.Model):
         return resume.encode("utf-8")
 
 
+    @cached_property
     def contenu_sans_titre(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
         resume = unicode(self._file_html.read(),'utf-8')
@@ -177,11 +178,11 @@ class Syntheses(models.Model):
 
     @property
     def nbre_mots(self):
-        return count_words(BeautifulSoup(self.contenu_sans_titre()).find("body"))
+        return count_words(BeautifulSoup(self.contenu_sans_titre).find("body"))
 
     @cached_property
     def pages(self):
-        s = self.contenu_sans_titre()
+        s = self.contenu_sans_titre
         s = s.replace("\n","")
         return [s,]
         soup = BeautifulSoup(s)
@@ -195,7 +196,7 @@ class Syntheses(models.Model):
         if not self.book_title:
             self.book_title = self.titre
             self.save()
-        soup = BeautifulSoup(self.contenu_sans_titre())
+        soup = BeautifulSoup(self.contenu_sans_titre)
         body = soup.find("body")
         current_length = 0
         extrait = ["<html>","<body>"]
