@@ -183,6 +183,7 @@ class Syntheses(models.Model):
     def pages(self):
         s = self.contenu_sans_titre()
         s = s.replace("\n","")
+        return [s,]
         soup = BeautifulSoup(s)
         body = soup.find("body")
         return read_pages(body)
