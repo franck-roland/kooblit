@@ -193,10 +193,10 @@ def ajouter_synthese_gratuite(request, synthese_id):
     try:
         synthese = Syntheses.objects.get(id=synthese_id)
     except Syntheses.DoesNotExist:
-        messages.warning("La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
+        messages.warning(request, "La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
         return HttpResponseRedirect("/")
     if not synthese.has_been_published:
-        messages.warning("La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
+        messages.warning(request, "La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
         return HttpResponseRedirect("/")
 
     if synthese.is_free and synthese.can_be_added_by(request.user.username):
@@ -204,6 +204,8 @@ def ajouter_synthese_gratuite(request, synthese_id):
         user = UserKooblit.objects.get(username=request.user.username)
         user.syntheses_achetees.add(version_synthese)
         user.save()
+        messages.success(request, 
+            "Vous accédez à cette synthèse gratuitement, nous vous demandons en contrepartie de lui donner une note après l'avoir consultée. Merci!")
     return HttpResponseRedirect(reverse('usr_management:lire_synthese', args=(synthese_id,)))
 
 
