@@ -26,7 +26,7 @@ TMP_DIR = appConfig.get("tmp__kooblit_tmp_root")
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
@@ -56,7 +56,7 @@ INSTALLED_APPS = (
     'south',
     'crispy_forms',
 )
-
+INSTALLED_APPS += ('storages',)
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -104,11 +104,21 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
+if not DEBUG:
+    AWS_STORAGE_BUCKET_NAME = appConfig.get("aws__bucket_name")
+    AWS_ACCESS_KEY_ID = appConfig.get("aws__ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = appConfig.get("aws__SECRET_ACCESS_KEY")
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+    STATIC_URL = S3_URL
+else:
+    STATIC_URL = '/static/'
+
+STATIC_ROOT = appConfig.get("path__static_root")
+
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
-STATIC_URL = '/static/'
-STATIC_ROOT = appConfig.get("path__static_root")
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates/'),
