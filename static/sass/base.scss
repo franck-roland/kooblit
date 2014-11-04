@@ -2,7 +2,7 @@
  * Style tweaks
  * --------------------------------------------------
  */
-
+@import "utilities/colors";
 
 @font-face{
   font-family: "Helvetica Neue Thin";
@@ -37,9 +37,7 @@
 }
 
 $nav_bar_len: 70px;
-$html_background_color: #FAFAFA;
-$nav_link_color: rgb(44, 62, 80);
-$nav_link_background_color: $html_background_color;
+
 
 nav {
   background: $html_background_color;

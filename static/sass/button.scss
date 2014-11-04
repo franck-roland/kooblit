@@ -1,0 +1,53 @@
+@import "utilities/colors";
+
+
+.btn_call {
+  display: inline-block;
+  margin-bottom: 0px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  white-space: nowrap;
+  padding: 10px 15px;
+  font-size: 15px;
+  line-height: 1.42857;
+  border-radius: 4px;
+  -moz-user-select: none;
+  background-color: $call_to_action_bckgd;
+  padding: 10px;
+  border: none;
+  font-weight: bold; 
+  color: $call_to_action_color;
+}
+
+.btn_call:hover {
+  background-color: $call_to_action_bckgd_hover;
+}
+
+
+.btn_call_sec {
+  @extend .btn_call;
+  background-color: $call_sec_bckgd;
+}
+
+.button {
+    /*background: none;*/
+    border: none;
+    font-weight: bold; 
+}
+
+.button-publier {
+    color: #FFBF00;
+}
+
+.button_profil {
+    font-size: 1.3em;
+}
+
+.plus_button {
+  padding: 5px 10px;
+  font-weight: bold;
+  float: right;
+  background-color: #E74C3C;
+}
