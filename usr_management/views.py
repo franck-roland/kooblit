@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from random import randrange
 import hashlib
+import os
 import re
 import subprocess
 
@@ -177,10 +178,13 @@ def download_pdf(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
         synth = Syntheses.objects.get(id=synthese_id)
-        if synth.file_pdf.name == '0':
+        if synth.file_pdf.name == '0' :
             create_pdf(synth.user.username, synth)
         
         path_name = ''.join((settings.MEDIA_ROOT, '/', synth.file_pdf.name))
+        if not os.path.isfile(path_name):
+            create_pdf(synth.user.username, synth)
+
         f = FileWrapper(file(path_name))
         response = HttpResponse(f, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
