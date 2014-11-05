@@ -58,8 +58,6 @@
 }
 
 .plus_button {
-  padding: 5px 10px;
-  font-weight: bold;
+  @extend .btn_important;
   float: right;
-  background-color: #E74C3C;
 }

@@ -1,5 +1,5 @@
 /* line 4, ../sass/button.scss */
-.btn_call, .btn_call_sec, .btn_important {
+.btn_call, .btn_call_sec, .btn_important, .plus_button {
   display: inline-block;
   padding: 8px 15px;
   border: none;
@@ -18,7 +18,7 @@
 }
 
 /* line 24, ../sass/button.scss */
-.btn_call:hover, .btn_call_sec:hover, .btn_important:hover {
+.btn_call:hover, .btn_call_sec:hover, .btn_important:hover, .plus_button:hover {
   background-color: #5a9b8e;
 }
 
@@ -28,12 +28,12 @@
 }
 
 /* line 34, ../sass/button.scss */
-.btn_important {
+.btn_important, .plus_button {
   background-color: #ff934e;
 }
 
 /* line 38, ../sass/button.scss */
-.btn_important:hover {
+.btn_important:hover, .plus_button:hover {
   background-color: #eb7325;
 }
 
@@ -61,8 +61,5 @@
 
 /* line 60, ../sass/button.scss */
 .plus_button {
-  padding: 5px 10px;
-  font-weight: bold;
   float: right;
-  background-color: #E74C3C;
 }

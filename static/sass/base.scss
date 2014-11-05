@@ -57,7 +57,12 @@ h1, h2, h3, h4, h5, h6
 {
   font-family: 'Helvetica Neue Thin';
 }
-
+a{
+  color: $nav_link_color;
+}
+a:hover{
+  color: $nav_link_color_hover;
+}
 li {
   list-style: none;
 }
@@ -122,7 +127,6 @@ li.icon_navbar > a {
   a.navbar-brand {
     color: black;
     font-size: 24px;
-    margin-top: -4px;
     img {
       width: 40px;
       margin-top: -6px;
@@ -141,14 +145,12 @@ li.icon_navbar > a {
       color: $nav_link_color;
     }
     a:hover{
-      color: blue;
-      background: none;
+      color: $nav_link_color_hover;
     }
   }
 }
 .dropdown-menu > li > a:hover{
-  color: blue;
-  background: none; 
+  color: $nav_link_color_hover;
 }
 
 #home_profil{
