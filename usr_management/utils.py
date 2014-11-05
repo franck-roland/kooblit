@@ -138,7 +138,6 @@ def read_pages(text, max_pages=0, clean_page=False):
 
     return pages
 
-
 def note_required(function):
     def wrap(request, *args, **kwargs):
         from models import UserKooblit, DueNote
@@ -147,7 +146,7 @@ def note_required(function):
         notes = DueNote.objects.filter(user=user).order_by("date")
         for note in notes:
             if (timezone.now() - note.date).total_seconds() > settings.TIME_TO_WAIT :
-                messages.warning(request, "Vous devez notez la synthèse %s avant de pouvoir continuer" % note.synthese.titre.encode('utf-8'))
+                messages.warning(request, "Pour pouvoir télécharger cette synthèse, nous vous demandons de donner une note à la synthèse %s que vous avez pu consulter gratuitement." % note.synthese.titre.encode('utf-8'))
                 return HttpResponseRedirect(next_url)
             else:
                 break
