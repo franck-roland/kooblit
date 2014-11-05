@@ -60,7 +60,6 @@ INSTALLED_APPS = (
     'usr_management',
     'achat',
     'manage_books_synth',
-    'south',
     'crispy_forms',
 )
 INSTALLED_APPS += ('storages',)
