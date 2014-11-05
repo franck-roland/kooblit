@@ -3,7 +3,7 @@
   display: inline-block;
   margin: 10px;
   padding: 8px 15px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: none;
   transition: all 0.3s ease-out;
   /* Font styles */
   text-decoration: none;
@@ -38,16 +38,21 @@
 }
 
 /* line 43, ../sass/button.scss */
+.button-sauvegarder {
+  margin-left: 0px;
+}
+
+/* line 46, ../sass/button.scss */
 .button-publier {
   color: #FFBF00;
 }
 
-/* line 47, ../sass/button.scss */
+/* line 50, ../sass/button.scss */
 .button_profil {
   font-size: 1.3em;
 }
 
-/* line 51, ../sass/button.scss */
+/* line 54, ../sass/button.scss */
 .plus_button {
   padding: 5px 10px;
   font-weight: bold;

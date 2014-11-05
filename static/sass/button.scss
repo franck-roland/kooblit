@@ -5,7 +5,7 @@
   display: inline-block;
   margin: 10px;
   padding: 8px 15px;
-  border: 1px solid rgba(0,0,0,0.15);
+  border: none;
   transition: all 0.3s ease-out;
 
   /* Font styles */
@@ -40,6 +40,9 @@
     font-weight: bold; 
 }
 
+.button-sauvegarder{
+  margin-left:0px;
+}
 .button-publier {
     color: #FFBF00;
 }

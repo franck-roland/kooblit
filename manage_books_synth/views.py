@@ -235,13 +235,7 @@ def upload_medium(request, book_title):
             print request
             return HttpResponseRedirect('/', request)
         elif "_quit" in request.POST:
-            if not request.POST['prix']:
-                price = 0
-            else:
-                price = float(request.POST['prix'])
-                if price < 2:
-                    price = 2
-            create_file_medium(request, request.POST['q'], book_title, username, price)
+            create_file_medium(request, request.POST['q'], book_title, username)
             messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
             return HttpResponseRedirect('/', request)
         else:
