@@ -218,7 +218,7 @@ def lire_synthese(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
         synt = Syntheses.objects.get(id=synthese_id)
-        return render(request, 'lecture.html', RequestContext(request, {'synth': synt}))
+        return render_to_response('lecture.html', RequestContext(request, {'synth': synt}))
     else:
         raise Http404()
 
