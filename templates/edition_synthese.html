@@ -2,9 +2,9 @@
 {% load staticfiles %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static "css/edition.css"%}">
     <link rel="stylesheet" href="{% static "css/medium-editor.css"%}">
     <link rel="stylesheet" href="{% static "css/themes/default.css"%}">
+    <link rel="stylesheet" href="{% static "css/edition.css"%}">
 {% endblock %}
 
 {% block content %}
@@ -37,8 +37,8 @@
                 <div id="cadre_edition" class="editable">{{content|safe}}</div>
                 <div id="container">
                     <button class="btn_call_sec button-sauvegarder" onclick="sauvegarder()"> Sauvegarder </button>
-                    <button value="quit" name="_quit" class="btn btn_call_sec " onclick="choix_prix('_quit')" > Sauvegarder et quitter </button>
-                    <button  value="publish" name="_publish" class="btn btn_call " onclick="choix_prix('_publish')" > Publier </button>
+                    <button value="quit" name="_quit" class="btn_call_sec " onclick="choix_prix('_quit')" > Sauvegarder et quitter </button>
+                    <button  value="publish" name="_publish" class="btn_call " onclick="choix_prix('_publish')" > Publier </button>
                 </div>
             </div>
         </div>

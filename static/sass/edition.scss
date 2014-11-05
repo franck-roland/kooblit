@@ -1,6 +1,8 @@
 @import "utilities/colors";
 @import 'button';
 
+$paragraphe_margin_bottom: 5px;
+$title_margin_bottom: 20px;
 *:focus {
     outline: none;
 }
@@ -18,14 +20,29 @@ body {
 h1 {
     font-size: 60px;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: $title_margin_bottom;
     padding-bottom: 40px;
     letter-spacing: -2px;
     border-bottom: 1px solid #dbdbdb;
 }
+h2 {
+    font-size: 38px;
+    line-height: 42px;
+    margin-bottom: $title_margin_bottom;
+}
+h3 {
+    font-size: 32px;
+    line-height: 42px;
+    margin-bottom: $title_margin_bottom;
+}
 
+h4 {
+    font-size: 26px;
+    line-height: 32px;
+    margin-bottom: $title_margin_bottom;
+}
 p {
-    margin-bottom: 40px;
+    margin-bottom: $paragraphe_margin_bottom;
 }
 
 a {
@@ -67,15 +84,6 @@ pre {
 }
 
 
-h3 {
-    font-size: 32px;
-    line-height: 42px;
-}
-
-h4 {
-    font-size: 26px;
-    line-height: 32px;
-}
 
 
 blockquote {
@@ -84,6 +92,11 @@ blockquote {
     padding-left: 15px;
     font-style: italic;
     color: #555;
+}
+
+.repre_image{
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .repre_image img{
@@ -118,11 +131,34 @@ blockquote {
     /*font-family: "Helvetica Neue";*/
     font-weight: bold;
 }
-#cadre_edition {
-    border: 1px solid grey;
-    padding: 30px;
-    padding-left: 20px;
+
+.medium-editor-placeholder:after {
+    position: absolute;
+    top: 3px;
+    left: 15px;
+    content: attr(data-placeholder) !important;
+    font-style: italic;
 }
+
+#cadre_edition {
+  display: block;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 15px;
+  color: #333;
+  box-shadow: 
+    inset 0 2px 0 rgba(0,0,0,.2), 
+    0 0 2px rgba(0,0,0,0.1);
+}
+
+#cadre_edition:focus { 
+  outline: none;
+  box-shadow: 
+    inset 0 2px 0 rgba(0,0,0,.2), 
+    0 0 2px rgba(0,0,0,0.1),
+    0 0 3px 1px $call_to_action_bckgd;
+}
+
 .price_selector{
     display: inline-block;
     margin-top: 15px;

@@ -1,52 +1,55 @@
 /* line 4, ../sass/button.scss */
 .btn_call, .btn_call_sec {
   display: inline-block;
-  margin-bottom: 0px;
+  margin: 10px;
+  padding: 8px 15px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-out;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 2px 2px rgba(0, 0, 0, 0.3), 0 0 4px 1px rgba(0, 0, 0, 0.2);
+  /* Font styles */
+  text-decoration: none;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.7);
   text-align: center;
+  font-size: 15px;
+  font-weight: bold;
   vertical-align: middle;
   cursor: pointer;
-  background-image: none;
   white-space: nowrap;
-  padding: 10px 15px;
-  font-size: 15px;
   line-height: 1.42857;
   border-radius: 4px;
   -moz-user-select: none;
   background-color: #53c1ac;
-  padding: 10px;
-  border: none;
-  font-weight: bold;
   color: white;
 }
 
-/* line 24, ../sass/button.scss */
+/* line 32, ../sass/button.scss */
 .btn_call:hover, .btn_call_sec:hover {
   background-color: #5a9b8e;
 }
 
-/* line 29, ../sass/button.scss */
+/* line 37, ../sass/button.scss */
 .btn_call_sec {
   background-color: #9bd2c7;
 }
 
-/* line 34, ../sass/button.scss */
+/* line 42, ../sass/button.scss */
 .button {
   /*background: none;*/
   border: none;
   font-weight: bold;
 }
 
-/* line 40, ../sass/button.scss */
+/* line 48, ../sass/button.scss */
 .button-publier {
   color: #FFBF00;
 }
 
-/* line 44, ../sass/button.scss */
+/* line 52, ../sass/button.scss */
 .button_profil {
   font-size: 1.3em;
 }
 
-/* line 48, ../sass/button.scss */
+/* line 56, ../sass/button.scss */
 .plus_button {
   padding: 5px 10px;
   font-weight: bold;
@@ -54,56 +57,77 @@
   background-color: #E74C3C;
 }
 
-/* line 4, ../sass/edition.scss */
+/* line 6, ../sass/edition.scss */
 *:focus {
   outline: none;
 }
 
-/* line 8, ../sass/edition.scss */
+/* line 10, ../sass/edition.scss */
 body {
   font-size: 22px;
   line-height: 30px;
 }
 
-/* line 13, ../sass/edition.scss */
+/* line 15, ../sass/edition.scss */
 #container {
   width: 960px;
   margin: 30px auto;
 }
 
-/* line 18, ../sass/edition.scss */
+/* line 20, ../sass/edition.scss */
 h1 {
   font-size: 60px;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   padding-bottom: 40px;
   letter-spacing: -2px;
   border-bottom: 1px solid #dbdbdb;
 }
 
-/* line 27, ../sass/edition.scss */
-p {
-  margin-bottom: 40px;
+/* line 28, ../sass/edition.scss */
+h2 {
+  font-size: 38px;
+  line-height: 42px;
+  margin-bottom: 20px;
 }
 
-/* line 31, ../sass/edition.scss */
+/* line 33, ../sass/edition.scss */
+h3 {
+  font-size: 32px;
+  line-height: 42px;
+  margin-bottom: 20px;
+}
+
+/* line 39, ../sass/edition.scss */
+h4 {
+  font-size: 26px;
+  line-height: 32px;
+  margin-bottom: 20px;
+}
+
+/* line 44, ../sass/edition.scss */
+p {
+  margin-bottom: 5px;
+}
+
+/* line 48, ../sass/edition.scss */
 a {
   color: #2c3e50;
 }
 
-/* line 35, ../sass/edition.scss */
+/* line 52, ../sass/edition.scss */
 a:hover {
   color: green;
 }
 
-/* line 39, ../sass/edition.scss */
+/* line 56, ../sass/edition.scss */
 blockquote {
   display: block;
   padding-left: 20px;
   border-left: 6px solid #df0d32;
 }
 
-/* line 47, ../sass/edition.scss */
+/* line 64, ../sass/edition.scss */
 .editable,
 .secondEditable {
   outline: none;
@@ -112,7 +136,7 @@ blockquote {
   /*border-bottom: 1px solid #dbdbdb;*/
 }
 
-/* line 54, ../sass/edition.scss */
+/* line 71, ../sass/edition.scss */
 pre {
   font-family: 'Menlo', monospace;
   font-size: 15px;
@@ -123,25 +147,13 @@ pre {
   color: #666;
 }
 
-/* line 64, ../sass/edition.scss */
+/* line 81, ../sass/edition.scss */
 #container {
   width: 960px;
   margin: 30px auto;
 }
 
-/* line 70, ../sass/edition.scss */
-h3 {
-  font-size: 32px;
-  line-height: 42px;
-}
-
-/* line 75, ../sass/edition.scss */
-h4 {
-  font-size: 26px;
-  line-height: 32px;
-}
-
-/* line 81, ../sass/edition.scss */
+/* line 89, ../sass/edition.scss */
 blockquote {
   border-left: 5px solid #555;
   margin-left: -15px;
@@ -150,23 +162,29 @@ blockquote {
   color: #555;
 }
 
-/* line 89, ../sass/edition.scss */
+/* line 97, ../sass/edition.scss */
+.repre_image {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* line 102, ../sass/edition.scss */
 .repre_image img {
   width: 100%;
   box-shadow: 3px 3px 8px #555;
 }
 
-/* line 94, ../sass/edition.scss */
+/* line 107, ../sass/edition.scss */
 .result_info {
   font-family: 'Helvetica Neue Thin';
 }
 
-/* line 98, ../sass/edition.scss */
+/* line 111, ../sass/edition.scss */
 .result_title {
   overflow-y: hidden;
 }
 
-/* line 102, ../sass/edition.scss */
+/* line 115, ../sass/edition.scss */
 .result_title {
   overflow: hidden;
   white-space: nowrap;
@@ -174,31 +192,49 @@ blockquote {
   font-size: 1.2em;
 }
 
-/* line 109, ../sass/edition.scss */
+/* line 122, ../sass/edition.scss */
 .result_author {
   color: #b4b4b4;
   font-size: 1.1em;
 }
 
-/* line 113, ../sass/edition.scss */
+/* line 126, ../sass/edition.scss */
 .titre_synth {
   margin-top: 0;
 }
 
-/* line 117, ../sass/edition.scss */
+/* line 130, ../sass/edition.scss */
 .edition_bold {
   /*font-family: "Helvetica Neue";*/
   font-weight: bold;
 }
 
-/* line 121, ../sass/edition.scss */
-#cadre_edition {
-  border: 1px solid grey;
-  padding: 30px;
-  padding-left: 20px;
+/* line 135, ../sass/edition.scss */
+.medium-editor-placeholder:after {
+  position: absolute;
+  top: 3px;
+  left: 15px;
+  content: attr(data-placeholder) !important;
+  font-style: italic;
 }
 
-/* line 126, ../sass/edition.scss */
+/* line 143, ../sass/edition.scss */
+#cadre_edition {
+  display: block;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 15px;
+  color: #333;
+  box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+/* line 154, ../sass/edition.scss */
+#cadre_edition:focus {
+  outline: none;
+  box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.1), 0 0 3px 1px #53c1ac;
+}
+
+/* line 162, ../sass/edition.scss */
 .price_selector {
   display: inline-block;
   margin-top: 15px;
