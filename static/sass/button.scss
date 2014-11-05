@@ -34,6 +34,14 @@
   background-color: $call_sec_bckgd;
 }
 
+.btn_important {
+  @extend .btn_call;
+  background-color: $important_action_bckgd; 
+}
+.btn_important:hover {
+  background-color: $important_action_bckgd_hover;  
+}
+
 .button {
     /*background: none;*/
     border: none;
@@ -43,6 +51,7 @@
 .button-sauvegarder{
   margin-left:0px;
 }
+
 .button-publier {
     color: #FFBF00;
 }

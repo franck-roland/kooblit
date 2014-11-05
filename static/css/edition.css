@@ -1,5 +1,5 @@
 /* line 4, ../sass/button.scss */
-.btn_call, .btn_call_sec {
+.btn_call, .btn_call_sec, .btn_important {
   display: inline-block;
   margin: 10px;
   padding: 8px 15px;
@@ -21,7 +21,7 @@
 }
 
 /* line 27, ../sass/button.scss */
-.btn_call:hover, .btn_call_sec:hover {
+.btn_call:hover, .btn_call_sec:hover, .btn_important:hover {
   background-color: #5a9b8e;
 }
 
@@ -31,28 +31,38 @@
 }
 
 /* line 37, ../sass/button.scss */
+.btn_important {
+  background-color: #ff934e;
+}
+
+/* line 41, ../sass/button.scss */
+.btn_important:hover {
+  background-color: #eb7325;
+}
+
+/* line 45, ../sass/button.scss */
 .button {
   /*background: none;*/
   border: none;
   font-weight: bold;
 }
 
-/* line 43, ../sass/button.scss */
+/* line 51, ../sass/button.scss */
 .button-sauvegarder {
   margin-left: 0px;
 }
 
-/* line 46, ../sass/button.scss */
+/* line 55, ../sass/button.scss */
 .button-publier {
   color: #FFBF00;
 }
 
-/* line 50, ../sass/button.scss */
+/* line 59, ../sass/button.scss */
 .button_profil {
   font-size: 1.3em;
 }
 
-/* line 54, ../sass/button.scss */
+/* line 63, ../sass/button.scss */
 .plus_button {
   padding: 5px 10px;
   font-weight: bold;
