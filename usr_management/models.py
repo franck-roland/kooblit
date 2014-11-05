@@ -3,6 +3,9 @@ import datetime
 import re
 import os
 
+#URLS
+from django.core.urlresolvers import reverse
+
 import hashlib
 from bs4 import BeautifulSoup, NavigableString
 from django.db import models
@@ -20,7 +23,6 @@ mfs = MyFileStorage()
 
 # Settings
 from django.conf import settings
-
 
 
 class UserKooblit(User):
@@ -136,6 +138,13 @@ class Syntheses(models.Model):
     def is_free(self):
         return self.nbre_notes < settings.MIN_NOTE or self.note_moyenne < settings.MIN_MEAN
 
+
+    @cached_property
+    def titre(self):
+        return u"".join(("<h1 id='titre_synthese'>Koob de <span class='book_title'>", self.book_title,
+            "</span> par <span class='book_title'><a href=",reverse('users',args=(self.user.username,)),">", self.user.username, "</a></span></h1>"))
+
+
     @cached_property
     def contenu(self):
         self._file_html.seek(0)  # We need to be at the beginning of the file
@@ -194,7 +203,8 @@ class Syntheses(models.Model):
         ''' Return the first paragraph of the Synthese
         '''
         if not self.book_title:
-            self.book_title = self.titre
+            from manage_books_synth.models import Book
+            self.book_title = Book.objects.get(id=self.livre_id).title
             self.save()
         soup = BeautifulSoup(self.contenu_sans_titre)
         body = soup.find("body")
@@ -216,11 +226,6 @@ class Syntheses(models.Model):
         extrait.extend(["</body>", "</html>"])
         return "".join(extrait)
 
-
-    @property
-    def titre(self):
-        from manage_books_synth.models import Book
-        return Book.objects.get(id=self.livre_id).title
 
     def can_be_added_by(self, username):
         buyer = UserKooblit.objects.get(username=username)
@@ -282,11 +287,22 @@ class Note(models.Model):
     def __unicode__(self):
         return ''.join((self.user.username, ' pour synthese: ', str(self.synthese)))
 
+
+class DueNote(models.Model):
+    user = models.ForeignKey("UserKooblit")
+    synthese = models.ForeignKey("Syntheses")
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta(object):
+        unique_together = (('user', 'synthese'),)
+
+
+
 class Comments(models.Model):
     user = models.ForeignKey('UserKooblit')
     synthese = models.ForeignKey('Syntheses')
     comment = models.CharField(max_length=2048, default=False)
-    date = models.DateField(null=True, default=datetime.datetime.now)
+    date = models.DateTimeField(auto_now_add=True)
 
 
 class Demande(models.Model):

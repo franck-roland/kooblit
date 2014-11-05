@@ -37,6 +37,11 @@ SECRET_KEY = appConfig.get("secret_key")
 # Synthese settings
 MIN_NOTE = 3
 MIN_MEAN = 3
+if DEBUG:
+    TIME_TO_WAIT = 1
+else:
+    TIME_TO_WAIT = 12 * 3600
+
 
 if not DEBUG:   
     ALLOWED_HOSTS = [
