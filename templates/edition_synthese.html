@@ -48,6 +48,7 @@
         Minimum 2€, pas de maximum, mais attention, un prix trop élevé limitera les téléchargements.
 
         <p><input name="prix" class="price_selector" type="number" step=0.1 placeholder="{% if synthese %}{{synthese.prix}}{% else %}0,00{% endif %}" form="form_synth" />€</p>
+        <p><ul id="error_prix"></ul></p>
         <a href="#"><button value="retour" name="retour" class="btn_call_sec" onclick="retour()" > <i class="fa fa-arrow-circle-o-left"></i> Retour </button></a>
 
         <button class="btn_call" type="submit" value="publish" name="_publish" class="button button-prix" onclick="envoyer()" form="form_synth"> Valider </button>
@@ -58,6 +59,11 @@
     <script src="{% static "js/medium-editor.js"%}"></script>
 
     <script>
+    $(function(){
+        if($('#cadre_edition').html() ===""){
+            $('#cadre_edition').html("<br/>");
+        }
+    });
         var changed = 0;
         var editor = new MediumEditor('.editable', {
             buttonLabels: 'fontawesome'
@@ -105,6 +111,9 @@
             });
         }
         function envoyer () {
+            if($('input[name="prix"]')[0].value < 2){
+                return false;
+            }
             var ser = editor.serialize();
             $('input[name="q"]')[0].value = ser['cadre_edition']['value'];
         }
