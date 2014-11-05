@@ -128,7 +128,7 @@ def cart_details(request):
     cart = [
         {
             "id": synth.id,
-            "book_title": synth.titre,
+            "book_title": synth.book_title,
             "author": synth.user.username,
             "prix": synth.prix,
         } for synth in syntheses
@@ -186,7 +186,7 @@ def paiement(request):
         cart = [
             {
                 "id": synth.id,
-                "book_title": synth.titre,
+                "book_title": synth.book_title,
                 "author": synth.user.username,
                 "prix": synth.prix,
             } for synth in syntheses

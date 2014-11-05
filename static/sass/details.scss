@@ -119,14 +119,10 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
 
 .buy_resume {
     font-size: 15px;
-    background-color: rgb(61, 61, 61);
     border: 0;
     padding: 0;
 }
 
-.buy_resume:hover {
-    background-color: rgb(75, 75, 75);
-}
 
 .misc_info.price {
     font-family: 'Helvetica Neue';
