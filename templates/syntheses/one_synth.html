@@ -3,7 +3,7 @@
 <div class="repre_image col-md-3  col-sm-6 col-xs-12" {% if forloop.counter0 >= 4  %}style="display:none"{% endif %}>
   <!-- <img src="{{img_url}}" /> -->
   <div class="image_extract">
-    <img src="{% static "img/logo/owl_grey.png" %}" alt="Logo Kooblit" />
+    <img src="{% static "img/logo/little_owl_grey.png" %}" alt="Logo Kooblit" />
     <p>Koob de</p>
     <p class="title_extract">{{synth.titre|title|slice:":11"}}{% if synth.titre|length > 11 %}...{% endif %}</p>
     <p>Par <a style="color: rgb(74,74,74);" href="{% url 'users' synth.user.username %}"><span class="author_name">{{synth.user.username|title}}</span> </a> </p>
@@ -74,7 +74,7 @@
         </button>
 
         <h4 class="modal-title" id="myModalLabel">
-          <img src="{% static 'img/logo/owl_grey.png' %}" width="50px" alt="logo kooblit" />
+          <img src="{% static 'img/logo/little_owl_grey.png' %}" width="50px" alt="logo kooblit" />
           {{synth.title}}
         </h4>
       </div>

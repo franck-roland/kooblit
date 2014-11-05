@@ -26,7 +26,7 @@ TMP_DIR = appConfig.get("tmp__kooblit_tmp_root")
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
@@ -38,8 +38,15 @@ SECRET_KEY = appConfig.get("secret_key")
 MIN_NOTE = 3
 MIN_MEAN = 3
 
-# Application definition
+if not DEBUG:   
+    ALLOWED_HOSTS = [
+    '.kooblit.com', # Allow domain and subdomains
+    '127.0.0.1', # Also allow FQDN and subdomains
+    ]
 
+
+
+# Application definition
 INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
@@ -104,8 +111,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
+DO_COLLECT = False
 if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = appConfig.get("aws__bucket_name")
+    # if DO_COLLECT:
     AWS_ACCESS_KEY_ID = appConfig.get("aws__ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = appConfig.get("aws__SECRET_ACCESS_KEY")
     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
