@@ -5,13 +5,11 @@
   padding: 8px 15px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease-out;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 2px 2px rgba(0, 0, 0, 0.3), 0 0 4px 1px rgba(0, 0, 0, 0.2);
   /* Font styles */
   text-decoration: none;
   text-shadow: 0 1px rgba(255, 255, 255, 0.7);
   text-align: center;
   font-size: 15px;
-  font-weight: bold;
   vertical-align: middle;
   cursor: pointer;
   white-space: nowrap;
@@ -22,34 +20,34 @@
   color: white;
 }
 
-/* line 32, ../sass/button.scss */
+/* line 27, ../sass/button.scss */
 .btn_call:hover, .btn_call_sec:hover {
   background-color: #5a9b8e;
 }
 
-/* line 37, ../sass/button.scss */
+/* line 32, ../sass/button.scss */
 .btn_call_sec {
   background-color: #9bd2c7;
 }
 
-/* line 42, ../sass/button.scss */
+/* line 37, ../sass/button.scss */
 .button {
   /*background: none;*/
   border: none;
   font-weight: bold;
 }
 
-/* line 48, ../sass/button.scss */
+/* line 43, ../sass/button.scss */
 .button-publier {
   color: #FFBF00;
 }
 
-/* line 52, ../sass/button.scss */
+/* line 47, ../sass/button.scss */
 .button_profil {
   font-size: 1.3em;
 }
 
-/* line 56, ../sass/button.scss */
+/* line 51, ../sass/button.scss */
 .plus_button {
   padding: 5px 10px;
   font-weight: bold;
@@ -225,16 +223,16 @@ blockquote {
   border-radius: 20px;
   padding: 5px 15px;
   color: #333;
-  box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* line 154, ../sass/edition.scss */
+/* line 153, ../sass/edition.scss */
 #cadre_edition:focus {
   outline: none;
   box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.1), 0 0 3px 1px #53c1ac;
 }
 
-/* line 162, ../sass/edition.scss */
+/* line 161, ../sass/edition.scss */
 .price_selector {
   display: inline-block;
   margin-top: 15px;
