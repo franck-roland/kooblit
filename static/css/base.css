@@ -185,7 +185,7 @@ li.icon_navbar > a {
 }
 /* line 163, ../sass/base.scss */
 .navbar-header a.navbar-brand img {
-  width: 50px;
+  height: 50px;
   margin-top: -6px;
   display: inline;
 }
