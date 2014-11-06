@@ -194,7 +194,6 @@ def download_pdf(request, synthese_id):
 
 
 @login_required
-@note_required
 def ajouter_synthese_gratuite(request, synthese_id):
     try:
         synthese = Syntheses.objects.get(id=synthese_id)
