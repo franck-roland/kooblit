@@ -36,3 +36,8 @@ secret_key: ""
 
 tmp:
   kooblit_tmp_root: ""
+
+aws:
+  bucket_name: ""
+  ACCESS_KEY_ID: ""
+  SECRET_ACCESS_KEY: ""

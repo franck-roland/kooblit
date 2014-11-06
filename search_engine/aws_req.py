@@ -40,7 +40,7 @@ reserved = set([":", "/", "?", "#", "[", "]", "@", "!", "$", "&", "'", "(", ")",
 can_be = set([' '])
 
 MAX_SEARCH_ON_A_PAGE = 2000
-
+BOOK_FORMATS = (u'Broché', 'Hardcover', 'Poche')
 def unsanitize(s, to_lower=0):
     s = s.split("%")
     tmp = [s[0]]
@@ -177,7 +177,7 @@ def compute_json_one_result(result):
         languages = obj.find('Languages').find('Language')
         language = get_text(languages, 'Name')
     except AttributeError:
-        language = ""
+        language = u""
 
     obj = result.find("LargeImage")
     image = get_text(obj, "URL")
@@ -197,117 +197,6 @@ def compute_json_one_result(result):
             'summary': summary, 'details': details, 'DetailPageURL': DetailPageURL, 'book_format': book_format,
             'language': language, 'theme': theme, 'editeur': editeur}
 
-
-def creer_uniques_resultats_jusque_i(title, key, index, json_manager):
-    """ Fonction appelée quand le ieme resulat de recherche n'est pas disponible """
-    global template
-    global head
-    assert(index>0)
-    url = "http://{0}/onca/xml?"
-    result = []
-    duplication = []
-    for link_url in ("ecs.amazonaws.fr", "ecs.amazonaws.com"):
-        max_pages = 0
-        for page_nb in xrange(1, 11):
-            m = template.format(title, str(page_nb))
-            m = m.split("\n")
-            m.sort()
-            m = '&'.join(m)
-            s = check_in_tmp(title, page_nb, link_url)
-            if not s:
-                u = urllib.urlopen(''.join((url.format(link_url),
-                                            m,
-                                            "&Signature=",
-                                            calculate_signature_amazon(key, head.format(link_url) + m))))
-                s = u.read()
-                create_tmp(title, page_nb, link_url, s)
-            s = re.sub(' xmlns="[^"]+"', '', s, count=1)
-            root = ET.fromstring(s)
-            if page_nb == 1:
-                try:
-                    max_pages = int(root.find('Items').find('TotalPages').text)
-
-                except AttributeError:
-                    break
-
-            for t in root.iter('Item'):
-                tmp = compute_json_one_result(t)
-                # Ajouter si l'élément titre+auteur n'est pas deja dans les resultats
-                if not (tmp['title'], tmp['author']) in duplication or not json_manager.delete_duplicate:
-                    if tmp['book_format'] in (u'Broché', 'Hardcover'):
-                        if tmp['language'] in (u'Français', 'Anglais', 'English', 'French'):
-                            result.append(tmp)
-                            duplication.append((tmp['title'], tmp['author']))
-                            if not json_manager.check_json_file_exist(len(result)):
-                                json_manager.create_json_result(len(result), tmp)
-
-                if len(result) >= index:
-                    return result
-
-            if page_nb == max_pages:
-                break
-
-    return result
-
-def recherche_between_i_and_j(title, key, begin, end, exact_match=0, delete_duplicate=True, escape=False):
-    assert(begin > 0)
-    assert(end >= begin)
-    
-    json_manager = JsonManager(title, delete_duplicate)
-
-    result = json_manager.check_json_file_exist(end)
-    if not result:
-        if end >= MAX_SEARCH_ON_A_PAGE:
-            if not json_manager.check_json_file_exist(begin + 12):
-                results = creer_uniques_resultats_jusque_i(title, key, begin + 12, json_manager)
-            else:
-                results = [json_manager.check_json_file_exist(i) for i in range(begin,begin + 13)]
-        else:
-            results = creer_uniques_resultats_jusque_i(title, key, end, json_manager)
-
-    else:
-        results = [json_manager.check_json_file_exist(i) for i in range(begin,end+1)]
-
-    results_final = []
-    for res in results:
-        if sanitize(res['title'], slugify=1) == title or not exact_match:
-            if escape: # echaper les caracteres speciaux
-                res['title'] = sanitize(res['title'])
-            results_final.append(res)
-    return results_final
-
-@sanitizer
-def compute_args(title, key, exact_match=0, delete_duplicate=True, escape=False, nb_results_max=0):
-    if not nb_results_max:
-        nb_results_max = MAX_SEARCH_ON_A_PAGE
-    return recherche_between_i_and_j(title, key, 1, nb_results_max, exact_match=exact_match, delete_duplicate=delete_duplicate, escape=escape)
-
-
-
-def create_book(title, k):
-    compute_args(title, k, exact_match=1, delete_duplicate=0)
-    # import pdb;pdb.set_trace()
-
-
-@sanitizer
-def compute_args2(title, k):
-    global template
-    global head
-    m = template.format(title)
-    m = m.split("\n")
-    m.sort()
-    m = '&'.join(m)
-#    k = open("AMAZON_KEY.conf").read()[:-1]
-    link_url = "http://webservices.amazon.co.uk/onca/xml?"
-    link_url = "http://ecs.amazonaws.fr/onca/xml?"
-    l = ''.join([link_url, m, "&Signature=", calculate_signature_amazon(k, head + m)])
-    l = l.split('?')
-    l[1] = l[1].split("&")
-    # import pdb;pdb.set_trace()
-    for i, v in enumerate(l[1]):
-        l[1][i] = v.split("=")
-        l[1][i][1] = backward(l[1][i][1])
-    return l
 
 
 def main(f):

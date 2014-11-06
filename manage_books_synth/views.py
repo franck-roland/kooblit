@@ -103,7 +103,7 @@ def get_tmp_medium_file(book_title, username):
 
 
 
-def create_file_medium(request, s, book_title, username, has_been_published=False):
+def create_file_medium(request, s, book_title, username, prix=2, has_been_published=False):
     create_book_if_doesnt_exist(request, book_title)
     user = UserKooblit.objects.get(username=username)
     book = Book.objects.get(title=book_title)
@@ -131,6 +131,8 @@ def create_file_medium(request, s, book_title, username, has_been_published=Fals
             synthese = Syntheses(_file_html=File(destination),
                                  user=user, livre_id=book.id, book_title=book.title,
                                  prix=2, has_been_published=has_been_published)
+        if prix:
+            synthese.prix = prix
         synthese.save()
         synthese.publish()
         create_pdf.delay(username, synthese)
@@ -211,9 +213,26 @@ def upload_medium(request, book_title):
     user = UserKooblit.objects.get(username=username)
     if request.method == 'POST':
         if "_publish" in request.POST:
-            create_file_medium(request, request.POST['q'], book_title, username, has_been_published=True)
-            messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été publié.' % book_title)
+            if not request.POST['prix']:
+                price = 0
+            else:
+                price = float(request.POST['prix'])
+                if price < 2:
+                    price = 2
+            create_file_medium(request, request.POST['q'], book_title, username, price,  has_been_published=True)
+            book = Book.objects.get(title=book_title)
+            synthese = Syntheses.objects.get(user=user, livre_id=book.id)
+            if synthese.is_free:
+                publication_message = u"""Votre Koob de l'ouvrage <i>%s</i> a bien été publié. 
+                    Pour assurer la qualité du service, nous ne permettons à nos utilisateurs de vendre que des Koobs de qualité. 
+                    C'est pour cela que pour être payant, un Koob doit avoir obtenu au moins %i notes et une moyenne de %i/5. 
+                    Votre Koob sera donc disponible gratuitement jusqu'à ce qu'il réponde aux critères d'excellence de notre plateforme. 
+                    Sachez que vous pouvez améliorer votre Koob en y apportant des modifications à tout moment à partir de votre espace."""%(book_title ,settings.MIN_NOTE, settings.MIN_MEAN)
+            else:
+                publication_message = u"""Votre Koob de l'ouvrage <i>%s</i> a bien été publié."""% book_title
+            messages.success(request, publication_message)
             send_alert(book_title)
+            print request
             return HttpResponseRedirect('/', request)
         elif "_quit" in request.POST:
             create_file_medium(request, request.POST['q'], book_title, username)
@@ -238,8 +257,9 @@ def upload_medium(request, book_title):
                 synthese = Syntheses.objects.get(user=user, livre_id=book.id)
                 s = synthese._file_html.read()
             except Syntheses.DoesNotExist:
-                pass
-        return render_to_response('edition_synthese.html', RequestContext(request, {'username': username, 'book': book, 'u_b': u_b, 'content': s}))
+                synthese = None
+
+        return render_to_response('edition_synthese.html', RequestContext(request, {'username': username, 'book': book, 'u_b': u_b, 'content': s, 'synthese': synthese}))
 
 
 def computeEmail(username, book_title, alert=0):

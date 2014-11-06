@@ -27,6 +27,7 @@ Timestamp=2015-01-01T12%3A00%3A00Z
 AssociateTag=kooblit-21"""
 
 servers = ("ecs.amazonaws.fr", "ecs.amazonaws.com")
+BOOK_FORMATS = (u'Broché', 'Hardcover', 'Poche')
 
 class ResponseEncoder(JSONEncoder):
     def default(self, o):
@@ -107,8 +108,8 @@ class AmazonRequest(object):
                     tmp = compute_json_one_result(t)
                     # Ajouter si l'élément titre+auteur n'est pas deja dans les resultats
                     if not (tmp['title'], tmp['author']) in duplication or not json_manager.delete_duplicate:
-                        if tmp['book_format'] in (u'Broché', 'Hardcover'):
-                            if tmp['language'] in (u'Français', 'Anglais', 'English', 'French'):
+                        if tmp['book_format'] in BOOK_FORMATS:
+                            if tmp['language'] in (u'Français', 'Anglais', 'English', 'French', u''):
                                 result.append(tmp)
                                 duplication.append((tmp['title'], tmp['author']))
                                 if not json_manager.check_json_file_exist(len(result), is_offseted=is_offseted):

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from random import randrange
 import hashlib
+import os
 import re
 import subprocess
 
@@ -10,7 +11,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpRespons
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm, AddressChangeForm
 from django.contrib.auth.models import User
-from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address, Version_Synthese, Note
+from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address, Version_Synthese, Note, DueNote
 from manage_books_synth.models import Book
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
@@ -50,6 +51,7 @@ from django.templatetags.static import static
 
 from manage_books_synth.tasks import create_pdf
 
+from utils import note_required
 
 email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 email_match = re.compile(email_adresse_regex)
@@ -177,10 +179,13 @@ def download_pdf(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
         synth = Syntheses.objects.get(id=synthese_id)
-        if synth.file_pdf.name == '0':
+        if synth.file_pdf.name == '0' :
             create_pdf(synth.user.username, synth)
         
         path_name = ''.join((settings.MEDIA_ROOT, '/', synth.file_pdf.name))
+        if not os.path.isfile(path_name):
+            create_pdf(synth.user.username, synth)
+
         f = FileWrapper(file(path_name))
         response = HttpResponse(f, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
@@ -189,14 +194,18 @@ def download_pdf(request, synthese_id):
 
 
 @login_required
+@note_required
 def ajouter_synthese_gratuite(request, synthese_id):
     try:
         synthese = Syntheses.objects.get(id=synthese_id)
     except Syntheses.DoesNotExist:
-        messages.warning("La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
+        messages.warning(request, "La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
         return HttpResponseRedirect("/")
     if not synthese.has_been_published:
-        messages.warning("La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
+        messages.warning(request, "La synthèse à laquelle vous essayez d'accéder n'est pas disponible")
+        return HttpResponseRedirect("/")
+    if not synthese.is_free:
+        messages.warning(request, "La synthèse à laquelle vous essayez d'accéder n'est pas gratuite")
         return HttpResponseRedirect("/")
 
     if synthese.is_free and synthese.can_be_added_by(request.user.username):
@@ -204,6 +213,10 @@ def ajouter_synthese_gratuite(request, synthese_id):
         user = UserKooblit.objects.get(username=request.user.username)
         user.syntheses_achetees.add(version_synthese)
         user.save()
+        note = DueNote(user=user, synthese=synthese)
+        note.save()
+        messages.success(request, 
+            "Vous accédez à cette synthèse gratuitement, nous vous demandons en contrepartie de lui donner une note après l'avoir consultée. Merci!")
     return HttpResponseRedirect(reverse('usr_management:lire_synthese', args=(synthese_id,)))
 
 
@@ -212,7 +225,7 @@ def lire_synthese(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
         synt = Syntheses.objects.get(id=synthese_id)
-        return render(request, 'lecture.html', RequestContext(request, {'synth': synt}))
+        return render_to_response('lecture.html', RequestContext(request, {'synth': synt}))
     else:
         raise Http404()
 
@@ -235,6 +248,11 @@ def noter_synthese(request, synthese_id):
                 synth.save()
                 db_note = Note(user=user, synthese=synth, valeur=note)
                 db_note.save()
+                try:
+                    due_note = DueNote.objects.get(user=user, synthese=synth)
+                    due_note.delete()
+                except DueNote.DoesNotExist:
+                    pass
                 print synth.nbre_notes, synth.note_moyenne
 
         except Syntheses.DoesNotExist:

@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from usr_management.models import UserKooblit
-from usr_management.models import Verification, Syntheses, Address, Version_Synthese, Note
+from usr_management.models import Verification, Syntheses, Address, Version_Synthese, Note, DueNote
 
 
 class UserKooblitInline(admin.StackedInline):
@@ -23,4 +23,5 @@ admin.site.register(Syntheses)
 admin.site.register(Version_Synthese)
 admin.site.register(Address)
 admin.site.register(Note)
+admin.site.register(DueNote)
 

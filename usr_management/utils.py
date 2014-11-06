@@ -1,9 +1,11 @@
 #-*- coding: utf-8 -*-
 import os
 import string
+import datetime
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from bs4 import BeautifulSoup, NavigableString
+from django.utils import timezone
 
 class MyFileStorage(FileSystemStorage):
     # This method is actually defined in Storage
@@ -135,6 +137,22 @@ def read_pages(text, max_pages=0, clean_page=False):
         pages.append("".join(page))
 
     return pages
+
+def note_required(function):
+    def wrap(request, *args, **kwargs):
+        from models import UserKooblit, DueNote
+        next_url = request.META.get('HTTP_REFERER','/')
+        user = UserKooblit.objects.get(username=request.user.username)
+        notes = DueNote.objects.filter(user=user).order_by("date")
+        for note in notes:
+            if (timezone.now() - note.date).total_seconds() > settings.TIME_TO_WAIT :
+                messages.warning(request, "Pour pouvoir télécharger cette synthèse, nous vous demandons de donner une note à la synthèse %s que vous avez pu consulter gratuitement." % note.synthese.titre.encode('utf-8'))
+                return HttpResponseRedirect(next_url)
+            else:
+                break
+        return function(request, *args, **kwargs)
+    return wrap
+
 
 
 def author_required(function):

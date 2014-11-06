@@ -1,0 +1,63 @@
+@import "utilities/colors";
+
+
+.btn_call {
+  display: inline-block;
+  padding: 8px 15px;
+  border: none;
+  transition: all 0.3s ease-out;
+
+  /* Font styles */
+  text-decoration: none;
+  text-align: center;
+  font-size: 20px;
+
+  vertical-align: middle;
+  cursor: pointer;
+  line-height: 1.42857;
+  border-radius: 4px;
+  -moz-user-select: none;
+  background-color: $call_to_action_bckgd;
+  color: $call_to_action_color;
+}
+
+.btn_call:hover {
+  background-color: $call_to_action_bckgd_hover;
+}
+
+
+.btn_call_sec {
+  @extend .btn_call;
+  background-color: $call_sec_bckgd;
+}
+
+.btn_important {
+  @extend .btn_call;
+  background-color: $important_action_bckgd; 
+}
+.btn_important:hover {
+  background-color: $important_action_bckgd_hover;  
+}
+
+.button {
+    /*background: none;*/
+    border: none;
+    font-weight: bold; 
+}
+
+.button-sauvegarder{
+  margin-left:0px;
+}
+
+.button-publier {
+    color: #FFBF00;
+}
+
+.button_profil {
+    font-size: 1.3em;
+}
+
+.plus_button {
+  @extend .btn_important;
+  float: right;
+}

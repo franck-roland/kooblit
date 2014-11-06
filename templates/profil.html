@@ -4,7 +4,6 @@
 {% block extra_css %}
 <link href="{% static "css/cart.css" %}" rel="stylesheet">
 <link href="{% static "css/profile.css" %}" rel="stylesheet">
-<link href="{% static "css/boutons.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -57,7 +56,7 @@
         </div>
 
         <p class="col-sm-1 col-xs-3 price">{{synth.prix|floatformat:2}}€</p>
-        <p class="col-sm-1 col-xs-3 price">{{synth.note_moy|floatformat:2}}/5</p>
+        <p class="col-sm-1 col-xs-3 price">{{synth.note_moy|floatformat:1}}/5</p>
         <p class="col-sm-1 col-xs-3 price">{{synth.nb_achat}}</p>
         <p class="col-sm-1 col-xs-3 price">{{synth.gain|floatformat:2}}€</p>
       </div>
@@ -68,11 +67,14 @@
         <h2>Total</h2>
       </div>
       <p class="col-sm-1 col-xs-1 price">{{total}}€</p>
-      <p class="col-sm-3 col-sm-offset-7 col-xs-10 col-xs-offset-1 cagnotte_info">
+      </div>
+    <div class="row">
+      <div class="col-lg-offset-8 col-lg-2 col-sm-8 col-xs-6 cagnotte_info">
         Votre cagnotte doit être supérieure à 15€ pour pouvoir être virée sur votre compte
-      </p>
-      <div class="col-sm-2 col-sm-offset-0 col-xs-6 col-xs-offset-3 valider_achat">
-        <a href="{% url 'achats:paiement' %}" class="abtn"> Vider la cagnotte </a>
+      </div>
+      <div class="col-lg-2 col-sm-4 col-xs-6">
+        <a href="{% url 'achats:paiement' %}" class="btn_call" style="width:100%;font-size:15px;margin-left:0px"> Vider la cagnotte </a>
+      </div>
       </div>
     </div>
 
@@ -82,13 +84,14 @@
     </div>
   {% endif %}
 
-  <div class="row achats">
+  <div class="container achats">
     <div class="col-xs-12">
       <h3> Mes achats </h3>
     </div>
 
+    <div class="row">
     {% if syntheses_achetees %}
-      <div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1">
+      <div class="col-xs-12 col-xs-offset-0 col-sm-11 col-sm-offset-1">
 
         {% for synth in syntheses_achetees %}
           {% include "kooblit_card.html" with title=synth.book_title author=synth.author synth_id=synth.id url="lecture" %}
@@ -100,24 +103,27 @@
         <h1 class="no_synthese">Vous n'avez rien acheté</h1>
       </div>
     {% endif %}
+    </div>
   </div> <!-- row achats -->
-  <div class="row achats">
+  <div class="container achats">
     <div class="col-xs-12">
       <h3> Mes projets en cours </h3>
     </div>
+      <div class="row">
     {% if syntheses_en_cours %}
-      <div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1">
+        <div class="col-xs-12 col-xs-offset-0 col-sm-11 col-sm-offset-1">
 
-        {% for synth in syntheses_en_cours %}
-          {% include "kooblit_card.html" with title=synth.book_title author=synth.author synth_id=synth.id url="edition" %}
-        {% endfor %}
+          {% for synth in syntheses_en_cours %}
+            {% include "kooblit_card.html" with title=synth.book_title author=synth.author synth_id=synth.id url="edition" %}
+          {% endfor %}
 
-      </div>
+        </div>
     {% else %}
       <div class="col-xs-12">
         <h1 class="no_synthese">Vous n'avez aucune synthèse en cours</h1>
       </div>
     {% endif %}
+      </div>
   </div> <!-- row achats -->
 </div>
 {% endblock %}

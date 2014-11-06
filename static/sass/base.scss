@@ -2,7 +2,8 @@
  * Style tweaks
  * --------------------------------------------------
  */
-
+@import "utilities/colors";
+@import "utilities/unities";
 
 @font-face{
   font-family: "Helvetica Neue Thin";
@@ -37,9 +38,7 @@
 }
 
 $nav_bar_len: 70px;
-$html_background_color: #FAFAFA;
-$nav_link_color: rgb(44, 62, 80);
-$nav_link_background_color: $html_background_color;
+
 
 nav {
   background: $html_background_color;
@@ -58,7 +57,12 @@ h1, h2, h3, h4, h5, h6
 {
   font-family: 'Helvetica Neue Thin';
 }
-
+a{
+  color: $nav_link_color;
+}
+a:hover{
+  color: $nav_link_color_hover;
+}
 li {
   list-style: none;
 }
@@ -123,10 +127,10 @@ li.icon_navbar > a {
   a.navbar-brand {
     color: black;
     font-size: 24px;
-    margin-top: -4px;
     img {
       width: 40px;
       margin-top: -6px;
+      display: inline;
     }
   }
   .navbar-nav {
@@ -141,14 +145,12 @@ li.icon_navbar > a {
       color: $nav_link_color;
     }
     a:hover{
-      color: blue;
-      background: none;
+      color: $nav_link_color_hover;
     }
   }
 }
 .dropdown-menu > li > a:hover{
-  color: blue;
-  background: none; 
+  color: $nav_link_color_hover;
 }
 
 #home_profil{

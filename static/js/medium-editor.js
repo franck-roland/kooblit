@@ -122,7 +122,7 @@ if (typeof module === 'object') {
             elementsContainer: false,
             firstHeader: 'h3',
             forcePlainText: false,
-            placeholder: 'Type your text',
+            placeholder: 'Editez votre synthèse ici...',
             secondHeader: 'h4',
             targetBlank: false,
             anchorTarget: false,

@@ -38,11 +38,23 @@ ALLOWED_HOSTS = []
 SECRET_KEY = appConfig.get("secret_key")
 
 # Synthese settings
-MIN_NOTE = 5
+MIN_NOTE = 3
 MIN_MEAN = 3
+if DEBUG:
+    TIME_TO_WAIT = 1
+else:
+    TIME_TO_WAIT = 12 * 3600
+
+
+if not DEBUG:   
+    ALLOWED_HOSTS = [
+    '.kooblit.com', # Allow domain and subdomains
+    '127.0.0.1', # Also allow FQDN and subdomains
+    ]
+
+
 
 # Application definition
-
 INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
@@ -56,10 +68,9 @@ INSTALLED_APPS = (
     'usr_management',
     'achat',
     'manage_books_synth',
-    'south',
     'crispy_forms',
 )
-
+INSTALLED_APPS += ('storages',)
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -107,11 +118,23 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
+DO_COLLECT = False
+if not DEBUG:
+    AWS_STORAGE_BUCKET_NAME = appConfig.get("aws__bucket_name")
+    # if DO_COLLECT:
+    AWS_ACCESS_KEY_ID = appConfig.get("aws__ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = appConfig.get("aws__SECRET_ACCESS_KEY")
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+    STATIC_URL = S3_URL
+else:
+    STATIC_URL = '/static/'
+
+STATIC_ROOT = appConfig.get("path__static_root")
+
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
-STATIC_URL = '/static/'
-STATIC_ROOT = appConfig.get("path__static_root")
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates/'),

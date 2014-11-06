@@ -1,4 +1,5 @@
-.sub_img_container{
+/* line 3, ../sass/result_page.scss */
+.sub_img_container {
   padding: 0px;
   padding-top: 20px;
   background-color: transparent;
@@ -6,76 +7,87 @@
   height: 100%;
 }
 
+/* line 11, ../sass/result_page.scss */
 .results_header {
   padding-top: 30px;
   padding-bottom: 30px;
 }
 
+/* line 16, ../sass/result_page.scss */
 .results_header h1 {
   font-family: 'Helvetica Neue Thin';
-  color: rgb(74,74,74);
+  color: #4a4a4a;
   margin: 3px 0;
 }
 
+/* line 22, ../sass/result_page.scss */
 .results_header h2 {
   font-family: 'Helvetica Neue Thin';
-  color: rgb(180,180,180);
+  color: #b4b4b4;
   margin: 3px 0;
 }
 
+/* line 28, ../sass/result_page.scss */
 .result_line {
   margin-bottom: 35px;
 }
 
+/* line 32, ../sass/result_page.scss */
 .row_plus {
   margin-top: 40px;
   margin-bottom: 40px;
 }
 
-
+/* line 38, ../sass/result_page.scss */
 .repre_image {
   height: 160px;
   display: table-cell;
-  float:none;
+  float: none;
   vertical-align: bottom;
 }
 
-.repre_image img{
-  /*box-shadow: 3px 3px 8px #555;*/
-  position: relative;
-  bottom: 0;
+/* line 45, ../sass/result_page.scss */
+.repre_image img {
+  box-shadow: 3px 3px 8px #555;
   display: block;
-  max-height:160px;
+  max-height: 160px;
   width: auto;
   max-width: 107px;
+  transition: all 0.3s ease-in-out;
 }
 
-.repre_image img:hover{
-  box-shadow: 3px 3px 8px #555, 0px 0px 10px #005 ;
+/* line 54, ../sass/result_page.scss */
+.repre_image img:hover {
+  box-shadow: 3px 3px 8px #5a9b8e;
 }
 
+/* line 58, ../sass/result_page.scss */
 .result_info {
   font-family: 'Helvetica Neue Thin';
 }
 
+/* line 62, ../sass/result_page.scss */
 .result_title {
   overflow: hidden;
   white-space: nowrap;
   margin-top: 15px;
   font-size: 15px;
-  color: rgb(74,74,74);
+  color: #4a4a4a;
   font-family: 'Helvetica Neue';
   font-weight: bold;
 }
 
+/* line 72, ../sass/result_page.scss */
 .result_author {
-  color: rgb(180,180,180);
+  color: #b4b4b4;
 }
 
+/* line 76, ../sass/result_page.scss */
 .book_sub, .Book_Sub {
   font-size: 0.6em;
 }
 
+/* line 80, ../sass/result_page.scss */
 .element_0 {
   padding-left: 0;
 }
