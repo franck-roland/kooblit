@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import urllib
 import json
-from aws_req import compute_args, unsanitize, recherche_between_i_and_j
+from aws_req import unsanitize
 from AmazonRequest import AmazonRequest, ResponseEncoder
 from django.conf import settings
 from django.shortcuts import render_to_response
