@@ -141,37 +141,41 @@ img.point_kooblit {
   height: auto;
 }
 
-/* line 67, ../sass/homepage.scss */
+/* line 65, ../sass/homepage.scss */
+.last_first_row {
+  position: absolute;
+  bottom: 66px;
+}
+
+/* line 70, ../sass/homepage.scss */
 .homepage_quote {
   margin-top: 110px;
   color: white;
 }
 
-/* line 72, ../sass/homepage.scss */
+/* line 75, ../sass/homepage.scss */
 .homepage_quote h1 {
   color: #fbfbfb;
   text-shadow: 0px 0px 8px black;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
-/* line 79, ../sass/homepage.scss */
+/* line 82, ../sass/homepage.scss */
 .homepage_quote h3 {
   color: #fbfbfb;
   text-shadow: 0px 0px 8px black;
   font-weight: bold;
   /*text-shadow: 1px 1px black;*/
-  padding: 40px 0;
-  padding-top: 0px;
-  margin-top: 0px;
+  padding-top: 40px;
 }
 
-/* line 89, ../sass/homepage.scss */
+/* line 90, ../sass/homepage.scss */
 .homepage_icon {
   top: -30px;
 }
 
-/* line 93, ../sass/homepage.scss */
+/* line 94, ../sass/homepage.scss */
 .homepage_icon a {
   display: block;
   height: 100px;
@@ -179,17 +183,17 @@ img.point_kooblit {
   margin: auto;
 }
 
-/* line 100, ../sass/homepage.scss */
+/* line 101, ../sass/homepage.scss */
 .homepage_icon img {
   width: 100px;
 }
 
-/* line 104, ../sass/homepage.scss */
+/* line 105, ../sass/homepage.scss */
 .homepage_icon div {
   text-align: center;
 }
 
-/* line 108, ../sass/homepage.scss */
+/* line 109, ../sass/homepage.scss */
 .voir_publiees {
   width: 150px;
   font-size: 15px;
@@ -197,7 +201,7 @@ img.point_kooblit {
   line-height: 0.9;
 }
 
-/* line 114, ../sass/homepage.scss */
+/* line 115, ../sass/homepage.scss */
 #search_form_homepage {
   overflow: hidden;
   width: 90%;
@@ -205,7 +209,7 @@ img.point_kooblit {
   white-space: nowrap;
 }
 
-/* line 120, ../sass/homepage.scss */
+/* line 121, ../sass/homepage.scss */
 #search_form_homepage button.icon {
   -webkit-border-top-right-radius: 25px;
   -webkit-border-bottom-right-radius: 25px;
@@ -222,7 +226,7 @@ img.point_kooblit {
   margin-left: -50px;
 }
 
-/* line 136, ../sass/homepage.scss */
+/* line 137, ../sass/homepage.scss */
 #search_bar_homepage {
   width: 100%;
   height: 50px;
@@ -239,7 +243,6 @@ img.point_kooblit {
   -moz-border-radius-bottomright: 25px;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  margin-bottom: 50px;
   font-size: 20px;
   line-height: 1.42857;
   /*display: inline;*/
@@ -334,5 +337,23 @@ input#search_bar_homepage::-moz-placeholder {
   /* line 230, ../sass/homepage.scss */
   .second_row {
     height: auto;
+  }
+
+  /* line 233, ../sass/homepage.scss */
+  .last_first_row {
+    position: relative;
+    bottom: 0;
+    margin-bottom: 10px;
+  }
+
+  /* line 238, ../sass/homepage.scss */
+  h3 {
+    font-size: 20px;
+  }
+}
+@media (max-height: 640px) {
+  /* line 243, ../sass/homepage.scss */
+  .voir_publiees {
+    margin-bottom: 56px;
   }
 }

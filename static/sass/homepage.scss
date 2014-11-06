@@ -62,18 +62,21 @@ img.point_kooblit{
   padding-top: 70px;
   height: auto;
 }
-
+.last_first_row{
+  position: absolute;
+  bottom: $bande_heigth +10px;
+}
 
 .homepage_quote {
   margin-top: 110px;
   color: white;
 }
-
+$marge_title_first: 40px;
 .homepage_quote h1{
   color: rgb(251, 251, 251);
   text-shadow: 0px 0px 8px black;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: $marge_title_first;
 }
 
 .homepage_quote h3{
@@ -81,9 +84,7 @@ img.point_kooblit{
   text-shadow: 0px 0px 8px black;
   font-weight: bold;
   /*text-shadow: 1px 1px black;*/
-  padding: 40px 0;
-  padding-top: 0px;
-  margin-top: 0px;
+  padding-top: $marge_title_first;
 }
 
 .homepage_icon {
@@ -149,7 +150,6 @@ img.point_kooblit{
   -moz-border-radius-bottomright: 25px;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  margin-bottom: 50px;
   font-size: $search_font_height;
   line-height: 1.42857;
   /*display: inline;*/
@@ -223,11 +223,24 @@ input#search_bar_homepage::-moz-placeholder {
 
 
 /* Responsive */ 
-@media (max-width: $screen-md-min){
+@media (max-width:  $screen-md-max){
   .row_media{
     height: auto;
   }
   .second_row {
     height: auto; 
+  }
+  .last_first_row{
+    position: relative;
+    bottom: 0;
+    margin-bottom: 10px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+}
+@media (max-height: $screen-h-md-max){
+  .voir_publiees{
+    margin-bottom: $bande_heigth;
   }
 }

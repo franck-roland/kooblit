@@ -41,7 +41,7 @@
     font-size: 16.1px;
 }
 
-@media (max-width: $screen-md-min){
+@media (max-width:  $screen-md-max){
     .container_vignettes {
         height: auto;
         padding-bottom: $bande_heigth;
