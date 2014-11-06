@@ -22,47 +22,79 @@
     </div>
     {% endif %}
     <div class="col-xs-offset-1 col-xs-11 col-sm-10 col-sm-offset-2 homepage_quote">
-      <h2 style="margin-bottom:100px;">
+      <h1>
         Des milliers de <a href="#last">synthèses de livres</a>
         <br/>pour seulement quelques euros
-      </h2>
+      </h1>
       <form id="search_form_homepage" class="" action="{% url 'search_engine:search' %}" role="search" method="get" onsubmit="return display_loader('#ajax_loader')" >
               <input id="search_bar_homepage" type="text" class="form-control " placeholder="Rechercher un ouvrage, un auteur, un thème..." name='title' style="">
               <button type="submit" class="icon"><img class="img_search" src="{% static "img/pictos/Search.png" %}"/></button>
       </form>
-      <h4 style="margin-top:50px;">
+      <h3 >
         Découvrez le catalogue de synthèses écrites par les utilisateurs <br>Et gagnez de l’argent en partageant les vôtres
-      </h4>  
+      </h3>  
     </div>
     <div class="col-xs-12" style="margin-top:50px;margin-bottom:30px;padding-left:0;">
-        <button class="btn_call voir_plus">
+        <button class="btn_call voir_publiees">
           Voir les dernières
           synthèses publiées
         </button>
     </div>
   </div> <!-- content_container -->
-  <div  class="col-xs-12 bande_couleur">
-    <a  href="#bande_1">
-      <div id="bande_1" class="container">
-        <h3> Kooblit c'est quoi? </h3>
+  <div class="col-xs-12 bande_couleur">
+    <a href="#c_quoi">
+      <div  class="container">
+        <h3> Kooblit c'est quoi ? </h3>
       </div>
     </a>
   </div>
 </div> <!-- premiere ligne -->
 
-<div class="col-xs-12 second_row row_media">
-<div class="container cache"> 
-  <div class="col-xs-offset-1 col-xs-11 col-sm-10 col-sm-offset-2 homepage_quote">
-    <h2>
-      Des
-      <br/>milliers
-      <br/>de <em><a href="#last">synthèses de livres</a></em>
-      <br/>pour seulement quelques euros
-    </h2>
-    <h4>
-      Découvrez le catalogue de synthèses écrites par les utilisateurs <br>Et gagnez de l’argent en partageant les vôtres
-    </h4>  
+<div id="c_quoi" class="col-xs-12 second_row row_media">
+  <div class="container cache container_vignettes"> 
+    <div class="row ligne_vignette">
+      <div class="col-md-4">
+        {% include 'homepage/vignette.html' with src_img="/static/img/pictos/closed_book.png"  text="C’est la première plateforme collaborative de partage de synthèses de livres non littéraires." %}
+      </div>
+      <div class="col-md-4">
+        {% include 'homepage/vignette.html' with src_img="/static/img/pictos/head.png"  text="C’est un véritable accélérateur de savoir, une nouvelle manière d’accéder à la connaissance, en condensé." %}
+      </div>
+      <div class="col-md-4">
+        {% include 'homepage/vignette.html' with src_img="/static/img/pictos/money.png"  text="C’est aussi un moyen de gagner de l’argent en publiant vos propres synthèses de livres." %}
+      </div>
+    </div>
+    <div class="row ligne_vignette">
+      <div class="col-md-offset-2 col-md-8">
+      {% include 'homepage/vignette.html' with src_img="/static/img/pictos/open_book.png"  text="Les livres non littéraires, ce sont tous les livres qui ne sont pas de la fiction : ce sont les livres techniques, pratiques, théoriques… dans des domaines très variés : business, santé, histoire, loisirs, gestion, sciences et techniques, entreprenariat, politique, productivité, informatique, bien-être, biographies, sciences sociales et bien plus encore…" %}
+      </div>
+    </div>
   </div>
+  <div class="col-xs-12 bande_couleur">
+    <a href="#quoi_faire">
+      <div  class="container">
+        <h3> Que pouvez-vous faire sur Kooblit ? </h3>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div id="quoi_faire" class="col-xs-12 second_row row_media">
+  <div class="container cache container_vignettes"> 
+    <div class="row ligne_vignette">
+      <div class="col-md-6">
+        {% include 'homepage/vignette.html' with src_img="/static/img/pictos/Credit_card.png"  text="Acheter des synthèses de livres écrites par d’autres utilisateurs, pour seulement quelques euros." %}
+      </div>
+      <div class="col-md-6">
+        {% include 'homepage/vignette.html' with src_img="/static/img/pictos/Sell.png"  text="Vendre vos propres synthèses de livres. Ici une synthèse d’ouvrage s’appelle un  « Koob »" %}
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 bande_couleur">
+    <a href="#c_quoi">
+      <div  class="container">
+        <h3> Comment ça marche ?</h3>
+      </div>
+    </a>
   </div>
 </div>
 

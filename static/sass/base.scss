@@ -37,9 +37,37 @@
   font-style: italic;
 }
 
+@font-face{
+  font-family: "Gravity";
+  src: url("../fonts/gravity/Gravity-Book.ttf") format("TrueType");
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal; 
+}
+@font-face{
+  font-family: "Gravity";
+  src: url("../fonts/gravity/Gravity-Book-Italic.ttf") format("TrueType");
+  font-style: italic;
+}
+@font-face{
+  font-family: "Gravity";
+  src: url("../fonts/gravity/Gravity-Bold.ttf") format("TrueType");
+  font-weight: bold;
+}
+@font-face{
+  font-family: "Gravity";
+  src: url("../fonts/gravity/Gravity-Bold.ttf") format("TrueType");
+  font-style: italic;
+  font-weight: bold;
+}
+
+
+
 $nav_bar_len: 70px;
 $font_nav_size: 20px;
 $brand_font_size: 40px;
+$default_family: 'Gravity';
+
 nav {
   background: $html_background_color;
 }
@@ -49,13 +77,13 @@ html, body
   height: 100%;
   background-color: $html_background_color;
   color: rgb(74,74,74);
-  font-family:'Helvetica Neue';
+  font-family:$default_family;
 }
 
 
 h1, h2, h3, h4, h5, h6 
 {
-  font-family: 'Helvetica Neue Bold';
+  font-family: $default_family;
 }
 a{
   color: $nav_link_color;

@@ -15,30 +15,28 @@
 
 /* line 16, ../sass/result_page.scss */
 .results_header h1 {
-  font-family: 'Helvetica Neue Thin';
   color: #4a4a4a;
   margin: 3px 0;
 }
 
-/* line 22, ../sass/result_page.scss */
+/* line 21, ../sass/result_page.scss */
 .results_header h2 {
-  font-family: 'Helvetica Neue Thin';
   color: #b4b4b4;
   margin: 3px 0;
 }
 
-/* line 28, ../sass/result_page.scss */
+/* line 26, ../sass/result_page.scss */
 .result_line {
   margin-bottom: 35px;
 }
 
-/* line 32, ../sass/result_page.scss */
+/* line 30, ../sass/result_page.scss */
 .row_plus {
   margin-top: 40px;
   margin-bottom: 40px;
 }
 
-/* line 38, ../sass/result_page.scss */
+/* line 36, ../sass/result_page.scss */
 .repre_image {
   height: 160px;
   display: table-cell;
@@ -46,7 +44,7 @@
   vertical-align: bottom;
 }
 
-/* line 45, ../sass/result_page.scss */
+/* line 43, ../sass/result_page.scss */
 .repre_image img {
   box-shadow: 3px 3px 8px #555;
   display: block;
@@ -56,38 +54,32 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* line 54, ../sass/result_page.scss */
+/* line 52, ../sass/result_page.scss */
 .repre_image img:hover {
   box-shadow: 3px 3px 8px #5a9b8e;
 }
 
-/* line 58, ../sass/result_page.scss */
-.result_info {
-  font-family: 'Helvetica Neue Thin';
-}
-
-/* line 62, ../sass/result_page.scss */
+/* line 59, ../sass/result_page.scss */
 .result_title {
   overflow: hidden;
   white-space: nowrap;
   margin-top: 15px;
   font-size: 15px;
   color: #4a4a4a;
-  font-family: 'Helvetica Neue';
   font-weight: bold;
 }
 
-/* line 72, ../sass/result_page.scss */
+/* line 68, ../sass/result_page.scss */
 .result_author {
   color: #b4b4b4;
 }
 
-/* line 76, ../sass/result_page.scss */
+/* line 72, ../sass/result_page.scss */
 .book_sub, .Book_Sub {
   font-size: 0.6em;
 }
 
-/* line 80, ../sass/result_page.scss */
+/* line 76, ../sass/result_page.scss */
 .element_0 {
   padding-left: 0;
 }
