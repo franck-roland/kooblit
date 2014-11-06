@@ -8,7 +8,8 @@
 .vignette_img{
     display:block;
     margin:auto;
-    width:126px;
+    width:100px;
+    margin-bottom:20px;
 }
 
 .vignette_sub{
@@ -20,6 +21,24 @@
 .ligne_vignette{
     padding-top:110px;
 
+}
+
+#cmt_ca_marche {
+    padding-left: 10%;
+}
+#cmt_ca_marche h1 {
+    text-align:center;
+}
+#cmt_ca_marche ol {
+    font-weight: bold;
+    font-size: 50px;
+}
+#cmt_ca_marche li {
+    list-style-type: decimal;
+}
+#cmt_ca_marche li span{
+    font-weight: normal;
+    font-size: 16.1px;
 }
 
 @media (max-width: $screen-md-min){

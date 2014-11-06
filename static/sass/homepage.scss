@@ -2,7 +2,7 @@
 @import 'utilities/unities';
 @import 'homepage/vignette';
 
-$bande_heigth:56px;
+
 $search_font_height: 20px;
 /*html, body {
 
@@ -190,13 +190,14 @@ input#search_bar_homepage::-moz-placeholder {
 }
 .second_row {
   background: url("../img/entonnoir.png") no-repeat center;
-  background-size: cover; 
+  background-size: contain;
+  background-color:  #8fc9c0;
   padding-left: 0;
   padding-right: 0;
   height: 100%;
 }
 .cache{
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
   height: 100%;
 }
