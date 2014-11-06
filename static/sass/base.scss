@@ -38,8 +38,8 @@
 }
 
 $nav_bar_len: 70px;
-
-
+$font_nav_size: 20px;
+$brand_font_size: 40px;
 nav {
   background: $html_background_color;
 }
@@ -55,7 +55,7 @@ html, body
 
 h1, h2, h3, h4, h5, h6 
 {
-  font-family: 'Helvetica Neue Thin';
+  font-family: 'Helvetica Neue Bold';
 }
 a{
   color: $nav_link_color;
@@ -63,6 +63,9 @@ a{
 a:hover{
   color: white;
   text-decoration: none;
+}
+a:visited {
+    color: $nav_link_color_visited;
 }
 li {
   list-style: none;
@@ -107,6 +110,7 @@ footer {
   border : none;
   color: rgb(127, 127, 127);
   height: $nav_bar_len;
+  font-size:20px;
 }
 .navbar-collapse {
   background: $html_background_color;
@@ -127,9 +131,9 @@ li.icon_navbar > a {
   background: $html_background_color;
   a.navbar-brand {
     color: black;
-    font-size: 24px;
+    font-size: $brand_font_size;
     img {
-      width: 40px;
+      width: 50px;
       margin-top: -6px;
       display: inline;
     }
@@ -143,7 +147,7 @@ li.icon_navbar > a {
 .navbar-default .navbar-nav{
   li {
     a{
-      color: black;
+      color: $a_link_on_call_color;
     }
     a:hover{
       color: $nav_link_color_hover;
@@ -196,7 +200,7 @@ li.icon_navbar > a {
 
 .navbar-nav > li > a.navbar_login {
   color: rgb(127, 127, 127);
-  font-size: 18px;
+  font-size: $font_nav_size;
 }
 
 .navbar-nav > li > .dropdown-menu {

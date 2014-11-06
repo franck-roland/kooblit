@@ -5,7 +5,8 @@
   <ul class="navbar-nav">
     <li>
       <a class="navbar-brand" href="{% url 'homepage'%}">
-       <img class="point_kooblit" src="{% static "img/logo/little_owl_grey.png" %}" alt="Logo Kooblit" />&nbsp;Kooblit
+       <img class="point_kooblit" src="{% static "img/logo/little_owl_grey.png" %}" alt="Logo Kooblit" />
+       <span id="kooblit_name">Kooblit</span>
       </a>
     </li>
   </ul>
@@ -16,7 +17,7 @@
     {{ block.super }}
   {% else %}
     <li>
-      <a href="{% url 'usr_management:login' %}#enregistrement" class="navbar_login"> S'enregistrer</a>
+      <a href="{% url 'usr_management:login' %}#enregistrement" class="navbar_login navbar_inscription"> S'inscrire</a>
     </li>
     <li>
       <a href="{% url 'usr_management:login' %}#connection" class="navbar_login"> Se connecter</a>
