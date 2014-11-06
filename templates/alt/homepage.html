@@ -2,26 +2,56 @@
 {% load staticfiles %}
 
 {% block extra_css %}
-<link href="{% static "css/alt/homepage.css" %}" rel="stylesheet">
+<link href="{% static "css/homepage.css" %}" rel="stylesheet">
     <!-- <link rel="stylesheet" href="{% static "css/selection.css"%}"> -->
     <link rel="stylesheet" href="{% static "css/details.css"%}">
 {% endblock %}
 
 {% block content %}
 
-<div class="homepage_content">
-<div class="col-xs-12 first_row">
-
-  {% if messages %}
-  <div class="container">
-    {% for message in messages %}
-    <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
-      <button type="button" class="close" data-dismiss="alert">×</button>
-      {{ message|safe }}
+<div class="first_row row_media">
+  <div class="container content_container">
+    {% if messages %}
+    <div class="container">
+      {% for message in messages %}
+      <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {{ message|safe }}
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
+    {% endif %}
+    <div class="col-xs-offset-1 col-xs-11 col-sm-10 col-sm-offset-2 homepage_quote">
+      <h2 style="margin-bottom:100px;">
+        Des milliers de <a href="#last">synthèses de livres</a>
+        <br/>pour seulement quelques euros
+      </h2>
+      <form id="search_form_homepage" class="" action="{% url 'search_engine:search' %}" role="search" method="get" onsubmit="return display_loader('#ajax_loader')" >
+              <input id="search_bar_homepage" type="text" class="form-control " placeholder="Rechercher un ouvrage, un auteur, un thème..." name='title' style="">
+              <button type="submit" class="icon"><img class="img_search" src="{% static "img/pictos/Search.png" %}"/></button>
+      </form>
+      <h4 style="margin-top:50px;">
+        Découvrez le catalogue de synthèses écrites par les utilisateurs <br>Et gagnez de l’argent en partageant les vôtres
+      </h4>  
+    </div>
+    <div class="col-xs-12" style="margin-top:50px;margin-bottom:30px;padding-left:0;">
+        <button class="btn_call voir_plus">
+          Voir les dernières
+          synthèses publiées
+        </button>
+    </div>
+  </div> <!-- content_container -->
+  <div  class="col-xs-12 bande_couleur">
+    <a  href="#bande_1">
+      <div id="bande_1" class="container">
+        <h3> Kooblit c'est quoi? </h3>
+      </div>
+    </a>
   </div>
-  {% endif %}
+</div> <!-- premiere ligne -->
+
+<div class="col-xs-12 second_row row_media">
+<div class="container cache"> 
   <div class="col-xs-offset-1 col-xs-11 col-sm-10 col-sm-offset-2 homepage_quote">
     <h2>
       Des
@@ -33,25 +63,9 @@
       Découvrez le catalogue de synthèses écrites par les utilisateurs <br>Et gagnez de l’argent en partageant les vôtres
     </h4>  
   </div>
-  <div class="container">
-  <!-- <form id="search_form_homepage" class="" action="{% url 'search_engine:search' %}" role="search" method="get" onsubmit="return display_loader('#ajax_loader')" >
-    <div class="box">
-      <div class="container-4">
-        <input id="search_bar_homepage" type="search" id="search" placeholder="Rechercher un ouvrage..." />
-        <button type="submit" class="icon"><i class="fa fa-search"></i></button>
-      </div>
-    </div>
-    <img src="{% static "img/ajax-loader.gif"%}" id="ajax_loader" />
-    </form> -->
-    <form id="search_form_homepage" class="" action="{% url 'search_engine:search' %}" role="search" method="get" onsubmit="return display_loader('#ajax_loader')" >
-            <input id="search_bar_homepage" type="text" class="form-control " placeholder="Rechercher un ouvrage..." name='title' style="">
-            <button type="submit" class="icon"><i class="fa fa-search"></i></button>
-            <!-- <span class="icon"><i class="fa fa-search fa-5" style="font-size: 2em;"></i></span> -->
-            <!-- <img src="{% static "img/ajax-loader.gif"%}" id="ajax_loader" /> -->
-  </form>
   </div>
 </div>
-</div>
+
 <div  id="last" class="col-xs-12 homepage_content">
     <a href="/1/#top">Top</a>
     <h1>Les dernières synthèses publiées sur le site</h1>
@@ -75,7 +89,9 @@
       $(this).parent().parent().find(".current_note").removeClass("current_note_hidden");
     });
   })
-  $(function() {
+  $(window).load(function() {
+    // console.log($('.first_row').height())
+    // console.log($('#bande_1').offset({top: $('.first_row').height(), left:0}));
     $('a[href*=#]:not([href=#])').click(function() {
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
             || location.hostname == this.hostname) {
@@ -87,7 +103,7 @@
                      scrollTop: target.offset().top
                 }, 1000);
                 return false;
-            }
+              }
         }
     });
 });

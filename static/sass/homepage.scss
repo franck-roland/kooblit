@@ -1,72 +1,57 @@
+@import 'utilities/colors';
+
+$bande_heigth:56px;
 /*html, body {
 
     height:100%;
 }*/
+
 /* Changements pour la barre de navigation */
-/* line 10, ../sass/homepage.scss */
-.nav-bar-kooblit {
+.nav-bar-kooblit{
   position: absolute;
   top: 27px;
   background: none;
+  .navbar-header {
+    background: none;
+  }
+  .navbar-collapse{
+    background: none;
+  }
 }
-/* line 14, ../sass/homepage.scss */
-.nav-bar-kooblit .navbar-header {
-  background: none;
-}
-/* line 17, ../sass/homepage.scss */
-.nav-bar-kooblit .navbar-collapse {
-  background: none;
-}
-
-/* line 21, ../sass/homepage.scss */
-#kooblit_name {
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+#kooblit_name{
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   font-family: "Helvetica Neue Thin";
   font-weight: bold;
 }
-
-/* line 26, ../sass/homepage.scss */
-#home_profil {
+#home_profil{
   background: none;
 }
-
-/* line 29, ../sass/homepage.scss */
 #block_content {
   height: 100%;
   padding-top: 0;
 }
-
-/* line 33, ../sass/homepage.scss */
 .navbar-nav > li > a.navbar_login {
   font-family: "Helvetica Neue Thin";
   color: white;
   font-size: 25px;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.7);
   padding-top: 30px;
   padding-bottom: 0px;
 }
-
-/* line 41, ../sass/homepage.scss */
 .navbar-nav > li > a.navbar_inscription {
   font-family: "Helvetica Neue";
   font-weight: bold;
 }
-
-/* line 45, ../sass/homepage.scss */
-.navbar-nav > li > a.navbar-brand {
+.navbar-nav > li > a.navbar-brand{
   padding-top: 18px;
 }
-
-/* line 48, ../sass/homepage.scss */
-img.point_kooblit {
-  -webkit-filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.59));
+img.point_kooblit{
+  -webkit-filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.59));
   filter: url("shadow.svg#drop-shadow");
   -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
   filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
 }
-
 /* Lignes */
-/* line 55, ../sass/homepage.scss */
 .first_row {
   background: url("../img/HP_page1.png");
   background-repeat: no-repeat;
@@ -75,31 +60,26 @@ img.point_kooblit {
   padding-top: 70px;
   height: auto;
 }
-
-/* line 63, ../sass/homepage.scss */
-.voir_plus {
+.voir_plus{
   width: 150px;
   font-size: 15px;
   padding: 8px 0px;
   line-height: 0.9;
 }
-
-/* line 69, ../sass/homepage.scss */
-#search_form_homepage {
+#search_form_homepage{
   overflow: hidden;
   width: 90%;
   vertical-align: middle;
   white-space: nowrap;
 }
-
-/* line 75, ../sass/homepage.scss */
-#search_form_homepage button.icon {
+#search_form_homepage button.icon{
   -webkit-border-top-right-radius: 25px;
   -webkit-border-bottom-right-radius: 25px;
   -moz-border-radius-topright: 25px;
   -moz-border-radius-bottomright: 25px;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
+ 
   border: none;
   background: none;
   height: 50px;
@@ -107,16 +87,14 @@ img.point_kooblit {
   color: #4f5b66;
   margin-left: -50px;
 }
-
-/* line 90, ../sass/homepage.scss */
-#search_bar_homepage {
+#search_bar_homepage{
   width: 100%;
   height: 50px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255,255,255,0.8);
   border: none;
   /*font-size: 10pt;*/
   float: left;
-  color: #53c1ac;
+  color: $call_to_action_bckgd;
   padding-left: 15px;
   border-radius: 5px;
   -webkit-border-top-right-radius: 25px;
@@ -130,126 +108,105 @@ img.point_kooblit {
   line-height: 1.42857;
   /*display: inline;*/
 }
-
-/* line 111, ../sass/homepage.scss */
-.img_search {
+.img_search{
   display: inline;
   width: 50px;
 }
+input#search_bar_homepage::-webkit-input-placeholder{ 
+  color: $call_to_action_bckgd; 
+}
+ 
+input#search_bar_homepage:-ms-input-placeholder{ 
+  color: $call_to_action_bckgd; 
+}
+ 
+input#search_bar_homepage:-moz-placeholder{ 
+  color: $call_to_action_bckgd; 
+}
+ 
+input#search_bar_homepage::-moz-placeholder { 
+  color: $call_to_action_bckgd; 
+}
+ 
 
-/* line 115, ../sass/homepage.scss */
-input#search_bar_homepage::-webkit-input-placeholder {
-  color: #53c1ac;
+.row_media{
+    height: 100%;
+    a {
+      text-decoration: none;
+    }
+    a:hover {
+      color: $nav_link_color_hover;
+    }
 }
-
-/* line 119, ../sass/homepage.scss */
-input#search_bar_homepage:-ms-input-placeholder {
-  color: #53c1ac;
-}
-
-/* line 123, ../sass/homepage.scss */
-input#search_bar_homepage:-moz-placeholder {
-  color: #53c1ac;
-}
-
-/* line 127, ../sass/homepage.scss */
-input#search_bar_homepage::-moz-placeholder {
-  color: #53c1ac;
-}
-
-/* line 132, ../sass/homepage.scss */
-.row_media {
-  height: 100%;
-}
-/* line 134, ../sass/homepage.scss */
-.row_media a {
-  text-decoration: none;
-}
-/* line 137, ../sass/homepage.scss */
-.row_media a:hover {
-  color: #5a9b8e;
-}
-
-/* line 141, ../sass/homepage.scss */
 .homepage_content {
-  height: 100%;
+    height: 100%;
 }
-
-/* line 144, ../sass/homepage.scss */
 .second_row {
   background: url("../img/entonnoir.png") no-repeat center;
-  background-size: cover;
+  background-size: cover; 
   padding-left: 0;
   padding-right: 0;
   height: 90%;
 }
-
-/* line 151, ../sass/homepage.scss */
-.cache {
+.cache{
   background-color: rgba(0, 0, 0, 0.6);
   width: 100%;
   height: 100%;
 }
 
-/* line 159, ../sass/homepage.scss */
+
+
 .bande_couleur {
-  background: #53c1ac;
+  background:  $call_to_action_bckgd;
   text-align: center;
   width: 100%;
   position: absolute;
   bottom: 0;
-  height: 56px;
+  height: $bande_heigth;
 }
-
-/* line 167, ../sass/homepage.scss */
 .bande_couleur a {
-  color: black;
+  color: $a_link_on_call_color;
   width: 100%;
-  height: 56px;
+  height: $bande_heigth;
 }
 
-/* line 174, ../sass/homepage.scss */
+
 .homepage_quote {
   padding: 40px 0 0 0;
   color: white;
 }
 
-/* line 179, ../sass/homepage.scss */
-.homepage_quote h2 {
+.homepage_quote h2{
   font-family: 'Helvetica Neue';
-  color: #fbfbfb;
+  color: rgb(251, 251, 251);
   text-shadow: 0px 0px 8px black;
   font-weight: bold;
 }
 
-/* line 186, ../sass/homepage.scss */
-.homepage_quote h4 {
+.homepage_quote h4{
   /*font-family: 'Helvetica Neue Thin';*/
   font-family: 'Helvetica Neue';
-  color: #fbfbfb;
+  color: rgb(251, 251, 251);
   text-shadow: 0px 0px 8px black;
   font-weight: bold;
   /*text-shadow: 1px 1px black;*/
 }
 
-/* line 195, ../sass/homepage.scss */
 .homepage_quote h2 {
   font-size: 50px;
 }
 
-/* line 199, ../sass/homepage.scss */
 .homepage_quote h4 {
   padding: 40px 0;
   font-size: 21px;
 }
 
-/* line 205, ../sass/homepage.scss */
+
 .homepage_icon {
   top: -30px;
-  font-family: "Helvetica Neue Medium";
+  font-family: 'Helvetica Neue Medium'
 }
 
-/* line 210, ../sass/homepage.scss */
 .homepage_icon a {
   display: block;
   height: 100px;
@@ -257,25 +214,22 @@ input#search_bar_homepage::-moz-placeholder {
   margin: auto;
 }
 
-/* line 217, ../sass/homepage.scss */
 .homepage_icon img {
   width: 100px;
 }
 
-/* line 221, ../sass/homepage.scss */
 .homepage_icon div {
   text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 1300px) {
-  /* line 229, ../sass/homepage.scss */
-  .second_row {
-    height: auto;
-  }
 
-  /* line 232, ../sass/homepage.scss */
-  .cache {
+
+/* Responsive */ 
+@media (max-width: 1300px){
+  .second_row {
+    height: auto; 
+  }
+  .cache{
     background-color: rgba(0, 0, 0, 0.6);
     width: 100%;
     height: 100%;
