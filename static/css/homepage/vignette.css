@@ -1,0 +1,24 @@
+/* line 1, ../../sass/homepage/vignette.scss */
+.container_vignettes {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+/* line 6, ../../sass/homepage/vignette.scss */
+.vignette_img {
+  display: block;
+  margin: auto;
+  width: 126px;
+}
+
+/* line 12, ../../sass/homepage/vignette.scss */
+.vignette_sub {
+  color: white;
+  text-align: center;
+  font-size: 1.15em;
+}
+
+/* line 18, ../../sass/homepage/vignette.scss */
+.ligne_vignette {
+  padding-top: 110px;
+}

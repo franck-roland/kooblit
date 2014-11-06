@@ -1,44 +1,70 @@
+/* Small devices (tablets, 768px and up) */
+/* Medium devices (desktops, 992px and up) */
+/* Large devices (large desktops, 1200px and up) */
+/* line 1, ../sass/homepage/vignette.scss */
+.container_vignettes {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+/* line 6, ../sass/homepage/vignette.scss */
+.vignette_img {
+  display: block;
+  margin: auto;
+  width: 126px;
+}
+
+/* line 12, ../sass/homepage/vignette.scss */
+.vignette_sub {
+  color: white;
+  text-align: center;
+  font-size: 1.15em;
+}
+
+/* line 18, ../sass/homepage/vignette.scss */
+.ligne_vignette {
+  padding-top: 110px;
+}
+
 /*html, body {
 
     height:100%;
 }*/
 /* Changements pour la barre de navigation */
-/* line 10, ../sass/homepage.scss */
+/* line 13, ../sass/homepage.scss */
 .nav-bar-kooblit {
   position: absolute;
   top: 27px;
   background: none;
 }
-/* line 14, ../sass/homepage.scss */
+/* line 17, ../sass/homepage.scss */
 .nav-bar-kooblit .navbar-header {
   background: none;
 }
-/* line 17, ../sass/homepage.scss */
+/* line 20, ../sass/homepage.scss */
 .nav-bar-kooblit .navbar-collapse {
   background: none;
 }
 
-/* line 21, ../sass/homepage.scss */
+/* line 24, ../sass/homepage.scss */
 #kooblit_name {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  font-family: "Helvetica Neue Thin";
-  font-weight: bold;
+  /*font-weight: bold;*/
 }
 
-/* line 26, ../sass/homepage.scss */
+/* line 28, ../sass/homepage.scss */
 #home_profil {
   background: none;
 }
 
-/* line 29, ../sass/homepage.scss */
+/* line 31, ../sass/homepage.scss */
 #block_content {
   height: 100%;
   padding-top: 0;
 }
 
-/* line 33, ../sass/homepage.scss */
+/* line 35, ../sass/homepage.scss */
 .navbar-nav > li > a.navbar_login {
-  font-family: "Helvetica Neue Thin";
   color: white;
   font-size: 25px;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
@@ -46,9 +72,8 @@
   padding-bottom: 0px;
 }
 
-/* line 41, ../sass/homepage.scss */
+/* line 42, ../sass/homepage.scss */
 .navbar-nav > li > a.navbar_inscription {
-  font-family: "Helvetica Neue";
   font-weight: bold;
 }
 
@@ -66,7 +91,7 @@ img.point_kooblit {
 }
 
 /* Lignes */
-/* line 55, ../sass/homepage.scss */
+/* line 57, ../sass/homepage.scss */
 .first_row {
   background: url("../img/HP_page1.png");
   background-repeat: no-repeat;
@@ -76,15 +101,63 @@ img.point_kooblit {
   height: auto;
 }
 
-/* line 63, ../sass/homepage.scss */
-.voir_plus {
+/* line 67, ../sass/homepage.scss */
+.homepage_quote {
+  margin-top: 110px;
+  color: white;
+}
+
+/* line 72, ../sass/homepage.scss */
+.homepage_quote h1 {
+  color: #fbfbfb;
+  text-shadow: 0px 0px 8px black;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* line 79, ../sass/homepage.scss */
+.homepage_quote h3 {
+  color: #fbfbfb;
+  text-shadow: 0px 0px 8px black;
+  font-weight: bold;
+  /*text-shadow: 1px 1px black;*/
+  padding: 40px 0;
+  padding-top: 0px;
+  margin-top: 0px;
+}
+
+/* line 89, ../sass/homepage.scss */
+.homepage_icon {
+  top: -30px;
+}
+
+/* line 93, ../sass/homepage.scss */
+.homepage_icon a {
+  display: block;
+  height: 100px;
+  width: 100px;
+  margin: auto;
+}
+
+/* line 100, ../sass/homepage.scss */
+.homepage_icon img {
+  width: 100px;
+}
+
+/* line 104, ../sass/homepage.scss */
+.homepage_icon div {
+  text-align: center;
+}
+
+/* line 108, ../sass/homepage.scss */
+.voir_publiees {
   width: 150px;
   font-size: 15px;
   padding: 8px 0px;
   line-height: 0.9;
 }
 
-/* line 69, ../sass/homepage.scss */
+/* line 114, ../sass/homepage.scss */
 #search_form_homepage {
   overflow: hidden;
   width: 90%;
@@ -92,7 +165,7 @@ img.point_kooblit {
   white-space: nowrap;
 }
 
-/* line 75, ../sass/homepage.scss */
+/* line 120, ../sass/homepage.scss */
 #search_form_homepage button.icon {
   -webkit-border-top-right-radius: 25px;
   -webkit-border-bottom-right-radius: 25px;
@@ -109,7 +182,7 @@ img.point_kooblit {
   margin-left: -50px;
 }
 
-/* line 91, ../sass/homepage.scss */
+/* line 136, ../sass/homepage.scss */
 #search_bar_homepage {
   width: 100%;
   height: 50px;
@@ -127,72 +200,73 @@ img.point_kooblit {
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   margin-bottom: 50px;
-  font-size: 2em;
+  font-size: 20px;
   line-height: 1.42857;
   /*display: inline;*/
 }
 
-/* line 112, ../sass/homepage.scss */
+/* line 157, ../sass/homepage.scss */
 .img_search {
   display: inline;
   width: 50px;
 }
 
-/* line 116, ../sass/homepage.scss */
+/* line 161, ../sass/homepage.scss */
 input#search_bar_homepage::-webkit-input-placeholder {
   color: #53c1ac;
 }
 
-/* line 120, ../sass/homepage.scss */
+/* line 165, ../sass/homepage.scss */
 input#search_bar_homepage:-ms-input-placeholder {
   color: #53c1ac;
 }
 
-/* line 124, ../sass/homepage.scss */
+/* line 169, ../sass/homepage.scss */
 input#search_bar_homepage:-moz-placeholder {
   color: #53c1ac;
 }
 
-/* line 128, ../sass/homepage.scss */
+/* line 173, ../sass/homepage.scss */
 input#search_bar_homepage::-moz-placeholder {
   color: #53c1ac;
 }
 
-/* line 133, ../sass/homepage.scss */
+/* line 178, ../sass/homepage.scss */
 .row_media {
+  position: relative;
   height: 100%;
 }
-/* line 135, ../sass/homepage.scss */
+/* line 181, ../sass/homepage.scss */
 .row_media a {
   text-decoration: none;
 }
-/* line 138, ../sass/homepage.scss */
+/* line 184, ../sass/homepage.scss */
 .row_media a:hover {
   color: #5a9b8e;
 }
 
-/* line 142, ../sass/homepage.scss */
+/* line 188, ../sass/homepage.scss */
 .homepage_content {
   height: 100%;
 }
 
-/* line 145, ../sass/homepage.scss */
+/* line 191, ../sass/homepage.scss */
 .second_row {
   background: url("../img/entonnoir.png") no-repeat center;
   background-size: cover;
   padding-left: 0;
   padding-right: 0;
-  height: 90%;
+  height: 100%;
 }
 
-/* line 152, ../sass/homepage.scss */
+/* line 198, ../sass/homepage.scss */
 .cache {
   background-color: rgba(0, 0, 0, 0.6);
   width: 100%;
   height: 100%;
 }
 
-/* line 160, ../sass/homepage.scss */
+/* line 206, ../sass/homepage.scss */
 .bande_couleur {
   background: #53c1ac;
   text-align: center;
@@ -202,83 +276,22 @@ input#search_bar_homepage::-moz-placeholder {
   height: 56px;
 }
 
-/* line 168, ../sass/homepage.scss */
+/* line 214, ../sass/homepage.scss */
 .bande_couleur a {
   color: black;
   width: 100%;
   height: 56px;
 }
 
-/* line 175, ../sass/homepage.scss */
-.homepage_quote {
-  padding: 40px 0 0 0;
-  color: white;
-}
-
-/* line 180, ../sass/homepage.scss */
-.homepage_quote h2 {
-  font-family: 'Helvetica Neue';
-  color: #fbfbfb;
-  text-shadow: 0px 0px 8px black;
-  font-weight: bold;
-}
-
-/* line 187, ../sass/homepage.scss */
-.homepage_quote h4 {
-  /*font-family: 'Helvetica Neue Thin';*/
-  font-family: 'Helvetica Neue';
-  color: #fbfbfb;
-  text-shadow: 0px 0px 8px black;
-  font-weight: bold;
-  /*text-shadow: 1px 1px black;*/
-}
-
-/* line 196, ../sass/homepage.scss */
-.homepage_quote h2 {
-  font-size: 50px;
-}
-
-/* line 200, ../sass/homepage.scss */
-.homepage_quote h4 {
-  padding: 40px 0;
-  font-size: 21px;
-}
-
-/* line 206, ../sass/homepage.scss */
-.homepage_icon {
-  top: -30px;
-  font-family: "Helvetica Neue Medium";
-}
-
-/* line 211, ../sass/homepage.scss */
-.homepage_icon a {
-  display: block;
-  height: 100px;
-  width: 100px;
-  margin: auto;
-}
-
-/* line 218, ../sass/homepage.scss */
-.homepage_icon img {
-  width: 100px;
-}
-
-/* line 222, ../sass/homepage.scss */
-.homepage_icon div {
-  text-align: center;
-}
-
 /* Responsive */
-@media (max-width: 1300px) {
-  /* line 230, ../sass/homepage.scss */
-  .second_row {
+@media (max-width: 992px) {
+  /* line 226, ../sass/homepage.scss */
+  .row_media {
     height: auto;
   }
 
-  /* line 233, ../sass/homepage.scss */
-  .cache {
-    background-color: rgba(0, 0, 0, 0.6);
-    width: 100%;
-    height: 100%;
+  /* line 229, ../sass/homepage.scss */
+  .second_row {
+    height: auto;
   }
 }

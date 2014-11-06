@@ -1,3 +1,6 @@
+/* Small devices (tablets, 768px and up) */
+/* Medium devices (desktops, 992px and up) */
+/* Large devices (large desktops, 1200px and up) */
 /* line 4, ../sass/button.scss */
 .btn_call, .btn_call_sec, .btn_important, .plus_button {
   display: inline-block;
@@ -179,17 +182,12 @@ blockquote {
   box-shadow: 3px 3px 8px #555;
 }
 
-/* line 108, ../sass/edition.scss */
-.result_info {
-  font-family: 'Helvetica Neue Thin';
-}
-
-/* line 112, ../sass/edition.scss */
+/* line 111, ../sass/edition.scss */
 .result_title {
   overflow-y: hidden;
 }
 
-/* line 116, ../sass/edition.scss */
+/* line 115, ../sass/edition.scss */
 .result_title {
   overflow: hidden;
   white-space: nowrap;
@@ -197,25 +195,24 @@ blockquote {
   font-size: 1.2em;
 }
 
-/* line 123, ../sass/edition.scss */
+/* line 122, ../sass/edition.scss */
 .result_author {
   color: #b4b4b4;
   font-size: 1.1em;
 }
 
-/* line 127, ../sass/edition.scss */
+/* line 126, ../sass/edition.scss */
 .titre_synth {
   margin-top: 0;
   text-align: center;
 }
 
-/* line 132, ../sass/edition.scss */
+/* line 131, ../sass/edition.scss */
 .edition_bold {
-  /*font-family: "Helvetica Neue";*/
   font-weight: bold;
 }
 
-/* line 137, ../sass/edition.scss */
+/* line 135, ../sass/edition.scss */
 .medium-editor-placeholder:after {
   position: absolute;
   top: 3px;
@@ -224,7 +221,7 @@ blockquote {
   font-style: italic;
 }
 
-/* line 145, ../sass/edition.scss */
+/* line 143, ../sass/edition.scss */
 #cadre_edition {
   display: block;
   border: none;
@@ -234,13 +231,13 @@ blockquote {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* line 155, ../sass/edition.scss */
+/* line 153, ../sass/edition.scss */
 #cadre_edition:focus {
   outline: none;
   box-shadow: 0 0 2px #AEC3D5;
 }
 
-/* line 161, ../sass/edition.scss */
+/* line 159, ../sass/edition.scss */
 .price_selector {
   display: inline-block;
   margin-top: 15px;

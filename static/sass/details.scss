@@ -125,14 +125,12 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
 
 
 .misc_info.price {
-    font-family: 'Helvetica Neue';
     font-weight: bold;
     font-size: 1.2em;
     color: rgb(187, 69, 69);
 }
 
 .misc_info {
-    font-family: 'Helvetica Neue';
     font-size: 0.75em;
     padding: 0;
 }
@@ -148,7 +146,6 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
 
 .plus_button {
   padding: 5px 10px;
-  font-family: 'Helvetica Neue';
   font-weight: bold;
   float: right;
 }
@@ -177,6 +174,5 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
     /*text-align: center;*/
 }
 .author_name, .title_extract {
-    font-family: 'Helvetica Neue';
     font-weight: bold;
 }
