@@ -1,0 +1,33 @@
+@import 'utilities/unities';
+
+.container_vignettes {
+    padding-left:10%;
+    padding-right:10%;
+}
+
+.vignette_img{
+    display:block;
+    margin:auto;
+    width:126px;
+}
+
+.vignette_sub{
+    color:white;
+    text-align:center;
+    font-size: 1.15em;
+}
+
+.ligne_vignette{
+    padding-top:110px;
+
+}
+
+@media (max-width: $screen-md-min){
+    .container_vignettes {
+        height: auto;
+        padding-bottom: $bande_heigth;
+    }
+    .ligne_vignette {
+        padding-top:10px;
+    }
+}
