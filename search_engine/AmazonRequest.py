@@ -109,7 +109,7 @@ class AmazonRequest(object):
                     # Ajouter si l'élément titre+auteur n'est pas deja dans les resultats
                     if not (tmp['title'], tmp['author']) in duplication or not json_manager.delete_duplicate:
                         if tmp['book_format'] in BOOK_FORMATS:
-                            if tmp['language'] in (u'Français', 'Anglais', 'English', 'French'):
+                            if tmp['language'] in (u'Français', 'Anglais', 'English', 'French', u''):
                                 result.append(tmp)
                                 duplication.append((tmp['title'], tmp['author']))
                                 if not json_manager.check_json_file_exist(len(result), is_offseted=is_offseted):

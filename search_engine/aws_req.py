@@ -177,7 +177,7 @@ def compute_json_one_result(result):
         languages = obj.find('Languages').find('Language')
         language = get_text(languages, 'Name')
     except AttributeError:
-        language = ""
+        language = u""
 
     obj = result.find("LargeImage")
     image = get_text(obj, "URL")
