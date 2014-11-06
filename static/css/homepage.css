@@ -1,31 +1,43 @@
 /* Small devices (tablets, 768px and up) */
 /* Medium devices (desktops, 992px and up) */
 /* Large devices (large desktops, 1200px and up) */
-/* line 1, ../sass/homepage/vignette.scss */
+/* line 3, ../sass/homepage/vignette.scss */
 .container_vignettes {
   padding-left: 10%;
   padding-right: 10%;
 }
 
-/* line 6, ../sass/homepage/vignette.scss */
+/* line 8, ../sass/homepage/vignette.scss */
 .vignette_img {
   display: block;
   margin: auto;
   width: 126px;
 }
 
-/* line 12, ../sass/homepage/vignette.scss */
+/* line 14, ../sass/homepage/vignette.scss */
 .vignette_sub {
   color: white;
   text-align: center;
   font-size: 1.15em;
 }
 
-/* line 18, ../sass/homepage/vignette.scss */
+/* line 20, ../sass/homepage/vignette.scss */
 .ligne_vignette {
   padding-top: 110px;
 }
 
+@media (max-width: 992px) {
+  /* line 26, ../sass/homepage/vignette.scss */
+  .container_vignettes {
+    height: auto;
+    padding-bottom: 56px;
+  }
+
+  /* line 30, ../sass/homepage/vignette.scss */
+  .ligne_vignette {
+    padding-top: 10px;
+  }
+}
 /*html, body {
 
     height:100%;
