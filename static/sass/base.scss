@@ -61,7 +61,8 @@ a{
   color: $nav_link_color;
 }
 a:hover{
-  color: $nav_link_color_hover;
+  color: white;
+  text-decoration: none;
 }
 li {
   list-style: none;
@@ -142,7 +143,7 @@ li.icon_navbar > a {
 .navbar-default .navbar-nav{
   li {
     a{
-      color: $nav_link_color;
+      color: black;
     }
     a:hover{
       color: $nav_link_color_hover;
