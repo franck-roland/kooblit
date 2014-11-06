@@ -11,29 +11,57 @@
 .vignette_img {
   display: block;
   margin: auto;
-  width: 126px;
+  width: 100px;
+  margin-bottom: 20px;
 }
 
-/* line 14, ../sass/homepage/vignette.scss */
+/* line 15, ../sass/homepage/vignette.scss */
 .vignette_sub {
   color: white;
   text-align: center;
   font-size: 1.15em;
 }
 
-/* line 20, ../sass/homepage/vignette.scss */
+/* line 21, ../sass/homepage/vignette.scss */
 .ligne_vignette {
   padding-top: 110px;
 }
 
+/* line 26, ../sass/homepage/vignette.scss */
+#cmt_ca_marche {
+  padding-left: 10%;
+}
+
+/* line 29, ../sass/homepage/vignette.scss */
+#cmt_ca_marche h1 {
+  text-align: center;
+}
+
+/* line 32, ../sass/homepage/vignette.scss */
+#cmt_ca_marche ol {
+  font-weight: bold;
+  font-size: 50px;
+}
+
+/* line 36, ../sass/homepage/vignette.scss */
+#cmt_ca_marche li {
+  list-style-type: decimal;
+}
+
+/* line 39, ../sass/homepage/vignette.scss */
+#cmt_ca_marche li span {
+  font-weight: normal;
+  font-size: 16.1px;
+}
+
 @media (max-width: 992px) {
-  /* line 26, ../sass/homepage/vignette.scss */
+  /* line 45, ../sass/homepage/vignette.scss */
   .container_vignettes {
     height: auto;
     padding-bottom: 56px;
   }
 
-  /* line 30, ../sass/homepage/vignette.scss */
+  /* line 49, ../sass/homepage/vignette.scss */
   .ligne_vignette {
     padding-top: 10px;
   }
@@ -113,37 +141,41 @@ img.point_kooblit {
   height: auto;
 }
 
-/* line 67, ../sass/homepage.scss */
+/* line 65, ../sass/homepage.scss */
+.last_first_row {
+  position: absolute;
+  bottom: 66px;
+}
+
+/* line 70, ../sass/homepage.scss */
 .homepage_quote {
   margin-top: 110px;
   color: white;
 }
 
-/* line 72, ../sass/homepage.scss */
+/* line 75, ../sass/homepage.scss */
 .homepage_quote h1 {
   color: #fbfbfb;
   text-shadow: 0px 0px 8px black;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
-/* line 79, ../sass/homepage.scss */
+/* line 82, ../sass/homepage.scss */
 .homepage_quote h3 {
   color: #fbfbfb;
   text-shadow: 0px 0px 8px black;
   font-weight: bold;
   /*text-shadow: 1px 1px black;*/
-  padding: 40px 0;
-  padding-top: 0px;
-  margin-top: 0px;
+  padding-top: 40px;
 }
 
-/* line 89, ../sass/homepage.scss */
+/* line 90, ../sass/homepage.scss */
 .homepage_icon {
   top: -30px;
 }
 
-/* line 93, ../sass/homepage.scss */
+/* line 94, ../sass/homepage.scss */
 .homepage_icon a {
   display: block;
   height: 100px;
@@ -151,17 +183,17 @@ img.point_kooblit {
   margin: auto;
 }
 
-/* line 100, ../sass/homepage.scss */
+/* line 101, ../sass/homepage.scss */
 .homepage_icon img {
   width: 100px;
 }
 
-/* line 104, ../sass/homepage.scss */
+/* line 105, ../sass/homepage.scss */
 .homepage_icon div {
   text-align: center;
 }
 
-/* line 108, ../sass/homepage.scss */
+/* line 109, ../sass/homepage.scss */
 .voir_publiees {
   width: 150px;
   font-size: 15px;
@@ -169,7 +201,7 @@ img.point_kooblit {
   line-height: 0.9;
 }
 
-/* line 114, ../sass/homepage.scss */
+/* line 115, ../sass/homepage.scss */
 #search_form_homepage {
   overflow: hidden;
   width: 90%;
@@ -177,7 +209,7 @@ img.point_kooblit {
   white-space: nowrap;
 }
 
-/* line 120, ../sass/homepage.scss */
+/* line 121, ../sass/homepage.scss */
 #search_form_homepage button.icon {
   -webkit-border-top-right-radius: 25px;
   -webkit-border-bottom-right-radius: 25px;
@@ -194,7 +226,7 @@ img.point_kooblit {
   margin-left: -50px;
 }
 
-/* line 136, ../sass/homepage.scss */
+/* line 137, ../sass/homepage.scss */
 #search_bar_homepage {
   width: 100%;
   height: 50px;
@@ -211,7 +243,6 @@ img.point_kooblit {
   -moz-border-radius-bottomright: 25px;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  margin-bottom: 50px;
   font-size: 20px;
   line-height: 1.42857;
   /*display: inline;*/
@@ -265,20 +296,21 @@ input#search_bar_homepage::-moz-placeholder {
 /* line 191, ../sass/homepage.scss */
 .second_row {
   background: url("../img/entonnoir.png") no-repeat center;
-  background-size: cover;
+  background-size: contain;
+  background-color: #8fc9c0;
   padding-left: 0;
   padding-right: 0;
   height: 100%;
 }
 
-/* line 198, ../sass/homepage.scss */
+/* line 199, ../sass/homepage.scss */
 .cache {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
   height: 100%;
 }
 
-/* line 206, ../sass/homepage.scss */
+/* line 207, ../sass/homepage.scss */
 .bande_couleur {
   background: #53c1ac;
   text-align: center;
@@ -288,7 +320,7 @@ input#search_bar_homepage::-moz-placeholder {
   height: 56px;
 }
 
-/* line 214, ../sass/homepage.scss */
+/* line 215, ../sass/homepage.scss */
 .bande_couleur a {
   color: black;
   width: 100%;
@@ -297,13 +329,31 @@ input#search_bar_homepage::-moz-placeholder {
 
 /* Responsive */
 @media (max-width: 992px) {
-  /* line 226, ../sass/homepage.scss */
+  /* line 227, ../sass/homepage.scss */
   .row_media {
     height: auto;
   }
 
-  /* line 229, ../sass/homepage.scss */
+  /* line 230, ../sass/homepage.scss */
   .second_row {
     height: auto;
+  }
+
+  /* line 233, ../sass/homepage.scss */
+  .last_first_row {
+    position: relative;
+    bottom: 0;
+    margin-bottom: 10px;
+  }
+
+  /* line 238, ../sass/homepage.scss */
+  h3 {
+    font-size: 20px;
+  }
+}
+@media (max-height: 640px) {
+  /* line 243, ../sass/homepage.scss */
+  .voir_publiees {
+    margin-bottom: 56px;
   }
 }
