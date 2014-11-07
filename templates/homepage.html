@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="arrow_up">
+<div id="arrow_up" class="hidden">
   <a href="#top"><i class="fa fa-arrow-circle-up"></i></a>
 </div>
 <div class="first_row row_media">
@@ -162,7 +162,7 @@
     });
     $(window).scroll(function (event) {
       var scroll = $(window).scrollTop();
-      if(scroll > 0){
+      if(scroll > 66){
         $("#arrow_up").removeClass('hidden');
       }
       else{

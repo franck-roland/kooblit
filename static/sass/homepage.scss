@@ -55,7 +55,7 @@ img.point_kooblit{
 /* Fleche vers le haut */
 #arrow_up{
   position: fixed;
-  bottom: 20px;
+  bottom: 10px + $bande_heigth;
   right: 30px;
   font-size: 40px;
   z-index: 999999;
