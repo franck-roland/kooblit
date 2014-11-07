@@ -1,5 +1,5 @@
 @import 'utilities/unities';
-
+@import 'utilities/colors';
 .container_vignettes {
     padding-left:10%;
     padding-right:10%;
@@ -27,8 +27,8 @@
 
 }
 
-#cmt_ca_marche {
-    padding-left: 10%;
+#cmt_ca_marche{
+    height:auto;
 }
 #cmt_ca_marche h1 {
     text-align:center;

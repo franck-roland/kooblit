@@ -8,7 +8,9 @@
 {% endblock %}
 
 {% block content %}
-
+<div id="arrow_up">
+  <a href="#top"><i class="fa fa-arrow-circle-up"></i></a>
+</div>
 <div class="first_row row_media">
   <div class="container content_container">
     {% if messages %}
@@ -34,7 +36,7 @@
         Découvrez le catalogue de synthèses écrites par les utilisateurs <br>Et gagnez de l’argent en partageant les vôtres
       </h3>  
     </div>
-    <div class="col-xs-12 last_first_row" >
+    <div class="last_first_row" >
         <button class="btn_call voir_publiees">
           Voir les dernières
           synthèses publiées
@@ -120,7 +122,6 @@
 
 
 <div  id="last" class="col-xs-12 homepage_content">
-    <a href="/1/#top">Top</a>
     <h1>Les dernières synthèses publiées sur le site</h1>
     {% include 'syntheses/syntheses_rows.html' with syntheses=syntheses do_plus=False message="Désolé, le site ne contient pas encore de synthèse" %}
 
@@ -158,6 +159,15 @@
                 return false;
               }
         }
+    });
+    $(window).scroll(function (event) {
+      var scroll = $(window).scrollTop();
+      if(scroll > 0){
+        $("#arrow_up").removeClass('hidden');
+      }
+      else{
+        $("#arrow_up").addClass('hidden'); 
+      }
     });
 });
   </script>
