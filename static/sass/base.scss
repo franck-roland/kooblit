@@ -6,43 +6,10 @@
 @import "utilities/unities";
 
 @font-face{
-  font-family: "Helvetica Neue Thin";
-  src: url('../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf') format('opentype');
-}
-@font-face{
-  font-family: 'Helvetica Neue';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue.otf") format("OpenType");
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-}
-@font-face{
-  font-family: 'Helvetica Neue';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Italic.otf") format("OpenType");
-  font-style: italic;
-}
-@font-face{
-  font-family: 'Helvetica Neue Medium';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf") format("OpenType");
-}
-@font-face{
-  font-family: 'Helvetica Neue';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Bold.otf") format("OpenType");
-  font-weight: bold;
-}
-@font-face{
-  font-family: 'Helvetica Neue';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-BoldItalic.otf") format("OpenType");
-  font-weight: bold;
-  font-style: italic;
-}
-
-@font-face{
   font-family: "Gravity";
   src: url("../fonts/gravity/Gravity-Book.ttf") format("TrueType");
   font-style: normal;
   font-weight: normal;
-  font-variant: normal; 
 }
 @font-face{
   font-family: "Gravity";
@@ -60,7 +27,12 @@
   font-style: italic;
   font-weight: bold;
 }
-
+@font-face{
+  font-family: "Gravity Light";
+  src: url("../fonts/gravity/Gravity-Light.ttf") format("TrueType");
+  font-style: normal;
+  font-weight: normal;
+}
 
 
 $nav_bar_len: 70px;
@@ -160,6 +132,8 @@ li.icon_navbar > a {
   a.navbar-brand {
     color: black;
     font-size: $brand_font_size;
+    font-family: "Gravity Light";
+    text-shadow: 1px 1px 2px black;
     img {
       height: 50px;
       margin-top: -6px;

@@ -1,68 +1,94 @@
-/* Small devices (tablets, 768px and up) */
-/* Medium devices (desktops, 992px and up) */
-/* Large devices (large desktops, 1200px and up) */
-/* line 3, ../../sass/homepage/vignette.scss */
-.container_vignettes {
-  padding-left: 10%;
-  padding-right: 10%;
-}
+/*
+Syntax error: Undefined variable: "$text_black_color".
+        on line 22 of /home/endoderconic/kooblit/kooblit/static/sass/homepage/vignette.scss
 
-/* line 8, ../../sass/homepage/vignette.scss */
-.vignette_img {
-  display: block;
-  margin: auto;
-  width: 100px;
-  margin-bottom: 20px;
-}
-
-/* line 15, ../../sass/homepage/vignette.scss */
-.vignette_sub {
-  color: white;
-  text-align: center;
-  font-size: 1.15em;
-}
-
-/* line 21, ../../sass/homepage/vignette.scss */
-.ligne_vignette {
-  padding-top: 110px;
-}
-
-/* line 26, ../../sass/homepage/vignette.scss */
-#cmt_ca_marche {
-  padding-left: 10%;
-}
-
-/* line 29, ../../sass/homepage/vignette.scss */
-#cmt_ca_marche h1 {
-  text-align: center;
-}
-
-/* line 32, ../../sass/homepage/vignette.scss */
-#cmt_ca_marche ol {
-  font-weight: bold;
-  font-size: 50px;
-}
-
-/* line 36, ../../sass/homepage/vignette.scss */
-#cmt_ca_marche li {
-  list-style-type: decimal;
-}
-
-/* line 39, ../../sass/homepage/vignette.scss */
-#cmt_ca_marche li span {
-  font-weight: normal;
-  font-size: 16.1px;
-}
-
-@media (max-width: 992px) {
-  /* line 45, ../../sass/homepage/vignette.scss */
-  .container_vignettes {
-    height: auto;
-    padding-bottom: 56px;
-  }
-
-  /* line 49, ../../sass/homepage/vignette.scss */
-  .ligne_vignette {
-    padding-top: 10px;
-  }
-}
+Backtrace:
+/home/endoderconic/kooblit/kooblit/static/sass/homepage/vignette.scss:22
+/usr/lib/ruby/vendor_ruby/sass/script/variable.rb:49:in `_perform'
+/usr/lib/ruby/vendor_ruby/sass/script/node.rb:40:in `perform'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:298:in `visit_prop'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:37:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:100:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:53:in `map'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:53:in `visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:109:in `block in visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:121:in `with_environment'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:108:in `visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:37:in `block in visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:320:in `visit_rule'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:37:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:100:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:53:in `map'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:53:in `visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:109:in `block in visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:121:in `with_environment'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:108:in `visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:37:in `block in visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:320:in `visit_rule'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:37:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:100:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:53:in `map'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:53:in `visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:109:in `block in visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:121:in `with_environment'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:108:in `visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:37:in `block in visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:128:in `visit_root'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:37:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:100:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:7:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/root_node.rb:20:in `render'
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:315:in `_render'
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:262:in `render'
+/var/lib/gems/1.9.1/gems/compass-import-once-1.0.5/lib/compass/import-once/engine.rb:17:in `block in render'
+/var/lib/gems/1.9.1/gems/compass-import-once-1.0.5/lib/compass/import-once/engine.rb:29:in `with_import_scope'
+/var/lib/gems/1.9.1/gems/compass-import-once-1.0.5/lib/compass/import-once/engine.rb:16:in `render'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:140:in `block (2 levels) in compile'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:126:in `timed'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:139:in `block in compile'
+/usr/lib/ruby/vendor_ruby/compass/logger.rb:45:in `red'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:138:in `compile'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:118:in `compile_if_required'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:103:in `block (2 levels) in run'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:101:in `each'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:101:in `block in run'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:126:in `timed'
+/usr/lib/ruby/vendor_ruby/compass/compiler.rb:100:in `run'
+/usr/lib/ruby/vendor_ruby/compass/commands/watch_project.rb:147:in `recompile'
+/usr/lib/ruby/vendor_ruby/fssm/path.rb:73:in `call'
+/usr/lib/ruby/vendor_ruby/fssm/path.rb:73:in `run_callback'
+/usr/lib/ruby/vendor_ruby/fssm/path.rb:55:in `callback_action'
+/usr/lib/ruby/vendor_ruby/fssm/path.rb:35:in `update'
+/usr/lib/ruby/vendor_ruby/fssm/state/directory.rb:39:in `block in modified'
+/usr/lib/ruby/vendor_ruby/fssm/state/directory.rb:37:in `each'
+/usr/lib/ruby/vendor_ruby/fssm/state/directory.rb:37:in `modified'
+/usr/lib/ruby/vendor_ruby/fssm/state/directory.rb:18:in `refresh'
+/usr/lib/ruby/vendor_ruby/fssm/backends/inotify.rb:12:in `block in add_handler'
+/usr/lib/ruby/vendor_ruby/rb-inotify/notifier.rb:200:in `call'
+/usr/lib/ruby/vendor_ruby/rb-inotify/notifier.rb:200:in `block in watch'
+/usr/lib/ruby/vendor_ruby/rb-inotify/watcher.rb:41:in `[]'
+/usr/lib/ruby/vendor_ruby/rb-inotify/watcher.rb:41:in `callback!'
+/usr/lib/ruby/vendor_ruby/rb-inotify/event.rb:128:in `callback!'
+/usr/lib/ruby/vendor_ruby/rb-inotify/notifier.rb:233:in `block in process'
+/usr/lib/ruby/vendor_ruby/rb-inotify/notifier.rb:233:in `each'
+/usr/lib/ruby/vendor_ruby/rb-inotify/notifier.rb:233:in `process'
+/usr/lib/ruby/vendor_ruby/rb-inotify/notifier.rb:216:in `run'
+/usr/lib/ruby/vendor_ruby/fssm/backends/inotify.rb:20:in `run'
+/usr/lib/ruby/vendor_ruby/fssm/monitor.rb:26:in `run'
+/usr/lib/ruby/vendor_ruby/fssm.rb:67:in `monitor'
+/usr/lib/ruby/vendor_ruby/compass/commands/watch_project.rb:87:in `perform'
+/usr/lib/ruby/vendor_ruby/compass/commands/base.rb:18:in `execute'
+/usr/lib/ruby/vendor_ruby/compass/commands/project_base.rb:19:in `execute'
+/usr/lib/ruby/vendor_ruby/compass/exec/sub_command_ui.rb:43:in `perform!'
+/usr/lib/ruby/vendor_ruby/compass/exec/sub_command_ui.rb:15:in `run!'
+/usr/bin/compass:30:in `block in <main>'
+/usr/bin/compass:44:in `call'
+/usr/bin/compass:44:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined variable: \"$text_black_color\".\A         on line 22 of /home/endoderconic/kooblit/kooblit/static/sass/homepage/vignette.scss"; }

@@ -78,8 +78,9 @@
   </div>
 </div>
 
-<div id="quoi_faire" class="col-xs-12 second_row row_media">
-  <div class="container cache container_vignettes"> 
+<div id="quoi_faire" class="col-xs-12 third_row row_media">
+  <div class="container container_vignettes"> 
+    <h1> Que pouvez-vous faire sur Kooblit? </h1>
     <div class="row ligne_vignette">
       <div class="col-md-6">
         {% include 'homepage/vignette.html' with src_img="/static/img/pictos/Credit_card.png"  text="Acheter des synthèses de livres écrites par d’autres utilisateurs, pour seulement quelques euros." %}
@@ -100,9 +101,7 @@
 
 <div id="cmt_ca_marche" class="col-xs-12 fourth_row row_media">
     <h1>C'est simple comme compter jusqu'à 5</h1>
-    <ol type="1">
-      <li><span>coucou</span></li>
-    </ol>
+    {% include 'homepage/list.html' with number="1" text="Que vous vouliez acheter ou vendre une synthèse, il faut d’abord rechercher le livre qui vous intéresse en tapant le titre, le nom de  l’auteur ou un thème dans la barre de recherche." %}
 </div>
 
 
