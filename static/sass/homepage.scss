@@ -1,7 +1,7 @@
 @import 'utilities/colors';
 @import 'utilities/unities';
 @import 'homepage/vignette';
-
+@import 'homepage/list';
 
 $search_font_height: 20px;
 /*html, body {
@@ -52,6 +52,14 @@ img.point_kooblit{
   filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
 }
 
+/* Fleche vers le haut */
+#arrow_up{
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  font-size: 40px;
+  z-index: 999999;
+}
 
 /* Lignes */
 .first_row {
@@ -195,6 +203,21 @@ input#search_bar_homepage::-moz-placeholder {
   padding-left: 0;
   padding-right: 0;
   height: 100%;
+}
+.third_row {
+  @extend .second_row;
+  background: $html_background_color;
+  h1 {
+    text-align: center;
+    margin-top: 150px;
+  }
+}
+.fourth_row {
+  @extend .third_row;
+  h1 {
+    margin-top: 100px;
+    margin-bottom: $bande_heigth*2;
+  }
 }
 .cache{
   background-color: rgba(0, 0, 0, 0.8);

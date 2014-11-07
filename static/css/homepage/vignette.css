@@ -23,45 +23,50 @@
 }
 
 /* line 21, ../../sass/homepage/vignette.scss */
+.third_row .vignette_sub {
+  color: #4a4a4a;
+}
+
+/* line 25, ../../sass/homepage/vignette.scss */
 .ligne_vignette {
   padding-top: 110px;
 }
 
-/* line 26, ../../sass/homepage/vignette.scss */
+/* line 30, ../../sass/homepage/vignette.scss */
 #cmt_ca_marche {
-  padding-left: 10%;
+  height: auto;
 }
 
-/* line 29, ../../sass/homepage/vignette.scss */
+/* line 33, ../../sass/homepage/vignette.scss */
 #cmt_ca_marche h1 {
   text-align: center;
 }
 
-/* line 32, ../../sass/homepage/vignette.scss */
+/* line 36, ../../sass/homepage/vignette.scss */
 #cmt_ca_marche ol {
   font-weight: bold;
   font-size: 50px;
 }
 
-/* line 36, ../../sass/homepage/vignette.scss */
+/* line 40, ../../sass/homepage/vignette.scss */
 #cmt_ca_marche li {
   list-style-type: decimal;
 }
 
-/* line 39, ../../sass/homepage/vignette.scss */
+/* line 43, ../../sass/homepage/vignette.scss */
 #cmt_ca_marche li span {
   font-weight: normal;
   font-size: 16.1px;
 }
 
 @media (max-width: 992px) {
-  /* line 45, ../../sass/homepage/vignette.scss */
+  /* line 49, ../../sass/homepage/vignette.scss */
   .container_vignettes {
     height: auto;
     padding-bottom: 56px;
   }
 
-  /* line 49, ../../sass/homepage/vignette.scss */
+  /* line 53, ../../sass/homepage/vignette.scss */
   .ligne_vignette {
     padding-top: 10px;
   }
