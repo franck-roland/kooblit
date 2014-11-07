@@ -100,8 +100,22 @@
 </div>
 
 <div id="cmt_ca_marche" class="col-xs-12 fourth_row row_media">
-    <h1>C'est simple comme compter jusqu'à 5</h1>
-    {% include 'homepage/list.html' with number="1" text="Que vous vouliez acheter ou vendre une synthèse, il faut d’abord rechercher le livre qui vous intéresse en tapant le titre, le nom de  l’auteur ou un thème dans la barre de recherche." %}
+    <div class="col-xs-12">
+      <h1>C'est simple comme compter jusqu'à 5</h1>
+      {% include 'homepage/list.html' with number="1" text="Que vous vouliez acheter ou vendre une synthèse, il faut d’abord rechercher le livre qui vous intéresse en tapant le titre, le nom de  l’auteur ou un thème dans la barre de recherche." %}
+      {% include 'homepage/list.html' with number="2" text="Pour acheter une synthèse  : sélectionnez un livre puis cliquez sur « voir les synthèses ».<br/>Si des synthèses existent pour cet ouvrage, vous pouvez en regarder un extrait et acheter celle qui vous convient en l’ajoutant à votre panier." %}
+      {% include 'homepage/list.html' with number="3" text="Votre synthèse achetée se trouve désormais dans votre espace, rubrique « Mes achats ». <br/>Vous pouvez consulter la synthèse directement sur le site, ou vous pouvez la télécharger en format pdf." %}
+      {% include 'homepage/list.html' with number="4" text="Pour vendre une synthèse : sélectionnez un livre puis cliquez sur  « vendre une synthèse ». Vous n’avez plus qu’à écrire votre synthèse directement sur le site, ou faire un copier-coller d’une source extérieure. Vous pouvez sauvegarder à tout moment sans publier, dans ce cas, votre synthèse se trouve dans votre espace, rubrique « Mes brouillons ». Quand vous estimez que votre synthèse est finalisée, alors vous pouvez la publier. Avant que cette dernière soit publiée, il vous reste à choisir son prix de vente." %}
+      {% include 'homepage/list.html' with number="5" text="Vous pouvez gérer vos gains via votre espace. En effet, votre tableau de bord vous indique les ventes de vos synthèses, et le gain associé. Vous gagnez 50% des ventes hors taxes, moins les frais de transaction (3%). Vous devez atteindre un montant de 15€ pour pouvoir transférer l’argent de votre cagnotte sur votre compte bancaire." %}
+      {% include 'homepage/list.html' with number="#" text="Pour assurer la qualité du service, nous ne permettons à nos utilisateurs de vendre que des synthèses de qualité. C'est pour cela que pour être payante, une synthèse doit avoir obtenue au moins 3 notes et une moyenne de 3/5. Votre synthèse sera donc disponible gratuitement jusqu'à ce qu’elle réponde aux critères d'excellence de notre plateforme. Sachez que vous pouvez améliorer votre synthèse en y apportant des modifications à tout moment à partir de votre espace." %}
+    </div>
+    <div class="col-xs-12 bande_couleur">
+      <a href="#last">
+        <div  class="container">
+          <h3> Les dernières synthèses publiées</h3>
+        </div>
+      </a>
+    </div>
 </div>
 
 

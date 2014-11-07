@@ -34,7 +34,7 @@
 
 /* line 30, ../sass/homepage/vignette.scss */
 #cmt_ca_marche {
-  padding-left: 10%;
+  height: auto;
 }
 
 /* line 33, ../sass/homepage/vignette.scss */
@@ -71,27 +71,30 @@
     padding-top: 10px;
   }
 }
-/* line 3, ../sass/homepage/list.scss */
+/* line 4, ../sass/homepage/list.scss */
 .list_container {
   margin: auto;
-  margin-top: 20px;
+  margin-bottom: 112px;
   color: #4a4a4a;
   width: 80%;
 }
 
-/* line 11, ../sass/homepage/list.scss */
+/* line 12, ../sass/homepage/list.scss */
 .list_number {
   display: inline-block;
   font-size: 60px;
   font-weight: bold;
+  margin-top: 0;
+  vertical-align: top;
 }
 
-/* line 17, ../sass/homepage/list.scss */
+/* line 20, ../sass/homepage/list.scss */
 .list_text {
   display: inline-block;
   padding-left: 20px;
   margin: auto;
   width: 90%;
+  vertical-align: top;
 }
 
 /*html, body {
@@ -344,16 +347,17 @@ input#search_bar_homepage::-moz-placeholder {
 /* line 209, ../sass/homepage.scss */
 .fourth_row h1 {
   margin-top: 100px;
+  margin-bottom: 112px;
 }
 
-/* line 213, ../sass/homepage.scss */
+/* line 214, ../sass/homepage.scss */
 .cache {
   background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
   height: 100%;
 }
 
-/* line 221, ../sass/homepage.scss */
+/* line 222, ../sass/homepage.scss */
 .bande_couleur {
   background: #53c1ac;
   text-align: center;
@@ -363,7 +367,7 @@ input#search_bar_homepage::-moz-placeholder {
   height: 56px;
 }
 
-/* line 229, ../sass/homepage.scss */
+/* line 230, ../sass/homepage.scss */
 .bande_couleur a {
   color: black;
   width: 100%;
@@ -372,30 +376,30 @@ input#search_bar_homepage::-moz-placeholder {
 
 /* Responsive */
 @media (max-width: 992px) {
-  /* line 241, ../sass/homepage.scss */
+  /* line 242, ../sass/homepage.scss */
   .row_media {
     height: auto;
   }
 
-  /* line 244, ../sass/homepage.scss */
+  /* line 245, ../sass/homepage.scss */
   .second_row, .third_row, .fourth_row {
     height: auto;
   }
 
-  /* line 247, ../sass/homepage.scss */
+  /* line 248, ../sass/homepage.scss */
   .last_first_row {
     position: relative;
     bottom: 0;
     margin-bottom: 10px;
   }
 
-  /* line 252, ../sass/homepage.scss */
+  /* line 253, ../sass/homepage.scss */
   h3 {
     font-size: 20px;
   }
 }
 @media (max-height: 640px) {
-  /* line 257, ../sass/homepage.scss */
+  /* line 258, ../sass/homepage.scss */
   .voir_publiees {
     margin-bottom: 56px;
   }
