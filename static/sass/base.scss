@@ -156,6 +156,15 @@ li.icon_navbar > a {
     }
   }
 }
+.navbar-default {
+  .navbar-toggle{
+    background: $call_to_action_bckgd;
+    border: none;
+  }
+  .navbar-toggle:hover{
+    background: $call_to_action_bckgd_hover;
+  }
+}
 .dropdown-menu > li > a:hover{
   color: $nav_link_color_hover;
 }
@@ -264,4 +273,12 @@ font-size: 80%;
   font-weight: bold;
   color: rgb(74,74,74);
   font-family:'Helvetica Neue';
+}
+
+/* Responsive */
+
+@media (max-width:  $screen-sm-max){
+  .navbar-nav > li > a.navbar-brand{
+    padding-top: 0;
+  }
 }

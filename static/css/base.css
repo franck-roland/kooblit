@@ -174,30 +174,40 @@ li.icon_navbar > a {
   color: #5a9b8e;
 }
 
-/* line 159, ../sass/base.scss */
+/* line 160, ../sass/base.scss */
+.navbar-default .navbar-toggle {
+  background: #53c1ac;
+  border: none;
+}
+/* line 164, ../sass/base.scss */
+.navbar-default .navbar-toggle:hover {
+  background: #5a9b8e;
+}
+
+/* line 168, ../sass/base.scss */
 .dropdown-menu > li > a:hover {
   color: #5a9b8e;
 }
 
-/* line 163, ../sass/base.scss */
+/* line 172, ../sass/base.scss */
 #home_profil {
   background: #fafafa;
   color: #FFF;
 }
 
-/* line 168, ../sass/base.scss */
+/* line 177, ../sass/base.scss */
 .twitter-typeahead input {
   background-color: #fafafa;
   width: 100%;
 }
 
-/* line 172, ../sass/base.scss */
+/* line 181, ../sass/base.scss */
 .twitter-typeahead {
   width: 500px;
   max-width: 100%;
 }
 
-/* line 176, ../sass/base.scss */
+/* line 185, ../sass/base.scss */
 #search_bar {
   height: 34px;
   margin-top: 5px;
@@ -206,41 +216,41 @@ li.icon_navbar > a {
   width: 100%;
 }
 
-/* line 184, ../sass/base.scss */
+/* line 193, ../sass/base.scss */
 #ajax_loader {
   display: none;
   float: none;
   vertical-align: bottom;
 }
 
-/* line 190, ../sass/base.scss */
+/* line 199, ../sass/base.scss */
 .navbar_img {
   width: 35px;
 }
 
-/* line 194, ../sass/base.scss */
+/* line 203, ../sass/base.scss */
 .fa.fa-shopping-cart {
   font-size: 24px;
 }
 
-/* line 198, ../sass/base.scss */
+/* line 207, ../sass/base.scss */
 .navbar-nav > li {
   /* Useful when collapsed (mobile) */
   text-align: center;
 }
 
-/* line 203, ../sass/base.scss */
+/* line 212, ../sass/base.scss */
 .navbar-nav > li > a.navbar_login {
   color: #7f7f7f;
   font-size: 20px;
 }
 
-/* line 208, ../sass/base.scss */
+/* line 217, ../sass/base.scss */
 .navbar-nav > li > .dropdown-menu {
   margin-top: 20px;
 }
 
-/* line 213, ../sass/base.scss */
+/* line 222, ../sass/base.scss */
 #achats a:hover {
   background-color: white;
   color: #18bc9c;
@@ -249,22 +259,22 @@ li.icon_navbar > a {
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
-/* line 223, ../sass/base.scss */
+/* line 232, ../sass/base.scss */
 #wrap > .container {
   padding-top: 70px;
 }
 
-/* line 226, ../sass/base.scss */
+/* line 235, ../sass/base.scss */
 .container .credit {
   margin: 20px 0;
 }
 
-/* line 230, ../sass/base.scss */
+/* line 239, ../sass/base.scss */
 code {
   font-size: 80%;
 }
 
-/* line 235, ../sass/base.scss */
+/* line 244, ../sass/base.scss */
 .search_button {
   /*background-color: #32B232;*/
   background: url(/static/img/search_back.png) no-repeat center center;
@@ -274,7 +284,7 @@ code {
   background-size: cover;
 }
 
-/* line 244, ../sass/base.scss */
+/* line 253, ../sass/base.scss */
 .gold_button {
   /*background-color: #32B232;*/
   background: url(/static/img/gold_back.png) no-repeat center center;
@@ -285,7 +295,7 @@ code {
   /*background-color: #EBEB00;*/
 }
 
-/* line 254, ../sass/base.scss */
+/* line 263, ../sass/base.scss */
 .subscribe_button {
   background: url(/static/img/sub_back.png) no-repeat center center;
   -webkit-background-size: cover;
@@ -295,9 +305,17 @@ code {
   /*background-color: #006A80;*/
 }
 
-/* line 263, ../sass/base.scss */
+/* line 272, ../sass/base.scss */
 .nb_achats {
   font-weight: bold;
   color: #4a4a4a;
   font-family: 'Helvetica Neue';
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  /* line 281, ../sass/base.scss */
+  .navbar-nav > li > a.navbar-brand {
+    padding-top: 0;
+  }
 }

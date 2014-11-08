@@ -247,6 +247,7 @@ input#search_bar_homepage::-moz-placeholder {
 
 /* Responsive */ 
 @media (max-width:  $screen-md-max){
+
   .row_media{
     height: auto;
   }
@@ -265,5 +266,11 @@ input#search_bar_homepage::-moz-placeholder {
 @media (max-height: $screen-h-md-max){
   .voir_publiees{
     margin-bottom: $bande_heigth;
+  }
+}
+
+@media (max-width:  $screen-sm-max){
+  .navbar-nav > li > a.navbar-brand{
+    padding-top: 0;
   }
 }
