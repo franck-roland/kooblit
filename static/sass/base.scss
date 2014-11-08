@@ -156,6 +156,15 @@ li.icon_navbar > a {
     }
   }
 }
+.navbar-default {
+  .navbar-toggle{
+    background: $call_to_action_bckgd;
+    border: none;
+  }
+  .navbar-toggle:hover{
+    background: $call_to_action_bckgd_hover;
+  }
+}
 .dropdown-menu > li > a:hover{
   color: $nav_link_color_hover;
 }
