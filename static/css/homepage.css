@@ -386,31 +386,37 @@ input#search_bar_homepage::-moz-placeholder {
 
 /* Responsive */
 @media (max-width: 992px) {
-  /* line 250, ../sass/homepage.scss */
+  /* line 251, ../sass/homepage.scss */
   .row_media {
     height: auto;
   }
 
-  /* line 253, ../sass/homepage.scss */
+  /* line 254, ../sass/homepage.scss */
   .second_row, .third_row, .fourth_row {
     height: auto;
   }
 
-  /* line 256, ../sass/homepage.scss */
+  /* line 257, ../sass/homepage.scss */
   .last_first_row {
     position: relative;
     bottom: 0;
     margin-bottom: 10px;
   }
 
-  /* line 261, ../sass/homepage.scss */
+  /* line 262, ../sass/homepage.scss */
   h3 {
     font-size: 20px;
   }
 }
 @media (max-height: 640px) {
-  /* line 266, ../sass/homepage.scss */
+  /* line 267, ../sass/homepage.scss */
   .voir_publiees {
     margin-bottom: 56px;
+  }
+}
+@media (max-width: 768px) {
+  /* line 273, ../sass/homepage.scss */
+  .navbar-nav > li > a.navbar-brand {
+    padding-top: 0;
   }
 }

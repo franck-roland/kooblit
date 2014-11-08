@@ -301,3 +301,11 @@ code {
   color: #4a4a4a;
   font-family: 'Helvetica Neue';
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+  /* line 272, ../sass/base.scss */
+  .navbar-nav > li > a.navbar-brand {
+    padding-top: 0;
+  }
+}
