@@ -53,7 +53,7 @@ class AmazonRequest(object):
     """docstring for AmazonRequest"""
     def __init__(self, title, key, book_title="", exact_match=0, delete_duplicate=True, escape=False, nb_results_max=0):
         super(AmazonRequest, self).__init__()
-        self.title = sanitize(title)
+        self.title = sanitize(title, slugify=1)
         self.key = key
         self.exact_match = exact_match
         self.delete_duplicate = delete_duplicate
