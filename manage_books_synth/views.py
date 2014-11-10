@@ -140,9 +140,11 @@ def create_file_medium(request, s, book_title, username, prix=2, has_been_publis
         os.remove(filename)
 
 
-def clean_create_book(request, book_title):
-    import pdb;pdb.set_trace()
-    amazon_request = AmazonRequest(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
+def clean_create_book(request, book_title, search_query=""):
+    if search_query:
+        amazon_request = AmazonRequest(search_query, settings.AMAZON_KEY, book_title=book_title, exact_match=1, delete_duplicate=0)
+    else:
+        amazon_request = AmazonRequest(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
     s = amazon_request.compute_args()
     s = [d for d in s]
     if not s:
@@ -189,11 +191,11 @@ def clean_create_book(request, book_title):
     return 0
 
 
-def create_book_if_doesnt_exist(request, book_title):
+def create_book_if_doesnt_exist(request, book_title, search_query=""):
     try:
         Book.objects.get(title=book_title)
     except Book.DoesNotExist:
-        clean_create_book(request, book_title)
+        return clean_create_book(request, book_title, search_query=search_query)
 
 
 def send_alert(book_title):
@@ -277,15 +279,12 @@ def computeEmail(username, book_title, alert=0):
     msg.send()
 
 
-def book_search(request, book_title):
+def book_search(request, book_title, search_title):
     book_title_save = book_title
     book_title = urllib.unquote(book_title)
-    import pdb;pdb.set_trace()
     doesnotexist = {'title': book_title, 'url_title': urllib.unquote(book_title)}
-    # if request.method == 'GET'
-    if not request.META.get('HTTP_REFERER', '').startswith(''.join(('http://', request.META['HTTP_HOST'], '/search/?title='))):
-        raise Http404()
-    create_book_if_doesnt_exist(request, book_title)
+    if create_book_if_doesnt_exist(request, book_title, search_query=search_title):
+        raise Exception("Erreur de création du livre")
     try:
 
         b = Book.objects.get(title=book_title)
