@@ -4,7 +4,7 @@
 /* line 4, ../../sass/homepage/list.scss */
 .list_container {
   margin: auto;
-  margin-bottom: 112px;
+  margin-bottom: 56px;
   color: #4a4a4a;
   width: 80%;
 }
@@ -12,7 +12,7 @@
 /* line 12, ../../sass/homepage/list.scss */
 .list_number {
   display: inline-block;
-  font-size: 60px;
+  font-size: 80px;
   font-weight: bold;
   margin-top: 0;
   vertical-align: top;
