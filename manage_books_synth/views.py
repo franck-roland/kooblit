@@ -141,10 +141,10 @@ def create_file_medium(request, s, book_title, username, prix=2, has_been_publis
 
 
 def clean_create_book(request, book_title):
+    import pdb;pdb.set_trace()
     amazon_request = AmazonRequest(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
     s = amazon_request.compute_args()
-    s = [d for d in s if d['book_format'] == u'Broché' or d['book_format'] == 'Hardcover']
-    s = [d for d in s if d['language'] == u'Français' or d['language'] == 'Anglais' or d['language'] == 'English']
+    s = [d for d in s]
     if not s:
         return 1
     first = s[0]
@@ -280,6 +280,7 @@ def computeEmail(username, book_title, alert=0):
 def book_search(request, book_title):
     book_title_save = book_title
     book_title = urllib.unquote(book_title)
+    import pdb;pdb.set_trace()
     doesnotexist = {'title': book_title, 'url_title': urllib.unquote(book_title)}
     # if request.method == 'GET'
     if not request.META.get('HTTP_REFERER', '').startswith(''.join(('http://', request.META['HTTP_HOST'], '/search/?title='))):
@@ -320,13 +321,8 @@ def book_search(request, book_title):
 @login_required
 def demande_livre(request, book_title):
     book_title = urllib.unquote(book_title)
-    try:
-        b = Book.objects.get(title=book_title)
-    except Book.DoesNotExist:
-        if not clean_create_book(request, book_title):
-            b = Book.objects.get(title=book_title)
-        else:
-            raise Exception("Erreur de creation du livre")
+    create_book_if_doesnt_exist(request, book_title)
+    b = Book.objects.get(title=book_title)
     user = UserKooblit.objects.get(username=request.user.username)
     computeEmail(user.username, book_title)
     try:

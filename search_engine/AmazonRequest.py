@@ -53,7 +53,7 @@ class AmazonRequest(object):
     """docstring for AmazonRequest"""
     def __init__(self, title, key, exact_match=0, delete_duplicate=True, escape=False, nb_results_max=0):
         super(AmazonRequest, self).__init__()
-        self.title = sanitize(title, slugify=1)
+        self.title = sanitize(title)
         self.key = key
         self.exact_match = exact_match
         self.delete_duplicate = delete_duplicate
@@ -169,7 +169,7 @@ class AmazonRequest(object):
 
         results_final = []
         for res in results:
-            if sanitize(res['title'], slugify=1) == self.title or not self.exact_match:
+            if sanitize(res['title']) == self.title or not self.exact_match:
                 if self.escape: # echaper les caracteres speciaux
                     res['title'] = sanitize(res['title'])
                 results_final.append(res)
