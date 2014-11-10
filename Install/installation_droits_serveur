@@ -1,0 +1,5 @@
+sudo mkdir /var/www/media
+sudo chmod 771 /var/www/media/
+sudo mkdir /var/www/media/syntheses
+sudo chmod 777 /var/www/media/syntheses
+
