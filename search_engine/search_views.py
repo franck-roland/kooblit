@@ -40,7 +40,9 @@ def search_view(request):
             'titre': title.title(),
             'resultat': s,
             'nb_result': 6,
-            'nb_result_total': len(s)}))
+            'nb_result_total': len(s),
+            'search_query': title
+            }))
 
 
 def search_between(request):
@@ -73,10 +75,3 @@ def search_between(request):
             d['title'] = unsanitize(d['title'])
 
         return HttpResponse(json.dumps(s, cls=ResponseEncoder), content_type="application/json")
-        # return render_to_response(
-        #     "row_result.html",
-        #     RequestContext(request, {
-        #         'titre': title.title(),
-        #         'resultat': s,
-        #         'nb_result': 6,
-        #         'nb_result_total': len(s)}))
