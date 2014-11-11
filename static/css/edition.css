@@ -4,13 +4,13 @@
 /* line 4, ../sass/button.scss */
 .btn_call, .btn_call_sec, .btn_important, .plus_button {
   display: inline-block;
-  padding: 8px 15px;
+  padding: 4px 10px;
   border: none;
   transition: all 0.3s ease-out;
   /* Font styles */
   text-decoration: none;
   text-align: center;
-  font-size: 20px;
+  font-size: 15px;
   vertical-align: middle;
   cursor: pointer;
   line-height: 1.42857;

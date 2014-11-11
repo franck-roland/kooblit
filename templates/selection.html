@@ -105,4 +105,52 @@
     </div>
   </div>
 </div>
+{% if not nb_syntheses and add_modal %}
+<!-- Modal -->
+<div class="modal fade" id="myModal_doesnotexist" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+
+        <h4 class="modal-title" id="myModalLabel">
+          <img src="{% static 'img/logo/little_owl_grey.png' %}" width="50px" alt="logo kooblit" />
+          {{ title }}
+        </h4>
+      </div>
+
+      <div class="modal-body">
+        L'ouvrage ne dispose pas de synthèse disponible sur le site à ce jour. <br/>
+        Nous allons faire notre possible  pour vous procurer une synthèse dans les plus brefs délais. <br/>
+        <b>Souhaitez-vous être prévenu lorsqu'une synthèse sera en ligne?</b>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" onclick="ask()" class="btn_call" data-dismiss="modal">Oui</button>
+        <button type="button" class="btn_call_sec" data-dismiss="modal">Non</button>
+      </div>
+    </div>
+  </div>
+</div> <!-- Modal -->
+{% endif %}
+{% endblock %}
+{% block script_block %}
+<script type="text/javascript">
+$('#myModal_doesnotexist').modal('show');
+function ask(){
+  $.ajax({
+      url: "{% url 'book_management:ask' title %}",
+      type: "GET",
+      cache: false,
+      success: function (data) {
+        console.log(data);
+      },
+      data: {
+      }
+    });
+}
+</script>
 {% endblock %}
