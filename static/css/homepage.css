@@ -196,15 +196,16 @@ img.point_kooblit {
 .last_first_row {
   position: absolute;
   bottom: 66px;
+  width: auto;
 }
 
-/* line 78, ../sass/homepage.scss */
+/* line 79, ../sass/homepage.scss */
 .homepage_quote {
   margin-top: 110px;
   color: white;
 }
 
-/* line 83, ../sass/homepage.scss */
+/* line 84, ../sass/homepage.scss */
 .homepage_quote h1 {
   color: #fbfbfb;
   text-shadow: 0px 0px 8px black;
@@ -212,7 +213,7 @@ img.point_kooblit {
   margin-bottom: 60px;
 }
 
-/* line 90, ../sass/homepage.scss */
+/* line 91, ../sass/homepage.scss */
 .homepage_quote h3 {
   color: #fbfbfb;
   text-shadow: 0px 0px 8px black;
@@ -221,12 +222,12 @@ img.point_kooblit {
   padding-top: 60px;
 }
 
-/* line 98, ../sass/homepage.scss */
+/* line 99, ../sass/homepage.scss */
 .homepage_icon {
   top: -30px;
 }
 
-/* line 102, ../sass/homepage.scss */
+/* line 103, ../sass/homepage.scss */
 .homepage_icon a {
   display: block;
   height: 100px;
@@ -234,17 +235,17 @@ img.point_kooblit {
   margin: auto;
 }
 
-/* line 109, ../sass/homepage.scss */
+/* line 110, ../sass/homepage.scss */
 .homepage_icon img {
   width: 100px;
 }
 
-/* line 113, ../sass/homepage.scss */
+/* line 114, ../sass/homepage.scss */
 .homepage_icon div {
   text-align: center;
 }
 
-/* line 117, ../sass/homepage.scss */
+/* line 118, ../sass/homepage.scss */
 .voir_publiees {
   width: 150px;
   font-size: 15px;
@@ -252,7 +253,7 @@ img.point_kooblit {
   line-height: 0.9;
 }
 
-/* line 123, ../sass/homepage.scss */
+/* line 124, ../sass/homepage.scss */
 #search_form_homepage {
   overflow: hidden;
   width: 90%;
@@ -260,7 +261,7 @@ img.point_kooblit {
   white-space: nowrap;
 }
 
-/* line 129, ../sass/homepage.scss */
+/* line 130, ../sass/homepage.scss */
 #search_form_homepage button.icon {
   -webkit-border-top-right-radius: 25px;
   -webkit-border-bottom-right-radius: 25px;
@@ -277,7 +278,7 @@ img.point_kooblit {
   margin-left: -50px;
 }
 
-/* line 145, ../sass/homepage.scss */
+/* line 146, ../sass/homepage.scss */
 #search_bar_homepage {
   width: 100%;
   height: 50px;
@@ -299,52 +300,52 @@ img.point_kooblit {
   /*display: inline;*/
 }
 
-/* line 165, ../sass/homepage.scss */
+/* line 166, ../sass/homepage.scss */
 .img_search {
   display: inline;
   width: 50px;
 }
 
-/* line 169, ../sass/homepage.scss */
+/* line 170, ../sass/homepage.scss */
 input#search_bar_homepage::-webkit-input-placeholder {
   color: #53c1ac;
 }
 
-/* line 173, ../sass/homepage.scss */
+/* line 174, ../sass/homepage.scss */
 input#search_bar_homepage:-ms-input-placeholder {
   color: #53c1ac;
 }
 
-/* line 177, ../sass/homepage.scss */
+/* line 178, ../sass/homepage.scss */
 input#search_bar_homepage:-moz-placeholder {
   color: #53c1ac;
 }
 
-/* line 181, ../sass/homepage.scss */
+/* line 182, ../sass/homepage.scss */
 input#search_bar_homepage::-moz-placeholder {
   color: #53c1ac;
 }
 
-/* line 186, ../sass/homepage.scss */
+/* line 187, ../sass/homepage.scss */
 .row_media {
   position: relative;
   height: 100%;
 }
-/* line 189, ../sass/homepage.scss */
+/* line 190, ../sass/homepage.scss */
 .row_media a {
   text-decoration: none;
 }
-/* line 192, ../sass/homepage.scss */
+/* line 193, ../sass/homepage.scss */
 .row_media a:hover {
   color: #5a9b8e;
 }
 
-/* line 196, ../sass/homepage.scss */
+/* line 197, ../sass/homepage.scss */
 .homepage_content {
   height: 100%;
 }
 
-/* line 199, ../sass/homepage.scss */
+/* line 200, ../sass/homepage.scss */
 .second_row, .third_row, .fourth_row {
   background: url("../img/entonnoir.png") no-repeat center;
   background-size: contain;
@@ -354,30 +355,30 @@ input#search_bar_homepage::-moz-placeholder {
   height: 100%;
 }
 
-/* line 207, ../sass/homepage.scss */
+/* line 208, ../sass/homepage.scss */
 .third_row, .fourth_row {
   background: #fafafa;
 }
-/* line 210, ../sass/homepage.scss */
+/* line 211, ../sass/homepage.scss */
 .third_row h1, .fourth_row h1 {
   text-align: center;
   margin-top: 150px;
 }
 
-/* line 217, ../sass/homepage.scss */
+/* line 218, ../sass/homepage.scss */
 .fourth_row h1 {
   margin-top: 100px;
   margin-bottom: 112px;
 }
 
-/* line 222, ../sass/homepage.scss */
+/* line 223, ../sass/homepage.scss */
 .cache {
   background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
   height: 100%;
 }
 
-/* line 230, ../sass/homepage.scss */
+/* line 231, ../sass/homepage.scss */
 .bande_couleur {
   background: #53c1ac;
   text-align: center;
@@ -387,13 +388,13 @@ input#search_bar_homepage::-moz-placeholder {
   height: 56px;
 }
 
-/* line 238, ../sass/homepage.scss */
+/* line 239, ../sass/homepage.scss */
 .bande_couleur h3 {
   font-weight: bold;
   font-size: 20px;
 }
 
-/* line 242, ../sass/homepage.scss */
+/* line 243, ../sass/homepage.scss */
 .bande_couleur a {
   color: black;
   width: 100%;
@@ -402,36 +403,36 @@ input#search_bar_homepage::-moz-placeholder {
 
 /* Responsive */
 @media (max-width: 992px) {
-  /* line 255, ../sass/homepage.scss */
+  /* line 256, ../sass/homepage.scss */
   .row_media {
     height: auto;
   }
 
-  /* line 258, ../sass/homepage.scss */
+  /* line 259, ../sass/homepage.scss */
   .second_row, .third_row, .fourth_row {
     height: auto;
   }
 
-  /* line 261, ../sass/homepage.scss */
+  /* line 262, ../sass/homepage.scss */
   .last_first_row {
     position: relative;
     bottom: 0;
     margin-bottom: 10px;
   }
 
-  /* line 266, ../sass/homepage.scss */
+  /* line 267, ../sass/homepage.scss */
   h3 {
     font-size: 20px;
   }
 }
 @media (max-height: 640px) {
-  /* line 271, ../sass/homepage.scss */
+  /* line 272, ../sass/homepage.scss */
   .voir_publiees {
     margin-bottom: 56px;
   }
 }
 @media (max-width: 768px) {
-  /* line 277, ../sass/homepage.scss */
+  /* line 278, ../sass/homepage.scss */
   .navbar-nav > li > a.navbar-brand {
     padding-top: 0;
   }
