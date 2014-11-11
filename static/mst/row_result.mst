@@ -1,7 +1,7 @@
 <div class='element img_container2 col-md-2 col-sm-4 col-xs-6'>
 
   <div class='repre_image col-xs-12 col-sm-12 col-md-12'>
-    <a data-toggle='tooltip' data-placement='top' title='{{title}}' data-original-title='Je cherche une synthèse' href='/book/{{title}}/{{search_query}}/search'>
+    <a data-toggle='tooltip' data-placement='top' title='{{title}}' data-original-title='Je cherche une synthèse' href='/book/{{title}}/details?search={{search_query}}'>
         <img src='{{image}}' />
     </a>
   </div>

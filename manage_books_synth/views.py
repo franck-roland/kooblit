@@ -263,46 +263,7 @@ def upload_medium(request, book_title):
 
 
 
-
-def book_search(request, book_title, search_title):
-    book_title_save = book_title
-    book_title = urllib.unquote(book_title)
-    doesnotexist = {'title': book_title, 'url_title': urllib.unquote(book_title)}
-    if create_book_if_doesnt_exist(request, book_title, search_query=search_title):
-        raise Exception("Erreur de création du livre")
-    try:
-
-        b = Book.objects.get(title=book_title)
-        res = Recherche.objects(book=b)
-        if not res:
-            res = Recherche(book=b, nb_searches=1)
-            res.save()
-        else:
-            res = res[0]
-
-        if datetime.datetime.now().date() != res.day.date():
-            res = Recherche(book=b, nb_searches=1)
-        else:
-            res.nb_searches += 1
-        res.save()
-
-        synthese = Syntheses.objects.filter(livre_id=b.id)
-        if not synthese:
-            return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
-        return HttpResponseRedirect('../details')
-    except Book.DoesNotExist:
-        return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
-    except Syntheses.DoesNotExist:
-        if request.user.is_authenticated() and Demande.objects.filter(user=UserKooblit.get(username=request.user.username)):
-            # return HttpResponseRedirect(reverse('book_management:details', book_title_save))
-            return HttpResponseRedirect('../details')
-        else:
-            return render_to_response('doesnotexist.html', RequestContext(request, doesnotexist))
-
-    raise Http404()
-
-
-def add_modal_no_synth(request, book_title, search_title):
+def create_and_get_synth(request, book_title, search_title):
     if create_book_if_doesnt_exist(request, book_title, search_query=search_title):
         raise Exception("Erreur de création du livre")
 
@@ -343,7 +304,7 @@ def demande_livre(request, book_title):
 def selection(request, book_title):
     book_title = urllib.unquote(book_title)
     search_title = request.GET.get('search','')
-    syntheses = add_modal_no_synth(request, book_title, search_title)
+    syntheses = create_and_get_synth(request, book_title, search_title)
     try:
         book = Book.objects.get(title=book_title)
     except Book.DoesNotExist:
@@ -402,7 +363,7 @@ def valid_synthese_for_add(id_synthese, username):
 def book_detail(request, book_title):
     book_title = urllib.unquote(book_title)
     search_title = request.GET.get('search','')
-    syntheses = add_modal_no_synth(request, book_title, search_title)
+    syntheses = create_and_get_synth(request, book_title, search_title)
 
     if request.user.is_authenticated():
         usr = UserKooblit.objects.get(username=request.user.username)
