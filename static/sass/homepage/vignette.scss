@@ -1,0 +1,62 @@
+@import 'utilities/unities';
+@import 'utilities/colors';
+.container_vignettes {
+    padding-left:10%;
+    padding-right:10%;
+}
+
+.vignette_img{
+    display:block;
+    margin:auto;
+    width:100px;
+    margin-bottom:20px;
+
+}
+.picto_head{
+    margin-top: -6px;        
+}
+.vignette_sub{
+    color:white;
+    text-align:center;
+    font-size: 1.15em;
+}
+#last_vignette_book{
+    padding-top:50px;
+}
+.third_row{
+    .vignette_sub{
+        color:$text_black_color;
+    }
+}
+.ligne_vignette{
+    padding-top:110px;
+
+}
+
+#cmt_ca_marche{
+    height:auto;
+}
+#cmt_ca_marche h1 {
+    text-align:center;
+}
+#cmt_ca_marche ol {
+    font-weight: bold;
+    font-size: 50px;
+}
+#cmt_ca_marche li {
+    list-style-type: decimal;
+}
+#cmt_ca_marche li span{
+    font-weight: normal;
+    font-size: 16.1px;
+}
+
+@media (max-width:  $screen-md-max){
+    .container_vignettes {
+        height: auto;
+        padding-bottom: $bande_heigth;
+    }
+    .ligne_vignette {
+        padding-top:10px;
+    }
+}

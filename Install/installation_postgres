@@ -1,0 +1,22 @@
+sudo chpasswd
+postgres:....
+sudo adduser postgres sudo
+mkdir /usr/local/pgsql
+mkdir /usr/local/pgsql/data
+chown postgres /usr/local/pgsql/data
+su postgres
+export PATH=$PATH:/usr/lib/postgresql/9.1/bin
+initdb -D /usr/local/pgsql/data
+postgres -D /usr/local/pgsql/data >logfile 2>&1 &
+
+CREATE USER endoderconic;
+ALTER USER endoderconic PASSWORD 'FKPPZEKFjzeofj';
+CREATE DATABASE kooblit_db;
+ALTER DATABASE kooblit_db OWNER TO endoderconic;
+
+
+
+pour la synchro:
+./manage.py schemamigration usr_management --initial
+./manage.py migrate usr_management
+./manage.py syncdb

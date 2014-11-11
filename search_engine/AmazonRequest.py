@@ -8,7 +8,7 @@ from json import JSONEncoder
 from .aws_req import compute_json_one_result, sanitize, calculate_signature_amazon
 from .file_manipulation import JsonManager, AmazonResultsCache
 
-MAX_SEARCH_ON_A_PAGE = 2000
+MAX_SEARCH_ON_A_PAGE = 2 * 10 * 10
 head = """GET
 {0}
 /onca/xml
@@ -51,7 +51,7 @@ class Response(object):
 
 class AmazonRequest(object):
     """docstring for AmazonRequest"""
-    def __init__(self, title, key, exact_match=0, delete_duplicate=True, escape=False, nb_results_max=0):
+    def __init__(self, title, key, book_title="", exact_match=0, delete_duplicate=True, escape=False, nb_results_max=0):
         super(AmazonRequest, self).__init__()
         self.title = sanitize(title, slugify=1)
         self.key = key
@@ -59,6 +59,7 @@ class AmazonRequest(object):
         self.delete_duplicate = delete_duplicate
         self.escape = escape
         self.nb_results_max = nb_results_max
+        self.book_title = sanitize(book_title)
 
 
     def creer_uniques_resultats_jusque_i(self, index, json_manager, response,
@@ -168,9 +169,13 @@ class AmazonRequest(object):
                 results.extend(results_tmp)
 
         results_final = []
+        if self.book_title:
+            title_to_compare = sanitize(self.book_title)
+        else:
+            title_to_compare = self.title
         for res in results:
-            if sanitize(res['title'], slugify=1) == self.title or not self.exact_match:
-                if self.escape: # echaper les caracteres speciaux
+            if sanitize(res['title']) == title_to_compare or not self.exact_match:
+                if self.escape : # echaper les caracteres speciaux
                     res['title'] = sanitize(res['title'])
                 results_final.append(res)
         response.results = results_final

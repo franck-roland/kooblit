@@ -11,6 +11,11 @@ from usr_management.models import UserKooblit, Syntheses, Demande
 #Asynchrone
 from celery import shared_task
 
+# Emails
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.template import Context
+
 @shared_task
 def create_pdf(username, synth):
     try:
@@ -42,3 +47,19 @@ def create_pdf(username, synth):
         synth.save()
     os.remove(html_name)
     os.remove(pdf_name)
+
+@shared_task
+def computeEmail(username, book_title, alert=0):
+    if not alert:
+        htmly = get_template('email_demande_infos.html')
+    else:
+        htmly = get_template('email_synthese_dispo.html')
+    email = UserKooblit.objects.get(username=username).email
+    d = Context({'username': username, 'book_title': book_title})
+    subject, from_email, to = ('[Kooblit] Alerte pour ' + book_title,
+                               'noreply@kooblit.com', email)
+    html_content = htmly.render(d)
+    msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+    msg.content_subtype = "html"
+    msg.send()
+    print "sent"

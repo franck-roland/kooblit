@@ -6,39 +6,39 @@
 @import "utilities/unities";
 
 @font-face{
-  font-family: "Helvetica Neue Thin";
-  src: url('../fonts/Helvetica_Neue_Thin/HelveticaNeue-Thin.otf') format('opentype');
-}
-@font-face{
-  font-family: 'Helvetica Neue';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue.otf") format("OpenType");
+  font-family: "Gravity";
+  src: url("../fonts/gravity/Gravity-Book.ttf") format("TrueType");
   font-style: normal;
   font-weight: normal;
-  font-variant: normal;
 }
 @font-face{
-  font-family: 'Helvetica Neue';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Italic.otf") format("OpenType");
+  font-family: "Gravity";
+  src: url("../fonts/gravity/Gravity-Book-Italic.ttf") format("TrueType");
   font-style: italic;
 }
 @font-face{
-  font-family: 'Helvetica Neue Medium';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Medium.otf") format("OpenType");
-}
-@font-face{
-  font-family: 'Helvetica Neue';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-Bold.otf") format("OpenType");
+  font-family: "Gravity";
+  src: url("../fonts/gravity/Gravity-Bold.ttf") format("TrueType");
   font-weight: bold;
 }
 @font-face{
-  font-family: 'Helvetica Neue';
-  src: url("../fonts/Helvetica_Neue/HelveticaNeue-BoldItalic.otf") format("OpenType");
-  font-weight: bold;
+  font-family: "Gravity";
+  src: url("../fonts/gravity/Gravity-Bold.ttf") format("TrueType");
   font-style: italic;
+  font-weight: bold;
 }
+@font-face{
+  font-family: "Gravity Light";
+  src: url("../fonts/gravity/Gravity-Light.ttf") format("TrueType");
+  font-style: normal;
+  font-weight: normal;
+}
+
 
 $nav_bar_len: 70px;
-
+$font_nav_size: 20px;
+$brand_font_size: 40px;
+$default_family: 'Gravity';
 
 nav {
   background: $html_background_color;
@@ -49,19 +49,23 @@ html, body
   height: 100%;
   background-color: $html_background_color;
   color: rgb(74,74,74);
-  font-family:'Helvetica Neue';
+  font-family:$default_family;
 }
 
 
 h1, h2, h3, h4, h5, h6 
 {
-  font-family: 'Helvetica Neue Thin';
+  font-family: $default_family;
 }
 a{
   color: $nav_link_color;
 }
 a:hover{
-  color: $nav_link_color_hover;
+  color: white;
+  text-decoration: none;
+}
+a:visited {
+    color: $nav_link_color_visited;
 }
 li {
   list-style: none;
@@ -106,6 +110,7 @@ footer {
   border : none;
   color: rgb(127, 127, 127);
   height: $nav_bar_len;
+  font-size:20px;
 }
 .navbar-collapse {
   background: $html_background_color;
@@ -126,9 +131,11 @@ li.icon_navbar > a {
   background: $html_background_color;
   a.navbar-brand {
     color: black;
-    font-size: 24px;
+    font-size: $brand_font_size;
+    font-family: "Gravity Light";
+    text-shadow: 1px 1px 2px black;
     img {
-      width: 40px;
+      height: 50px;
       margin-top: -6px;
       display: inline;
     }
@@ -142,11 +149,20 @@ li.icon_navbar > a {
 .navbar-default .navbar-nav{
   li {
     a{
-      color: $nav_link_color;
+      color: $a_link_on_call_color;
     }
     a:hover{
       color: $nav_link_color_hover;
     }
+  }
+}
+.navbar-default {
+  .navbar-toggle{
+    background: $call_to_action_bckgd;
+    border: none;
+  }
+  .navbar-toggle:hover{
+    background: $call_to_action_bckgd_hover;
   }
 }
 .dropdown-menu > li > a:hover{
@@ -195,7 +211,7 @@ li.icon_navbar > a {
 
 .navbar-nav > li > a.navbar_login {
   color: rgb(127, 127, 127);
-  font-size: 18px;
+  font-size: $font_nav_size;
 }
 
 .navbar-nav > li > .dropdown-menu {
@@ -257,4 +273,12 @@ font-size: 80%;
   font-weight: bold;
   color: rgb(74,74,74);
   font-family:'Helvetica Neue';
+}
+
+/* Responsive */
+
+@media (max-width:  $screen-sm-max){
+  .navbar-nav > li > a.navbar-brand{
+    padding-top: 0;
+  }
 }

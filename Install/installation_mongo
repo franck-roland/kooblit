@@ -1,0 +1,16 @@
+Script mongodb a executer
+##########################
+use docs_db
+db.createUser(
+{
+	"user" : "kooblit_usr",
+	"pwd" : "ZKLJEFzef983zf",
+	"roles" : [
+		{
+			"role" : "dbOwner",
+			"db" : "docs_db"
+		}
+	]
+}
+)
+

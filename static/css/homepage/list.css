@@ -1,0 +1,28 @@
+/* Small devices (tablets, 768px and up) */
+/* Medium devices (desktops, 992px and up) */
+/* Large devices (large desktops, 1200px and up) */
+/* line 4, ../../sass/homepage/list.scss */
+.list_container {
+  margin: auto;
+  margin-bottom: 56px;
+  color: #4a4a4a;
+  width: 80%;
+}
+
+/* line 12, ../../sass/homepage/list.scss */
+.list_number {
+  display: inline-block;
+  font-size: 80px;
+  font-weight: bold;
+  margin-top: 0;
+  vertical-align: top;
+}
+
+/* line 20, ../../sass/homepage/list.scss */
+.list_text {
+  display: inline-block;
+  padding-left: 20px;
+  margin: auto;
+  width: 90%;
+  vertical-align: top;
+}

@@ -17,7 +17,7 @@ class JsonManager(object):
     """docstring for JsonManager"""
     def __init__(self, title, delete_duplicate=False):
         super(JsonManager, self).__init__()
-        self.title = title
+        self.title = title.encode('utf-8')
         self.delete_duplicate = delete_duplicate
         if not self.delete_duplicate:
             self.dir_name = "/results_json/"

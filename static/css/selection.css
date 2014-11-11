@@ -20,7 +20,6 @@
 }
 
 .result_info {
-  font-family: 'Helvetica Neue Thin';
 }
 
 .result_title{
@@ -55,7 +54,6 @@
 }
 
 .bs-component {
-    font-family: 'Helvetica Neue';
     margin-bottom: 15px;
     margin-top: 15px;
     font-weight: bold;
