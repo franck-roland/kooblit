@@ -134,8 +134,8 @@ def contact(request):
             try:
                 username = request.POST['username_log']
                 password = request.POST['password_log']
-                next_url = reverse('usr_management:dashboard')
-                print next_url
+                if next_url == "/":
+                    next_url = reverse('usr_management:dashboard')
                 return try_login(request, username, password, next_url, form)
             except MultiValueDictKeyError:
                 pass
