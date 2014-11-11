@@ -399,12 +399,3 @@ def book_detail(request, book_title):
             'buy_url': u_b.buy_url}))
 
 
-
-def check_exist(request, book_title):
-    for b in Book.objects:
-        pass
-
-
-def check_ask(request):
-    if request.method == 'POST':
-        return HttpResponseRedirect('/')
