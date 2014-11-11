@@ -8,7 +8,7 @@ from json import JSONEncoder
 from .aws_req import compute_json_one_result, sanitize, calculate_signature_amazon
 from .file_manipulation import JsonManager, AmazonResultsCache
 
-MAX_SEARCH_ON_A_PAGE = 2000
+MAX_SEARCH_ON_A_PAGE = 2 * 10 * 10
 head = """GET
 {0}
 /onca/xml

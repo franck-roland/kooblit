@@ -17,13 +17,10 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 from django.contrib.auth.decorators import login_required
-from django.template import Context
 from django.template import RequestContext
 from django.templatetags.static import static
 
-# Emails
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
+
 
 # Messages
 from django.contrib import messages
@@ -48,7 +45,7 @@ from docx import opendocx, getdocumentHtml
 from achat.utils import add_to_cart
 
 #Taches asynchrones
-from tasks import create_pdf
+from tasks import create_pdf, computeEmail
 
 
 re_get_summary = re.compile('.*<div class="summary">(.+)</div>.*')
@@ -203,7 +200,7 @@ def send_alert(book_title):
     demandes = Demande.objects.filter(book=b.id)
     for d in demandes:
         user = d.user
-        computeEmail(user.username, book_title, alert=1)
+        computeEmail.delay(user.username, book_title, alert=1)
         d.delete()
 
 
@@ -264,19 +261,7 @@ def upload_medium(request, book_title):
         return render_to_response('edition_synthese.html', RequestContext(request, {'username': username, 'book': book, 'u_b': u_b, 'content': s, 'synthese': synthese}))
 
 
-def computeEmail(username, book_title, alert=0):
-    if not alert:
-        htmly = get_template('email_demande_infos.html')
-    else:
-        htmly = get_template('email_synthese_dispo.html')
-    email = UserKooblit.objects.get(username=username).email
-    d = Context({'username': username, 'book_title': book_title})
-    subject, from_email, to = ('[Kooblit] Alerte pour ' + book_title,
-                               'noreply@kooblit.com', email)
-    html_content = htmly.render(d)
-    msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
-    msg.content_subtype = "html"
-    msg.send()
+
 
 
 def book_search(request, book_title, search_title):
@@ -317,23 +302,48 @@ def book_search(request, book_title, search_title):
     raise Http404()
 
 
+def add_modal_no_synth(request, book_title, search_title):
+    if create_book_if_doesnt_exist(request, book_title, search_query=search_title):
+        raise Exception("Erreur de création du livre")
+
+    b = Book.objects.get(title=book_title)
+
+    # Update des recherches de ce livre
+    res = Recherche.objects.filter(book=b)
+    if not res:
+        res = Recherche(book=b, nb_searches=1)
+        res.save()
+    else:
+        res = res[0]
+
+    if datetime.datetime.now().date() != res.day.date():
+        res = Recherche(book=b, nb_searches=1)
+    else:
+        res.nb_searches += 1
+    res.save()
+
+    syntheses = Syntheses.objects.filter(livre_id=b.id, has_been_published=True)
+    return syntheses
+
+
 @login_required
 def demande_livre(request, book_title):
     book_title = urllib.unquote(book_title)
-    create_book_if_doesnt_exist(request, book_title)
     b = Book.objects.get(title=book_title)
     user = UserKooblit.objects.get(username=request.user.username)
-    computeEmail(user.username, book_title)
     try:
         Demande.objects.get(user=user, book=b.id)
     except Demande.DoesNotExist:
         demande = Demande(user=user, book=b.id)
         demande.save()
-    return HttpResponseRedirect('../details')
+        computeEmail.delay(user.username, book_title)
+    return HttpResponse()
 
 
 def selection(request, book_title):
     book_title = urllib.unquote(book_title)
+    search_title = request.GET.get('search','')
+    syntheses = add_modal_no_synth(request, book_title, search_title)
     try:
         book = Book.objects.get(title=book_title)
     except Book.DoesNotExist:
@@ -352,7 +362,6 @@ def selection(request, book_title):
         clean_create_book(request, book_title)
         u_b = UniqueBook.objects(book=book)[0]
 
-    syntheses = Syntheses.objects.filter(livre_id=book.id, has_been_published=True)
     nb_syntheses = len(syntheses)
 
     if book.themes:
@@ -363,11 +372,22 @@ def selection(request, book_title):
         langue = book.langue
     else:
         langue = ''
+
+    # Verifier s'il est necessaire de rajouter la demande
+    add_modal = True
+    if request.user.is_authenticated():
+        user = UserKooblit.objects.get(username=request.user.username)
+        try:
+            Demande.objects.get(user=user, book=book.id)
+            add_modal = False
+        except Demande.DoesNotExist:
+            pass
+
     return render_to_response('selection.html',
                               RequestContext(request,
                                              {'title': book.title, 'author': book.author[0], 'genre': genre, 'langue': langue, 'editeur': u_b.editeur,
-                                              'img_url': u_b.image, 'nb_syntheses': nb_syntheses, 'description': book.description, 'buy_url': u_b.buy_url
-                                              }
+                                              'img_url': u_b.image, 'nb_syntheses': nb_syntheses, 'description': book.description, 'buy_url': u_b.buy_url,
+                                              'add_modal': add_modal}
                                              )
                               )
 
@@ -381,6 +401,9 @@ def valid_synthese_for_add(id_synthese, username):
 @add_to_cart
 def book_detail(request, book_title):
     book_title = urllib.unquote(book_title)
+    search_title = request.GET.get('search','')
+    syntheses = add_modal_no_synth(request, book_title, search_title)
+
     if request.user.is_authenticated():
         usr = UserKooblit.objects.get(username=request.user.username)
     else:
