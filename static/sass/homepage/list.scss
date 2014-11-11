@@ -3,7 +3,7 @@
 
 .list_container{
     margin:auto;
-    margin-bottom:$bande_heigth*2;
+    margin-bottom:$bande_heigth;
     color: $text_black_color;
     width:80%;
 
@@ -11,7 +11,7 @@
 
 .list_number{
     display: inline-block;
-    font-size: 60px;
+    font-size: 80px;
     font-weight: bold;
     margin-top:0;
     vertical-align:top;

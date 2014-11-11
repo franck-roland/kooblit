@@ -34,7 +34,7 @@ $search_font_height: 20px;
 }
 .navbar-nav > li > a.navbar_login {
   color: white;
-  font-size: 25px;
+  font-size: 18px;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.7);
   padding-top: 30px;
   padding-bottom: 0px;
@@ -79,7 +79,7 @@ img.point_kooblit{
   margin-top: 110px;
   color: white;
 }
-$marge_title_first: 40px;
+$marge_title_first: 60px;
 .homepage_quote h1{
   color: rgb(251, 251, 251);
   text-shadow: 0px 0px 8px black;
@@ -234,6 +234,10 @@ input#search_bar_homepage::-moz-placeholder {
   position: absolute;
   bottom: 0;
   height: $bande_heigth;
+}
+.bande_couleur h3{
+  font-weight: bold;
+  font-size:20px;
 }
 .bande_couleur a {
   color: $a_link_on_call_color;
