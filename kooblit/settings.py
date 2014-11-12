@@ -29,7 +29,7 @@ TMP_DIR = appConfig.get("tmp__kooblit_tmp_root")
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
@@ -124,13 +124,16 @@ if not DEBUG:
     # if DO_COLLECT:
     AWS_ACCESS_KEY_ID = appConfig.get("aws__ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = appConfig.get("aws__SECRET_ACCESS_KEY")
-    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    DEFAULT_FILE_STORAGE = 'kooblit.s3utils.MediaRootS3BotoStorage'
+    STATICFILES_STORAGE = 'kooblit.s3utils.StaticRootS3BotoStorage'
     S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-    STATIC_URL = S3_URL
+    STATIC_URL = S3_URL + 'static/'
+    MEDIA_URL = S3_URL + 'media/'
 else:
+    DEFAULT_FILE_STORAGE = 'usr_management.utils.MyFileStorage'
     STATIC_URL = '/static/'
-
-STATIC_ROOT = appConfig.get("path__static_root")
+    MEDIA_ROOT = appConfig.get("path__media_root")
+    STATIC_ROOT = appConfig.get("path__static_root")
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
@@ -159,4 +162,4 @@ EMAIL_PORT = 587
 # INTERNE
 MAX_BOOK_TITLE_LEN = 1024
 
-MEDIA_ROOT = appConfig.get("path__media_root")
+

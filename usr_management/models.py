@@ -18,7 +18,6 @@ from kooblit_lib import  utils
 from countries import data
 from utils import MyFileStorage, count_words, read_pages
 from django.utils.encoding import smart_text
-mfs = MyFileStorage()
 # Model utilisateur
 
 # Settings
@@ -111,8 +110,8 @@ class Verification(models.Model):
 
 class Syntheses(models.Model):
     version = models.IntegerField(default=0)
-    _file_html = models.FileField(upload_to="syntheses", storage=mfs)
-    file_pdf = models.FileField(upload_to="syntheses", storage=mfs)
+    _file_html = models.FileField(upload_to="syntheses")
+    file_pdf = models.FileField(upload_to="syntheses")
     user = models.ForeignKey('UserKooblit', related_name='+')
     # livre = models.ForeignKey('Book')
     # title = models.CharField(max_length=240, default=False)
@@ -258,7 +257,7 @@ class Version_Synthese(models.Model):
     publication_date = models.DateField(null=True, default=datetime.datetime.now)
     gain = models.FloatField(default=0)
     nb_achat = models.BigIntegerField(default=0)
-    _file = models.FileField(upload_to="syntheses", storage=mfs)
+    _file = models.FileField(upload_to="syntheses")
 
     class Meta:
         unique_together = (("version","synthese"),)

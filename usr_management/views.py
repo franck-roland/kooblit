@@ -134,8 +134,8 @@ def contact(request):
             try:
                 username = request.POST['username_log']
                 password = request.POST['password_log']
-                next_url = reverse('usr_management:dashboard')
-                print next_url
+                if next_url == "/":
+                    next_url = reverse('usr_management:dashboard')
                 return try_login(request, username, password, next_url, form)
             except MultiValueDictKeyError:
                 pass
@@ -182,11 +182,7 @@ def download_pdf(request, synthese_id):
         if synth.file_pdf.name == '0' :
             create_pdf(synth.user.username, synth)
         
-        path_name = ''.join((settings.MEDIA_ROOT, '/', synth.file_pdf.name))
-        if not os.path.isfile(path_name):
-            create_pdf(synth.user.username, synth)
-
-        f = FileWrapper(file(path_name))
+        f = FileWrapper(synth.file_pdf)
         response = HttpResponse(f, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=synth_'+str(synthese_id)+'.pdf'
         return response

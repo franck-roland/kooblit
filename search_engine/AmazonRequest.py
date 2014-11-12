@@ -182,6 +182,32 @@ class AmazonRequest(object):
         print response.last_page, response.server_index
         return response
 
+    def find_in_existing_json(self):
+        response = Response([], 0, 1)
+        json_manager = JsonManager(self.title, True)
+        index = 1
+        results = []
+        while True:
+            result = json_manager.get_json_file(index)
+            index +=1
+            if result:
+                results.append(result)
+                json_manager.set_offset(index)
+            else:
+                break
+
+        results_final = []
+        if self.book_title:
+            title_to_compare = sanitize(self.book_title)
+        else:
+            title_to_compare = self.title
+        for res in results:
+            if sanitize(res['title']) == title_to_compare or not self.exact_match:
+                if self.escape : # echaper les caracteres speciaux
+                    res['title'] = sanitize(res['title'])
+                results_final.append(res)
+        response.results = results_final
+        return response
 
     def compute_args(self, server_index=0, page_nb=1):
         assert(page_nb <= 10)
