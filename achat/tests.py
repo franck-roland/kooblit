@@ -26,11 +26,13 @@ class PayplugTestCase(TestCase):
     def setUp(self):
 
         self.params = {
-        "ipn_url": "http://1a24e0f2.ngrok.com/ipn",
-        "return_url": "http://1a24e0f2.ngrok.com",
+        "ipn_url": "http://dev.kooblit.com/ipn",
+        "return_url": "http://70b673d6.ngrok.com",
         "amount": "999",
         "currency": "EUR",
-        "first_name": "alain"
+        "first_name": "alain",
+        "last_name": "bernard",
+        "email": "alain.bernard@prout.com"
 
         }
         filename = "config/payplug_rsa_private_key.pem"
@@ -40,7 +42,7 @@ class PayplugTestCase(TestCase):
 
     def test_commande(self):
         url_params = urllib.urlencode(self.params)
-        url_params = quote_plus(url_params, '=&')
+        # url_params = quote_plus(url_params, '=&')
         print url_params
         url_params = url_params.encode("utf­-8")
         data = base64.b64encode(url_params).decode('utf­-8')

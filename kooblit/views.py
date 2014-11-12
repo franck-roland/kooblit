@@ -26,6 +26,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.conf import settings
+from django.http import HttpResponse
 
 @csrf_exempt
 def ipn(request, *args, **kwargs):
@@ -39,6 +40,7 @@ def ipn(request, *args, **kwargs):
         rsa = PKCS1_v1_5.new(rsa_key)
         hash = SHA.new()
         hash.update(body)
+        print >> sys.stderr, "inside"
         if rsa.verify(hash, signature):
             message = "IPN received for {first_name} {last_name} for an amount of {amount} EUR"
             message = message.format(first_name=data["first_name"],
@@ -48,4 +50,5 @@ def ipn(request, *args, **kwargs):
             message = "The signature was invalid."
             send_mail("IPN Failed", message, settings.DEFAULT_FROM_EMAIL,
             "franck.l.roland@gmail.com")
+    return HttpResponse()
             
