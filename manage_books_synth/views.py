@@ -140,10 +140,12 @@ def create_file_medium(request, s, book_title, username, prix=2, has_been_publis
 def clean_create_book(request, book_title, search_query=""):
     if search_query:
         amazon_request = AmazonRequest(search_query, settings.AMAZON_KEY, book_title=book_title, exact_match=1, delete_duplicate=0)
+        s = amazon_request.find_in_existing_json()
     else:
         amazon_request = AmazonRequest(book_title, settings.AMAZON_KEY, exact_match=1, delete_duplicate=0)
-    s = amazon_request.compute_args()
+        s = amazon_request.compute_args()
     s = [d for d in s]
+    assert(len(s) > 0)
     if not s:
         return 1
     first = s[0]
