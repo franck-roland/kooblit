@@ -27,12 +27,16 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponse
+import base64
+from Crypto.PublicKey import RSA
+from Crypto.Signature import PKCS1_v1_5
+from Crypto.Hash import SHA
 
 @csrf_exempt
 def ipn(request, *args, **kwargs):
     if request.method == 'POST':
         body = request.META.get('wsgi.input').read()
-        data = json.loads(input_b.decode('utf­8'))
+        data = json.loads(body.decode('utf-8'))
         signature = request.META.get('HTTP_PAYPLUG_SIGNATURE')
         signature = base64.b64decode(signature)
         k = settings.PAYPLUG_PUBLIC_KEY
@@ -40,15 +44,14 @@ def ipn(request, *args, **kwargs):
         rsa = PKCS1_v1_5.new(rsa_key)
         hash = SHA.new()
         hash.update(body)
-        print >> sys.stderr, "inside"
         if rsa.verify(hash, signature):
             message = "IPN received for {first_name} {last_name} for an amount of {amount} EUR"
             message = message.format(first_name=data["first_name"],
             last_name=data["last_name"], amount=data["amount"])
-            send_mail("IPN Received", message, settings.DEFAULT_FROM_EMAIL,"franck.l.roland@gmail.com")
+            send_mail("IPN Received", message, settings.DEFAULT_FROM_EMAIL,["franck.l.roland@gmail.com"])
         else:
             message = "The signature was invalid."
             send_mail("IPN Failed", message, settings.DEFAULT_FROM_EMAIL,
-            "franck.l.roland@gmail.com")
+            ["franck.l.roland@gmail.com"])
     return HttpResponse()
             

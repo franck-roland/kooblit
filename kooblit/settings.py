@@ -20,8 +20,8 @@ MONGO_PWD = appConfig.get("db__mongo__passwd")
 MONGO_USER = appConfig.get("db__mongo__user")
 PAYMILL_PRIVATE_KEY = appConfig.get("paymill__private")
 PAYMILL_PUBLIC_KEY = appConfig.get("paymill__public")
-PAYPLUG_PRIVATE_KEY = open(appConfig.get("payplug__private"),'r').read()
-PAYPLUG_PUBLIC_KEY = open(appConfig.get("payplug__public"),'r').read()
+PAYPLUG_PRIVATE_KEY = open(os.path.join(PROJECT_ROOT, appConfig.get("payplug__private")),'r').read()
+PAYPLUG_PUBLIC_KEY = open(os.path.join(PROJECT_ROOT, appConfig.get("payplug__public")),'r').read()
 PAYPLUG_URL = appConfig.get("payplug__url")
 
 
