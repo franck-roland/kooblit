@@ -127,6 +127,7 @@ if not DEBUG:
     STATIC_URL = S3_URL + 'static/'
     MEDIA_URL = S3_URL + 'media/'
 else:
+    DEFAULT_FILE_STORAGE = 'usr_management.utils.MyFileStorage'
     STATIC_URL = '/static/'
     MEDIA_ROOT = appConfig.get("path__media_root")
     STATIC_ROOT = appConfig.get("path__static_root")
