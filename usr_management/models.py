@@ -257,7 +257,7 @@ class Version_Synthese(models.Model):
     publication_date = models.DateField(null=True, default=datetime.datetime.now)
     gain = models.FloatField(default=0)
     nb_achat = models.BigIntegerField(default=0)
-    _file = models.FileField(upload_to="syntheses", storage=mfs)
+    _file = models.FileField(upload_to="syntheses")
 
     class Meta:
         unique_together = (("version","synthese"),)
