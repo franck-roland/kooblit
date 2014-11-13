@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 import json
 import pymill
+import re
 
 from django.conf import settings
 
 # model
-from usr_management.models import Syntheses, Transaction, UserKooblit, Entree, Version_Synthese
-
+from usr_management.models import Syntheses, UserKooblit, Version_Synthese
+from .models import Entree, Transaction
 #URLS
 from django.core.urlresolvers import reverse
 
@@ -25,6 +26,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 import logging
+
+URL_MATCH = re.compile('(http://.*?/)')
 
 TVA = 0.05
 TAXE_TRANSACTION = 0.03
@@ -168,9 +171,75 @@ def clean_cart(cart, username):
     buyer_syntheses_ids = [version_synth.synthese.id for version_synth in buyer.syntheses_achetees.all()]
     return [synth.id for synth in Syntheses.objects.filter(id__in=cart).exclude(user__username=username).exclude(id__in=buyer_syntheses_ids)]
 
+def paiement(request):
+    s = request.build_absolute_uri()
+    m = URL_MATCH.search(s)
+    base_local = m.group(1)
+    return HttpResponse()
+@login_required
+def payplug_paiement(request):
+    cart = request.session.get('cart', [])
+
+    if not cart:
+        return HttpResponseRedirect('/')
+
+    if cart != clean_cart(cart, request.user.username):
+        messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
+        request.session['cart'] = clean_cart(cart, request.user.username)
+        cart = request.session.get('cart', [])
+        syntheses = (Syntheses.objects.get(id=i) for i in cart)
+        cart = [
+            {
+                "id": synth.id,
+                "book_title": synth.book_title,
+                "author": synth.user.username,
+                "prix": synth.prix,
+            } for synth in syntheses
+        ]
+
+        return render_to_response(
+            'cart.html',
+            RequestContext(request, {
+                'results': cart,
+                'total': sum(synth['prix'] for synth in cart)}))
+
+    if request.method == 'POST':
+        buyer = UserKooblit.objects.get(username=request.user.username)
+        trans = Transaction(user_from=buyer, remote_id=0)
+        trans.save()
+        for i in cart:
+            synthese = Syntheses.objects.get(id=i)
+            e = Entree(user_dest=Syntheses.objects.get(id=i).user, montant=float(Syntheses.objects.get(id=i).prix),
+                       transaction=trans, synthese_dest=synthese)
+            e.save()
+        print reverse('achat:ipn')
+        params = {
+                "ipn_url": reverse('achat:ipn'),
+                "return_url": "http://70b673d6.ngrok.com",
+                "amount": "999",
+                "currency": "EUR",
+                "first_name": "alain",
+                "last_name": "bernard",
+                "email": "alain.bernard@prout.com"
+        }
+        if transaction.status == 'closed':
+            if len(cart) > 1:
+                next_url = reverse('usr_management:dashboard')
+            else:
+                next_url = reverse('usr_management:lire_synthese', args=[cart[0]])
+            request.session['cart'] = []
+            messages.success(request, u'Votre commande a bien été enregistrée. Une facture vous sera envoyée à votre adresse email.')
+            return HttpResponseRedirect(next_url)
+    total = sum((Syntheses.objects.get(id=i).prix for i in cart))
+    return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))
+
+def ipn(request):
+    pass
+# ajouter_et_payer(buyer, synthese)
+
 
 @login_required
-def paiement(request):
+def paymill_paiement(request):
     cart = request.session.get('cart', [])
 
     if not cart:
