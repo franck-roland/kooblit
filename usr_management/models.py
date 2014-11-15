@@ -314,13 +314,3 @@ class Reinitialisation(models.Model):
     rnd = models.CharField(max_length=42, unique=True)
 
 
-class Transaction(models.Model):
-    """docstring for Verification"""
-    remote_id = models.CharField(max_length=64, default=False)
-    user_from = models.ForeignKey('UserKooblit', default=False, unique=False)
-
-
-class Entree(models.Model):
-    user_dest = models.ForeignKey('UserKooblit', default=False, unique=False)
-    montant = models.DecimalField(max_digits=6, decimal_places=2, default=False, unique=False)
-    transaction = models.ForeignKey('Transaction', default=False)

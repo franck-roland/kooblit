@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 import json
 import pymill
+import re
 
 from django.conf import settings
 
 # model
-from usr_management.models import Syntheses, Transaction, UserKooblit, Entree, Version_Synthese
-
+from usr_management.models import Syntheses, UserKooblit, Version_Synthese
+from .models import Entree, Transaction
 #URLS
 from django.core.urlresolvers import reverse
 
@@ -25,6 +26,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 import logging
+from .libpayplug import redirect_payplug, ipn_payplug
+
+
+
+URL_MATCH = re.compile('(http://.*?/)')
 
 TVA = 0.05
 TAXE_TRANSACTION = 0.03
@@ -141,7 +147,7 @@ def cart_details(request):
             'total': sum(synth['prix'] for synth in cart)}))
 
 
-def ajouter_et_payer(buyer, synthese):
+ def ajouter_et_payer(buyer, synthese):
     author = synthese.user
     price = float(synthese.prix)
     prix_HT = (price * (1 - TVA)) / 2
@@ -168,17 +174,84 @@ def clean_cart(cart, username):
     buyer_syntheses_ids = [version_synth.synthese.id for version_synth in buyer.syntheses_achetees.all()]
     return [synth.id for synth in Syntheses.objects.filter(id__in=cart).exclude(user__username=username).exclude(id__in=buyer_syntheses_ids)]
 
-
 @login_required
 def paiement(request):
+    # Clean the cart
     cart = request.session.get('cart', [])
 
     if not cart:
         return HttpResponseRedirect('/')
 
     if cart != clean_cart(cart, request.user.username):
-        print cart
-        print clean_cart(cart, request.user.username)
+        messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
+        request.session['cart'] = clean_cart(cart, request.user.username)
+        cart = request.session.get('cart', [])
+        syntheses = (Syntheses.objects.get(id=i) for i in cart)
+        cart = [
+            {
+                "id": synth.id,
+                "book_title": synth.book_title,
+                "author": synth.user.username,
+                "prix": synth.prix,
+            } for synth in syntheses
+        ]
+
+        return render_to_response(
+            'cart.html',
+            RequestContext(request, {
+                'results': cart,
+                'total': sum(synth['prix'] for synth in cart)}))
+    return payplug_paiement(request)    
+
+def payplug_paiement(request):
+    s = request.build_absolute_uri()
+    m = URL_MATCH.search(s)
+    if settings.DEBUG:
+        base_local = "http://dev.kooblit.com/"
+    else:
+        base_local = m.group(1)
+    cart = request.session.get('cart', [])
+    syntheses = (Syntheses.objects.get(id=i) for i in cart)
+    buyer = UserKooblit.objects.get(username=request.user.username)
+
+    params = {
+        "ipn_url": "".join((base_local, reverse('achat:ipn')[1:])),
+        "return_url": base_local,
+        "cancel_url": base_local,
+        "amount": int(sum(synth.prix for synth in syntheses) * 100), # Prix en centimes
+        "first_name": buyer.first_name,
+        "last_name": buyer.last_name,
+        "email": buyer.email,
+    }
+
+    if request.method == 'POST':
+        trans = Transaction(user_from=buyer, remote_id=0)
+        trans.save()
+        params["order"] = str(trans.id);
+        for i in cart:
+            synthese = Syntheses.objects.get(id=i)
+            e = Entree(user_dest=Syntheses.objects.get(id=i).user, montant=float(Syntheses.objects.get(id=i).prix),
+                       transaction=trans, synthese_dest=synthese)
+            e.save()
+        return redirect_payplug(params)
+
+    total = sum((Syntheses.objects.get(id=i).prix for i in cart))
+    return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))
+
+@csrf_exempt
+def ipn(request):
+    return ipn_payplug(request)
+# ajouter_et_payer(buyer, synthese)
+
+
+@login_required
+def paymill_paiement(request):
+    cart = request.session.get('cart', [])
+
+    if not cart:
+        return HttpResponseRedirect('/')
+
+    if cart != clean_cart(cart, request.user.username):
         messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
         request.session['cart'] = clean_cart(cart, request.user.username)
         cart = request.session.get('cart', [])
