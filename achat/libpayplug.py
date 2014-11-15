@@ -16,6 +16,9 @@ from Crypto.Signature import PKCS1_v1_5
 from usr_management.models import Syntheses, UserKooblit, Version_Synthese
 from .models import Entree, Transaction
 
+TVA = 0.05
+TAXE_TRANSACTION = 0.03
+
 
 """
 Name        Type    Description
@@ -66,7 +69,7 @@ def ajouter_et_payer(buyer, synthese, montant):
     buyer.syntheses_achetees.add(version_synthese)
     buyer.save()
 
-
+@csrf_exempt
 def ipn_payplug(request):
     if request.method == 'POST':
         body = request.META.get('wsgi.input').read()
