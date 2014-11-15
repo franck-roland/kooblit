@@ -60,7 +60,7 @@
   padding: 20px;
 }
 
-.valider_achat a {
+/*.valider_achat a {
     font-size: 20px;
     background-color: rgb(61, 61, 61);
     text-align: center;
@@ -69,7 +69,7 @@
 
 .valider_achat a:hover {
     background-color: rgb(75, 75, 75);
-}
+}*/
 
 .abtn {
     display: inline-block;
