@@ -129,6 +129,9 @@ def cart_details(request):
     cart = request.session.get('cart', [])
     if request.user.is_authenticated():
         cart = clean_cart(cart, request.user.username)
+        request.session['cart'] = cart
+        request.session.modified = True
+        request.nbre_achats = len(cart)
 
     syntheses = (Syntheses.objects.get(id=i) for i in cart)
     cart = [
