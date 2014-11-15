@@ -176,7 +176,6 @@ def clean_cart(cart, username):
 
 @login_required
 def paiement(request):
-    # Clean the cart
     cart = request.session.get('cart', [])
 
     if not cart:
@@ -203,6 +202,7 @@ def paiement(request):
                 'total': sum(synth['prix'] for synth in cart)}))
     return payplug_paiement(request)    
 
+
 def payplug_paiement(request):
     s = request.build_absolute_uri()
     m = URL_MATCH.search(s)
@@ -224,19 +224,15 @@ def payplug_paiement(request):
         "email": buyer.email,
     }
 
-    if request.method == 'POST':
-        trans = Transaction(user_from=buyer, remote_id=0)
-        trans.save()
-        params["order"] = str(trans.id);
-        for i in cart:
-            synthese = Syntheses.objects.get(id=i)
-            e = Entree(user_dest=Syntheses.objects.get(id=i).user, montant=float(Syntheses.objects.get(id=i).prix),
-                       transaction=trans, synthese_dest=synthese)
-            e.save()
-        return redirect_payplug(params)
-
-    total = sum((Syntheses.objects.get(id=i).prix for i in cart))
-    return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))
+    trans = Transaction(user_from=buyer, remote_id=0)
+    trans.save()
+    params["order"] = str(trans.id);
+    for i in cart:
+        synthese = Syntheses.objects.get(id=i)
+        e = Entree(user_dest=Syntheses.objects.get(id=i).user, montant=float(Syntheses.objects.get(id=i).prix),
+                   transaction=trans, synthese_dest=synthese)
+        e.save()
+    return redirect_payplug(params)
 
 @csrf_exempt
 def ipn(request):
