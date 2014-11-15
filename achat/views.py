@@ -147,7 +147,7 @@ def cart_details(request):
             'total': sum(synth['prix'] for synth in cart)}))
 
 
- def ajouter_et_payer(buyer, synthese):
+def ajouter_et_payer(buyer, synthese):
     author = synthese.user
     price = float(synthese.prix)
     prix_HT = (price * (1 - TVA)) / 2
