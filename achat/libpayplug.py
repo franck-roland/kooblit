@@ -1,20 +1,4 @@
-
-class PayplugTestCase(TestCase):
-    def setUp(self):
-
-        self.params = {
-        "ipn_url": "http://dev.kooblit.com/ipn",
-        "return_url": "http://70b673d6.ngrok.com",
-        "amount": "999",
-        "currency": "EUR",
-        "first_name": "alain",
-        "last_name": "bernard",
-        "email": "alain.bernard@prout.com"
-
-        }
-        self.rsa_key = RSA.importKey(settings.PAYPLUG_PRIVATE_KEY)
-        # self.base_url = settings.PAYPLUG_URL
-        self.base_url = "https://www.payplug.fr/p/test/w4OV"
+#-*- coding: utf-8 -*-
 
 import json
 import base64

@@ -7,7 +7,7 @@ class Transaction(models.Model):
 
 
 class Entree(models.Model):
-    user_dest = models.ForeignKey('usr_management.UserKooblit', default=False, unique=False)
     synthese_dest = models.ForeignKey('usr_management.Syntheses', default=False, unique=False)
+    user_dest = models.ForeignKey('usr_management.UserKooblit', default=False, unique=False)
     montant = models.DecimalField(max_digits=6, decimal_places=2, default=False, unique=False)
     transaction = models.ForeignKey('Transaction', default=False)

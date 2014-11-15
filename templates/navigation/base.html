@@ -23,7 +23,7 @@
         {% block nav_cart %}
           {% if request.nbre_achats %}
             <li class="icon_navbar">
-              <a href="{% url 'achats:cart_details' %}" class="dropdown-toggle">
+              <a href="{% url 'achat:cart_details' %}" class="dropdown-toggle">
 
                 <img class="icon_navbar" src="{% static 'img/ico/Cart.png'%}" class="navbar_img" />
                 <span class="nb_achats">{{ request.nbre_achats }}</span>
@@ -70,7 +70,7 @@
       <ul class="nav navbar-nav navbar-right">
         {% if request.nbre_achats %}
           <li class="icon_navbar">
-            <a href="{% url 'achats:cart_details' %}" class="dropdown-toggle">
+            <a href="{% url 'achat:cart_details' %}" class="dropdown-toggle">
 
               <img class="icon_navbar" src="{% static 'img/ico/Cart.png'%}" class="navbar_img" />
               <span class="nb_achats">{{ request.nbre_achats }}</span>
