@@ -13,6 +13,8 @@ from Crypto.Hash import SHA
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
 
+from usr_management.models import Syntheses, UserKooblit, Version_Synthese
+from .models import Entree, Transaction
 
 
 """
@@ -46,8 +48,26 @@ def redirect_payplug(params):
     url = "".join((settings.PAYPLUG_URL, "?data=", data, "&sign=", sign))
     return HttpResponseRedirect(url)
 
-@csrf_exempt
-def ipn(request, *args, **kwargs):
+def ajouter_et_payer(buyer, synthese, montant):
+    author = synthese.user
+    price = float(synthese.prix)
+    prix_HT = (price * (1 - TVA)) / 2
+    gain = prix_HT - (price * TAXE_TRANSACTION)
+    assert(gain > 0)
+    author.cagnotte += gain
+    author.save()
+    version_synthese = Version_Synthese.objects.get(synthese=synthese, version=synthese.version)
+    synthese.gain += gain
+    synthese.nb_achat +=1
+    synthese.save()
+    version_synthese.gain += gain
+    version_synthese.nb_achat += 1
+    version_synthese.save()
+    buyer.syntheses_achetees.add(version_synthese)
+    buyer.save()
+
+
+def ipn_payplug(request):
     if request.method == 'POST':
         body = request.META.get('wsgi.input').read()
         data = json.loads(body.decode('utf-8'))
@@ -59,10 +79,19 @@ def ipn(request, *args, **kwargs):
         hash = SHA.new()
         hash.update(body)
         if rsa.verify(hash, signature):
+            trans = Transaction.objects.get(id=data["order"])
+            buyer = trans.user_from
+            entrees = Entree.objects.filter(transaction=trans)
+            for entree in entrees:
+                synthese =  entree.synthese_dest
+                montant = entree.montant
+                ajouter_et_payer(buyer, synthese, montant)
+
             message = "IPN received for {first_name} {last_name} for an amount of {amount} EUR"
             message = message.format(first_name=data["first_name"],
             last_name=data["last_name"], amount=data["amount"])
             send_mail("IPN Received", message, settings.DEFAULT_FROM_EMAIL,["franck.l.roland@gmail.com"])
+
         else:
             message = "The signature was invalid."
             send_mail("IPN Failed", message, settings.DEFAULT_FROM_EMAIL,

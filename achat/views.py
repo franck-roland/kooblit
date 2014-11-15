@@ -26,7 +26,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 import logging
-from .libpayplug import redirect_payplug
+from .libpayplug import redirect_payplug, ipn_payplug
 
 
 
@@ -147,7 +147,7 @@ def cart_details(request):
             'total': sum(synth['prix'] for synth in cart)}))
 
 
-def ajouter_et_payer(buyer, synthese):
+ def ajouter_et_payer(buyer, synthese):
     author = synthese.user
     price = float(synthese.prix)
     prix_HT = (price * (1 - TVA)) / 2
@@ -238,8 +238,9 @@ def payplug_paiement(request):
     total = sum((Syntheses.objects.get(id=i).prix for i in cart))
     return render_to_response('paiement.html', RequestContext(request, {'total': str(total).replace(",", ".")}))
 
+@csrf_exempt
 def ipn(request):
-    pass
+    return ipn_payplug(request)
 # ajouter_et_payer(buyer, synthese)
 
 
