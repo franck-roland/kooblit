@@ -456,11 +456,11 @@ def resend_verification(request):
                     Vous ne pourrez vous connecter qu'après y avoir jeté un coup d'oeil")
             return HttpResponseRedirect('/', RequestContext(request))
         else:
-            return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))
+            return render(request, 'ask_reinitialisation.html', {'form': form})
 
     else:
         form = ReinitialisationForm()
-        return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))
+        return render(request, 'ask_reinitialisation.html', {'form': form})
 
 def ask_reinitialisation(request):
     if request.method == 'POST':
@@ -486,11 +486,11 @@ def ask_reinitialisation(request):
             messages.success(request, "Un email vous a été renvoyé")
             return HttpResponseRedirect('/', RequestContext(request))
         else:
-            return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))
+            return render(request, 'ask_reinitialisation.html', {'form': form})
 
     else:
         form = ReinitialisationForm()
-        return render(request, 'ask_reinitialisation.html', RequestContext(request, {'form': form}))
+        return render(request, 'ask_reinitialisation.html', {'form': form})
 
 
 def do_reinitialisation(request, r_id):
@@ -500,7 +500,7 @@ def do_reinitialisation(request, r_id):
         raise Http404()
     if request.method == 'GET':
         form = DoReinitialisationForm()
-        return render(request, 'do_reinitialisation.html', RequestContext(request, {'form': form}))
+        return render(request, 'do_reinitialisation.html', {'form': form})
     elif request.method == 'POST':
         form = DoReinitialisationForm(request.POST)
         if form.is_valid():
@@ -510,5 +510,5 @@ def do_reinitialisation(request, r_id):
             reinit.delete()
             messages.success(request, 'Votre mot de passe a bien été changé')
             return HttpResponseRedirect('/', RequestContext(request))
-        return render(request, 'do_reinitialisation.html', RequestContext(request, {'form': form}))
+        return render(request, 'do_reinitialisation.html', {'form': form})
 
