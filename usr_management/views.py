@@ -56,9 +56,9 @@ from utils import note_required
 email_adresse_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 email_match = re.compile(email_adresse_regex)
 
-def computeEmail(username, email, validation_id):
+def computeEmail(request, username, email, validation_id):
     htmly = get_template('email.html')
-    d = Context({'username': username, 'validation_id': validation_id})
+    d = Context({'username': username, 'validation_id': validation_id, 'base_url': 'http://'+request.get_host()})
     subject, from_email, to = ('Welcome to Kooblit!!',
                                'no-reply@mail.kooblit.com', email)
     html_content = htmly.render(d)
@@ -147,7 +147,7 @@ def contact(request):
                 email = form.cleaned_data.get("email")
                 form.save()
                 val = computeNewValidation(username)
-                computeEmail(username, email, val.verification_id)
+                computeEmail(request, username, email, val.verification_id)
                 messages.success(request, "Félicitation. Un email de confirmation vous a été envoyé.\
                     Vous ne pourrez vous connecter qu'après y avoir jeté un coup d'oeil")
                 return HttpResponseRedirect(next_url, RequestContext(request))

@@ -1,4 +1,4 @@
 <h1> Hello {{ username }} </h1>
 <p>Bienvenue sur Kooblit!!</p>
 <p>Click sur le lien suivant pour activer ton compte</p>
-<p>http://dev.kooblit.com{% url 'usr_management:email_confirm' validation_id %}</p>
+<p>{{base_url}}{% url 'usr_management:email_confirm' validation_id %}</p>
