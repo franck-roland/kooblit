@@ -451,7 +451,7 @@ def resend_verification(request):
             # Recherche de la verification
             val = Verification.objects.get(user=user)
             username = user.username
-            computeEmail(username, email, val.verification_id)
+            computeEmail(request, username, email, val.verification_id)
             messages.success(request, "Félicitation. Un email de confirmation vous a été envoyé.\
                     Vous ne pourrez vous connecter qu'après y avoir jeté un coup d'oeil")
             return HttpResponseRedirect('/', RequestContext(request))
