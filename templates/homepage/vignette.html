@@ -1,2 +1,7 @@
+{% load static %}
+{% if is_static %}
+<img class="vignette_img {{class}}" src="{% static src_img %}" alt="{{alt}}"/>
+{% else %}
 <img class="vignette_img {{class}}" src="{{src_img}}" alt="{{alt}}"/>
+{% endif %}
 <p class="vignette_sub {{class_sub}}">{{text}}</p>
