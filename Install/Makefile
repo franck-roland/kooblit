@@ -1,6 +1,6 @@
 
 
-all: update apache pip virtualenv git lxml mongo libffi
+all: update apache pip virtualenv git lxml mongo libffi rabbit supervisor
 
 apache:
 	sudo apt-get install apache2
@@ -35,3 +35,9 @@ mongo:
 	sudo apt-get update
 	sudo apt-get install mongodb-org
 	sudo service mongod start
+
+rabbit:
+	sudo apt-get install rabbitmq-server
+
+supervisor:
+	sudo apt-get install supervisor
