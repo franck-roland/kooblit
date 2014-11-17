@@ -30,7 +30,7 @@ connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
+USE_BUCKET = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -50,6 +50,7 @@ if not DEBUG:
     ALLOWED_HOSTS = [
     '.kooblit.com', # Allow domain and subdomains
     '127.0.0.1', # Also allow FQDN and subdomains
+    '37.187.66.54',
     ]
 
 
@@ -119,7 +120,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 DO_COLLECT = False
-if not DEBUG:
+if USE_BUCKET:
     AWS_STORAGE_BUCKET_NAME = appConfig.get("aws__bucket_name")
     # if DO_COLLECT:
     AWS_ACCESS_KEY_ID = appConfig.get("aws__ACCESS_KEY_ID")
@@ -129,6 +130,8 @@ if not DEBUG:
     S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     STATIC_URL = S3_URL + 'static/'
     MEDIA_URL = S3_URL + 'media/'
+    if not DEBUG:
+        MEDIA_URL += 'prod/'
 else:
     DEFAULT_FILE_STORAGE = 'usr_management.utils.MyFileStorage'
     STATIC_URL = '/static/'
