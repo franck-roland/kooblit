@@ -7,9 +7,9 @@
 
 {% block navigation %}
 <a name="top"></a>
-<div class="container">
+<div class="container header_container">
   <div class="header">
-    <h2><i class="fa fa-home"></i></h2>
+    <h2><a href="{% url 'usr_management:dashboard' %}"><i class="fa fa-home"></i></a></h2>
   </div>
 </div>
 {% endblock %}
@@ -59,13 +59,14 @@
         To Top <i class="fa fa-arrow-circle-o-up"></i>
       </button>
     </a>
+    <!--
     <ul class="pagination" >
       <li id="back_link" class="disabled"><a href="javascript:void(0)" onclick="change_page('back')">«</a></li>
       {% for page in synth.pages %}
       <li id="page_{{forloop.counter}}_link" class=" {% if forloop.counter == 1 %} active {% endif %}"><a href="javascript:void(0)" onclick="change_page({{forloop.counter}})">{{forloop.counter}}</a></li>
       {% endfor %}
       <li id="next_link"><a href="javascript:void(0)" onclick="change_page('next')">»</a></li>
-    </ul>
+    </ul> -->
     <a class="footer_link" href="{% url 'usr_management:download_pdf' synth.id %}" ><button class="btn" ><i class="fa fa-file-pdf-o"> </i>&nbsp;Télécharger pdf </button></a>
     </div>
   </nav>
