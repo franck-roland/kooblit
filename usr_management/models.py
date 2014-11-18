@@ -213,25 +213,19 @@ class Syntheses(models.Model):
             from manage_books_synth.models import Book
             self.book_title = Book.objects.get(id=self.livre_id).title
             self.save()
-        soup = BeautifulSoup(self.contenu_sans_titre)
+        contenu_html = self.contenu_sans_titre.replace("><","> <")
+        soup = BeautifulSoup(contenu_html)
         body = soup.find("body")
         current_length = 0
-        extrait = ["<html>","<body>"]
-        for child in body.contents:
-            if isinstance(child , NavigableString):
-                text = unicode(child)
-            else:
-                text = child.getText()
-            if ' ' in text:
-                current_length += len([ word for word in text.split(' ') if word])
-            else:
-                current_length += 1
+        extrait = ["<html>", "<body>"]
 
-            extrait.append(str(child))
-            if current_length >= self.EXTRACT_LIMIT:
-                break
-        extrait.extend(["</body>", "</html>"])
-        return "".join(extrait)
+        text = body.getText().split(' ')
+        if len(text) < self.EXTRACT_LIMIT*3:
+            extrait.extend(text[:int(0.3*len(text))])
+        else:
+            extrait.extend(text[:self.EXTRACT_LIMIT])
+        extrait.extend(["...", "</body>", "</html>"])
+        return " ".join(extrait)
 
 
     def can_be_added_by(self, username):
