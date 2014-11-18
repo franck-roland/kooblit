@@ -137,6 +137,14 @@ class Syntheses(models.Model):
     def is_free(self):
         return self.nbre_notes < settings.MIN_NOTE or self.note_moyenne < settings.MIN_MEAN
 
+    @property
+    def nb_pages(self):
+        if self.file_pdf.name != "0":
+            import pyPdf
+            reader = pyPdf.PdfFileReader(self.file_pdf)
+            return reader.getNumPages()
+        else:
+            return 0
 
     @cached_property
     def titre(self):

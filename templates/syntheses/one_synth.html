@@ -23,7 +23,7 @@
 
     <div class="result_description">
       <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
-      <p class="misc_info col-xs-6" style="text-align:right;"><b>{{synth.nbre_mots}}</b> mot{{synth.nbre_mots|pluralize}}</p>
+      <p class="misc_info col-xs-6" style="text-align:right;"><b>{{synth.nb_pages}}</b> page{{synth.nb_pages|pluralize}}</p>
       <p class="misc_info col-xs-12" style="text-align: justify;font-size: 1em;">Publié le {{synth.date|date:"d/m/Y"}}</p>
 
       {% if synth|bought:user %}
