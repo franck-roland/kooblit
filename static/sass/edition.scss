@@ -29,12 +29,13 @@ h1 {
     margin-bottom: $title_margin_bottom;
     padding-bottom: 40px;
     letter-spacing: -2px;
-    border-bottom: 1px solid #dbdbdb;
+    font-weight: bold;
 }
 h2 {
     font-size: 38px;
     line-height: 42px;
     margin-bottom: $title_margin_bottom;
+    font-weight: bold;
 }
 h3 {
     font-size: 32px;

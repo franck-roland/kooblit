@@ -97,7 +97,7 @@ h1 {
   margin-bottom: 20px;
   padding-bottom: 40px;
   letter-spacing: -2px;
-  border-bottom: 1px solid #dbdbdb;
+  font-weight: bold;
 }
 
 /* line 34, ../sass/edition.scss */
@@ -105,35 +105,36 @@ h2 {
   font-size: 38px;
   line-height: 42px;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
-/* line 39, ../sass/edition.scss */
+/* line 40, ../sass/edition.scss */
 h3 {
   font-size: 32px;
   line-height: 42px;
   margin-bottom: 20px;
 }
 
-/* line 45, ../sass/edition.scss */
+/* line 46, ../sass/edition.scss */
 h4 {
   font-size: 26px;
   line-height: 32px;
   margin-bottom: 20px;
 }
 
-/* line 50, ../sass/edition.scss */
+/* line 51, ../sass/edition.scss */
 p {
   margin-bottom: 5px;
 }
 
-/* line 55, ../sass/edition.scss */
+/* line 56, ../sass/edition.scss */
 blockquote {
   display: block;
   padding-left: 20px;
   border-left: 6px solid #df0d32;
 }
 
-/* line 63, ../sass/edition.scss */
+/* line 64, ../sass/edition.scss */
 .editable,
 .secondEditable {
   outline: none;
@@ -142,7 +143,7 @@ blockquote {
   /*border-bottom: 1px solid #dbdbdb;*/
 }
 
-/* line 70, ../sass/edition.scss */
+/* line 71, ../sass/edition.scss */
 pre {
   font-family: 'Menlo', monospace;
   font-size: 15px;
@@ -153,13 +154,13 @@ pre {
   color: #666;
 }
 
-/* line 80, ../sass/edition.scss */
+/* line 81, ../sass/edition.scss */
 #container {
   width: 960px;
   margin: 30px auto;
 }
 
-/* line 88, ../sass/edition.scss */
+/* line 89, ../sass/edition.scss */
 blockquote {
   border-left: 5px solid #555;
   margin-left: -15px;
@@ -168,7 +169,7 @@ blockquote {
   color: #555;
 }
 
-/* line 96, ../sass/edition.scss */
+/* line 97, ../sass/edition.scss */
 .repre_image {
   margin: auto;
   margin-top: 10px;
@@ -176,18 +177,18 @@ blockquote {
   width: calc(100% * 2 / 12);
 }
 
-/* line 103, ../sass/edition.scss */
+/* line 104, ../sass/edition.scss */
 .repre_image img {
   width: 100%;
   box-shadow: 3px 3px 8px #555;
 }
 
-/* line 111, ../sass/edition.scss */
+/* line 112, ../sass/edition.scss */
 .result_title {
   overflow-y: hidden;
 }
 
-/* line 115, ../sass/edition.scss */
+/* line 116, ../sass/edition.scss */
 .result_title {
   overflow: hidden;
   white-space: nowrap;
@@ -195,24 +196,24 @@ blockquote {
   font-size: 1.2em;
 }
 
-/* line 122, ../sass/edition.scss */
+/* line 123, ../sass/edition.scss */
 .result_author {
   color: #b4b4b4;
   font-size: 1.1em;
 }
 
-/* line 126, ../sass/edition.scss */
+/* line 127, ../sass/edition.scss */
 .titre_synth {
   margin-top: 0;
   text-align: center;
 }
 
-/* line 131, ../sass/edition.scss */
+/* line 132, ../sass/edition.scss */
 .edition_bold {
   font-weight: bold;
 }
 
-/* line 135, ../sass/edition.scss */
+/* line 136, ../sass/edition.scss */
 .medium-editor-placeholder:after {
   position: absolute;
   top: 3px;
@@ -221,7 +222,7 @@ blockquote {
   font-style: italic;
 }
 
-/* line 143, ../sass/edition.scss */
+/* line 144, ../sass/edition.scss */
 #cadre_edition {
   display: block;
   border: none;
@@ -231,13 +232,13 @@ blockquote {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* line 153, ../sass/edition.scss */
+/* line 154, ../sass/edition.scss */
 #cadre_edition:focus {
   outline: none;
   box-shadow: 0 0 2px #AEC3D5;
 }
 
-/* line 159, ../sass/edition.scss */
+/* line 160, ../sass/edition.scss */
 .price_selector {
   display: inline-block;
   margin-top: 15px;
