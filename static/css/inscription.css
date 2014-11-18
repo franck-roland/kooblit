@@ -1,81 +1,73 @@
-.form-container{
-    padding-top: 10px; 
-    margin-top: 80px; 
-    background:none;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    text-align: center;
+/* line 4, ../sass/inscription.scss */
+.form-container {
+  padding-top: 10px;
+  margin-top: 80px;
+  background: none;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  text-align: center;
 }
 
-
+/* line 15, ../sass/inscription.scss */
 .form-group {
-    width: 100%;
-    margin: auto;
+  width: 100%;
+  margin: auto;
 }
 
+/* line 20, ../sass/inscription.scss */
 .form-horizontal .form-group {
-    margin: auto;
+  margin: auto;
 }
 
+/* line 24, ../sass/inscription.scss */
 .form-control {
-    background-color: rgb(239, 239, 239);
-    border: 1px solid rgb(225, 225, 225);
+  background-color: #fafafa;
+  border: 1px solid #e1e1e1;
 }
 
+/* line 29, ../sass/inscription.scss */
 .input-container {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
+/* line 33, ../sass/inscription.scss */
 .errorlist {
-    text-align: left;
-    color: red;
-    padding: 0;
+  text-align: left;
+  color: red;
+  padding: 0;
 }
 
+/* line 39, ../sass/inscription.scss */
 legend {
-    text-align:center;
+  text-align: center;
 }
 
+/* line 43, ../sass/inscription.scss */
 a {
-    color: rgb(74,74,74);
+  color: #4a4a4a;
 }
 
+/* line 47, ../sass/inscription.scss */
 a:hover {
-    color: rgb(74,74,74);
-
+  color: #4a4a4a;
 }
 
-
+/* line 53, ../sass/inscription.scss */
 #forgotten_password {
-    text-align: left;
-    padding-left: 15px;
-    padding-right: 15px;
-    margin: auto;
-    font-size: 13px;
+  text-align: left;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: auto;
+  font-size: 13px;
 }
 
-#forgotten_password > a{
-    color: rgb(200, 200, 200);
+/* line 61, ../sass/inscription.scss */
+#forgotten_password > a {
+  color: #c8c8c8;
 }
+
+/* line 64, ../sass/inscription.scss */
 .conditions_generales {
-    font-size: 11px;
-}
-
-input[placeholder], [placeholder], *[placeholder] {
-   color:rgb(200, 200, 200) !important;
-}
-::-webkit-input-placeholder { /* WebKit browsers */
-    color: rgb(200, 200, 200);
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color: rgb(200, 200, 200);
-   opacity:  1;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color: rgb(200, 200, 200);
-   opacity:  1;
-}
-:-ms-input-placeholder { /* Internet Explorer 10+ */
-   color: rgb(200, 200, 200);
+  font-size: 11px;
 }
