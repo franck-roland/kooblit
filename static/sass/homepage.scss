@@ -4,6 +4,7 @@
 @import 'homepage/list';
 
 $search_font_height: 20px;
+$top_bar: 15px;
 /*html, body {
 
     height:100%;
@@ -12,7 +13,7 @@ $search_font_height: 20px;
 /* Changements pour la barre de navigation */
 .nav-bar-kooblit{
   position: absolute;
-  top: 27px;
+  top: $top_bar;
   background: none;
   .navbar-header {
     background: none;
@@ -67,7 +68,7 @@ img.point_kooblit{
   background-repeat: no-repeat;
   background-position: left;
   background-size: cover;
-  padding-top: 70px;
+  padding-top: $nav_bar_len + $top_bar;
   height: auto;
 }
 .last_first_row{
