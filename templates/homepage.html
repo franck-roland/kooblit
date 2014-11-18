@@ -59,18 +59,18 @@
   <div class="container cache container_vignettes"> 
     <div class="row ligne_vignette">
       <div class="col-md-4">
-        {% include 'homepage/vignette.html' with src_img="img/pictos/closed_book.png" is_static=True text="C’est la première plateforme collaborative de partage de synthèses de livres non littéraires." %}
+        {% include 'homepage/vignette.html' with src_img="img/pictos/closed_book.png" is_static=True text="C’est la première <strong> plateforme collaborative de partage de synthèses de livres </strong>non littéraires." %}
       </div>
       <div class="col-md-4">
-        {% include 'homepage/vignette.html' with class="picto_head" src_img="img/pictos/head.png" is_static=True  text="C’est un véritable accélérateur de savoir, une nouvelle manière d’accéder à la connaissance, en condensé." %}
+        {% include 'homepage/vignette.html' with class="picto_head" src_img="img/pictos/head.png" is_static=True  text="C’est un véritable <strong>accélérateur de savoir</strong>, une nouvelle manière d’accéder à la connaissance, en condensé." %}
       </div>
       <div class="col-md-4">
-        {% include 'homepage/vignette.html' with src_img="img/pictos/money.png" is_static=True  text="C’est aussi un moyen de gagner de l’argent en publiant vos propres synthèses de livres." %}
+        {% include 'homepage/vignette.html' with src_img="img/pictos/money.png" is_static=True  text="C’est aussi un moyen de <strong>gagner de l’argent en publiant vos propres synthèses</strong> de livres." %}
       </div>
     </div>
     <div id="last_vignette_book" class="row ligne_vignette">
       <div class="col-md-offset-2 col-md-8">
-      {% include 'homepage/vignette.html' with src_img="img/pictos/open_book.png" is_static=True  text="Les livres non littéraires, ce sont tous les livres qui ne sont pas de la fiction : ce sont les livres techniques, pratiques, théoriques… dans des domaines très variés : business, santé, histoire, loisirs, gestion, sciences et techniques, entreprenariat, politique, productivité, informatique, bien-être, biographies, sciences sociales et bien plus encore…" %}
+      {% include 'homepage/vignette.html' with src_img="img/pictos/open_book.png" is_static=True  text="Les livres non littéraires, ce sont tous les livres qui ne sont pas de la fiction : ce sont les livres techniques, pratiques, théoriques… dans des domaines très variés : <strong>business, santé, histoire, loisirs, gestion, sciences et techniques, entreprenariat, politique, productivité, informatique, bien-être, biographies, sciences sociales</strong> et bien plus encore…" %}
       </div>
     </div>
   </div>
@@ -88,10 +88,10 @@
     <h1> Accumulez des connaissances et faites grossir votre porte-feuille </h1>
     <div class="row ligne_vignette">
       <div class="col-md-6">
-        {% include 'homepage/vignette.html' with src_img="img/pictos/Credit_card.png" is_static=True  text="Acheter des synthèses de livres écrites par d’autres utilisateurs, pour seulement quelques euros." %}
+        {% include 'homepage/vignette.html' with src_img="img/pictos/Credit_card.png" is_static=True  text="<strong>Achetez des synthèses de livres</strong> écrites par d’autres utilisateurs, pour seulement quelques euros." %}
       </div>
       <div class="col-md-6">
-        {% include 'homepage/vignette.html' with src_img="img/pictos/Sell.png" is_static=True  text="Vendre vos propres synthèses de livres. Ici une synthèse d’ouvrage s’appelle un  « Koob »" %}
+        {% include 'homepage/vignette.html' with src_img="img/pictos/Sell.png" is_static=True  text="<strong>Vendez vos propres synthèses de livres</strong>. Ici une synthèse d’ouvrage s’appelle un  « <strong>Koob</strong> »" %}
       </div>
     </div>
   </div>
@@ -107,12 +107,12 @@
 <div id="cmt_ca_marche" class="col-xs-12 fourth_row row_media">
     <div class="col-xs-12">
       <h1>C'est simple comme compter jusqu'à 5</h1>
-      {% include 'homepage/list.html' with number="1" text="Que vous vouliez acheter ou vendre une synthèse, il faut d’abord rechercher le livre qui vous intéresse en tapant le titre, le nom de  l’auteur ou un thème dans la barre de recherche." %}
-      {% include 'homepage/list.html' with number="2" text="Pour acheter une synthèse  : sélectionnez un livre puis cliquez sur « voir les synthèses ».<br/>Si des synthèses existent pour cet ouvrage, vous pouvez en regarder un extrait et acheter celle qui vous convient en l’ajoutant à votre panier." %}
-      {% include 'homepage/list.html' with number="3" text="Votre synthèse achetée se trouve désormais dans votre espace, rubrique « Mes achats ». <br/>Vous pouvez consulter la synthèse directement sur le site, ou vous pouvez la télécharger en format pdf." %}
-      {% include 'homepage/list.html' with number="4" text="Pour vendre une synthèse : sélectionnez un livre puis cliquez sur  « vendre une synthèse ». Vous n’avez plus qu’à écrire votre synthèse directement sur le site, ou faire un copier-coller d’une source extérieure. Vous pouvez sauvegarder à tout moment sans publier, dans ce cas, votre synthèse se trouve dans votre espace, rubrique « Mes brouillons ». Quand vous estimez que votre synthèse est finalisée, alors vous pouvez la publier. Avant que cette dernière soit publiée, il vous reste à choisir son prix de vente." %}
-      {% include 'homepage/list.html' with number="5" text="Vous pouvez gérer vos gains via votre espace. En effet, votre tableau de bord vous indique les ventes de vos synthèses, et le gain associé. Vous gagnez 50% des ventes hors taxes, moins les frais de transaction (3%). Vous devez atteindre un montant de 15€ pour pouvoir transférer l’argent de votre cagnotte sur votre compte bancaire." %}
-      {% include 'homepage/list.html' with number="#" text="Pour assurer la qualité du service, nous ne permettons à nos utilisateurs de vendre que des synthèses de qualité. C'est pour cela que pour être payante, une synthèse doit avoir obtenue au moins 3 notes et une moyenne de 3/5. Votre synthèse sera donc disponible gratuitement jusqu'à ce qu’elle réponde aux critères d'excellence de notre plateforme. Sachez que vous pouvez améliorer votre synthèse en y apportant des modifications à tout moment à partir de votre espace." %}
+      {% include 'homepage/list.html' with number="1" text="Que vous vouliez acheter ou vendre une synthèse, <strong>il faut d’abord rechercher le livre</strong> qui vous intéresse en tapant le titre, le nom de  l’auteur ou un thème dans la barre de recherche." %}
+      {% include 'homepage/list.html' with number="2" text="Pour <strong>acheter une synthèse  : sélectionnez un livre puis cliquez sur « voir les synthèses »</strong>.<br/>Si des synthèses existent pour cet ouvrage, vous pouvez en regarder un extrait et acheter celle qui vous convient en l’ajoutant à votre panier." %}
+      {% include 'homepage/list.html' with number="3" text="<strong>Votre synthèse achetée se trouve désormais dans votre espace</strong>, rubrique « Mes achats ». <br/>Vous pouvez consulter la synthèse directement sur le site, ou vous pouvez la télécharger en format pdf." %}
+      {% include 'homepage/list.html' with number="4" text="Pour <strong>vendre une synthèse : sélectionnez un livre puis cliquez sur  « vendre une synthèse »</strong>. Vous n’avez plus qu’à écrire votre synthèse <strong>directement sur le site, ou faire un copier-coller d’une source extérieure (word par ex)</strong>. Vous pouvez sauvegarder à tout moment sans publier, dans ce cas, votre synthèse se trouve dans votre espace, rubrique « Mes brouillons ». Quand vous estimez que votre synthèse est finalisée, alors vous pouvez <strong>la publier</strong>. Avant que cette dernière soit publiée, il vous reste à <strong>choisir son prix de vente</strong>." %}
+      {% include 'homepage/list.html' with number="5" text="Vous pouvez <strong>gérer vos gains via votre espace</strong>. En effet, votre tableau de bord vous indique les ventes de vos synthèses, et le gain associé. Vous gagnez 50% des ventes hors taxes, moins les frais de transaction (3%). Vous devez atteindre un montant de 15€ pour pouvoir transférer l’argent de votre cagnotte sur votre compte bancaire." %}
+      {% include 'homepage/list.html' with number="#" text="Pour assurer la qualité du service, nous ne permettons à nos utilisateurs de vendre que des synthèses de qualité. C'est pour cela que <strong>pour être payante, une synthèse doit avoir obtenue au moins 3 notes et une moyenne de 3/5</strong>. Votre synthèse sera donc disponible gratuitement jusqu'à ce qu’elle réponde aux critères d'excellence de notre plateforme. Sachez que vous pouvez améliorer votre synthèse en y apportant des modifications à tout moment à partir de votre espace." %}
     </div>
     <div class="col-xs-12 bande_couleur">
       <a href="#last">
