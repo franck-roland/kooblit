@@ -139,7 +139,7 @@ class Syntheses(models.Model):
 
     @property
     def nb_pages(self):
-        if self.file_pdf.name != "0":
+        if self.file_pdf.name != "0" and self.file_pdf.name:
             import pyPdf
             reader = pyPdf.PdfFileReader(self.file_pdf)
             return reader.getNumPages()
