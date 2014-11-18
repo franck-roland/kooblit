@@ -179,7 +179,7 @@ def download_pdf(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
         synth = Syntheses.objects.get(id=synthese_id)
-        if synth.file_pdf.name == '0' :
+        if synth.file_pdf.name == '0' or not synth.file_pdf.name:
             create_pdf(synth.user.username, synth)
         
         f = FileWrapper(synth.file_pdf)
