@@ -1,0 +1,67 @@
+$couleur_police: rgb(200, 200, 200);
+$couleur_fond: rgb(250, 250, 250);
+    
+.form-container{
+    padding-top: 10px; 
+    margin-top: 80px; 
+    background:none;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    text-align: center;
+}
+
+
+.form-group {
+    width: 100%;
+    margin: auto;
+}
+
+.form-horizontal .form-group {
+    margin: auto;
+}
+
+.form-control {
+    background-color: $couleur_fond;
+    border: 1px solid rgb(225, 225, 225);
+}
+
+.input-container {
+    margin-bottom: 10px;
+}
+
+.errorlist {
+    text-align: left;
+    color: red;
+    padding: 0;
+}
+
+legend {
+    text-align:center;
+}
+
+a {
+    color: rgb(74,74,74);
+}
+
+a:hover {
+    color: rgb(74,74,74);
+
+}
+
+
+#forgotten_password {
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: auto;
+    font-size: 13px;
+}
+
+#forgotten_password > a{
+    color: rgb(200, 200, 200);
+}
+.conditions_generales {
+    font-size: 11px;
+}
+
