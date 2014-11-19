@@ -286,7 +286,7 @@ class Note(models.Model):
         unique_together = (('user', 'synthese'),)
 
     def __unicode__(self):
-        return ''.join((self.user.username, ' pour synthese: ', str(self.synthese)))
+        return u''.join((self.user.username, u' pour synthese: ', unicode(str(self.synthese),'utf8')))
 
 
 class DueNote(models.Model):
