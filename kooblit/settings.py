@@ -29,8 +29,8 @@ TMP_DIR = appConfig.get("tmp__kooblit_tmp_root")
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-USE_BUCKET = True
+DEBUG = True
+USE_BUCKET = False
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -71,7 +71,7 @@ INSTALLED_APPS = (
     'manage_books_synth',
     'crispy_forms',
 )
-INSTALLED_APPS += ('storages',)
+INSTALLED_APPS += ('storages','debug_toolbar',)
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

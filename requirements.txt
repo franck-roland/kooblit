@@ -1,6 +1,5 @@
 CairoSVG==1.0.9
 Django==1.7.1
-M2Crypto==0.22.3
 Pillow==2.5.1
 PyYAML==3.11
 Pyphen==0.9.1
@@ -22,6 +21,7 @@ django-basket==0.4.5
 django-celery==3.1.16
 django-classy-tags==0.5.1
 django-crispy-forms==1.4.0
+django-debug-toolbar==1.2.2
 django-grappelli==2.5.3
 django-storages==1.1.8
 html5lib==0.999
@@ -42,5 +42,6 @@ regex==2014.06.28
 reportlab==3.1.8
 requests==2.3.0
 six==1.8.0
+sqlparse==0.1.13
 tinycss==0.3
 wsgiref==0.1.2
