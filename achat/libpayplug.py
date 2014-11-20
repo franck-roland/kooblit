@@ -93,12 +93,12 @@ def ipn_payplug(request):
             message = "IPN received for {first_name} {last_name} for an amount of {amount} EUR"
             message = message.format(first_name=data["first_name"],
             last_name=data["last_name"], amount=data["amount"])
-            send_mail("IPN Received", message, settings.DEFAULT_FROM_EMAIL,["franck.l.roland@gmail.com"])
+            send_mail("IPN Received", message, settings.DEFAULT_FROM_EMAIL,["franck.roland@kooblit.com"])
 
         else:
             message = "The signature was invalid."
             send_mail("IPN Failed", message, settings.DEFAULT_FROM_EMAIL,
-            ["franck.l.roland@gmail.com"])
+            ["franck.roland@kooblit.com"])
     return HttpResponse()
 
 

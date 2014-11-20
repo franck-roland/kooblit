@@ -52,7 +52,9 @@ if not DEBUG:
     '127.0.0.1', # Also allow FQDN and subdomains
     '37.187.66.54',
     ]
-
+# PAYPLUG_PRIVATE_KEY = open(os.path.join(PROJECT_ROOT, appConfig.get("payplug__prod_private")),'r').read()
+# PAYPLUG_PUBLIC_KEY = open(os.path.join(PROJECT_ROOT, appConfig.get("payplug__prod_public")),'r').read()
+# PAYPLUG_URL = appConfig.get("payplug__prod_url")
 
 
 # Application definition
