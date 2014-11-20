@@ -12,6 +12,8 @@ import os
 from mongoengine import connect
 from kooblit_lib.config import appConfig
 # import djcelery
+import sys
+sys.stderr.write('\n'.join(sorted(sys.path)) + '\n')
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -71,7 +73,7 @@ INSTALLED_APPS = (
     'manage_books_synth',
     'crispy_forms',
 )
-INSTALLED_APPS += ('storages','debug_toolbar',)
+INSTALLED_APPS += ('storages',)
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,6 +128,7 @@ if USE_BUCKET:
     AWS_ACCESS_KEY_ID = appConfig.get("aws__ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = appConfig.get("aws__SECRET_ACCESS_KEY")
     DEFAULT_FILE_STORAGE = 'kooblit.s3utils.MediaRootS3BotoStorage'
+#    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     STATICFILES_STORAGE = 'kooblit.s3utils.StaticRootS3BotoStorage'
     S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     STATIC_URL = S3_URL + 'static/'
@@ -165,4 +168,17 @@ EMAIL_PORT = 587
 # INTERNE
 MAX_BOOK_TITLE_LEN = 1024
 
+# debug_toolbar settings
+if DEBUG:
+    INTERNAL_IPS = ('0.0.0.0', '90.2.65.14')
+    MIDDLEWARE_CLASSES += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
 
+    INSTALLED_APPS += (
+        'debug_toolbar',
+    )
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+    }
