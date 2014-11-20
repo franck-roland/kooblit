@@ -117,9 +117,10 @@ ul#autocomplete {
   border-radius: 5px;
   padding-left: 0;
   font-size: 13px;
+  width: 100%;
 }
 
-/* line 14, ../sass/autocomplete.scss */
+/* line 15, ../sass/autocomplete.scss */
 ul#autocomplete li {
   margin: auto;
   width: auto;
@@ -128,22 +129,22 @@ ul#autocomplete li {
   border-radius: 5px;
 }
 
-/* line 22, ../sass/autocomplete.scss */
+/* line 23, ../sass/autocomplete.scss */
 ul#autocomplete li.selected {
   background: #09C;
   color: white;
 }
 
-/* line 27, ../sass/autocomplete.scss */
+/* line 28, ../sass/autocomplete.scss */
 ul#autocomplete li:hover {
   cursor: pointer;
 }
 
-/* line 32, ../sass/autocomplete.scss */
+/* line 33, ../sass/autocomplete.scss */
 ul#autocomplete li.first_list {
   padding-top: 5px;
 }
-/* line 35, ../sass/autocomplete.scss */
+/* line 36, ../sass/autocomplete.scss */
 ul#autocomplete li.last_list {
   padding-bottom: 5px;
 }

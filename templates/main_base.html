@@ -43,16 +43,12 @@
     <script src="{% static "js/search_bar.js" %}" type="text/javascript"></script>
 
     <script type="text/javascript">
+    set_search_bar("#search_bar","#search_bar");
+    
     var loaders = ['#ajax_loader', '#main_ajax_loader'];
     for (var i=0; i<loaders.length; i++){
       $(loaders[i]).css('display', 'none');
     }
-    $('#search_bar').bind("typeahead:selected", function () {
-        $("#search_form").submit();
-    });
-    $('#search_bar_homepage').bind("typeahead:selected", function () {
-        $("#search_form").submit();
-    });
     function display_loader(loader_name){
         $(loader_name).css('display', 'inline-block');
     }
@@ -61,7 +57,9 @@
     }
     </script>
 
-    {% block script_block %}{% endblock %}
+
+    {% block script_block %}
+    {% endblock %}
     {% block end_body %} {% endblock %}
   </body>
 </html>
