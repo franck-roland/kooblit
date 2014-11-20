@@ -41,10 +41,12 @@ $font_nav_size: 20px;
 $brand_font_size: 40px;
 $default_family: 'Gravity';
 $search_bar_height: 34px;
+$search_bar_width: 500px;
 
 ul#autocomplete{
     position: absolute;
-    top: $search_bar_height;
+    top: $search_bar_height + 7px;
+    background: #EEE;
 }
 
 nav {
@@ -194,7 +196,8 @@ li.icon_navbar > a {
   margin-top: 5px;
   padding-bottom: 5px;
   padding-top: 5px;
-  width: 300px;
+  width: $search_bar_width;
+  background: transparent;
 }
 
 #ajax_loader {

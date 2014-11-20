@@ -1,17 +1,18 @@
 /* line 3, ../sass/autocomplete.scss */
 ul#autocomplete {
-  position: relative;
-  top: 2px;
+  position: absolute;
+  top: 55px;
   background: rgba(255, 255, 255, 0.8);
-  color: #53c1ac;
+  color: #4a4a4a;
   border: none;
   border-radius: 5px;
   padding-left: 0;
-  font-size: 13px;
+  font-size: 15px;
   width: 100%;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* line 15, ../sass/autocomplete.scss */
+/* line 16, ../sass/autocomplete.scss */
 ul#autocomplete li {
   margin: auto;
   width: auto;
@@ -20,22 +21,22 @@ ul#autocomplete li {
   border-radius: 5px;
 }
 
-/* line 23, ../sass/autocomplete.scss */
+/* line 24, ../sass/autocomplete.scss */
 ul#autocomplete li.selected {
   background: #09C;
   color: white;
 }
 
-/* line 28, ../sass/autocomplete.scss */
+/* line 29, ../sass/autocomplete.scss */
 ul#autocomplete li:hover {
   cursor: pointer;
 }
 
-/* line 33, ../sass/autocomplete.scss */
+/* line 34, ../sass/autocomplete.scss */
 ul#autocomplete li.first_list {
   padding-top: 5px;
 }
-/* line 36, ../sass/autocomplete.scss */
+/* line 37, ../sass/autocomplete.scss */
 ul#autocomplete li.last_list {
   padding-bottom: 5px;
 }
