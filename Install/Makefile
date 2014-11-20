@@ -1,6 +1,6 @@
 
 
-all: update apache pip virtualenv git lxml mongo libffi rabbit supervisor
+all: update apache pip virtualenv git lxml mongo libffi rabbit supervisor pdf
 
 apache:
 	sudo apt-get install apache2
@@ -41,3 +41,6 @@ rabbit:
 
 supervisor:
 	sudo apt-get install supervisor
+
+pdf:
+	sudo apt-get install wkhtmltopdf
