@@ -203,7 +203,7 @@ def ajouter_synthese_gratuite(request, synthese_id):
         messages.warning(request, "La synthèse à laquelle vous essayez d'accéder n'est pas gratuite")
         return HttpResponseRedirect("/")
 
-    if synthese.is_free and synthese.can_be_added_by(request.user.username):
+    if synthese.is_free and synthese.can_be_added_by(request.user):
         version_synthese = Version_Synthese.objects.get(synthese=synthese, version=synthese.version)
         user = UserKooblit.objects.get(username=request.user.username)
         user.syntheses_achetees.add(version_synthese)

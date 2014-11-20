@@ -3,6 +3,8 @@ import datetime
 import re
 import os
 
+from django.utils.functional import SimpleLazyObject
+
 #URLS
 from django.core.urlresolvers import reverse
 
@@ -228,10 +230,11 @@ class Syntheses(models.Model):
         return " ".join(extrait)
 
 
-    def can_be_added_by(self, username):
-        buyer = UserKooblit.objects.get(username=username)
+    def can_be_added_by(self, buyer):
+        if type(buyer) == SimpleLazyObject:
+            buyer = buyer.userkooblit
         # A changer si changement de regle sur les versions
-        return self.has_been_published and self.user.username != username and not UserKooblit.objects.filter(username=username, syntheses_achetees__synthese=self)
+        return self.has_been_published and self.user.username != buyer.username and not buyer.syntheses_achetees.filter(synthese=self)
 
     def publish(self):
         self.date = datetime.datetime.now()

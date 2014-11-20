@@ -17,7 +17,7 @@ def bought(value, user):
                 return False
         except Exception, e:
             return False
-    return user.is_authenticated() and not value.can_be_added_by(user.username)
+    return user.is_authenticated() and not value.can_be_added_by(user)
 
 @register.filter(name='can_note')
 def can_note(user, synth):

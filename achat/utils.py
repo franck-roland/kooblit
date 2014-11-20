@@ -18,14 +18,14 @@ def add_to_cart(function):
             synthese_id = synthese.id
             if not request.session.get('cart', ''):
                 request.session.set_expiry(60 * 60)
-                if request.user.is_authenticated() and not synthese.can_be_added_by(request.user.username):
+                if request.user.is_authenticated() and not synthese.can_be_added_by(request.user):
                     messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
                 else:
                     request.session['cart'] = [synthese_id]
                     messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
                     request.nbre_achats += 1
             else:
-                if request.user.is_authenticated() and not synthese.can_be_added_by(request.user.username):
+                if request.user.is_authenticated() and not synthese.can_be_added_by(request.user):
                     messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
 
                 elif synthese_id not in request.session['cart']:
