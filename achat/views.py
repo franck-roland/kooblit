@@ -88,32 +88,14 @@ paymill_response_code = {
     '50600': "Duplicate transaction.",
 }
 
-def add_to_cart(request):
-    if request.method == 'POST':
-        if not request.POST.get('synthese', []):
-            return
 
-        synthese_id = int(request.POST['synthese'])
-        if not request.session.get('cart', ''):
-            request.session.set_expiry(60 * 60)
-            if request.user.is_authenticated() and not valid_synthese_for_add(synthese_id, request.user.username):
-                messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
-            else:
-                request.session['cart'] = [synthese_id]
-                messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
-                request.nbre_achats += 1
-        else:
-            if request.user.is_authenticated() and not valid_synthese_for_add(synthese_id, request.user.username):
-                messages.warning(request, "Vous avez déjà acheté ou publié cette synthèse")
+def retour_paiement(request):
+    messages.success(request, "Votre demande de paiement a bien été pris en compte. Vous aurez accès aux synthèses achetées dans votre espace une fois le paiement confirmé. Cela ne devrait prendre que quelques secondes")
+    return HttpResponseRedirect('/',request)
 
-            elif synthese_id not in request.session['cart']:
-                request.session['cart'].append(synthese_id)
-                request.session.modified = True
-                messages.success(request, "Cette synthèse a bien été ajoutée à votre panier")
-                request.nbre_achats += 1
-            else:
-                messages.warning(request, "Cette synthèse est déjà dans votre panier")
-    return
+def retour_annulation(request):
+    messages.warning(request, "Votre demande d'annulation a bien été prise en compte.")
+    return HttpResponseRedirect('/',request)
 
 def cart_details(request):
     if request.method == 'POST':
