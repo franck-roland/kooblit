@@ -153,11 +153,11 @@ li.icon_navbar > a {
   font-size: 40px;
   font-family: "Gravity Light";
   text-shadow: 1px 1px 2px black;
+  padding-top: 9px;
 }
-/* line 137, ../sass/base.scss */
+/* line 138, ../sass/base.scss */
 .navbar-header a.navbar-brand img {
-  height: 50px;
-  margin-top: -6px;
+  height: 40px;
   display: inline;
 }
 /* line 143, ../sass/base.scss */
