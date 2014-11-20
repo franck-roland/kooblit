@@ -1,0 +1,40 @@
+/* line 3, ../sass/autocomplete.scss */
+ul#autocomplete {
+  position: relative;
+  top: 2px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #53c1ac;
+  border: none;
+  border-radius: 5px;
+  padding-left: 0;
+  font-size: 13px;
+}
+
+/* line 14, ../sass/autocomplete.scss */
+ul#autocomplete li {
+  margin: auto;
+  width: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+}
+
+/* line 22, ../sass/autocomplete.scss */
+ul#autocomplete li.selected {
+  background: #09C;
+  color: white;
+}
+
+/* line 27, ../sass/autocomplete.scss */
+ul#autocomplete li:hover {
+  cursor: pointer;
+}
+
+/* line 32, ../sass/autocomplete.scss */
+ul#autocomplete li.first_list {
+  padding-top: 5px;
+}
+/* line 35, ../sass/autocomplete.scss */
+ul#autocomplete li.last_list {
+  padding-bottom: 5px;
+}

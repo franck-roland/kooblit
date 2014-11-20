@@ -1,0 +1,38 @@
+@import 'utilities/colors';
+
+ul#autocomplete{
+    position: relative;
+    top: 2px;
+    background: rgba(255,255,255,0.8);
+    color: $call_to_action_bckgd;
+    border: none;
+    border-radius: 5px;
+    padding-left: 0;
+    font-size: 13px;
+}
+
+ul#autocomplete li{
+    margin: auto;
+    width: auto;
+    padding-left:15px;
+    padding-right:15px;
+    border-radius: 5px;
+}
+
+ul#autocomplete li.selected{
+    background: #09C;
+    color: white;
+}
+
+ul#autocomplete li:hover{
+    cursor: pointer;
+}
+
+ul#autocomplete{
+    li.first_list{
+        padding-top:5px;
+    }
+    li.last_list{
+        padding-bottom:5px;
+    }
+}
