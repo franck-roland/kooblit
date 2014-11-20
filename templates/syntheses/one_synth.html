@@ -25,8 +25,8 @@
       <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
       <p class="misc_info col-xs-6" style="text-align:right;"><b>{{synth.nb_pages}}</b> page{{synth.nb_pages|pluralize}}</p>
       <p class="misc_info col-xs-12" style="text-align: justify;font-size: 1em;">Publié le {{synth.date|date:"d/m/Y"}}</p>
-
-      {% if synth|bought:user %}
+{% with has_bought=synth|bought:user %}
+      {% if has_bought %}
         <p class="col-xs-12" style="padding: 0px;">
           <a href="{% url 'usr_management:lire_synthese' synth.id %}" class="abtn see_extract" >
             Lire la synthèse
@@ -62,7 +62,7 @@
   </div>
 </div> <!-- repre_image -->
 
-{% if not synth|bought:user and not synth.is_free %}
+{% if not has_bought and not synth.is_free %}
 <!-- Modal -->
 <div class="modal fade" id="myModal_{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -90,3 +90,4 @@
   </div>
 </div> <!-- Modal -->
 {% endif %}
+{% endwith %}

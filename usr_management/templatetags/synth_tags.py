@@ -8,14 +8,14 @@ def bought(value, user):
         return False
     else:
         try:
-            current_user = UserKooblit.objects.get(username=user.username)
+            current_user = user
             if value.user == current_user: # Auteur de la synthese
                 return True
             if Version_Synthese.objects.filter(userkooblit=current_user, synthese=value): # Dans les achats
                 return True
             else:
                 return False
-        except UserKooblit.DoesNotExist:
+        except Exception, e:
             return False
     return user.is_authenticated() and not value.can_be_added_by(user.username)
 
@@ -25,7 +25,6 @@ def can_note(user, synth):
         return False
     else:
         try:
-            current_user = UserKooblit.objects.get(username=user.username)
-            return current_user.can_note(synth)
-        except UserKooblit.DoesNotExist:
+            return user.can_note(synth)
+        except Exception, e:
             return False

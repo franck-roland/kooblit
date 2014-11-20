@@ -12,6 +12,8 @@ import os
 from mongoengine import connect
 from kooblit_lib.config import appConfig
 # import djcelery
+import sys
+sys.stderr.write('\n'.join(sorted(sys.path)) + '\n')
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -29,8 +31,8 @@ TMP_DIR = appConfig.get("tmp__kooblit_tmp_root")
 connect('docs_db', username=MONGO_USER, password=MONGO_PWD)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-USE_BUCKET = True
+DEBUG = True
+USE_BUCKET = False
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -52,7 +54,9 @@ if not DEBUG:
     '127.0.0.1', # Also allow FQDN and subdomains
     '37.187.66.54',
     ]
-
+# PAYPLUG_PRIVATE_KEY = open(os.path.join(PROJECT_ROOT, appConfig.get("payplug__prod_private")),'r').read()
+# PAYPLUG_PUBLIC_KEY = open(os.path.join(PROJECT_ROOT, appConfig.get("payplug__prod_public")),'r').read()
+# PAYPLUG_URL = appConfig.get("payplug__prod_url")
 
 
 # Application definition
@@ -126,6 +130,7 @@ if USE_BUCKET:
     AWS_ACCESS_KEY_ID = appConfig.get("aws__ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = appConfig.get("aws__SECRET_ACCESS_KEY")
     DEFAULT_FILE_STORAGE = 'kooblit.s3utils.MediaRootS3BotoStorage'
+#    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     STATICFILES_STORAGE = 'kooblit.s3utils.StaticRootS3BotoStorage'
     S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     STATIC_URL = S3_URL + 'static/'
@@ -165,4 +170,17 @@ EMAIL_PORT = 587
 # INTERNE
 MAX_BOOK_TITLE_LEN = 1024
 
+# debug_toolbar settings
+if DEBUG:
+    INTERNAL_IPS = ('0.0.0.0', '90.2.65.14')
+    MIDDLEWARE_CLASSES += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
 
+    INSTALLED_APPS += (
+        'debug_toolbar',
+    )
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+    }
