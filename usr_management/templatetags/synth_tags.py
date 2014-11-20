@@ -25,6 +25,6 @@ def can_note(user, synth):
         return False
     else:
         try:
-            return user.can_note(synth)
+            return user.userkooblit.can_note(synth)
         except Exception, e:
             return False
