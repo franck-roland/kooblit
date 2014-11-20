@@ -15,7 +15,6 @@
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <link href="{% static "css/button.css" %}" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
     {% block extra_css %}{% endblock %}
     {% block extra_head_script %}{% endblock %}
     <script>
@@ -63,7 +62,7 @@
     </script>
 
     {% block script_block %}{% endblock %}
-
+    {% block end_body %} {% endblock %}
   </body>
 </html>
 
