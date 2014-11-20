@@ -1,0 +1,40 @@
+@import 'utilities/colors';
+
+ul#autocomplete{
+    position: absolute;
+    top: 55px;
+    background: rgba(255,255,255,0.8);
+    color: $text_black_color;
+    border: none;
+    border-radius: 5px;
+    padding-left: 0;
+    font-size: 15px;
+    width: 100%;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+ul#autocomplete li{
+    margin: auto;
+    width: auto;
+    padding-left:15px;
+    padding-right:15px;
+    border-radius: 5px;
+}
+
+ul#autocomplete li.selected{
+    background: #09C;
+    color: white;
+}
+
+ul#autocomplete li:hover{
+    cursor: pointer;
+}
+
+ul#autocomplete{
+    li.first_list{
+        padding-top:5px;
+    }
+    li.last_list{
+        padding-bottom:5px;
+    }
+}

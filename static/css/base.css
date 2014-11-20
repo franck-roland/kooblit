@@ -5,6 +5,49 @@
 /* Small devices (tablets, 768px and up) */
 /* Medium devices (desktops, 992px and up) */
 /* Large devices (large desktops, 1200px and up) */
+/* line 3, ../sass/autocomplete.scss */
+ul#autocomplete {
+  position: absolute;
+  top: 55px;
+  background: #EEE;
+  color: #4a4a4a;
+  border: none;
+  border-radius: 5px;
+  padding-left: 0;
+  font-size: 15px;
+  width: 100%;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* line 16, ../sass/autocomplete.scss */
+ul#autocomplete li {
+  margin: auto;
+  width: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+}
+
+/* line 24, ../sass/autocomplete.scss */
+ul#autocomplete li.selected {
+  background: #09C;
+  color: white;
+}
+
+/* line 29, ../sass/autocomplete.scss */
+ul#autocomplete li:hover {
+  cursor: pointer;
+}
+
+/* line 34, ../sass/autocomplete.scss */
+ul#autocomplete li.first_list {
+  padding-top: 5px;
+}
+/* line 37, ../sass/autocomplete.scss */
+ul#autocomplete li.last_list {
+  padding-bottom: 5px;
+}
+
 @font-face {
   font-family: "Gravity";
   src: url("../fonts/gravity/Gravity-Book.ttf") format("TrueType");
@@ -38,12 +81,19 @@
   font-weight: normal;
 }
 
-/* line 43, ../sass/base.scss */
+/* line 46, ../sass/base.scss */
+ul#autocomplete {
+  position: absolute;
+  top: 41px;
+  background: #EEE;
+}
+
+/* line 52, ../sass/base.scss */
 nav {
   background: #fafafa;
 }
 
-/* line 47, ../sass/base.scss */
+/* line 56, ../sass/base.scss */
 html, body {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
   height: 100%;
@@ -52,64 +102,64 @@ html, body {
   font-family: "Gravity";
 }
 
-/* line 57, ../sass/base.scss */
+/* line 66, ../sass/base.scss */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Gravity";
 }
 
-/* line 60, ../sass/base.scss */
+/* line 69, ../sass/base.scss */
 a {
   color: #53c1ac;
 }
 
-/* line 63, ../sass/base.scss */
+/* line 72, ../sass/base.scss */
 a:hover {
   color: white;
   text-decoration: none;
 }
 
-/* line 67, ../sass/base.scss */
+/* line 76, ../sass/base.scss */
 a:visited {
   color: #9bd2c7;
 }
 
-/* line 70, ../sass/base.scss */
+/* line 79, ../sass/base.scss */
 li {
   list-style: none;
 }
 
-/* line 74, ../sass/base.scss */
+/* line 83, ../sass/base.scss */
 footer {
   padding: 30px 0;
 }
 
-/* line 78, ../sass/base.scss */
+/* line 87, ../sass/base.scss */
 #block_content {
   padding-top: 70px;
 }
 
 /* Wrapper for page content to push down footer */
-/* line 83, ../sass/base.scss */
+/* line 92, ../sass/base.scss */
 #wrap {
   height: 100%;
   margin: 0 auto 0;
 }
 
 /* Set the fixed height of the footer here */
-/* line 89, ../sass/base.scss */
+/* line 98, ../sass/base.scss */
 #push, #footer {
   height: 60px;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 1105px) {
-  /* line 95, ../sass/base.scss */
+  /* line 104, ../sass/base.scss */
   #wrap {
     min-height: 100%;
     margin: 0 auto 0;
   }
 
-  /* line 99, ../sass/base.scss */
+  /* line 108, ../sass/base.scss */
   #footer {
     margin-left: -20px;
     margin-right: -20px;
@@ -117,7 +167,7 @@ footer {
     padding-right: 20px;
   }
 }
-/* line 107, ../sass/base.scss */
+/* line 116, ../sass/base.scss */
 .nav-bar-kooblit {
   /*background-color: #EFEFEF;*/
   background-color: #fafafa;
@@ -127,27 +177,27 @@ footer {
   font-size: 20px;
 }
 
-/* line 115, ../sass/base.scss */
+/* line 124, ../sass/base.scss */
 .navbar-collapse {
   background: #fafafa;
 }
 
-/* line 120, ../sass/base.scss */
+/* line 129, ../sass/base.scss */
 .icon_navbar {
   max-height: 50px;
 }
 
-/* line 125, ../sass/base.scss */
+/* line 134, ../sass/base.scss */
 li.icon_navbar > a {
   max-height: 70px;
   padding: 10px;
 }
 
-/* line 130, ../sass/base.scss */
+/* line 139, ../sass/base.scss */
 .navbar-header {
   background: #fafafa;
 }
-/* line 132, ../sass/base.scss */
+/* line 141, ../sass/base.scss */
 .navbar-header a.navbar-brand {
   color: black;
   font-size: 40px;
@@ -155,102 +205,103 @@ li.icon_navbar > a {
   text-shadow: 1px 1px 2px black;
   padding-top: 9px;
 }
-/* line 138, ../sass/base.scss */
+/* line 147, ../sass/base.scss */
 .navbar-header a.navbar-brand img {
   height: 40px;
   display: inline;
 }
-/* line 143, ../sass/base.scss */
+/* line 152, ../sass/base.scss */
 .navbar-header .navbar-nav {
   padding: 0;
 }
 
-/* line 151, ../sass/base.scss */
+/* line 160, ../sass/base.scss */
 .navbar-default .navbar-nav li a {
   color: black;
 }
-/* line 154, ../sass/base.scss */
+/* line 163, ../sass/base.scss */
 .navbar-default .navbar-nav li a:hover {
   color: #5a9b8e;
 }
 
-/* line 160, ../sass/base.scss */
+/* line 169, ../sass/base.scss */
 .navbar-default .navbar-toggle {
   background: #53c1ac;
   border: none;
 }
-/* line 164, ../sass/base.scss */
+/* line 173, ../sass/base.scss */
 .navbar-default .navbar-toggle:hover {
   background: #5a9b8e;
 }
 
-/* line 168, ../sass/base.scss */
+/* line 177, ../sass/base.scss */
 .dropdown-menu > li > a:hover {
   color: #5a9b8e;
 }
 
-/* line 172, ../sass/base.scss */
+/* line 181, ../sass/base.scss */
 #home_profil {
   background: #fafafa;
   color: #FFF;
 }
 
-/* line 177, ../sass/base.scss */
+/* line 186, ../sass/base.scss */
 .twitter-typeahead input {
   background-color: #fafafa;
   width: 100%;
 }
 
-/* line 181, ../sass/base.scss */
+/* line 190, ../sass/base.scss */
 .twitter-typeahead {
   width: 500px;
   max-width: 100%;
 }
 
-/* line 185, ../sass/base.scss */
+/* line 194, ../sass/base.scss */
 #search_bar {
   height: 34px;
   margin-top: 5px;
   padding-bottom: 5px;
   padding-top: 5px;
-  width: 100%;
+  width: 500px;
+  background: transparent;
 }
 
-/* line 193, ../sass/base.scss */
+/* line 203, ../sass/base.scss */
 #ajax_loader {
   display: none;
   float: none;
   vertical-align: bottom;
 }
 
-/* line 199, ../sass/base.scss */
+/* line 209, ../sass/base.scss */
 .navbar_img {
   width: 35px;
 }
 
-/* line 203, ../sass/base.scss */
+/* line 213, ../sass/base.scss */
 .fa.fa-shopping-cart {
   font-size: 24px;
 }
 
-/* line 207, ../sass/base.scss */
+/* line 217, ../sass/base.scss */
 .navbar-nav > li {
   /* Useful when collapsed (mobile) */
   text-align: center;
 }
 
-/* line 212, ../sass/base.scss */
+/* line 222, ../sass/base.scss */
 .navbar-nav > li > a.navbar_login {
   color: #7f7f7f;
   font-size: 20px;
 }
 
-/* line 217, ../sass/base.scss */
+/* line 227, ../sass/base.scss */
 .navbar-nav > li > .dropdown-menu {
   margin-top: 20px;
 }
 
-/* line 222, ../sass/base.scss */
+/* line 232, ../sass/base.scss */
 #achats a:hover {
   background-color: white;
   color: #18bc9c;
@@ -259,22 +310,22 @@ li.icon_navbar > a {
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
-/* line 232, ../sass/base.scss */
+/* line 242, ../sass/base.scss */
 #wrap > .container {
   padding-top: 70px;
 }
 
-/* line 235, ../sass/base.scss */
+/* line 245, ../sass/base.scss */
 .container .credit {
   margin: 20px 0;
 }
 
-/* line 239, ../sass/base.scss */
+/* line 249, ../sass/base.scss */
 code {
   font-size: 80%;
 }
 
-/* line 244, ../sass/base.scss */
+/* line 254, ../sass/base.scss */
 .search_button {
   /*background-color: #32B232;*/
   background: url(/static/img/search_back.png) no-repeat center center;
@@ -284,7 +335,7 @@ code {
   background-size: cover;
 }
 
-/* line 253, ../sass/base.scss */
+/* line 263, ../sass/base.scss */
 .gold_button {
   /*background-color: #32B232;*/
   background: url(/static/img/gold_back.png) no-repeat center center;
@@ -295,7 +346,7 @@ code {
   /*background-color: #EBEB00;*/
 }
 
-/* line 263, ../sass/base.scss */
+/* line 273, ../sass/base.scss */
 .subscribe_button {
   background: url(/static/img/sub_back.png) no-repeat center center;
   -webkit-background-size: cover;
@@ -305,7 +356,7 @@ code {
   /*background-color: #006A80;*/
 }
 
-/* line 272, ../sass/base.scss */
+/* line 282, ../sass/base.scss */
 .nb_achats {
   font-weight: bold;
   color: #4a4a4a;
@@ -314,7 +365,7 @@ code {
 
 /* Responsive */
 @media (max-width: 768px) {
-  /* line 281, ../sass/base.scss */
+  /* line 291, ../sass/base.scss */
   .navbar-nav > li > a.navbar-brand {
     padding-top: 0;
   }

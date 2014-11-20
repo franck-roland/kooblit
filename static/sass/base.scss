@@ -4,6 +4,7 @@
  */
 @import "utilities/colors";
 @import "utilities/unities";
+@import "autocomplete";
 
 @font-face{
   font-family: "Gravity";
@@ -39,6 +40,14 @@ $nav_bar_len: 70px;
 $font_nav_size: 20px;
 $brand_font_size: 40px;
 $default_family: 'Gravity';
+$search_bar_height: 34px;
+$search_bar_width: 500px;
+
+ul#autocomplete{
+    position: absolute;
+    top: $search_bar_height + 7px;
+    background: #EEE;
+}
 
 nav {
   background: $html_background_color;
@@ -183,11 +192,12 @@ li.icon_navbar > a {
   max-width: 100%;
 }
 #search_bar {
-  height: 34px;
+  height: $search_bar_height;
   margin-top: 5px;
   padding-bottom: 5px;
   padding-top: 5px;
-  width: 100%;
+  width: $search_bar_width;
+  background: transparent;
 }
 
 #ajax_loader {
