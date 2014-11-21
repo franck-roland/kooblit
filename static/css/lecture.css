@@ -1,57 +1,65 @@
-/* line 1, ../sass/lecture.scss */
+/* Small devices (tablets, 768px and up) */
+/* Medium devices (desktops, 992px and up) */
+/* Large devices (large desktops, 1200px and up) */
+/* line 3, ../sass/lecture.scss */
 #block_content {
   padding-top: 0;
 }
 
-/* line 4, ../sass/lecture.scss */
+/* line 6, ../sass/lecture.scss */
 .resume {
   margin-top: 50px;
   margin-bottom: 200px;
 }
 
-/* line 9, ../sass/lecture.scss */
+/* line 11, ../sass/lecture.scss */
 .header_title {
   color: #232323;
 }
 
-/* line 13, ../sass/lecture.scss */
+/* line 15, ../sass/lecture.scss */
 .book_title {
   color: #7f7f7f;
 }
 
-/* line 17, ../sass/lecture.scss */
+/* line 19, ../sass/lecture.scss */
 .navbar {
   border: none;
 }
 
-/* line 21, ../sass/lecture.scss */
+/* line 22, ../sass/lecture.scss */
+.row_image_couv {
+  margin-top: 70px;
+}
+
+/* line 25, ../sass/lecture.scss */
 #block_content {
   padding-bottom: 55px;
   font-size: 16px;
 }
 
-/* line 26, ../sass/lecture.scss */
+/* line 30, ../sass/lecture.scss */
 .titre_synth {
   margin-top: 10px;
   text-align: center;
 }
 
-/* line 30, ../sass/lecture.scss */
+/* line 34, ../sass/lecture.scss */
 .edition_bold {
   font-weight: bold;
 }
 
-/* line 34, ../sass/lecture.scss */
+/* line 38, ../sass/lecture.scss */
 #wrap > .header_container {
   padding-top: 10px;
 }
 
-/* line 37, ../sass/lecture.scss */
+/* line 41, ../sass/lecture.scss */
 .fa-home {
   font-size: 50px;
 }
 
-/* line 40, ../sass/lecture.scss */
+/* line 44, ../sass/lecture.scss */
 footer {
   padding: 0;
   position: fixed;
@@ -62,14 +70,14 @@ footer {
   background: none;
 }
 
-/* line 50, ../sass/lecture.scss */
+/* line 54, ../sass/lecture.scss */
 footer .container {
   padding-top: 15px;
   /*padding-bottom: 15px;*/
   border-top: 1px solid gainsboro;
 }
 
-/* line 56, ../sass/lecture.scss */
+/* line 60, ../sass/lecture.scss */
 footer .footer_link {
   float: right;
   height: 44px;
@@ -80,34 +88,34 @@ footer .footer_link {
   margin-bottom: 10px;
 }
 
-/* line 66, ../sass/lecture.scss */
+/* line 70, ../sass/lecture.scss */
 footer .footer_link .btn {
   height: 44px;
   background-color: #18BC9C;
   color: white;
 }
 
-/* line 74, ../sass/lecture.scss */
+/* line 78, ../sass/lecture.scss */
 footer .footer_link .fa {
   vertical-align: middle;
   font-size: 25px;
 }
 
-/* line 79, ../sass/lecture.scss */
+/* line 83, ../sass/lecture.scss */
 footer .footer_link .btn:hover {
   text-decoration: none;
   background-color: #0F7864;
   /*box-shadow: 2px 2px 2px 0px #0F7864;*/
 }
 
-/* line 85, ../sass/lecture.scss */
+/* line 89, ../sass/lecture.scss */
 footer .pagination {
   margin: auto;
   margin-left: 10px;
   margin-bottom: 10px;
 }
 
-/* line 91, ../sass/lecture.scss */
+/* line 95, ../sass/lecture.scss */
 .repre_image {
   margin: auto;
   margin-top: 10px;
@@ -115,13 +123,13 @@ footer .pagination {
   width: 150px;
 }
 
-/* line 98, ../sass/lecture.scss */
+/* line 102, ../sass/lecture.scss */
 .repre_image img {
   width: 100%;
   box-shadow: 3px 3px 8px #555;
 }
 
-/* line 102, ../sass/lecture.scss */
+/* line 106, ../sass/lecture.scss */
 .bs-component {
   margin: auto;
   margin-bottom: 15px;
@@ -129,7 +137,7 @@ footer .pagination {
   font-weight: bold;
 }
 
-/* line 109, ../sass/lecture.scss */
+/* line 113, ../sass/lecture.scss */
 .bs-component a {
   display: inline-block;
   width: 100%;
@@ -137,13 +145,13 @@ footer .pagination {
   color: #7f7f7f;
 }
 
-/* line 116, ../sass/lecture.scss */
+/* line 120, ../sass/lecture.scss */
 .bs-component a:hover {
   color: #18bc9c;
   text-decoration: none;
 }
 
-/* line 121, ../sass/lecture.scss */
+/* line 125, ../sass/lecture.scss */
 .bs-component a img {
   display: inline;
   width: 30px;

@@ -5,17 +5,13 @@
   <link href="{% static "css/lecture.css" %}" rel="stylesheet">
 {% endblock %}
 
+
 {% block navigation %}
-<a name="top"></a>
-<div class="container header_container">
-  <div class="header">
-    <h2><a href="{% url 'usr_management:dashboard' %}"><i class="fa fa-home"></i></a></h2>
-  </div>
-</div>
+  {% include 'navigation/main_without_search.html' %}
 {% endblock %}
 
 {% block content %}
-  <div class="row">
+  <div class="row row_image_couv">
     <div class="repre_image">
       <a title="Acheter le livre" target="_blank" href="{{u_b.buy_url}}">
           <img src="{% if u_b.medium_image != None %}{{u_b.medium_image}}{% else %}{{u_b.image}}{% endif %}">

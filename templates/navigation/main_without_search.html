@@ -1,0 +1,28 @@
+{% extends "navigation/fixed_base.html" %}
+{% load staticfiles %}
+
+{% block nav_search %}
+{% endblock %}
+
+{% block nav_header %}
+  <ul class="navbar-nav">
+    <li>
+      <a class="navbar-brand" href="{% url 'homepage'%}">
+       <img id="point_kooblit" src="{% static "img/logo/little_baniere_kooblit.png" %}" alt="Logo Kooblit" />
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block nav_profile %}
+  {% if user.is_authenticated %}
+    {{ block.super }}
+  {% else %}
+    <li>
+      <a href="{% url 'usr_management:login' %}#enregistrement" class="navbar_login"> S'enregistrer</a>
+    </li>
+    <li>
+      <a href="{% url 'usr_management:login' %}#connection" class="navbar_login"> Se connecter</a>
+    </li>
+  {% endif %}
+{% endblock %}
