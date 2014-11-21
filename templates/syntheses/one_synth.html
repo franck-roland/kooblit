@@ -4,9 +4,9 @@
   <!-- <img src="{{img_url}}" /> -->
   <div class="image_extract">
     <img src="{% static "img/logo/little_owl_grey.png" %}" alt="Logo Kooblit" />
-    <p>Koob de</p>
-    <p class="title_extract">{{synth.book_title|title|slice:":11"}}{% if synth.titre|length > 11 %}...{% endif %}</p>
-    <p>Par <a style="color: rgb(74,74,74);" href="{% url 'users' synth.user.username %}"><span class="author_name">{{synth.user.username|title}}</span> </a> </p>
+    <p class="koob_de">Koob de</p>
+    <p class="title_extract">{{synth.book_title|title|slice:":100"}}{% if synth.book_title|length > 100 %}...{% endif %}</p>
+    <p class="par">Par <a style="color: rgb(74,74,74);" href="{% url 'users' synth.user.username %}"><span class="author_name">{{synth.user.username|title}}</span> </a> </p>
   </div>
 
   <div class="result_info_etiquette">

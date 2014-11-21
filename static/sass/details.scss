@@ -6,6 +6,7 @@ $stars_offset_x: 20px;
 $stars_first_offset_y: 20px;
 $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
 $etiquette_width: 175px;
+$etiquette_height:250px;
 
 .result_title {
   font-size: 1.3em;
@@ -114,6 +115,7 @@ $etiquette_width: 175px;
     color: black;
     background-color: rgb(208, 208, 208);
     padding-top:5px;
+    font-weight: bold;
 }
 
 .see_extract:hover {
@@ -170,7 +172,7 @@ $etiquette_width: 175px;
 
 .repre_image .image_extract{
     width: $etiquette_width;
-    height: 250px;
+    height: $etiquette_height;
     box-shadow: 3px 3px 8px #555;
     background: rgb(223, 210, 144);
     text-align: center;
@@ -186,7 +188,22 @@ $etiquette_width: 175px;
     box-shadow: 0px 0px;
     width: 40px;
     margin: 10% 25%;
+    margin-top:0;
 }
+.image_extract{
+ .koob_de, .par, .author_name{
+    font-size:1.3em;
+    color:$grey_color;
+ }
+
+ .title_extract{
+    height:$etiquette_height - 160px;
+    overflow:hidden;
+    font-size:0.9em;
+ }
+}
+    
+    
 .result_info_etiquette {
     /*box-shadow: 3px 3px 8px #555;*/
     /*text-align: center;*/
@@ -194,3 +211,6 @@ $etiquette_width: 175px;
 .author_name, .title_extract {
     font-weight: bold;
 }
+.author_name{
+    color:$grey_color;
+ }
