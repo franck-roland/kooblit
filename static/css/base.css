@@ -9,8 +9,8 @@
 ul#autocomplete {
   position: absolute;
   top: 55px;
-  background: #EEE;
-  color: #4a4a4a;
+  background: rgba(255, 255, 255, 0.8);
+  color: #4A4A4A;
   border: none;
   border-radius: 5px;
   padding-left: 0;
@@ -54,33 +54,28 @@ ul#autocomplete li.last_list {
   font-style: normal;
   font-weight: normal;
 }
-
 @font-face {
   font-family: "Gravity";
   src: url("../fonts/gravity/Gravity-Book-Italic.ttf") format("TrueType");
   font-style: italic;
 }
-
 @font-face {
   font-family: "Gravity";
   src: url("../fonts/gravity/Gravity-Bold.ttf") format("TrueType");
   font-weight: bold;
 }
-
 @font-face {
   font-family: "Gravity";
   src: url("../fonts/gravity/Gravity-Bold.ttf") format("TrueType");
   font-style: italic;
   font-weight: bold;
 }
-
 @font-face {
   font-family: "Gravity Light";
   src: url("../fonts/gravity/Gravity-Light.ttf") format("TrueType");
   font-style: normal;
   font-weight: normal;
 }
-
 /* line 46, ../sass/base.scss */
 ul#autocomplete {
   position: absolute;
@@ -90,26 +85,26 @@ ul#autocomplete {
 
 /* line 52, ../sass/base.scss */
 nav {
-  background: #fafafa;
+  background: #FAFAFA;
 }
 
-/* line 56, ../sass/base.scss */
+/* line 55, ../sass/base.scss */
 html, body {
   /*overflow-x: hidden;  Prevent scroll on narrow devices */
   height: 100%;
-  background-color: #fafafa;
+  background-color: #FAFAFA;
   color: #4a4a4a;
   font-family: "Gravity";
 }
 
-/* line 66, ../sass/base.scss */
+/* line 65, ../sass/base.scss */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Gravity";
 }
 
 /* line 69, ../sass/base.scss */
 a {
-  color: #53c1ac;
+  color: #53C1AC;
 }
 
 /* line 72, ../sass/base.scss */
@@ -170,7 +165,7 @@ footer {
 /* line 116, ../sass/base.scss */
 .nav-bar-kooblit {
   /*background-color: #EFEFEF;*/
-  background-color: #fafafa;
+  background-color: #FAFAFA;
   border: none;
   color: #7f7f7f;
   height: 70px;
@@ -179,7 +174,7 @@ footer {
 
 /* line 124, ../sass/base.scss */
 .navbar-collapse {
-  background: #fafafa;
+  background: #FAFAFA;
 }
 
 /* line 129, ../sass/base.scss */
@@ -195,7 +190,7 @@ li.icon_navbar > a {
 
 /* line 139, ../sass/base.scss */
 .navbar-header {
-  background: #fafafa;
+  background: #FAFAFA;
 }
 /* line 141, ../sass/base.scss */
 .navbar-header a.navbar-brand {
@@ -226,7 +221,7 @@ li.icon_navbar > a {
 
 /* line 169, ../sass/base.scss */
 .navbar-default .navbar-toggle {
-  background: #53c1ac;
+  background: #53C1AC;
   border: none;
 }
 /* line 173, ../sass/base.scss */
@@ -241,13 +236,13 @@ li.icon_navbar > a {
 
 /* line 181, ../sass/base.scss */
 #home_profil {
-  background: #fafafa;
+  background: #FAFAFA;
   color: #FFF;
 }
 
 /* line 186, ../sass/base.scss */
 .twitter-typeahead input {
-  background-color: #fafafa;
+  background-color: #FAFAFA;
   width: 100%;
 }
 
@@ -325,7 +320,7 @@ code {
   font-size: 80%;
 }
 
-/* line 254, ../sass/base.scss */
+/* line 253, ../sass/base.scss */
 .search_button {
   /*background-color: #32B232;*/
   background: url(/static/img/search_back.png) no-repeat center center;
@@ -335,7 +330,7 @@ code {
   background-size: cover;
 }
 
-/* line 263, ../sass/base.scss */
+/* line 262, ../sass/base.scss */
 .gold_button {
   /*background-color: #32B232;*/
   background: url(/static/img/gold_back.png) no-repeat center center;
@@ -346,7 +341,7 @@ code {
   /*background-color: #EBEB00;*/
 }
 
-/* line 273, ../sass/base.scss */
+/* line 272, ../sass/base.scss */
 .subscribe_button {
   background: url(/static/img/sub_back.png) no-repeat center center;
   -webkit-background-size: cover;

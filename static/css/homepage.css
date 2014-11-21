@@ -34,7 +34,7 @@
 
 /* line 27, ../sass/homepage/vignette.scss */
 .third_row .vignette_sub, .fourth_row .vignette_sub {
-  color: #4a4a4a;
+  color: #4A4A4A;
 }
 
 /* line 31, ../sass/homepage/vignette.scss */
@@ -85,7 +85,7 @@
 .list_container {
   margin: auto;
   margin-bottom: 56px;
-  color: #4a4a4a;
+  color: #4A4A4A;
   width: 80%;
 }
 
@@ -112,7 +112,7 @@ ul#autocomplete {
   position: absolute;
   top: 55px;
   background: rgba(255, 255, 255, 0.8);
-  color: #4a4a4a;
+  color: #4A4A4A;
   border: none;
   border-radius: 5px;
   padding-left: 0;
@@ -332,7 +332,7 @@ img#point_kooblit {
   border: none;
   /*font-size: 10pt;*/
   float: left;
-  color: #53c1ac;
+  color: #53C1AC;
   padding-left: 15px;
   border-radius: 5px;
   -webkit-border-top-right-radius: 25px;
@@ -361,22 +361,22 @@ img#point_kooblit {
 
 /* line 181, ../sass/homepage.scss */
 input#search_bar_homepage::-webkit-input-placeholder {
-  color: #53c1ac;
+  color: #53C1AC;
 }
 
 /* line 185, ../sass/homepage.scss */
 input#search_bar_homepage:-ms-input-placeholder {
-  color: #53c1ac;
+  color: #53C1AC;
 }
 
 /* line 189, ../sass/homepage.scss */
 input#search_bar_homepage:-moz-placeholder {
-  color: #53c1ac;
+  color: #53C1AC;
 }
 
 /* line 193, ../sass/homepage.scss */
 input#search_bar_homepage::-moz-placeholder {
-  color: #53c1ac;
+  color: #53C1AC;
 }
 
 /* line 198, ../sass/homepage.scss */
@@ -410,7 +410,7 @@ input#search_bar_homepage::-moz-placeholder {
 
 /* line 219, ../sass/homepage.scss */
 .third_row, .fourth_row {
-  background: #fafafa;
+  background: #FAFAFA;
 }
 /* line 222, ../sass/homepage.scss */
 .third_row h1, .fourth_row h1 {
@@ -433,7 +433,7 @@ input#search_bar_homepage::-moz-placeholder {
 
 /* line 242, ../sass/homepage.scss */
 .bande_couleur {
-  background: #53c1ac;
+  background: #53C1AC;
   text-align: center;
   width: 100%;
   position: absolute;

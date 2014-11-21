@@ -13,8 +13,8 @@
   line-height: 1.42857;
   border-radius: 4px;
   -moz-user-select: none;
-  background-color: #53c1ac;
-  color: white;
+  background-color: #53C1AC;
+  color: #FFF;
 }
 
 /* line 24, ../sass/button.scss */
@@ -29,12 +29,12 @@
 
 /* line 34, ../sass/button.scss */
 .btn_important, .plus_button {
-  background-color: #ff934e;
+  background-color: #FF934E;
 }
 
 /* line 38, ../sass/button.scss */
 .btn_important:hover, .plus_button:hover {
-  background-color: #eb7325;
+  background-color: #EB7325;
 }
 
 /* line 42, ../sass/button.scss */
