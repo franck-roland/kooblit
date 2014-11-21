@@ -15,6 +15,19 @@
 {% endblock %}
 
 {% block content %}
+  <div class="row">
+    <div class="repre_image">
+      <a title="Acheter le livre" target="_blank" href="{{u_b.buy_url}}">
+          <img src="{% if u_b.medium_image != None %}{{u_b.medium_image}}{% else %}{{u_b.image}}{% endif %}">
+      </a>
+    </div>
+    <div class="bs-component">
+      <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Acheter le livre" href="{{buy_url}}" target="_blank">
+        <img src="{% static "img/pictos/Credit_card.png" %}" />
+        Acheter le livre
+      </a>
+    </div>
+  </div>
   {% if messages %}
     <div class="container" >
       {% for message in messages %}
@@ -25,7 +38,6 @@
       {% endfor %}
     </div>
   {% endif %}
-
   {% for page in synth.pages %}
   <div id="page_{{forloop.counter}}" class="container resume  {% if forloop.counter > 1 %} hidden {% endif %}" style="margin-bottom: 50px;">
     <div class="row">

@@ -12,6 +12,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpRespons
 from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm, AddressChangeForm
 from django.contrib.auth.models import User
 from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address, Version_Synthese, Note, DueNote
+from manage_books_synth.models import Book, UniqueBook
 from manage_books_synth.models import Book
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
@@ -219,8 +220,10 @@ def ajouter_synthese_gratuite(request, synthese_id):
 def lire_synthese(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
-        synt = Syntheses.objects.get(id=synthese_id)
-        return render_to_response('lecture.html', RequestContext(request, {'synth': synt}))
+        synth = Syntheses.objects.get(id=synthese_id)
+        book = Book.objects.get(title=synth.book_title)
+        u_b = UniqueBook.objects.filter(book=book)[0]
+        return render_to_response('lecture.html', RequestContext(request, {'synth': synth, 'book': book, 'u_b': u_b}))
     else:
         raise Http404()
 
