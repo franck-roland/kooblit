@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <div class="row info_perso">
+  <div class="row ">
     <div class="col-xs-12">
       <h3> Mes infos </h3>
     </div>
@@ -38,7 +38,7 @@
   </div> <!-- row infos_perso -->
 
   <div class="row labels">
-    <div class="col-sm-8 col-xs-12"><h3>Mes synthèses</h3></div>
+    <div class="col-sm-8 col-xs-12"><h3>Mes publications</h3></div>
 
     {% if syntheses_ecrites %}
       <div class="col-sm-1 col-xs-3"><h4>Prix de vente (TTC)</h4></div>
@@ -67,7 +67,7 @@
         <h2>Total</h2>
       </div>
       <p class="col-sm-1 col-xs-1 price">{{total}}€</p>
-      </div>
+      </div> <!-- total -->
     <div class="row">
       <div class="col-lg-offset-8 col-lg-2 col-sm-8 col-xs-6 cagnotte_info">
         Votre cagnotte doit être supérieure à 15€ pour pouvoir être virée sur votre compte
@@ -76,7 +76,6 @@
         <a href="{% url 'achat:paiement' %}" class="btn_call" style="width:100%;font-size:15px;margin-left:0px"> Vider la cagnotte </a>
       </div>
       </div>
-    </div>
 
   {% else %}
     <div class="col-xs-12">
@@ -84,7 +83,7 @@
     </div>
   {% endif %}
 
-  <div class="container achats">
+  <div class="row achats">
     <div class="col-xs-12">
       <h3> Mes achats </h3>
     </div>
@@ -105,9 +104,9 @@
     {% endif %}
     </div>
   </div> <!-- row achats -->
-  <div class="container achats">
+  <div class="row achats">
     <div class="col-xs-12">
-      <h3> Mes projets en cours </h3>
+      <h3> Mes brouillons </h3>
     </div>
       <div class="row">
     {% if syntheses_en_cours %}
@@ -124,7 +123,7 @@
       </div>
     {% endif %}
       </div>
-  </div> <!-- row achats -->
+  </div> <!-- row brouillons -->
 </div>
 {% endblock %}
 {% block script_block %}
