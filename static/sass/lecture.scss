@@ -1,3 +1,5 @@
+@import "utilities/unities";
+
 #block_content {
   padding-top: 0;
 }
@@ -17,7 +19,9 @@
 .navbar {
   border: none;
 }
-
+.row_image_couv{
+  margin-top: $nav_bar_len;
+}
 #block_content {
   padding-bottom: 55px;
   font-size: 16px;
