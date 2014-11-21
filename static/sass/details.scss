@@ -5,6 +5,7 @@ $stars_img: "../img/rating_stars_30.png";
 $stars_offset_x: 20px;
 $stars_first_offset_y: 20px;
 $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
+$etiquette_width: 175px;
 
 .result_title {
   font-size: 1.3em;
@@ -66,7 +67,7 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
     background: url($stars_img) no-repeat;
     height: $stars_height;
     background-position: -#{$stars_offset_x} -#{$stars_second_offset_y};  /*Multiple de 34px*/
-    width: 150px;
+    width: $etiquette_width;
 }
 .stars_yellow {
     /*margin-left: 15px;*/
@@ -112,6 +113,7 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
 .see_extract {
     color: black;
     background-color: rgb(208, 208, 208);
+    padding-top:5px;
 }
 
 .see_extract:hover {
@@ -119,29 +121,35 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
     background-color: rgb(220, 220, 220);
 }
 
+.btn_desc {
+    font-weight: bold;
+}
+
 .buy_resume {
     font-size: 15px;
-    line-height: 1.2;
+    line-height: 1;
     border: 0;
     padding: 0;
-    padding: 2px 0;
+    padding: 4px 0;
 }
 
 
 .misc_info.price {
+    line-height: 1.5;
     font-weight: bold;
-    font-size: 1.6em;
+    font-size: 2.2em;
     color: rgb(187, 69, 69);
 }
 
 .misc_info.free_price {
+    line-height: 1.5;
     font-weight: bold;
-    font-size: 1.6em;
+    font-size: 2.2em;
     color: $call_to_action_bckgd;
 }
 
 .misc_info {
-    font-size: 0.75em;
+    font-size: 1.3em;
     padding: 0;
 }
 
@@ -161,8 +169,8 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
 }
 
 .repre_image .image_extract{
-    width: 150px;
-    height: 50%;
+    width: $etiquette_width;
+    height: 250px;
     box-shadow: 3px 3px 8px #555;
     background: rgb(223, 210, 144);
     text-align: center;
@@ -171,12 +179,12 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
 }
 .result_description {
     padding: 0;
-    width: 150px;
+    width: $etiquette_width;
     margin: auto;
 }
 .image_extract img{
     box-shadow: 0px 0px;
-    width: 50%;
+    width: 40px;
     margin: 10% 25%;
 }
 .result_info_etiquette {

@@ -24,7 +24,7 @@
     <div class="result_description">
       <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
       <p class="misc_info col-xs-6" style="text-align:right;"><b>{{synth.nb_pages}}</b> page{{synth.nb_pages|pluralize}}</p>
-      <p class="misc_info col-xs-12" style="text-align: justify;font-size: 1em;">Publié le {{synth.date|date:"d/m/Y"}}</p>
+      <p class="misc_info col-xs-12" style="text-align: center;">Publié le {{synth.date|date:"d/m/Y"}}</p>
 {% with has_bought=synth|bought:user %}
       {% if has_bought %}
         <p class="col-xs-12" style="padding: 0px;">
@@ -34,25 +34,25 @@
         </p>
       {% elif synth.is_free %}
         <p class="col-xs-12" style="padding: 0px;">
-          <a href="javascript:void(0)" class="abtn see_extract" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
+          <a href="javascript:void(0)" class="btn_desc abtn see_extract" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
             Voir un extrait
           </a>
         </p>
-        <p class="misc_info free_price col-3 col-xs-3">0,0€</p>
-        <p class="col-8 col-offset-1 col-xs-8 col-xs-offset-1" style="padding:1px;">
-          <a href="{% url 'usr_management:ajouter_synthese_gratuite' synth.id %}" class="btn_call abtn buy_resume">
-            Ajouter à mes syntheses
+        <p class="misc_info free_price col-4 col-xs-4">0,0€</p>
+        <p class="col-7 col-offset-1 col-xs-7 col-xs-offset-1" style="padding:1px;">
+          <a href="{% url 'usr_management:ajouter_synthese_gratuite' synth.id %}" class="btn_call btn_desc abtn buy_resume">
+            Lire gratuitement
           </a>
         </p>
       {% else %}
         <p class="col-xs-12" style="padding: 0px;">
-          <a href="javascript:void(0)" class="abtn see_extract" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
+          <a href="javascript:void(0)" class="btn_desc abtn see_extract" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
             Voir un extrait
           </a>
         </p>
-        <p class="misc_info price col-3 col-xs-3">{{synth.prix}}€</p>
-        <p class="col-8 col-offset-1 col-xs-8 col-xs-offset-1" style="padding:1px;">
-          <button href="javascript:void(0)" class="btn_important abtn buy_resume" form="form_ajout_{{synth.id}}">
+        <p class="misc_info price col-4 col-xs-4">{{synth.prix}}€</p>
+        <p class="col-7 col-offset-1 col-xs-7 col-xs-offset-1" style="padding:1px;">
+          <button href="javascript:void(0)" class="btn_important btn_desc abtn buy_resume" form="form_ajout_{{synth.id}}">
             Ajouter au panier
           </button>
         </p>

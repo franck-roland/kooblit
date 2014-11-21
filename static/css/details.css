@@ -1,45 +1,45 @@
-/* line 9, ../sass/details.scss */
+/* line 10, ../sass/details.scss */
 .result_title {
   font-size: 1.3em;
 }
 
-/* line 13, ../sass/details.scss */
+/* line 14, ../sass/details.scss */
 .result_author {
   font-size: 1.1em;
 }
 
-/* line 16, ../sass/details.scss */
+/* line 17, ../sass/details.scss */
 .bs-component {
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-/* line 20, ../sass/details.scss */
+/* line 21, ../sass/details.scss */
 .bs-component a {
   text-align: left;
   /*font-size: 0.7em;*/
 }
 
-/* line 25, ../sass/details.scss */
+/* line 26, ../sass/details.scss */
 .bs-component a img {
   width: 45px;
 }
 
-/* line 29, ../sass/details.scss */
+/* line 30, ../sass/details.scss */
 .no_synthese {
   margin-top: 15%;
   color: #b4b4b4;
   text-align: center;
 }
 
-/* line 35, ../sass/details.scss */
+/* line 36, ../sass/details.scss */
 .star-icon {
   color: #ddd;
   font-size: 1.5em;
   position: relative;
 }
 
-/* line 40, ../sass/details.scss */
+/* line 41, ../sass/details.scss */
 .star-icon.full:before {
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   color: #FDE16D;
@@ -49,7 +49,7 @@
   left: 0;
 }
 
-/* line 47, ../sass/details.scss */
+/* line 48, ../sass/details.scss */
 .star-icon.half:before {
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   color: #FDE16D;
@@ -63,13 +63,13 @@
 
 @-moz-document url-prefix() {
   /* Firefox Hack :( */
-  /* line 57, ../sass/details.scss */
+  /* line 58, ../sass/details.scss */
   .star-icon {
     font-size: 50px;
     line-height: 34px;
   }
 }
-/* line 62, ../sass/details.scss */
+/* line 63, ../sass/details.scss */
 .stars {
   margin: auto;
   margin-top: 10px;
@@ -78,10 +78,10 @@
   height: 30px;
   background-position: -20px -60px;
   /*Multiple de 34px*/
-  width: 150px;
+  width: 175px;
 }
 
-/* line 71, ../sass/details.scss */
+/* line 72, ../sass/details.scss */
 .stars_yellow {
   /*margin-left: 15px;*/
   background: url("../img/rating_stars_30.png") no-repeat;
@@ -91,12 +91,12 @@
   width: 100%;
 }
 
-/* line 78, ../sass/details.scss */
+/* line 79, ../sass/details.scss */
 .current_note_hidden {
   background: none;
 }
 
-/* line 83, ../sass/details.scss */
+/* line 84, ../sass/details.scss */
 .vote_note_1 {
   background: none;
   position: relative;
@@ -105,14 +105,14 @@
   top: -150px;
 }
 
-/* line 90, ../sass/details.scss */
+/* line 91, ../sass/details.scss */
 .vote_note_1:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 83, ../sass/details.scss */
+/* line 84, ../sass/details.scss */
 .vote_note_2 {
   background: none;
   position: relative;
@@ -121,14 +121,14 @@
   top: -120px;
 }
 
-/* line 90, ../sass/details.scss */
+/* line 91, ../sass/details.scss */
 .vote_note_2:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 83, ../sass/details.scss */
+/* line 84, ../sass/details.scss */
 .vote_note_3 {
   background: none;
   position: relative;
@@ -137,14 +137,14 @@
   top: -90px;
 }
 
-/* line 90, ../sass/details.scss */
+/* line 91, ../sass/details.scss */
 .vote_note_3:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 83, ../sass/details.scss */
+/* line 84, ../sass/details.scss */
 .vote_note_4 {
   background: none;
   position: relative;
@@ -153,14 +153,14 @@
   top: -60px;
 }
 
-/* line 90, ../sass/details.scss */
+/* line 91, ../sass/details.scss */
 .vote_note_4:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 83, ../sass/details.scss */
+/* line 84, ../sass/details.scss */
 .vote_note_5 {
   background: none;
   position: relative;
@@ -169,14 +169,14 @@
   top: -30px;
 }
 
-/* line 90, ../sass/details.scss */
+/* line 91, ../sass/details.scss */
 .vote_note_5:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 97, ../sass/details.scss */
+/* line 98, ../sass/details.scss */
 .abtn {
   display: inline-block;
   width: 100%;
@@ -187,75 +187,83 @@
   border-radius: 4px;
 }
 
-/* line 107, ../sass/details.scss */
+/* line 108, ../sass/details.scss */
 .abtn:hover {
   color: white;
   text-decoration: none;
 }
 
-/* line 112, ../sass/details.scss */
+/* line 113, ../sass/details.scss */
 .see_extract {
   color: black;
   background-color: #d0d0d0;
+  padding-top: 5px;
 }
 
-/* line 117, ../sass/details.scss */
+/* line 119, ../sass/details.scss */
 .see_extract:hover {
   color: black;
   background-color: gainsboro;
 }
 
-/* line 122, ../sass/details.scss */
-.buy_resume {
-  font-size: 15px;
-  line-height: 1.2;
-  border: 0;
-  padding: 0;
-  padding: 2px 0;
+/* line 124, ../sass/details.scss */
+.btn_desc {
+  font-weight: bold;
 }
 
-/* line 131, ../sass/details.scss */
-.misc_info.price {
-  font-weight: bold;
-  font-size: 1.6em;
-  color: #bb4545;
+/* line 128, ../sass/details.scss */
+.buy_resume {
+  font-size: 15px;
+  line-height: 1;
+  border: 0;
+  padding: 0;
+  padding: 4px 0;
 }
 
 /* line 137, ../sass/details.scss */
-.misc_info.free_price {
+.misc_info.price {
+  line-height: 1.5;
   font-weight: bold;
-  font-size: 1.6em;
+  font-size: 2.2em;
+  color: #bb4545;
+}
+
+/* line 144, ../sass/details.scss */
+.misc_info.free_price {
+  line-height: 1.5;
+  font-weight: bold;
+  font-size: 2.2em;
   color: #53C1AC;
 }
 
-/* line 143, ../sass/details.scss */
+/* line 151, ../sass/details.scss */
 .misc_info {
-  font-size: 0.75em;
+  font-size: 1.3em;
   padding: 0;
 }
 
-/* line 148, ../sass/details.scss */
+/* line 156, ../sass/details.scss */
 .list_extract {
   margin-top: 50px;
 }
 
-/* line 152, ../sass/details.scss */
+/* line 160, ../sass/details.scss */
 .repre_image {
   margin-bottom: 30px;
   /*text-align: center;*/
 }
 
-/* line 157, ../sass/details.scss */
+/* line 165, ../sass/details.scss */
 .plus_button {
   padding: 5px 10px;
   font-weight: bold;
   float: right;
 }
 
-/* line 163, ../sass/details.scss */
+/* line 171, ../sass/details.scss */
 .repre_image .image_extract {
-  width: 150px;
-  height: 50%;
+  width: 175px;
+  height: 250px;
   box-shadow: 3px 3px 8px #555;
   background: #dfd290;
   text-align: center;
@@ -263,27 +271,27 @@
   margin: auto;
 }
 
-/* line 172, ../sass/details.scss */
+/* line 180, ../sass/details.scss */
 .result_description {
   padding: 0;
-  width: 150px;
+  width: 175px;
   margin: auto;
 }
 
-/* line 177, ../sass/details.scss */
+/* line 185, ../sass/details.scss */
 .image_extract img {
   box-shadow: 0px 0px;
-  width: 50%;
+  width: 40px;
   margin: 10% 25%;
 }
 
-/* line 182, ../sass/details.scss */
+/* line 190, ../sass/details.scss */
 .result_info_etiquette {
   /*box-shadow: 3px 3px 8px #555;*/
   /*text-align: center;*/
 }
 
-/* line 186, ../sass/details.scss */
+/* line 194, ../sass/details.scss */
 .author_name, .title_extract {
   font-weight: bold;
 }
