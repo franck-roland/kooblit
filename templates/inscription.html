@@ -16,7 +16,7 @@
 <div class="container form-container col-lg-4 col-lg-offset-1" >
 <form name='signup_form' class="form-horizontal django_form" onsubmit="return validateForm()" action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">{% csrf_token %}
     <fieldset>
-    <legend id="enregistrement" class="col-lg-12">S'enregistrer</legend>
+    <legend id="enregistrement" class="col-lg-12">S'inscrire</legend>
     {{ form.non_field_errors }}
     <!-- <div class="fieldWrapper">
         <label for="id_subject">Pseudo:</label>
