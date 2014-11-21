@@ -1,45 +1,45 @@
-/* line 7, ../sass/details.scss */
+/* line 9, ../sass/details.scss */
 .result_title {
   font-size: 1.3em;
 }
 
-/* line 11, ../sass/details.scss */
+/* line 13, ../sass/details.scss */
 .result_author {
   font-size: 1.1em;
 }
 
-/* line 14, ../sass/details.scss */
+/* line 16, ../sass/details.scss */
 .bs-component {
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-/* line 18, ../sass/details.scss */
+/* line 20, ../sass/details.scss */
 .bs-component a {
   text-align: left;
   /*font-size: 0.7em;*/
 }
 
-/* line 23, ../sass/details.scss */
+/* line 25, ../sass/details.scss */
 .bs-component a img {
   width: 45px;
 }
 
-/* line 27, ../sass/details.scss */
+/* line 29, ../sass/details.scss */
 .no_synthese {
   margin-top: 15%;
   color: #b4b4b4;
   text-align: center;
 }
 
-/* line 33, ../sass/details.scss */
+/* line 35, ../sass/details.scss */
 .star-icon {
   color: #ddd;
   font-size: 1.5em;
   position: relative;
 }
 
-/* line 38, ../sass/details.scss */
+/* line 40, ../sass/details.scss */
 .star-icon.full:before {
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   color: #FDE16D;
@@ -49,7 +49,7 @@
   left: 0;
 }
 
-/* line 45, ../sass/details.scss */
+/* line 47, ../sass/details.scss */
 .star-icon.half:before {
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   color: #FDE16D;
@@ -63,13 +63,13 @@
 
 @-moz-document url-prefix() {
   /* Firefox Hack :( */
-  /* line 55, ../sass/details.scss */
+  /* line 57, ../sass/details.scss */
   .star-icon {
     font-size: 50px;
     line-height: 34px;
   }
 }
-/* line 60, ../sass/details.scss */
+/* line 62, ../sass/details.scss */
 .stars {
   margin: auto;
   margin-top: 10px;
@@ -81,7 +81,7 @@
   width: 150px;
 }
 
-/* line 69, ../sass/details.scss */
+/* line 71, ../sass/details.scss */
 .stars_yellow {
   /*margin-left: 15px;*/
   background: url("../img/rating_stars_30.png") no-repeat;
@@ -91,12 +91,12 @@
   width: 100%;
 }
 
-/* line 76, ../sass/details.scss */
+/* line 78, ../sass/details.scss */
 .current_note_hidden {
   background: none;
 }
 
-/* line 81, ../sass/details.scss */
+/* line 83, ../sass/details.scss */
 .vote_note_1 {
   background: none;
   position: relative;
@@ -105,14 +105,14 @@
   top: -150px;
 }
 
-/* line 88, ../sass/details.scss */
+/* line 90, ../sass/details.scss */
 .vote_note_1:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 81, ../sass/details.scss */
+/* line 83, ../sass/details.scss */
 .vote_note_2 {
   background: none;
   position: relative;
@@ -121,14 +121,14 @@
   top: -120px;
 }
 
-/* line 88, ../sass/details.scss */
+/* line 90, ../sass/details.scss */
 .vote_note_2:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 81, ../sass/details.scss */
+/* line 83, ../sass/details.scss */
 .vote_note_3 {
   background: none;
   position: relative;
@@ -137,14 +137,14 @@
   top: -90px;
 }
 
-/* line 88, ../sass/details.scss */
+/* line 90, ../sass/details.scss */
 .vote_note_3:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 81, ../sass/details.scss */
+/* line 83, ../sass/details.scss */
 .vote_note_4 {
   background: none;
   position: relative;
@@ -153,14 +153,14 @@
   top: -60px;
 }
 
-/* line 88, ../sass/details.scss */
+/* line 90, ../sass/details.scss */
 .vote_note_4:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 81, ../sass/details.scss */
+/* line 83, ../sass/details.scss */
 .vote_note_5 {
   background: none;
   position: relative;
@@ -169,14 +169,14 @@
   top: -30px;
 }
 
-/* line 88, ../sass/details.scss */
+/* line 90, ../sass/details.scss */
 .vote_note_5:hover {
   background: url("../img/rating_stars_30.png") no-repeat;
   background-position: -20px -20px;
   /*Multiple de 34px*/
 }
 
-/* line 95, ../sass/details.scss */
+/* line 97, ../sass/details.scss */
 .abtn {
   display: inline-block;
   width: 100%;
@@ -187,63 +187,72 @@
   border-radius: 4px;
 }
 
-/* line 105, ../sass/details.scss */
+/* line 107, ../sass/details.scss */
 .abtn:hover {
   color: white;
   text-decoration: none;
 }
 
-/* line 110, ../sass/details.scss */
+/* line 112, ../sass/details.scss */
 .see_extract {
   color: black;
   background-color: #d0d0d0;
 }
 
-/* line 115, ../sass/details.scss */
+/* line 117, ../sass/details.scss */
 .see_extract:hover {
   color: black;
   background-color: gainsboro;
 }
 
-/* line 120, ../sass/details.scss */
+/* line 122, ../sass/details.scss */
 .buy_resume {
   font-size: 15px;
+  line-height: 1.2;
   border: 0;
   padding: 0;
+  padding: 2px 0;
 }
 
-/* line 127, ../sass/details.scss */
+/* line 131, ../sass/details.scss */
 .misc_info.price {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.6em;
   color: #bb4545;
 }
 
-/* line 133, ../sass/details.scss */
+/* line 137, ../sass/details.scss */
+.misc_info.free_price {
+  font-weight: bold;
+  font-size: 1.6em;
+  color: #53C1AC;
+}
+
+/* line 143, ../sass/details.scss */
 .misc_info {
   font-size: 0.75em;
   padding: 0;
 }
 
-/* line 138, ../sass/details.scss */
+/* line 148, ../sass/details.scss */
 .list_extract {
   margin-top: 50px;
 }
 
-/* line 142, ../sass/details.scss */
+/* line 152, ../sass/details.scss */
 .repre_image {
   margin-bottom: 30px;
   /*text-align: center;*/
 }
 
-/* line 147, ../sass/details.scss */
+/* line 157, ../sass/details.scss */
 .plus_button {
   padding: 5px 10px;
   font-weight: bold;
   float: right;
 }
 
-/* line 153, ../sass/details.scss */
+/* line 163, ../sass/details.scss */
 .repre_image .image_extract {
   width: 150px;
   height: 50%;
@@ -254,27 +263,27 @@
   margin: auto;
 }
 
-/* line 162, ../sass/details.scss */
+/* line 172, ../sass/details.scss */
 .result_description {
   padding: 0;
   width: 150px;
   margin: auto;
 }
 
-/* line 167, ../sass/details.scss */
+/* line 177, ../sass/details.scss */
 .image_extract img {
   box-shadow: 0px 0px;
   width: 50%;
   margin: 10% 25%;
 }
 
-/* line 172, ../sass/details.scss */
+/* line 182, ../sass/details.scss */
 .result_info_etiquette {
   /*box-shadow: 3px 3px 8px #555;*/
   /*text-align: center;*/
 }
 
-/* line 176, ../sass/details.scss */
+/* line 186, ../sass/details.scss */
 .author_name, .title_extract {
   font-weight: bold;
 }

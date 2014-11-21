@@ -1,3 +1,5 @@
+@import "utilities/colors";
+
 $stars_height: 30px;
 $stars_img: "../img/rating_stars_30.png";
 $stars_offset_x: 20px;
@@ -119,15 +121,23 @@ $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
 
 .buy_resume {
     font-size: 15px;
+    line-height: 1.2;
     border: 0;
     padding: 0;
+    padding: 2px 0;
 }
 
 
 .misc_info.price {
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.6em;
     color: rgb(187, 69, 69);
+}
+
+.misc_info.free_price {
+    font-weight: bold;
+    font-size: 1.6em;
+    color: $call_to_action_bckgd;
 }
 
 .misc_info {
