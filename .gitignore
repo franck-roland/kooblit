@@ -64,3 +64,6 @@ docs/_build/
 config/config.yml
 
 */migrations/
+
+#Clefs
+*.pem
