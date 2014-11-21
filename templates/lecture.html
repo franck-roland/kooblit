@@ -38,6 +38,7 @@
       {% endfor %}
     </div>
   {% endif %}
+  <h2 class="titre_synth">Koob de <span class="edition_bold" >{{book.title}}</span> par <span class="edition_bold">{{synth.user.username}}</span></h2>
   {% for page in synth.pages %}
   <div id="page_{{forloop.counter}}" class="container resume  {% if forloop.counter > 1 %} hidden {% endif %}" style="margin-bottom: 50px;">
     <div class="row">

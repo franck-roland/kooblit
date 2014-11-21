@@ -31,16 +31,27 @@
 }
 
 /* line 26, ../sass/lecture.scss */
+.titre_synth {
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* line 30, ../sass/lecture.scss */
+.edition_bold {
+  font-weight: bold;
+}
+
+/* line 34, ../sass/lecture.scss */
 #wrap > .header_container {
   padding-top: 10px;
 }
 
-/* line 29, ../sass/lecture.scss */
+/* line 37, ../sass/lecture.scss */
 .fa-home {
   font-size: 50px;
 }
 
-/* line 32, ../sass/lecture.scss */
+/* line 40, ../sass/lecture.scss */
 footer {
   padding: 0;
   position: fixed;
@@ -51,14 +62,14 @@ footer {
   background: none;
 }
 
-/* line 42, ../sass/lecture.scss */
+/* line 50, ../sass/lecture.scss */
 footer .container {
   padding-top: 15px;
   /*padding-bottom: 15px;*/
   border-top: 1px solid gainsboro;
 }
 
-/* line 48, ../sass/lecture.scss */
+/* line 56, ../sass/lecture.scss */
 footer .footer_link {
   float: right;
   height: 44px;
@@ -69,34 +80,34 @@ footer .footer_link {
   margin-bottom: 10px;
 }
 
-/* line 58, ../sass/lecture.scss */
+/* line 66, ../sass/lecture.scss */
 footer .footer_link .btn {
   height: 44px;
   background-color: #18BC9C;
   color: white;
 }
 
-/* line 66, ../sass/lecture.scss */
+/* line 74, ../sass/lecture.scss */
 footer .footer_link .fa {
   vertical-align: middle;
   font-size: 25px;
 }
 
-/* line 71, ../sass/lecture.scss */
+/* line 79, ../sass/lecture.scss */
 footer .footer_link .btn:hover {
   text-decoration: none;
   background-color: #0F7864;
   /*box-shadow: 2px 2px 2px 0px #0F7864;*/
 }
 
-/* line 77, ../sass/lecture.scss */
+/* line 85, ../sass/lecture.scss */
 footer .pagination {
   margin: auto;
   margin-left: 10px;
   margin-bottom: 10px;
 }
 
-/* line 83, ../sass/lecture.scss */
+/* line 91, ../sass/lecture.scss */
 .repre_image {
   margin: auto;
   margin-top: 10px;
@@ -104,13 +115,13 @@ footer .pagination {
   width: 150px;
 }
 
-/* line 90, ../sass/lecture.scss */
+/* line 98, ../sass/lecture.scss */
 .repre_image img {
   width: 100%;
   box-shadow: 3px 3px 8px #555;
 }
 
-/* line 94, ../sass/lecture.scss */
+/* line 102, ../sass/lecture.scss */
 .bs-component {
   margin: auto;
   margin-bottom: 15px;
@@ -118,7 +129,7 @@ footer .pagination {
   font-weight: bold;
 }
 
-/* line 101, ../sass/lecture.scss */
+/* line 109, ../sass/lecture.scss */
 .bs-component a {
   display: inline-block;
   width: 100%;
@@ -126,13 +137,13 @@ footer .pagination {
   color: #7f7f7f;
 }
 
-/* line 108, ../sass/lecture.scss */
+/* line 116, ../sass/lecture.scss */
 .bs-component a:hover {
   color: #18bc9c;
   text-decoration: none;
 }
 
-/* line 113, ../sass/lecture.scss */
+/* line 121, ../sass/lecture.scss */
 .bs-component a img {
   display: inline;
   width: 30px;
