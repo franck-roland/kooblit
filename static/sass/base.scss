@@ -69,12 +69,15 @@ h1, h2, h3, h4, h5, h6
 a{
   color: $nav_link_color;
 }
+a:link, a:visited, a:active, a:focus {
+  font-style: inherit;
+  text-decoration: inherit;
+  color: inherit;
+  border: none;
+}
 a:hover{
   color: white;
   text-decoration: none;
-}
-a:visited {
-    color: $nav_link_color_visited;
 }
 li {
   list-style: none;
