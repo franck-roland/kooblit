@@ -214,3 +214,11 @@ $etiquette_height:250px;
 .author_name{
     color:$grey_color;
  }
+
+ .etiquette_link {
+    font-style: normal;
+    color:$grey_color;
+}
+.etiquette_link:focus {
+    font-style: normal;
+}
