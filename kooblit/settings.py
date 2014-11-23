@@ -172,7 +172,7 @@ MAX_BOOK_TITLE_LEN = 1024
 
 # debug_toolbar settings
 if DEBUG:
-    INTERNAL_IPS = ('0.0.0.0', '90.2.65.14')
+    INTERNAL_IPS = ('0.0.0.0', '90.2.65.14', "127.0.0.1")
     MIDDLEWARE_CLASSES += (
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
