@@ -17,8 +17,11 @@
         <h3>
             Adresse
         </h3>
+    
+
+
         <ul id="list_adresse">
-            {% include 'profil/fiche.html' with label="N°" value=adresse.number input_name="number" type="number" placeholder="Numéro..." required=loc_required %}
+            {% include 'profil/fiche.html' with label="N°" value=adresse.number input_name="number" type="text" placeholder="Numéro..." required=loc_required %}
             {% include 'profil/fiche.html' with label="Rue, voie, ..." value=adresse.street_line1 input_name="street_line1" type="text" placeholder="Rue, voie, ..." required=loc_required %}
             {% include 'profil/fiche.html' with label="Complément" value=adresse.street_line2 input_name="street_line2" type="text" placeholder="..." required="" %}
             {% include 'profil/fiche.html' with label="Code Postal" value=adresse.zipcode input_name="zipcode" type="text" placeholder="Code Postal..." required=loc_required %}
