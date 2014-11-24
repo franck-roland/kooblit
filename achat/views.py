@@ -32,7 +32,7 @@ from .libpayplug import redirect_payplug, ipn_payplug
 
 URL_MATCH = re.compile('(http://.*?/)')
 
-TVA = 0.05
+TVA = 0.055
 TAXE_TRANSACTION = 0.03
 
 logger = logging.getLogger(__name__)
