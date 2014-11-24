@@ -1,0 +1,12 @@
+{% load staticfiles %}
+{% load general_tags %}
+<table>
+	{% for entree in entrees %}
+	<tr>
+		<td>1</td>
+		<td>{{entree.synthese_dest.titre}}</td>
+		<td>{{entree.montant|multiply ht_rate}}</td>
+		<td>{{entree.montant|multiply}}</td>
+	</tr>
+	{% endfor %}
+</table>
