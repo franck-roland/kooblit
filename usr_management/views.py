@@ -143,6 +143,7 @@ def contact(request):
 
             # New user
             if form.is_valid():  # All validation rules pass
+                next_url = '/' # TODO: connection autorisée pour un certain temps
                 username = form.cleaned_data.get("username")
                 password = form.cleaned_data.get("password1")
                 email = form.cleaned_data.get("email")
