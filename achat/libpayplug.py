@@ -15,6 +15,7 @@ from Crypto.Signature import PKCS1_v1_5
 
 from usr_management.models import Syntheses, UserKooblit, Version_Synthese
 from .models import Entree, Transaction
+from .views import envoyer_facture
 
 TVA = 0.055
 TAXE_TRANSACTION = 0.03
@@ -82,6 +83,7 @@ def ipn_payplug(request):
         hash = SHA.new()
         hash.update(body)
         if rsa.verify(hash, signature):
+            envoyer_facture(data["order"])
             trans = Transaction.objects.get(id=data["order"])
             buyer = trans.user_from
             entrees = Entree.objects.filter(transaction=trans)
@@ -89,12 +91,13 @@ def ipn_payplug(request):
                 synthese =  entree.synthese_dest
                 montant = entree.montant
                 ajouter_et_payer(buyer, synthese, montant)
+                entree.delete()
+            trans.delete()
 
             message = "IPN received for {first_name} {last_name} for an amount of {amount} EUR"
             message = message.format(first_name=data["first_name"],
             last_name=data["last_name"], amount=data["amount"])
             send_mail("IPN Received", message, settings.DEFAULT_FROM_EMAIL,["franck.roland@kooblit.com"])
-
         else:
             message = "The signature was invalid."
             send_mail("IPN Failed", message, settings.DEFAULT_FROM_EMAIL,
