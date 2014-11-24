@@ -172,7 +172,7 @@ $( ".django_form input" ).focusout(function() {
     var x = $.trim($(this).val())
     clean($(this));
     if (x == null || x == ""){
-        checkAndWriteError($(this),'<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
+        checkAndWriteError($(this),'<ul class="errorlist"><li>Ce champ est obligatoire</li></ul>');
     }
     else {
         if( $(this).attr('id') == 'id_username'){
@@ -202,7 +202,7 @@ function validateForm() {
         var x = $.trim(document.forms["signup_form"][elements[i]].value);
         if (x == null || x == "") {
             if ($('#id_'+elements[i]).parent().find('.errorlist').length == 0){
-                $('#id_'+elements[i]).after('<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
+                $('#id_'+elements[i]).after('<ul class="errorlist"><li>Ce champ est obligatoire</li></ul>');
             }
             ok = false;
         }

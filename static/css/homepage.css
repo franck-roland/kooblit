@@ -343,7 +343,7 @@ img#point_kooblit {
   border-bottom-right-radius: 25px;
   font-size: 20px;
   line-height: 1.42857;
-  /*display: inline;*/
+  box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
 }
 
 /* line 172, ../sass/homepage.scss */

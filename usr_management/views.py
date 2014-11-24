@@ -68,9 +68,9 @@ def computeEmail(request, username, email, validation_id):
     msg.send()
 
 
-def computeEmail_reinitialisation(username, email, validation_id):
+def computeEmail_reinitialisation(request, username, email, validation_id):
     htmly = get_template('email_reinitialisation.html')
-    d = Context({'username': username, 'validation_id': validation_id})
+    d = Context({'username': username, 'validation_id': validation_id, 'base_url': 'http://'+request.get_host()})
     subject, from_email, to = ('[Kooblit] Réinitialisation de mot de passe',
                                'noreply@kooblit.com', email)
     html_content = htmly.render(d)
@@ -143,6 +143,7 @@ def contact(request):
 
             # New user
             if form.is_valid():  # All validation rules pass
+                next_url = '/' # TODO: connection autorisée pour un certain temps
                 username = form.cleaned_data.get("username")
                 password = form.cleaned_data.get("password1")
                 email = form.cleaned_data.get("email")
@@ -485,7 +486,7 @@ def ask_reinitialisation(request):
             user = UserKooblit.objects.get(email=email)
             r = Reinitialisation(user=user, rnd=rnd)
             r.save()
-            computeEmail_reinitialisation(user.username, email, rnd)
+            computeEmail_reinitialisation(request, user.username, email, rnd)
             messages.success(request, "Un email vous a été renvoyé")
             return HttpResponseRedirect('/', RequestContext(request))
         else:

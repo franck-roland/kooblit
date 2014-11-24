@@ -1,4 +1,4 @@
 <h1> Hello {{ username }} <h1>
 <p>Vous avez demandé la réinitialisation de votre mot de passe<p><br/>
 	Clickez sur le lien suivant pour changer votre mot de passe.<br/>
-http://dev.kooblit.com{% url 'usr_management:do_reinitialisation' validation_id %}
+{{base_url}}{% url 'usr_management:do_reinitialisation' validation_id %}
