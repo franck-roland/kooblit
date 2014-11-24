@@ -191,16 +191,20 @@ $etiquette_height:250px;
     margin-top:0;
 }
 .image_extract{
- .koob_de, .par, .author_name{
-    font-size:1.3em;
-    color:$grey_color;
- }
-
- .title_extract{
-    height:$etiquette_height - 160px;
-    overflow:hidden;
-    font-size:0.9em;
- }
+    .koob_de, .par, .author_name {
+        font-size:1.3em;
+    }
+    .koob_de, .par {
+        color:$grey_color;
+    }
+    .author_name, .title_extract {
+        font-weight: bold;
+    }
+    .title_extract{
+        height:$etiquette_height - 160px;
+        overflow:hidden;
+        font-size:0.9em;
+     }
 }
     
     
@@ -208,12 +212,6 @@ $etiquette_height:250px;
     /*box-shadow: 3px 3px 8px #555;*/
     /*text-align: center;*/
 }
-.author_name, .title_extract {
-    font-weight: bold;
-}
-.author_name{
-    color:$grey_color;
- }
 
  .etiquette_link {
     font-style: normal;
