@@ -237,7 +237,7 @@ def upload_medium(request, book_title):
             return HttpResponseRedirect('/', request)
         elif "_quit" in request.POST:
             create_file_medium(request, request.POST['q'], book_title, username)
-            messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
+            messages.success(request, u'Votre koob pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
             return HttpResponseRedirect('/', request)
         else:
             create_file_medium(request, request.POST['q'], book_title, username)
