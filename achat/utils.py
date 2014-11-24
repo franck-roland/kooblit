@@ -38,3 +38,4 @@ def add_to_cart(function):
         return function(request, *args, **kwargs)
 
     return wrap
+

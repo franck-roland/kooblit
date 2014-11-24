@@ -201,8 +201,8 @@ def payplug_paiement(request):
 
     params = {
         "ipn_url": "".join((base_local, reverse('achat:ipn')[1:])),
-        "return_url": base_local,
-        "cancel_url": base_local,
+        "return_url": "".join((base_local, reverse('achat:confirmation')[1:])),
+        "cancel_url": "".join((base_local, reverse('achat:annulation')[1:])),
         "amount": int(sum(synth.prix for synth in syntheses) * 100), # Prix en centimes
         "first_name": buyer.first_name,
         "last_name": buyer.last_name,
@@ -224,6 +224,18 @@ def ipn(request):
     return ipn_payplug(request)
 # ajouter_et_payer(buyer, synthese)
 
+def envoyer_facture(order):
+    htmly = get_template('email/facture.html')
+    transaction = Transaction(id=order)
+    entrees = Entree.filter(transaction=transaction)
+    email = transaction.user_from.email
+    d = Context({'transaction': transaction, 'entrees': entrees, 'ht_rate': 1-TVA})
+    subject, from_email, to = ('Facture',
+                               'no-reply@mail.kooblit.com', email)
+    html_content = htmly.render(d)
+    msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+    msg.content_subtype = "html"
+    msg.send()
 
 @login_required
 def paymill_paiement(request):
