@@ -23,7 +23,7 @@ var substringMatcher = function(strs) {
 };
 
 var livres = [];
-function set_search_bar(search_name, insert_after){
+function set_search_bar(search_name, insert_after, form_id){
     $(search_name).attr('autocomplete', 'off');
     var $autocomplete = $("<ul id='autocomplete'></ul>").hide().insertAfter(insert_after);
     var selectedItem = null;
@@ -73,6 +73,7 @@ function set_search_bar(search_name, insert_after){
                                 .click(function(){
                                     $(search_name).val(term);
                                     $autocomplete.hide();
+                                    $(form_id).submit();
                                 });
                             });
                             var len = $autocomplete.find('li').length;
