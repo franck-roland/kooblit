@@ -5,16 +5,25 @@
   <link href="{% static "css/lecture.css" %}" rel="stylesheet">
 {% endblock %}
 
+
 {% block navigation %}
-<a name="top"></a>
-<div class="container header_container">
-  <div class="header">
-    <h2><a href="{% url 'usr_management:dashboard' %}"><i class="fa fa-home"></i></a></h2>
-  </div>
-</div>
+  {% include 'navigation/main_without_search.html' %}
 {% endblock %}
 
 {% block content %}
+  <div class="row row_image_couv">
+    <div class="repre_image">
+      <a title="Acheter le livre" target="_blank" href="{{u_b.buy_url}}">
+          <img src="{% if u_b.medium_image != None %}{{u_b.medium_image}}{% else %}{{u_b.image}}{% endif %}">
+      </a>
+    </div>
+    <div class="bs-component">
+      <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Acheter le livre" href="{{u_b.buy_url}}" target="_blank">
+        <img src="{% static "img/pictos/Credit_card.png" %}" />
+        Acheter le livre
+      </a>
+    </div>
+  </div>
   {% if messages %}
     <div class="container" >
       {% for message in messages %}
@@ -25,7 +34,7 @@
       {% endfor %}
     </div>
   {% endif %}
-
+  <h2 class="titre_synth">Koob de <span class="edition_bold" >{{book.title}}</span> par <span class="edition_bold">{{synth.user.username}}</span></h2>
   {% for page in synth.pages %}
   <div id="page_{{forloop.counter}}" class="container resume  {% if forloop.counter > 1 %} hidden {% endif %}" style="margin-bottom: 50px;">
     <div class="row">
@@ -56,7 +65,7 @@
   <div class="collapse navbar-collapse" id="nav_footer" style="background:none;">
     <a class="footer_link" href="#top" >
       <button class="btn" >
-        To Top <i class="fa fa-arrow-circle-o-up"></i>
+        Aller en haut <i class="fa fa-arrow-circle-o-up"></i>
       </button>
     </a>
     <!--

@@ -1,6 +1,20 @@
 {% extends "main_base.html" %}
-
 {% block navigation %}
 <a name="top"></a>
   {% include 'navigation/search_less.html' %}
+{% endblock %}
+{% block end_body %} 
+<style>#point_kooblit { filter: url(#drop-shadow); }</style>
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+<filter id="drop-shadow">
+<feGaussianBlur in="SourceAlpha" stdDeviation="2.2"/>
+<feOffset dx="1" dy="1" result="offsetblur"/>
+<feFlood flood-color="rgba(0,0,0,0.59)"/>
+<feComposite in2="offsetblur" operator="in"/>
+<feMerge>
+<feMergeNode/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
+</svg>
 {% endblock %}

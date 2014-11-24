@@ -4,6 +4,7 @@
  */
 @import "utilities/colors";
 @import "utilities/unities";
+@import "autocomplete";
 
 @font-face{
   font-family: "Gravity";
@@ -39,6 +40,14 @@ $nav_bar_len: 70px;
 $font_nav_size: 20px;
 $brand_font_size: 40px;
 $default_family: 'Gravity';
+$search_bar_height: 34px;
+$search_bar_width: 500px;
+
+ul#autocomplete{
+    position: absolute;
+    top: $search_bar_height + 7px;
+    background: #EEE;
+}
 
 nav {
   background: $html_background_color;
@@ -60,12 +69,15 @@ h1, h2, h3, h4, h5, h6
 a{
   color: $nav_link_color;
 }
+a:link, a:visited, a:active, a:focus {
+  font-style: inherit;
+  text-decoration: inherit;
+  color: inherit;
+  border: none;
+}
 a:hover{
   color: white;
   text-decoration: none;
-}
-a:visited {
-    color: $nav_link_color_visited;
 }
 li {
   list-style: none;
@@ -134,9 +146,9 @@ li.icon_navbar > a {
     font-size: $brand_font_size;
     font-family: "Gravity Light";
     text-shadow: 1px 1px 2px black;
+    padding-top: 9px;
     img {
-      height: 50px;
-      margin-top: -6px;
+      height: 40px;
       display: inline;
     }
   }
@@ -183,11 +195,12 @@ li.icon_navbar > a {
   max-width: 100%;
 }
 #search_bar {
-  height: 34px;
+  height: $search_bar_height;
   margin-top: 5px;
   padding-bottom: 5px;
   padding-top: 5px;
-  width: 100%;
+  width: $search_bar_width;
+  background: transparent;
 }
 
 #ajax_loader {

@@ -1,77 +1,95 @@
-.labels h4{
+/* Small devices (tablets, 768px and up) */
+/* Medium devices (desktops, 992px and up) */
+/* Large devices (large desktops, 1200px and up) */
+/* line 3, ../sass/profile.scss */
+.labels h4 {
   text-align: center;
   margin-top: 21px;
 }
 
+/* line 8, ../sass/profile.scss */
 .no_synthese {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
+/* line 12, ../sass/profile.scss */
 .cagnotte_info {
   text-align: right;
   white-space: normal;
 }
 
-@media (max-width: @screen-xs-max) {
+@media (max-width: 500px) {
+  /* line 18, ../sass/profile.scss */
   .cagnotte_info {
     text-align: center;
   }
 }
-
+/* line 23, ../sass/profile.scss */
 .valider_achat {
   padding-top: 0;
 }
 
+/* line 27, ../sass/profile.scss */
 .achats {
   margin-bottom: 40px;
 }
 
+/* line 31, ../sass/profile.scss */
 .fiche_profil {
-    background-color: rgba(255,255,255,0.3);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
+/* line 35, ../sass/profile.scss */
 .fiche_profil a {
-    color: black;
+  color: black;
 }
 
+/* line 39, ../sass/profile.scss */
 .img_edit {
-    width: 25px;
+  width: 25px;
 }
 
-.form-container{
-    padding-top: 10px; 
-    margin-top: 80px; 
-    background:none;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    text-align: center;
+/* line 43, ../sass/profile.scss */
+.form-container {
+  padding-top: 10px;
+  margin-top: 80px;
+  background: none;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  text-align: center;
 }
 
-
+/* line 54, ../sass/profile.scss */
 .form-group {
-    width: 100%;
-    margin: auto;
+  width: 100%;
+  margin: auto;
 }
 
+/* line 59, ../sass/profile.scss */
 .form-horizontal .form-group {
-    margin: auto;
+  margin: auto;
 }
 
+/* line 63, ../sass/profile.scss */
 .form-control {
-    background-color: rgb(239, 239, 239);
-    border: 1px solid rgb(225, 225, 225);
+  background-color: #efefef;
+  border: 1px solid #e1e1e1;
 }
 
+/* line 68, ../sass/profile.scss */
 .input-container {
-    margin-bottom: 10px;
-}
-.errorlist {
-    text-align: left;
-    color: red;
-    padding: 0;
+  margin-bottom: 10px;
 }
 
+/* line 71, ../sass/profile.scss */
+.errorlist {
+  text-align: left;
+  color: red;
+  padding: 0;
+}
+
+/* line 77, ../sass/profile.scss */
 select {
   display: block;
   width: 100%;
@@ -86,4 +104,60 @@ select {
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
   background-color: #EFEFEF;
   border: 1px solid #E1E1E1;
+}
+
+/* line 92, ../sass/profile.scss */
+#locationField, #controls {
+  position: relative;
+  width: 480px;
+}
+
+/* line 96, ../sass/profile.scss */
+#autocomplete {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 99%;
+}
+
+/* line 102, ../sass/profile.scss */
+.label {
+  text-align: right;
+  font-weight: bold;
+  width: 100px;
+  color: #303030;
+}
+
+/* line 108, ../sass/profile.scss */
+#address {
+  border: 1px solid #000090;
+  background-color: #f0f0ff;
+  width: 480px;
+  padding-right: 2px;
+}
+
+/* line 114, ../sass/profile.scss */
+#address td {
+  font-size: 10pt;
+}
+
+/* line 117, ../sass/profile.scss */
+.field {
+  width: 99%;
+}
+
+/* line 120, ../sass/profile.scss */
+.slimField {
+  width: 80px;
+}
+
+/* line 123, ../sass/profile.scss */
+.wideField {
+  width: 200px;
+}
+
+/* line 126, ../sass/profile.scss */
+#locationField {
+  height: 20px;
+  margin-bottom: 2px;
 }

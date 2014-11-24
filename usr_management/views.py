@@ -12,6 +12,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpRespons
 from .forms import UserCreationFormKooblit, ReinitialisationForm, DoReinitialisationForm, AddressChangeForm
 from django.contrib.auth.models import User
 from .models import Verification, UserKooblit, Reinitialisation, Syntheses, Address, Version_Synthese, Note, DueNote
+from manage_books_synth.models import Book, UniqueBook
 from manage_books_synth.models import Book
 from django.contrib.auth import authenticate, login
 from django.utils.datastructures import MultiValueDictKeyError
@@ -67,9 +68,9 @@ def computeEmail(request, username, email, validation_id):
     msg.send()
 
 
-def computeEmail_reinitialisation(username, email, validation_id):
+def computeEmail_reinitialisation(request, username, email, validation_id):
     htmly = get_template('email_reinitialisation.html')
-    d = Context({'username': username, 'validation_id': validation_id})
+    d = Context({'username': username, 'validation_id': validation_id, 'base_url': 'http://'+request.get_host()})
     subject, from_email, to = ('[Kooblit] Réinitialisation de mot de passe',
                                'noreply@kooblit.com', email)
     html_content = htmly.render(d)
@@ -142,6 +143,7 @@ def contact(request):
 
             # New user
             if form.is_valid():  # All validation rules pass
+                next_url = '/' # TODO: connection autorisée pour un certain temps
                 username = form.cleaned_data.get("username")
                 password = form.cleaned_data.get("password1")
                 email = form.cleaned_data.get("email")
@@ -219,8 +221,10 @@ def ajouter_synthese_gratuite(request, synthese_id):
 def lire_synthese(request, synthese_id):
     username = request.user.username
     if can_read(synthese_id, username):
-        synt = Syntheses.objects.get(id=synthese_id)
-        return render_to_response('lecture.html', RequestContext(request, {'synth': synt}))
+        synth = Syntheses.objects.get(id=synthese_id)
+        book = Book.objects.get(title=synth.book_title)
+        u_b = UniqueBook.objects.filter(book=book)[0]
+        return render_to_response('lecture.html', RequestContext(request, {'synth': synth, 'book': book, 'u_b': u_b}))
     else:
         raise Http404()
 
@@ -482,7 +486,7 @@ def ask_reinitialisation(request):
             user = UserKooblit.objects.get(email=email)
             r = Reinitialisation(user=user, rnd=rnd)
             r.save()
-            computeEmail_reinitialisation(user.username, email, rnd)
+            computeEmail_reinitialisation(request, user.username, email, rnd)
             messages.success(request, "Un email vous a été renvoyé")
             return HttpResponseRedirect('/', RequestContext(request))
         else:

@@ -3,11 +3,19 @@
 <div class="repre_image col-md-3  col-sm-6 col-xs-12" {% if forloop.counter0 >= 4  %}style="display:none"{% endif %}>
   <!-- <img src="{{img_url}}" /> -->
   <div class="image_extract">
+{% with has_bought=synth|bought:user %}
+    {% if synth|bought:user %}
+    <a href="{% url 'usr_management:lire_synthese' synth.id %}" class="etiquette_link" >
+    {% else %}
+    <a href="javascript:void(0)" class="etiquette_link" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
+  {% endif %}
+  {% endwith %}
     <img src="{% static "img/logo/little_owl_grey.png" %}" alt="Logo Kooblit" />
-    <p>Koob de</p>
-    <p class="title_extract">{{synth.book_title|title|slice:":11"}}{% if synth.titre|length > 11 %}...{% endif %}</p>
-    <p>Par <a style="color: rgb(74,74,74);" href="{% url 'users' synth.user.username %}"><span class="author_name">{{synth.user.username|title}}</span> </a> </p>
+    <p class="koob_de">Koob de</p>
+    <p class="title_extract">{{synth.book_title|title|slice:":100"}}{% if synth.book_title|length > 100 %}...{% endif %}</p></a>
+    <a href="{% url 'users' synth.user.username %}"><p class="par">Par <span class="author_name">{{synth.user.username|title}}</span> </a> </p>
   </div>
+  
 
   <div class="result_info_etiquette">
     <div class="stars">
@@ -24,7 +32,7 @@
     <div class="result_description">
       <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
       <p class="misc_info col-xs-6" style="text-align:right;"><b>{{synth.nb_pages}}</b> page{{synth.nb_pages|pluralize}}</p>
-      <p class="misc_info col-xs-12" style="text-align: justify;font-size: 1em;">Publié le {{synth.date|date:"d/m/Y"}}</p>
+      <p class="misc_info col-xs-12" style="text-align: center;">Publié le {{synth.date|date:"d/m/Y"}}</p>
 {% with has_bought=synth|bought:user %}
       {% if has_bought %}
         <p class="col-xs-12" style="padding: 0px;">
@@ -33,23 +41,26 @@
           </a>
         </p>
       {% elif synth.is_free %}
-        <p class="col-xs-12 gratuite" style="padding: 0px;">
-            Synthèse gratuite
+        <p class="col-xs-12" style="padding: 0px;">
+          <a href="javascript:void(0)" class="btn_desc abtn see_extract" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
+            Voir un extrait
+          </a>
         </p>
-        <p class="col-12" style="padding:1px;">
-          <a href="{% url 'usr_management:ajouter_synthese_gratuite' synth.id %}" class="btn_call abtn buy_resume">
-            Ajouter à mes syntheses
+        <p class="misc_info free_price col-4 col-xs-4">0,0€</p>
+        <p class="col-7 col-offset-1 col-xs-7 col-xs-offset-1" style="padding:1px;">
+          <a href="{% url 'usr_management:ajouter_synthese_gratuite' synth.id %}" class="btn_call btn_desc abtn buy_resume">
+            Lire gratuitement
           </a>
         </p>
       {% else %}
         <p class="col-xs-12" style="padding: 0px;">
-          <a href="javascript:void(0)" class="abtn see_extract" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
+          <a href="javascript:void(0)" class="btn_desc abtn see_extract" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
             Voir un extrait
           </a>
         </p>
-        <p class="misc_info price col-3 col-xs-3">{{synth.prix}}€</p>
-        <p class="col-8 col-offset-1 col-xs-8 col-xs-offset-1" style="padding:1px;">
-          <button href="javascript:void(0)" class="abtn buy_resume" form="form_ajout_{{synth.id}}">
+        <p class="misc_info price col-4 col-xs-4">{{synth.prix}}€</p>
+        <p class="col-7 col-offset-1 col-xs-7 col-xs-offset-1" style="padding:1px;">
+          <button href="javascript:void(0)" class="btn_important btn_desc abtn buy_resume" form="form_ajout_{{synth.id}}">
             Ajouter au panier
           </button>
         </p>
@@ -62,7 +73,7 @@
   </div>
 </div> <!-- repre_image -->
 
-{% if not has_bought and not synth.is_free %}
+{% if not has_bought%}
 <!-- Modal -->
 <div class="modal fade" id="myModal_{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">

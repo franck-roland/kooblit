@@ -224,20 +224,20 @@ def upload_medium(request, book_title):
             book = Book.objects.get(title=book_title)
             synthese = Syntheses.objects.get(user=user, livre_id=book.id)
             if synthese.is_free:
-                publication_message = u"""Votre Koob de l'ouvrage <i>%s</i> a bien été publié. 
-                    Pour assurer la qualité du service, nous ne permettons à nos utilisateurs de vendre que des Koobs de qualité. 
-                    C'est pour cela que pour être payant, un Koob doit avoir obtenu au moins %i notes et une moyenne de %i/5. 
-                    Votre Koob sera donc disponible gratuitement jusqu'à ce qu'il réponde aux critères d'excellence de notre plateforme. 
-                    Sachez que vous pouvez améliorer votre Koob en y apportant des modifications à tout moment à partir de votre espace."""%(book_title ,settings.MIN_NOTE, settings.MIN_MEAN)
+                publication_message = u"""Votre koob de l'ouvrage <i>%s</i> a bien été publié. 
+                    Pour assurer la qualité du service, nous ne permettons à nos utilisateurs de vendre que des koobs de qualité. 
+                    C'est pour cela que pour être payant, un koob doit avoir obtenu au moins %i notes et une moyenne de %i/5. 
+                    Votre koob sera donc disponible gratuitement jusqu'à ce qu'il réponde aux critères d'excellence de notre plateforme. 
+                    Sachez que vous pouvez améliorer votre koob en y apportant des modifications à tout moment à partir de votre espace."""%(book_title ,settings.MIN_NOTE, settings.MIN_MEAN)
             else:
-                publication_message = u"""Votre Koob de l'ouvrage <i>%s</i> a bien été publié."""% book_title
+                publication_message = u"""Votre koob de l'ouvrage <i>%s</i> a bien été publié."""% book_title
             messages.success(request, publication_message)
             send_alert(book_title)
             print request
             return HttpResponseRedirect('/', request)
         elif "_quit" in request.POST:
             create_file_medium(request, request.POST['q'], book_title, username)
-            messages.success(request, u'Votre synthèse pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
+            messages.success(request, u'Votre koob pour le livre <i>"%s"</i> a bien été enregistré.' % book_title)
             return HttpResponseRedirect('/', request)
         else:
             create_file_medium(request, request.POST['q'], book_title, username)

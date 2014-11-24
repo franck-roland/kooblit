@@ -16,7 +16,7 @@
 <div class="container form-container col-lg-4 col-lg-offset-1" >
 <form name='signup_form' class="form-horizontal django_form" onsubmit="return validateForm()" action="{% url 'usr_management:login' %}?next={{ next_url }}" method="post">{% csrf_token %}
     <fieldset>
-    <legend id="enregistrement" class="col-lg-12">S'enregistrer</legend>
+    <legend id="enregistrement" class="col-lg-12">S'inscrire</legend>
     {{ form.non_field_errors }}
     <!-- <div class="fieldWrapper">
         <label for="id_subject">Pseudo:</label>
@@ -172,7 +172,7 @@ $( ".django_form input" ).focusout(function() {
     var x = $.trim($(this).val())
     clean($(this));
     if (x == null || x == ""){
-        checkAndWriteError($(this),'<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
+        checkAndWriteError($(this),'<ul class="errorlist"><li>Ce champ est obligatoire</li></ul>');
     }
     else {
         if( $(this).attr('id') == 'id_username'){
@@ -202,7 +202,7 @@ function validateForm() {
         var x = $.trim(document.forms["signup_form"][elements[i]].value);
         if (x == null || x == "") {
             if ($('#id_'+elements[i]).parent().find('.errorlist').length == 0){
-                $('#id_'+elements[i]).after('<ul class="errorlist"><li>Ce champs est obligatoire</li></ul>');
+                $('#id_'+elements[i]).after('<ul class="errorlist"><li>Ce champ est obligatoire</li></ul>');
             }
             ok = false;
         }

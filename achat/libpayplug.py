@@ -16,7 +16,7 @@ from Crypto.Signature import PKCS1_v1_5
 from usr_management.models import Syntheses, UserKooblit, Version_Synthese
 from .models import Entree, Transaction
 
-TVA = 0.05
+TVA = 0.055
 TAXE_TRANSACTION = 0.03
 
 

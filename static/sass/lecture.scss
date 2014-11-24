@@ -1,3 +1,8 @@
+@import "utilities/unities";
+
+#block_content {
+  padding-top: 0;
+}
 .resume {
   margin-top: 50px;
   margin-bottom: 200px;
@@ -14,10 +19,20 @@
 .navbar {
   border: none;
 }
-
+.row_image_couv{
+  margin-top: $nav_bar_len;
+}
 #block_content {
   padding-bottom: 55px;
   font-size: 16px;
+}
+
+.titre_synth {
+    margin-top: 10px;
+    text-align: center;
+}
+.edition_bold{
+    font-weight: bold;
 }
 
 #wrap > .header_container{
@@ -75,4 +90,39 @@ footer .pagination {
   margin: auto;
   margin-left:10px;
   margin-bottom: 10px;
+}
+
+.repre_image{
+    margin:auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 150px;
+}
+
+.repre_image img{
+    width: 100%;
+    box-shadow: 3px 3px 8px #555;
+}
+.bs-component {
+    margin: auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.bs-component a {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    color: rgb(127, 127, 127);
+}
+
+.bs-component a:hover {
+    color: #18bc9c;
+    text-decoration: none;
+}
+
+.bs-component a img {
+    display: inline;
+    width: 30px;
 }

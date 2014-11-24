@@ -39,9 +39,9 @@
                 <h2 class="titre_synth">Koob de <span class="edition_bold" >{{book.title}}</span> par <span class="edition_bold">{{username}}</span></h2>
                 <!-- <div class="titre"></div> -->
                 <div id="cadre_edition" class="editable">{{content|safe}}</div>
-                <div>
+                <div class="last_row">
                     <button class="btn_call_sec button-sauvegarder" onclick="sauvegarder()"> Sauvegarder </button>
-                    <button type="submit" value="quit" name="_quit" class="btn_call_sec " onclick="envoyer()" form="form_synth" > Sauvegarder et quitter </button>
+                    <button type="submit" value="quit" name="_quit" class="btn_call_sec " onclick="envoyer()" form="form_synth" > Sauvegarder &amp; quitter </button>
                     <button  value="publish" name="_publish" class="btn_important " onclick="choix_prix('_publish')" > Publier </button>
                 </div>
             </div>
