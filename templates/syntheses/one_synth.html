@@ -30,9 +30,9 @@
     </div>
 
     <div class="result_description">
-      <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
-      <p class="misc_info col-xs-6" style="text-align:right;"><b>{{synth.nb_pages}}</b> page{{synth.nb_pages|pluralize}}</p>
-      <p class="misc_info col-xs-12" style="text-align: center;">Publié le {{synth.date|date:"d/m/Y"}}</p>
+      <p class="misc_info_text misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
+      <p class="misc_info_text misc_info col-xs-6" style="text-align:right;"><b>{{synth.nb_pages}}</b> page{{synth.nb_pages|pluralize}}</p>
+      <p class="misc_info_text misc_info col-xs-12" style="text-align: center;">Publié le {{synth.date|date:"d/m/Y"}}</p>
       <div class="col-xs-12 misc_info boutons_prix">
 {% with has_bought=synth|bought:user %}
       {% if has_bought %}
