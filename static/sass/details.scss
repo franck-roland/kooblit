@@ -2,9 +2,10 @@
 
 $stars_height: 30px;
 $stars_img: "../img/rating_stars_30.png";
-$stars_offset_x: 20px;
+$stars_offset_x: 15px;
 $stars_first_offset_y: 20px;
 $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
+$stars_compens_offset: 20px -$stars_offset_x;
 $etiquette_width: 160px;
 $etiquette_height:250px;
 
@@ -69,12 +70,13 @@ $etiquette_height:250px;
     height: $stars_height;
     background-position: -#{$stars_offset_x} -#{$stars_second_offset_y};  /*Multiple de 34px*/
     width: $etiquette_width;
+    padding-left:$stars_compens_offset;
 }
 .stars_yellow {
     /*margin-left: 15px;*/
     background: url($stars_img) no-repeat;
     height: $stars_height;
-    background-position: -#{$stars_offset_x} -#{$stars_first_offset_y};  /*Multiple de 34px*/
+    background-position: -#{$stars_offset_x + $stars_compens_offset} -#{$stars_first_offset_y};  /*Multiple de 34px*/
     width: 100%;
 }
 .current_note_hidden {
@@ -91,7 +93,7 @@ $etiquette_height:250px;
     }
     .vote_note_#{$i}:hover{
         background: url($stars_img) no-repeat;
-        background-position: -#{$stars_offset_x} -#{$stars_first_offset_y};  /*Multiple de 34px*/
+        background-position: -#{$stars_offset_x + $stars_compens_offset} -#{$stars_first_offset_y};  /*Multiple de 34px*/
     }
 
 }
