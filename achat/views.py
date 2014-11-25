@@ -133,21 +133,12 @@ def cart_details(request):
         request.session.modified = True
         request.nbre_achats = len(cart)
 
-    syntheses = (Syntheses.objects.get(id=i) for i in cart)
-    cart = [
-        {
-            "id": synth.id,
-            "book_title": synth.book_title,
-            "author": synth.user.username,
-            "prix": synth.prix,
-        } for synth in syntheses
-    ]
-
+    results = [Syntheses.objects.get(id=i) for i in cart]
     return render_to_response(
         'cart.html',
         RequestContext(request, {
-            'results': cart,
-            'total': sum(synth['prix'] for synth in cart)}))
+            'results': results,
+            'total': sum(synth.prix for synth in results)}))
 
 
 def ajouter_et_payer(buyer, synthese):
@@ -188,21 +179,13 @@ def paiement(request):
         messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
         request.session['cart'] = clean_cart(cart, request.user.username)
         cart = request.session.get('cart', [])
-        syntheses = (Syntheses.objects.get(id=i) for i in cart)
-        cart = [
-            {
-                "id": synth.id,
-                "book_title": synth.book_title,
-                "author": synth.user.username,
-                "prix": synth.prix,
-            } for synth in syntheses
-        ]
+        results = [Syntheses.objects.get(id=i) for i in cart]
 
         return render_to_response(
             'cart.html',
             RequestContext(request, {
-                'results': cart,
-                'total': sum(synth['prix'] for synth in cart)}))
+                'results': results,
+                'total': sum(synth.prix for synth in results)}))
     return payplug_paiement(request)    
 
 
@@ -254,21 +237,14 @@ def paymill_paiement(request):
         messages.warning(request, "Certains livres ont été enlevés de votre panier car vous en êtes soit l'auteur, soit vous l'avez déjà acheté")
         request.session['cart'] = clean_cart(cart, request.user.username)
         cart = request.session.get('cart', [])
-        syntheses = (Syntheses.objects.get(id=i) for i in cart)
-        cart = [
-            {
-                "id": synth.id,
-                "book_title": synth.book_title,
-                "author": synth.user.username,
-                "prix": synth.prix,
-            } for synth in syntheses
-        ]
+        results = [Syntheses.objects.get(id=i) for i in cart]
+
 
         return render_to_response(
             'cart.html',
             RequestContext(request, {
-                'results': cart,
-                'total': sum(synth['prix'] for synth in cart)}))
+                'results': results,
+                'total': sum(synth.prix for synth in results)}))
 
     if request.method == 'POST':
         p = pymill.Pymill(settings.PAYMILL_PRIVATE_KEY)

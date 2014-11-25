@@ -25,7 +25,6 @@
       <h2><i class="fa fa-shopping-cart"></i> Mon Panier </h2>
     </div>
   </div>
-
   {% if results %}
     <div class="row">
       <div class="col-xs-12 col-sm-10 col-sm-offset-1">
@@ -35,7 +34,7 @@
               {% csrf_token %}
               <input type="hidden" name="synthese_id" value="{{synth.id}}">
 
-              {% include "kooblit_card.html" with title=synth.book_title author=synth.author classes="col-sm-9 col-xs-7" %}
+              {% include "kooblit_card.html" with  synthese=synth link=False classes="col-sm-9 col-xs-7" %}
 
               <p class="col-sm-2 col-xs-3 price">{{synth.prix}}€</p>
 

@@ -1,8 +1,8 @@
 {% load staticfiles %}
 {% load synth_tags %}
-<div class="repre_image col-md-3  col-sm-6 col-xs-12" {% if forloop.counter0 >= 4  %}style="display:none"{% endif %}>
+<div class="repre_image col-md-3  col-sm-6 col-xs-12" style="{% if forloop.counter0 >= 4  %}display:none;{% endif %}">
   <!-- <img src="{{img_url}}" /> -->
-  <div class="image_extract">
+  <div class="image_extract" style="background:{{synth.style.background_color}};">
 {% with has_bought=synth|bought:user %}
     {% if synth|bought:user %}
     <a href="{% url 'usr_management:lire_synthese' synth.id %}" class="etiquette_link" >
@@ -10,7 +10,7 @@
     <a href="javascript:void(0)" class="etiquette_link" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
   {% endif %}
   {% endwith %}
-    <img src="{% static "img/logo/little_owl_grey.png" %}" alt="Logo Kooblit" />
+    <img src="{{synth.style.logo.url}}" alt="Logo Kooblit" />
     <p class="koob_de">Koob de</p>
     <p class="title_extract">{{synth.book_title|title|slice:":100"}}{% if synth.book_title|length > 100 %}...{% endif %}</p></a>
     <a href="{% url 'users' synth.user.username %}"><p class="par">Par <span class="author_name">{{synth.user.username|title}}</span> </a> </p>

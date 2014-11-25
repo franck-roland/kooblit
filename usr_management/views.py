@@ -374,29 +374,9 @@ def user_dashboard(request):
         loc_required = request.GET.get('loc','')
         next_url = request.GET.get('next','')
         form = AddressChangeForm()
-        syntheses_achetees = get_syntheses_properties(set([version_synt.synthese for version_synt in Version_Synthese.objects.filter(userkooblit=user_kooblit)]))
-        syntheses_ecrites = [
-                    {
-                        "id": synth.id,
-                        "book_title": Book.objects.get(id=synth.livre_id).title,
-                        "author": user_kooblit.username,
-                        "prix": synth.prix,
-                        "nb_achat": synth.nb_achat,
-                        "note_moy": synth.note_moyenne,
-                        "gain": synth.gain,
-                    } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=True)
-                ]
-        syntheses_en_cours = [
-                    {
-                        "id": synth.id,
-                        "book_title": Book.objects.get(id=synth.livre_id).title,
-                        "author": user_kooblit.username,
-                        "prix": synth.prix,
-                        "nb_achat": synth.nb_achat,
-                        "note_moy": synth.note_moyenne,
-                        "gain": synth.gain,
-                    } for synth in Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
-                ]
+        syntheses_achetees = [version_synth.synthese for version_synth in user_kooblit.syntheses_achetees.all()]
+        syntheses_ecrites = Syntheses.objects.filter(user=user_kooblit, has_been_published=True)
+        syntheses_en_cours = Syntheses.objects.filter(user=user_kooblit, has_been_published=False)
         total = user_kooblit.cagnotte
         try:
             adresse = Address.objects.get(user=user_kooblit)

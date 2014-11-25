@@ -5,6 +5,8 @@ import os
 
 #URLS
 from django.core.urlresolvers import reverse
+from django.templatetags.static import static
+
 
 import hashlib
 from bs4 import BeautifulSoup, NavigableString
@@ -22,6 +24,14 @@ from django.utils.encoding import smart_text
 
 # Settings
 from django.conf import settings
+import random
+def random_style():
+    style = Synth_Style()
+    colors = ["#C3DF9D", "#BCDAE0", "#FC2D6", "#EDC6DF", "#DCBFE4", "#ADB1BA", "#ABB0B7", "#A7AEB4", "#A3ADB0", "#ABB9B4", "#CADBD3", "#DDEBDA", "#EDF7D6", "#F9FCDB", "#FFBC91", "#FF9E91", "#EFA4C5", "#C59BDD", "#B1A1DF", "#AOAEDE", "#97CAD9", "#98DEC4", "#BOEEA3", "#DEF8AA", "#F4FDAD", "#FFF7AE", "#FFECAE", "#FFDCAE", "#FF7D76", "#FAADB0", "#E8AAF5", "#D2AEF5", "#C7BOF5", "#B7B3F6", "#B0C5F5", "#ABDCF4", 
+    "#A8F6D2", "#BEFAAB", "#E0FDAD", "#F9FFAE", "#FFF3AF" "#FFFEAAF", "#FFDFAF", "#FFD1AF", "#FF5FAF",]
+    style.background_color = colors[int(random.random()*len(colors))%len(colors)]
+    style.save()
+    return style.id
 
 
 class UserKooblit(User):
@@ -107,8 +117,14 @@ class Verification(models.Model):
                                        default=False)
     user = models.ForeignKey('UserKooblit')
 
+class Synth_Style(models.Model):
+    logo_height=models.PositiveIntegerField(default=40)
+    logo_width=models.PositiveIntegerField(default=40)
+    background_color = models.CharField(default="#53C1AC", unique=False, max_length=32)
+    logo = models.ImageField(default='little_owl_grey.png', height_field="logo_height", width_field="logo_width", upload_to="img/kooblit_cards")
 
 class Syntheses(models.Model):
+    style = models.ForeignKey('Synth_Style', default=random_style)
     version = models.IntegerField(default=0)
     _file_html = models.FileField(upload_to="syntheses")
     file_pdf = models.FileField(upload_to="syntheses")
@@ -314,5 +330,6 @@ class Demande(models.Model):
 class Reinitialisation(models.Model):
     user = models.ForeignKey('UserKooblit')
     rnd = models.CharField(max_length=42, unique=True)
+
 
 
