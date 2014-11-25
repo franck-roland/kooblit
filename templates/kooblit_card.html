@@ -1,7 +1,7 @@
 {% load staticfiles %}
 
 <div class="image_extract{% if classes %} {{classes}}{% endif %}" style="background:{{synthese.style.background_color}};">
-  <img src="{% static "img/logo/little_owl_grey.png" %}" alt="Logo Kooblit" />
+  <img src="{{synthese.style.logo.url}}" alt="Logo Kooblit" />
 
   {% if url %}
     {% if url == "lecture" %}
