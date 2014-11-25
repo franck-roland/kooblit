@@ -33,6 +33,7 @@
       <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
       <p class="misc_info col-xs-6" style="text-align:right;"><b>{{synth.nb_pages}}</b> page{{synth.nb_pages|pluralize}}</p>
       <p class="misc_info col-xs-12" style="text-align: center;">Publié le {{synth.date|date:"d/m/Y"}}</p>
+      <div class="col-xs-12 boutons_prix">
 {% with has_bought=synth|bought:user %}
       {% if has_bought %}
         <p class="col-xs-12" style="padding: 0px;">
@@ -68,9 +69,9 @@
           <input type="hidden" name="synthese" value="{{synth.id}}">
         </form>
       {% endif %}
-
-    </div>
-  </div>
+      </div>
+    </div> <!-- result_description -->
+  </div> <!-- result_infos_etiquette -->
 </div> <!-- repre_image -->
 
 {% if not has_bought%}

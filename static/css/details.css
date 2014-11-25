@@ -322,3 +322,9 @@
 .etiquette_link:focus {
   font-style: normal;
 }
+
+/* line 224, ../sass/details.scss */
+.boutons_prix {
+  padding: 0;
+  height: 94px;
+}
