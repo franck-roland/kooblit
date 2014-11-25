@@ -126,7 +126,7 @@
 
 <div  id="last" class="col-xs-12 homepage_content">
     <h1>Les dernières synthèses publiées sur le site</h1>
-    {% include 'syntheses/syntheses_rows.html' with syntheses=syntheses do_plus=False message="Désolé, le site ne contient pas encore de synthèse" %}
+    {% include 'syntheses/syntheses_rows.html' with syntheses=syntheses do_plus=True message="Désolé, le site ne contient pas encore de synthèse" %}
 
 </div>
 
@@ -139,6 +139,13 @@
   <script src="{% static "js/handle_note.js" %}" type="text/javascript"></script>
   <script type="text/javascript">
   set_search_bar("#search_bar_homepage","#button_search","#search_form_homepage");
+  function afficher_plus(){
+    $('.repre_image').each(function(){
+      var res = $(this);
+      res.css('display','inline-block');
+    });
+    $('.plus_button').css('display','none');
+  }
   $(function () {
     $(".note_link").click(send_note);
     $(".vote").hover(function(){

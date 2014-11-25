@@ -14,7 +14,7 @@ def homepage(request, alt=""):
     u = {'kooblit_username': request.user.username}
     st = time.clock()
     # Selection des 4 dernieres synthèses publiées
-    syntheses = Syntheses.objects.exclude(has_been_published=False).order_by("-date")[:4]
+    syntheses = Syntheses.objects.exclude(has_been_published=False).order_by("-date")[:30]
     u['syntheses'] = syntheses
     st = time.clock() - st
     print >> sys.stderr, st

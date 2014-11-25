@@ -1,6 +1,6 @@
 {% load staticfiles %}
 {% load synth_tags %}
-<div class="repre_image col-md-3  col-sm-6 col-xs-12" style="{% if forloop.counter0 >= 4  %}display:none;{% endif %}">
+<div class="repre_image col-lg-2 col-md-3 col-sm-6 col-xs-12 {% if forloop.counter0|divisibleby:5 %}col-lg-offset-1{% endif %}" style="{% if forloop.counter0 >= 5  %}display:none;{% endif %}">
   <!-- <img src="{{img_url}}" /> -->
   <div class="image_extract" style="background:{{synth.style.background_color}};">
 {% with has_bought=synth|bought:user %}
@@ -12,7 +12,7 @@
   {% endwith %}
     <img src="{{synth.style.logo.url}}" alt="Logo Kooblit" />
     <p class="koob_de">Koob de</p>
-    <p class="title_extract">{{synth.book_title|title|slice:":100"}}{% if synth.book_title|length > 100 %}...{% endif %}</p></a>
+    <p class="title_extract">{{synth.book_title|title|slice:":88"}}{% if synth.book_title|length > 88 %}...{% endif %}</p></a>
     <a href="{% url 'users' synth.user.username %}"><p class="par">Par <span class="author_name">{{synth.user.username|title}}</span> </a> </p>
   </div>
   
@@ -33,7 +33,7 @@
       <p class="misc_info col-xs-6">{{synth.nbre_notes}} notes</p>
       <p class="misc_info col-xs-6" style="text-align:right;"><b>{{synth.nb_pages}}</b> page{{synth.nb_pages|pluralize}}</p>
       <p class="misc_info col-xs-12" style="text-align: center;">Publié le {{synth.date|date:"d/m/Y"}}</p>
-      <div class="col-xs-12 boutons_prix">
+      <div class="col-xs-12 misc_info boutons_prix">
 {% with has_bought=synth|bought:user %}
       {% if has_bought %}
         <p class="col-xs-12" style="padding: 0px;">

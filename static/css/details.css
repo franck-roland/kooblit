@@ -78,7 +78,7 @@
   height: 30px;
   background-position: -20px -60px;
   /*Multiple de 34px*/
-  width: 175px;
+  width: 160px;
 }
 
 /* line 73, ../sass/details.scss */
@@ -223,47 +223,45 @@
 
 /* line 139, ../sass/details.scss */
 .misc_info.price {
-  line-height: 1.5;
   font-weight: bold;
   font-size: 2.2em;
   color: #bb4545;
 }
 
-/* line 146, ../sass/details.scss */
+/* line 145, ../sass/details.scss */
 .misc_info.free_price {
-  line-height: 1.5;
   font-weight: bold;
   font-size: 2.2em;
   color: #53C1AC;
 }
 
-/* line 153, ../sass/details.scss */
+/* line 151, ../sass/details.scss */
 .misc_info {
-  font-size: 1.3em;
+  font-size: 1em;
   padding: 0;
 }
 
-/* line 158, ../sass/details.scss */
+/* line 156, ../sass/details.scss */
 .list_extract {
   margin-top: 50px;
 }
 
-/* line 162, ../sass/details.scss */
+/* line 160, ../sass/details.scss */
 .repre_image {
   margin-bottom: 30px;
   /*text-align: center;*/
 }
 
-/* line 167, ../sass/details.scss */
+/* line 165, ../sass/details.scss */
 .plus_button {
   padding: 5px 10px;
   font-weight: bold;
   float: right;
 }
 
-/* line 173, ../sass/details.scss */
+/* line 171, ../sass/details.scss */
 .repre_image .image_extract {
-  width: 175px;
+  width: 160px;
   height: 250px;
   box-shadow: 3px 3px 8px #555;
   background: #dfd290;
@@ -272,14 +270,14 @@
   margin: auto;
 }
 
-/* line 182, ../sass/details.scss */
+/* line 180, ../sass/details.scss */
 .result_description {
   padding: 0;
-  width: 175px;
+  width: 160px;
   margin: auto;
 }
 
-/* line 187, ../sass/details.scss */
+/* line 185, ../sass/details.scss */
 .image_extract img {
   box-shadow: 0px 0px;
   width: 40px;
@@ -287,43 +285,43 @@
   margin-top: 0;
 }
 
-/* line 194, ../sass/details.scss */
+/* line 192, ../sass/details.scss */
 .image_extract .koob_de, .image_extract .par, .image_extract .author_name {
   font-size: 1.3em;
 }
-/* line 197, ../sass/details.scss */
+/* line 195, ../sass/details.scss */
 .image_extract .koob_de, .image_extract .par {
   color: #8A8A8A;
 }
-/* line 200, ../sass/details.scss */
+/* line 198, ../sass/details.scss */
 .image_extract .author_name, .image_extract .title_extract {
   font-weight: bold;
 }
-/* line 203, ../sass/details.scss */
+/* line 201, ../sass/details.scss */
 .image_extract .title_extract {
   height: 90px;
   overflow: hidden;
   font-size: 0.9em;
 }
 
-/* line 211, ../sass/details.scss */
+/* line 209, ../sass/details.scss */
 .result_info_etiquette {
   /*box-shadow: 3px 3px 8px #555;*/
   /*text-align: center;*/
 }
 
-/* line 216, ../sass/details.scss */
+/* line 214, ../sass/details.scss */
 .etiquette_link {
   font-style: normal;
   color: #8A8A8A;
 }
 
-/* line 220, ../sass/details.scss */
+/* line 218, ../sass/details.scss */
 .etiquette_link:focus {
   font-style: normal;
 }
 
-/* line 224, ../sass/details.scss */
+/* line 222, ../sass/details.scss */
 .boutons_prix {
   padding: 0;
   height: 94px;

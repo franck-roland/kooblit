@@ -5,7 +5,7 @@ $stars_img: "../img/rating_stars_30.png";
 $stars_offset_x: 20px;
 $stars_first_offset_y: 20px;
 $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
-$etiquette_width: 175px;
+$etiquette_width: 160px;
 $etiquette_height:250px;
 
 .result_title {
@@ -137,21 +137,19 @@ $etiquette_height:250px;
 
 
 .misc_info.price {
-    line-height: 1.5;
     font-weight: bold;
     font-size: 2.2em;
     color: rgb(187, 69, 69);
 }
 
 .misc_info.free_price {
-    line-height: 1.5;
     font-weight: bold;
     font-size: 2.2em;
     color: $call_to_action_bckgd;
 }
 
 .misc_info {
-    font-size: 1.3em;
+    font-size: 1em;
     padding: 0;
 }
 

@@ -1,16 +1,22 @@
 {% if syntheses %}
 
-  {% if syntheses|length > 4 and do_plus %}
-    <div class="row">
-      <div class="col-xs-offset-11 col-xs-1">
-        <button type="button" class="plus_button" onclick='afficher_plus()'>Plus</button>
-      </div> <!-- Bouton PLUS -->
-    </div>
+  {% if syntheses|length > 5 and do_plus %}
+   <div class="row list_extract">
+    <div class="col-xs-offset-10 col-xs-1">
+      <button type="button" class="plus_button" onclick='afficher_plus()'>Plus</button>
+    </div> <!-- Bouton PLUS -->
+  </div>
   {% endif %}
 
   <div class="row list_extract">
     {% for synth in syntheses %}
+      {% if forloop.counter0|divisibleby:5 %}
+      <div class="row row_syntheses">
+      {% endif %}
       {% include "syntheses/one_synth.html" %}
+      {% if forloop.last or forloop.counter0|add:1|divisibleby:5 %}
+      </div>
+      {% endif %}
     {% endfor %}
   </div> 
 
