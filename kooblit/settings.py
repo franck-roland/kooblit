@@ -142,6 +142,7 @@ else:
     STATIC_URL = '/static/'
     MEDIA_ROOT = appConfig.get("path__media_root")
     STATIC_ROOT = appConfig.get("path__static_root")
+    MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
