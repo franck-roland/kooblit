@@ -33,6 +33,7 @@ def random_style():
     style.save()
     return style.id
 
+
 class UserKooblit(User):
     # username = models.CharField(max_length=30, unique=True)
     is_confirmed = models.BooleanField(default=False)
@@ -117,8 +118,10 @@ class Verification(models.Model):
     user = models.ForeignKey('UserKooblit')
 
 class Synth_Style(models.Model):
+    logo_height=models.PositiveIntegerField(default=40)
+    logo_width=models.PositiveIntegerField(default=40)
     background_color = models.CharField(default="#53C1AC", unique=False, max_length=32)
-    logo = models.CharField(default=static('img/logo/little_owl_grey.png'), max_length=200)
+    logo = models.ImageField(default='little_owl_grey.png', height_field="logo_height", width_field="logo_width", upload_to="img/kooblit_cards")
 
 class Syntheses(models.Model):
     style = models.ForeignKey('Synth_Style', default=random_style)
