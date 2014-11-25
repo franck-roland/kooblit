@@ -20,6 +20,7 @@ from kooblit_lib import  utils
 from countries import data
 from utils import MyFileStorage, count_words, read_pages
 from django.utils.encoding import smart_text
+from django.core.files import File
 # Model utilisateur
 
 # Settings
@@ -30,7 +31,14 @@ def random_style():
     colors = ["#C3DF9D", "#BCDAE0", "#FC2D6", "#EDC6DF", "#DCBFE4", "#ADB1BA", "#ABB0B7", "#A7AEB4", "#A3ADB0", "#ABB9B4", "#CADBD3", "#DDEBDA", "#EDF7D6", "#F9FCDB", "#FFBC91", "#FF9E91", "#EFA4C5", "#C59BDD", "#B1A1DF", "#AOAEDE", "#97CAD9", "#98DEC4", "#BOEEA3", "#DEF8AA", "#F4FDAD", "#FFF7AE", "#FFECAE", "#FFDCAE", "#FF7D76", "#FAADB0", "#E8AAF5", "#D2AEF5", "#C7BOF5", "#B7B3F6", "#B0C5F5", "#ABDCF4", 
     "#A8F6D2", "#BEFAAB", "#E0FDAD", "#F9FFAE", "#FFF3AF" "#FFFEAAF", "#FFDFAF", "#FFD1AF", "#FF5FAF",]
     style.background_color = colors[int(random.random()*len(colors))%len(colors)]
-    style.save()
+    fichiers_logos = ['blue', 'green', 'grey', 'marine_blue', 'red', 'violet']
+    fichiers_logos = [''.join((settings.PROJECT_ROOT,'/static/img/logo/owl_',i,'.png')) for i in fichiers_logos]
+    
+    filename = fichiers_logos[int(random.random() * (len(fichiers_logos) - 1) * 10) % len(fichiers_logos)]
+    with open(filename,'rb') as f:
+        style.logo = File(f)
+        style.save()
+    
     return style.id
 
 
