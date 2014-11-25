@@ -139,12 +139,24 @@
   <script src="{% static "js/handle_note.js" %}" type="text/javascript"></script>
   <script type="text/javascript">
   set_search_bar("#search_bar_homepage","#button_search","#search_form_homepage");
+  function resizeResults_synth() {
+    var imgMaxHeight = Math.max.apply(
+      Math, $('.image_extract').map(function(){
+        return $(this).height();
+      }).get()
+    );
+    $('.image_extract').each(function(){
+        $(this).height(imgMaxHeight);
+    });
+  }
+
   function afficher_plus(){
     $('.repre_image').each(function(){
       var res = $(this);
       res.css('display','inline-block');
     });
     $('.plus_button').css('display','none');
+    resizeResults_synth();
   }
   $(function () {
     $(".note_link").click(send_note);

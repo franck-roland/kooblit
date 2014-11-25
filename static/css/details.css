@@ -262,7 +262,7 @@
 /* line 171, ../sass/details.scss */
 .repre_image .image_extract {
   width: 160px;
-  height: 250px;
+  min-height: 250px;
   box-shadow: 3px 3px 8px #555;
   background: #dfd290;
   text-align: center;

@@ -170,7 +170,7 @@ $etiquette_height:250px;
 
 .repre_image .image_extract{
     width: $etiquette_width;
-    height: $etiquette_height;
+    min-height: $etiquette_height;
     box-shadow: 3px 3px 8px #555;
     background: rgb(223, 210, 144);
     text-align: center;
