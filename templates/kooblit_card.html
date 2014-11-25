@@ -1,25 +1,25 @@
 {% load staticfiles %}
 
-<div class="image_extract{% if classes %} {{classes}}{% endif %}">
+<div class="image_extract{% if classes %} {{classes}}{% endif %}" style="background:{{synthese.style.background_color}};">
   <img src="{% static "img/logo/little_owl_grey.png" %}" alt="Logo Kooblit" />
 
-  {% if synth_id %}
+  {% if url %}
     {% if url == "lecture" %}
-    <a style="color: rgb(74,74,74);" href="{% url 'usr_management:lire_synthese' synth_id %}">
+    <a style="color: rgb(74,74,74);" href="{% url 'usr_management:lire_synthese' synthese.id %}">
     {% elif url == "edition" %}
-    <a style="color: rgb(74,74,74);" href="{% url 'book_management:post_medium' title %}">
+    <a style="color: rgb(74,74,74);" href="{% url 'book_management:post_medium' synthese.book_title %}">
     {% else %}
     <a style="color: rgb(74,74,74);" href="">
     {% endif %}
       Koob de
-      <span class="title_extract">{{title|title}}</span></a>
+      <span class="title_extract">{{synthese.book_title|title}}</span></a>
   {% else %}
-    Kooblit de <span class="title_extract">{{title|title}}</span>
+    Kooblit de <span class="title_extract">{{synthese.book_title|title}}</span>
   {% endif %}
 
   par
 
-  <a style="color: rgb(74,74,74);" href="{% url 'users' author %}">
-    <span class="author_name">{{author}}</span>
+  <a style="color: rgb(74,74,74);" href="{% url 'users' synthese.user %}">
+    <span class="author_name">{{synthese.user}}</span>
   </a>
 </div>
