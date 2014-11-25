@@ -128,7 +128,7 @@ $etiquette_height:250px;
 }
 
 .buy_resume {
-    font-size: 15px;
+    font-size: 0.9em;
     line-height: 1;
     border: 0;
     padding: 0;
@@ -138,13 +138,13 @@ $etiquette_height:250px;
 
 .misc_info.price {
     font-weight: bold;
-    font-size: 2.2em;
+    font-size: 2em;
     color: rgb(187, 69, 69);
 }
 
 .misc_info.free_price {
     font-weight: bold;
-    font-size: 2.2em;
+    font-size: 2em;
     color: $call_to_action_bckgd;
 }
 
@@ -189,11 +189,14 @@ $etiquette_height:250px;
     margin-top:0;
 }
 .image_extract{
-    .koob_de, .par, .author_name {
+    .koob_de, .par {
         font-size:1.3em;
     }
     .koob_de, .par {
         color:$grey_color;
+    }
+    .author_name {
+        font-size:1.1em;
     }
     .author_name, .title_extract {
         font-weight: bold;
