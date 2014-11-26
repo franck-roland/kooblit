@@ -125,7 +125,7 @@
     </div>
 </div>
     {% endcache %}
-{% cache 120 HP_CONTENT request.user.username %}
+{% cache 120 DERNIERE_SYNTHESES request.user.username %}
 <div  id="last" class="col-xs-12 homepage_content">
     <h1>Les dernières synthèses publiées sur le site</h1>
     {% include 'syntheses/syntheses_rows.html' with syntheses=syntheses do_plus=True message="Désolé, le site ne contient pas encore de synthèse" %}
