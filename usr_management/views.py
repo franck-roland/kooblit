@@ -316,13 +316,8 @@ def get_syntheses_properties(syntheses):
             } for synth in syntheses]
 
 @add_to_cart
-def syntheses_from_user(request, username):
-    try:
-        user = UserKooblit.objects.get(username__iexact=username)
-    except UserKooblit.DoesNotExist:
-        raise Http404()
-
-    syntheses = Syntheses.objects.filter(user=user, has_been_published=True).order_by('-date','-note_moyenne')
+def syntheses_from_user(request, user):
+    syntheses = Syntheses.objects.filter(user=user, has_been_published=True).order_by('-date', '-note_moyenne')
     return render_to_response(
         'synth_list_user.html',
         RequestContext(request, {'syntheses': syntheses}))
@@ -393,7 +388,7 @@ def user_profil(request, username):
     try:
         user_kooblit = UserKooblit.objects.get(username__iexact=username)
         if user_kooblit.is_active and user_kooblit.is_confirmed:
-            return syntheses_from_user(request, username)
+            return syntheses_from_user(request, user_kooblit)
         else:
             raise Http404()
     except UserKooblit.DoesNotExist:
