@@ -133,6 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 DO_COLLECT = False
 if USE_BUCKET:
+    AWS_QUERYSTRING_AUTH = False
     AWS_STORAGE_BUCKET_NAME = appConfig.get("aws__bucket_name")
     # if DO_COLLECT:
     AWS_ACCESS_KEY_ID = appConfig.get("aws__ACCESS_KEY_ID")

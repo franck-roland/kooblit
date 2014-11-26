@@ -9,7 +9,7 @@ def bought(synthese, user):
     else:
         try:
             current_user = user.userkooblit
-            if synthese.user == current_user: # Auteur de la synthese
+            if synthese.user_id == current_user.id: # Auteur de la synthese
                 return True
             if current_user.syntheses_achetees.filter(synthese=synthese): # Dans les achats
                 return True
