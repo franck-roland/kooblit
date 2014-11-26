@@ -2,10 +2,11 @@
 
 $stars_height: 30px;
 $stars_img: "../img/rating_stars_30.png";
-$stars_offset_x: 20px;
+$stars_offset_x: 15px;
 $stars_first_offset_y: 20px;
 $stars_second_offset_y: $stars_first_offset_y + $stars_height + 10px;
-$etiquette_width: 175px;
+$stars_compens_offset: 20px -$stars_offset_x;
+$etiquette_width: 160px;
 $etiquette_height:250px;
 
 .result_title {
@@ -69,12 +70,13 @@ $etiquette_height:250px;
     height: $stars_height;
     background-position: -#{$stars_offset_x} -#{$stars_second_offset_y};  /*Multiple de 34px*/
     width: $etiquette_width;
+    padding-left:$stars_compens_offset;
 }
 .stars_yellow {
     /*margin-left: 15px;*/
     background: url($stars_img) no-repeat;
     height: $stars_height;
-    background-position: -#{$stars_offset_x} -#{$stars_first_offset_y};  /*Multiple de 34px*/
+    background-position: -#{$stars_offset_x + $stars_compens_offset} -#{$stars_first_offset_y};  /*Multiple de 34px*/
     width: 100%;
 }
 .current_note_hidden {
@@ -91,7 +93,7 @@ $etiquette_height:250px;
     }
     .vote_note_#{$i}:hover{
         background: url($stars_img) no-repeat;
-        background-position: -#{$stars_offset_x} -#{$stars_first_offset_y};  /*Multiple de 34px*/
+        background-position: -#{$stars_offset_x + $stars_compens_offset} -#{$stars_first_offset_y};  /*Multiple de 34px*/
     }
 
 }
@@ -128,30 +130,30 @@ $etiquette_height:250px;
 }
 
 .buy_resume {
-    font-size: 15px;
+    font-size: 0.9em;
     line-height: 1;
     border: 0;
     padding: 0;
     padding: 4px 0;
 }
 
-
+.misc_info_text{
+    margin-bottom:5px;
+}
 .misc_info.price {
-    line-height: 1.5;
     font-weight: bold;
-    font-size: 2.2em;
+    font-size: 2em;
     color: rgb(187, 69, 69);
 }
 
 .misc_info.free_price {
-    line-height: 1.5;
     font-weight: bold;
-    font-size: 2.2em;
+    font-size: 2em;
     color: $call_to_action_bckgd;
 }
 
 .misc_info {
-    font-size: 1.3em;
+    font-size: 1em;
     padding: 0;
 }
 
@@ -172,7 +174,7 @@ $etiquette_height:250px;
 
 .repre_image .image_extract{
     width: $etiquette_width;
-    height: $etiquette_height;
+    min-height: $etiquette_height;
     box-shadow: 3px 3px 8px #555;
     background: rgb(223, 210, 144);
     text-align: center;
@@ -191,11 +193,14 @@ $etiquette_height:250px;
     margin-top:0;
 }
 .image_extract{
-    .koob_de, .par, .author_name {
+    .koob_de, .par {
         font-size:1.3em;
     }
     .koob_de, .par {
         color:$grey_color;
+    }
+    .author_name {
+        font-size:1.1em;
     }
     .author_name, .title_extract {
         font-weight: bold;
@@ -219,4 +224,9 @@ $etiquette_height:250px;
 }
 .etiquette_link:focus {
     font-style: normal;
+}
+
+.boutons_prix{
+    padding:0;
+    height:94px;
 }

@@ -1,6 +1,6 @@
 
 
-all: update apache pip virtualenv git lxml mongo libffi rabbit supervisor pdf
+all: update apache pip virtualenv git lxml mongo libffi rabbit supervisor pdf memcached
 
 apache:
 	sudo apt-get install apache2
@@ -43,3 +43,7 @@ supervisor:
 
 pdf:
 	sudo apt-get install wkhtmltopdf
+
+memcached:
+	sudo apt-get install memcached
+
