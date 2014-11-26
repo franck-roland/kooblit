@@ -6,7 +6,7 @@
       {% if forloop.counter0|divisibleby:5 %}
       <div class="row row_syntheses">
       {% endif %}
-      {% include "syntheses/one_synth.html" %}
+      {% include "syntheses/one_synth.html" with synth=synth %}
       {% if forloop.last or forloop.counter0|add:1|divisibleby:5 %}
       </div>
       {% endif %}
