@@ -317,7 +317,7 @@ def get_syntheses_properties(syntheses):
 
 @add_to_cart
 def syntheses_from_user(request, user):
-    syntheses = Syntheses.objects.filter(user=user, has_been_published=True).order_by('-date', '-note_moyenne')
+    syntheses = Syntheses.objects.select_related('user','style').filter(user=user, has_been_published=True).order_by('-date', '-note_moyenne')
     return render_to_response(
         'synth_list_user.html',
         RequestContext(request, {'syntheses': syntheses}))

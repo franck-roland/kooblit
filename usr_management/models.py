@@ -54,6 +54,27 @@ class UserKooblit(User):
     syntheses = models.ManyToManyField('Syntheses', related_name='syntheses_bought+', blank=True, null=True)
     syntheses_achetees = models.ManyToManyField('Version_Synthese', blank=True, null=True)
 
+    def get_syntheses_achetees_ou_ecrites(self):
+        syntheses_versions_achetees = [i[0] for i in self.syntheses_achetees.filter().values_list('synthese')]
+        if syntheses_versions_achetees:
+            return Syntheses.objects.extra(where=['id IN %s OR user_id=%s'], params=[tuple(syntheses_versions_achetees),self.id]).filter()
+        else:
+            return Syntheses.objects.filter(user=self)
+
+
+    def get_syntheses_achetees(self):
+        syntheses_versions_achetees = self.syntheses_achetees.filter()
+        return Syntheses.objects.filter(version_synthese__in=syntheses_versions_achetees)
+
+
+    def get_syntheses_a_noter(self):
+        syntheses_notees = [i[0] for i in Note.objects.values_list('synthese_id').filter(user=self)]
+        syntheses_achetees = [i[0] for i in self.get_syntheses_achetees().values_list('id')]
+        if syntheses_notees and syntheses_achetees:
+            return Syntheses.objects.extra(where=['id NOT IN %s','id IN %s'], params=[tuple(syntheses_notees),tuple(syntheses_achetees)]).filter()
+        elif not syntheses_notees:
+            return syntheses_achetees
+
 
     def can_note(self, synthese):
         if synthese.user_id == self.id:

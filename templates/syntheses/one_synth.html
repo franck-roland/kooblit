@@ -3,12 +3,11 @@
 <div class="repre_image col-lg-2 col-md-3 col-sm-6 col-xs-12 {% if forloop.counter0|divisibleby:5 %}col-lg-offset-1{% endif %}" style="{% if forloop.counter0 >= 5  %}display:none;{% endif %}">
   <!-- <img src="{{img_url}}" /> -->
   <div class="image_extract" style="background:{{synth.style.background_color}};">
-{% with has_bought=synth|bought:user %}
-    {% if has_bought %}
+    {% if synth in syntheses_achetees %}
     <a href="{% url 'usr_management:lire_synthese' synth.id %}" class="etiquette_link" >
     {% else %}
     <a href="javascript:void(0)" class="etiquette_link" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
-  {% endif %}
+    {% endif %}
     <img src="{{synth.style.logo.url}}" alt="Logo Kooblit" />
     <p class="koob_de">Koob de</p>
     <p class="title_extract">{{synth.book_title|title|slice:":88"}}{% if synth.book_title|length > 88 %}...{% endif %}</p></a>
@@ -19,7 +18,7 @@
   <div class="result_info_etiquette">
     <div class="stars">
       <div class="current_note stars_yellow" style="width:{% widthratio synth.note_moyenne 5 100 %}%;"></div>
-      {% if user|can_note:synth %}
+      {% if synth in syntheses_a_noter %}
       <a class="note_link" href="javascript:void(0)" action="{% url 'usr_management:noter' synth.id %}" note=5><div class="vote vote_note_5 stars_yellow" style="width:150px;"></div></a>
       <a class="note_link" href="javascript:void(0)" action="{% url 'usr_management:noter' synth.id %}" note=4><div class="vote vote_note_4 stars_yellow" style="width:120px;"></div></a>
       <a class="note_link" href="javascript:void(0)" action="{% url 'usr_management:noter' synth.id %}" note=3><div class="vote vote_note_3 stars_yellow" style="width:90px;"></div></a>
@@ -33,7 +32,7 @@
       <p class="misc_info_text misc_info col-xs-6" style="text-align:right;"><b>{{synth.nb_pages}}</b> page{{synth.nb_pages|pluralize}}</p>
       <p class="misc_info_text misc_info col-xs-12" style="text-align: center;">Publié le {{synth.date|date:"d/m/Y"}}</p>
       <div class="col-xs-12 misc_info boutons_prix">
-      {% if has_bought %}
+      {% if synth in syntheses_achetees %}
         <p class="col-xs-12" style="padding: 0px;">
           <a href="{% url 'usr_management:lire_synthese' synth.id %}" class="abtn see_extract" >
             Lire la synthèse
@@ -72,7 +71,7 @@
   </div> <!-- result_infos_etiquette -->
 </div> <!-- repre_image -->
 
-{% if not has_bought%}
+{% if synth not in syntheses_achetees %}
 <!-- Modal -->
 <div class="modal fade" id="myModal_{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -100,4 +99,3 @@
   </div>
 </div> <!-- Modal -->
 {% endif %}
-{% endwith %}
