@@ -2,14 +2,14 @@
 {% load synth_tags %}
 <div class="repre_image col-lg-2 col-md-3 col-sm-6 col-xs-12 {% if forloop.counter0|divisibleby:5 %}col-lg-offset-1{% endif %}" style="{% if forloop.counter0 >= 5  %}display:none;{% endif %}">
   <!-- <img src="{{img_url}}" /> -->
-  <div class="image_extract" style="background:{{synth.style_background_color}};">
+  <div class="image_extract" style="background:{{synth.style.background_color}};">
 {% with has_bought=synth|bought:user %}
     {% if has_bought %}
     <a href="{% url 'usr_management:lire_synthese' synth.id %}" class="etiquette_link" >
     {% else %}
     <a href="javascript:void(0)" class="etiquette_link" data-toggle="modal" data-target="#myModal_{{forloop.counter0}}">
   {% endif %}
-    <img src="{{synth.style_logo.url}}" alt="Logo Kooblit" />
+    <img src="{{synth.style.logo.url}}" alt="Logo Kooblit" />
     <p class="koob_de">Koob de</p>
     <p class="title_extract">{{synth.book_title|title|slice:":88"}}{% if synth.book_title|length > 88 %}...{% endif %}</p></a>
     <a href="{% url 'users' synth.user.username %}"><p class="par">Par <span class="author_name">{{synth.user.username|title}}</span> </a> </p>
