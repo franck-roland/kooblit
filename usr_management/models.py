@@ -2,6 +2,7 @@
 import datetime
 import re
 import os
+import sys
 
 #URLS
 from django.core.urlresolvers import reverse
@@ -168,8 +169,19 @@ class Syntheses(models.Model):
     def nb_pages(self):
         if self.file_pdf.name != "0" and self.file_pdf.name:
             import pyPdf
-            reader = pyPdf.PdfFileReader(self.file_pdf)
-            return reader.getNumPages()
+            try:
+                reader = pyPdf.PdfFileReader(self.file_pdf)
+                nb_pages = reader.getNumPages()
+                if nb_pages:
+                    return nb_pages
+                else:
+                    from manage_books_synth.tasks import create_pdf
+                    create_pdf(self.user.username, self)
+                    return 0
+            except Exception, e:
+                from manage_books_synth.tasks import create_pdf
+                create_pdf(self.user.username, self)
+                return 0
         else:
             return 0
 
