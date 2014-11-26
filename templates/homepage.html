@@ -1,5 +1,6 @@
 {% extends "homepage/base.html" %}
 {% load static %}
+{% load cache %}
 
 {% block extra_css %}
 <link href="{% static "css/homepage.css" %}" rel="stylesheet">
@@ -23,6 +24,7 @@
       {% endfor %}
     </div>
     {% endif %}
+    {% cache 600 HP_CONTENT %}
     <div class="col-xs-12 col-sm-10 col-sm-offset-2 homepage_quote">
       <h1>
         Des milliers de <a href="#last">synthèses de livres</a>
@@ -122,14 +124,14 @@
       </a>
     </div>
 </div>
-
-
+    {% endcache %}
+{% cache 120 HP_CONTENT request.user.username %}
 <div  id="last" class="col-xs-12 homepage_content">
     <h1>Les dernières synthèses publiées sur le site</h1>
     {% include 'syntheses/syntheses_rows.html' with syntheses=syntheses do_plus=True message="Désolé, le site ne contient pas encore de synthèse" %}
 
 </div>
-
+{% endcache %}
 {% endblock %}
 
 
