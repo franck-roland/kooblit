@@ -71,7 +71,7 @@
   </div> <!-- result_infos_etiquette -->
 </div> <!-- repre_image -->
 
-{% if synth not in syntheses_achetees %}
+{% if not synth in syntheses_achetees %}
 <!-- Modal -->
 <div class="modal fade" id="myModal_{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">

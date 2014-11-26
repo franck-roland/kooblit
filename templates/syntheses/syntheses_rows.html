@@ -1,16 +1,31 @@
 {% if syntheses %}
 
 
+  
   <div class="row list_extract">
-    {% for synth in syntheses %}
-      {% if forloop.counter0|divisibleby:5 %}
-      <div class="row row_syntheses">
-      {% endif %}
-      {% include "syntheses/one_synth.html" with synth=synth %}
-      {% if forloop.last or forloop.counter0|add:1|divisibleby:5 %}
-      </div>
-      {% endif %}
-    {% endfor %}
+    {% if user.is_authenticated %}
+      {% with syntheses_achetees=user.userkooblit.get_syntheses_achetees_ou_ecrites  syntheses_a_noter=user.userkooblit.get_syntheses_a_noter %}
+        {% for synth in syntheses %}
+          {% if forloop.counter0|divisibleby:5 %}
+          <div class="row row_syntheses">
+          {% endif %}
+          {% include "syntheses/one_synth.html" with synth=synth syntheses_achetees=syntheses_achetees syntheses_a_noter=syntheses_a_noter %}
+          {% if forloop.last or forloop.counter0|add:1|divisibleby:5 %}
+          </div>
+          {% endif %}
+        {% endfor %}
+      {% endwith %}
+    {% else %}
+      {% for synth in syntheses %}
+        {% if forloop.counter0|divisibleby:5 %}
+        <div class="row row_syntheses">
+        {% endif %}
+        {% include "syntheses/one_synth.html" with synth=synth syntheses_achetees="" syntheses_a_noter="" %}
+        {% if forloop.last or forloop.counter0|add:1|divisibleby:5 %}
+        </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
   </div> 
   {% if syntheses|length > 5 and do_plus %}
    <div class="row">
