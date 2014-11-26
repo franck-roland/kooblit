@@ -369,7 +369,8 @@ def user_dashboard(request):
         loc_required = request.GET.get('loc','')
         next_url = request.GET.get('next','')
         form = AddressChangeForm()
-        syntheses_achetees = [version_synth.synthese for version_synth in user_kooblit.syntheses_achetees.all()]
+        syntheses_achetees_version = user_kooblit.syntheses_achetees.filter()
+        syntheses_achetees = Syntheses.objects.select_related('style','user').filter(version_synthese__in=syntheses_achetees_version) 
         syntheses_ecrites = Syntheses.objects.select_related('style','user').filter(user=user_kooblit, has_been_published=True)
         syntheses_en_cours = Syntheses.objects.select_related('style','user').filter(user=user_kooblit, has_been_published=False)
         total = user_kooblit.cagnotte
