@@ -384,7 +384,6 @@ def user_dashboard(request):
             'total': total, 'form': form, 'loc_required': loc_required, 'next_url': next_url,
              'COUNTRIES': [(i,j.encode('utf-8')) for i,j in COUNTRIES_DIC.items()]}))
 
-@login_required
 def user_profil(request, username):
     try:
         user_kooblit = UserKooblit.objects.get(username__iexact=username)
