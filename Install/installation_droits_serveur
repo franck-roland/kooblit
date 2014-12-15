@@ -1,3 +1,4 @@
+# Server right edition when used in local with apache server #
 sudo mkdir /var/www/media
 sudo chmod 771 /var/www/media/
 sudo mkdir /var/www/media/syntheses
