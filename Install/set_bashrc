@@ -1,3 +1,4 @@
+#A ajouter a la fin de votre .bashrc
 export WORKON_HOME=$HOME/.virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
 
