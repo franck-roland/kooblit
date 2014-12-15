@@ -1,4 +1,6 @@
-sudo chpasswd 
+# Local installation of the postgresql database #
+
+sudo chpasswd
 postgres:...
 sudo adduser postgres sudo
 sudo mkdir /usr/local/pgsql
@@ -6,18 +8,12 @@ sudo mkdir /usr/local/pgsql/data
 sudo chown postgres /usr/local/pgsql/data
 sudo chown postgres /usr/local/pgsql
 su postgres
-export PATH=$PATH:/usr/lib/postgresql/9.4/bin
+export PATH=$PATH:/usr/lib/postgresql/X.Y/bin (X.Y is the version of the postgresql you installed. It's 9.4 for me)
 initdb -D /usr/local/pgsql/data
 postgres -D /usr/local/pgsql/data > /usr/local/pgsql/logfile 2>&1 &
 
-CREATE USER endoderconic;
-ALTER USER endoderconic PASSWORD 'FKPPZEKFjzeofj';
+## In psql (change the {USER} with your username; you can also change the password) ##
+CREATE USER {USER};
+ALTER USER {USER} PASSWORD 'FKPPZEKFjzeofj';
 CREATE DATABASE kooblit_db;
-ALTER DATABASE kooblit_db OWNER TO endoderconic;
-
-
-
-pour la synchro:
-./manage.py schemamigration usr_management --initial
-./manage.py migrate usr_management
-./manage.py syncdb
+ALTER DATABASE kooblit_db OWNER TO {USER};
